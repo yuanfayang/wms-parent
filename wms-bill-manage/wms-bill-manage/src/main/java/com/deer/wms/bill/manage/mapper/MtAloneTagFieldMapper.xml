@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deer.wms.bill.manage.dao.MtAloneTagFieldMapper">
+  <resultMap id="BaseResultMap" type="com.deer.wms.bill.manage.model.MtAloneTagField">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="column_name" jdbcType="VARCHAR" property="columnName" />
+    <result column="column_code" jdbcType="VARCHAR" property="columnCode" />
+    <result column="tag_code" jdbcType="VARCHAR" property="tagCode" />
+    <result column="column_order" jdbcType="INTEGER" property="columnOrder" />
+    <result column="placeholder" jdbcType="INTEGER" property="placeholder" />
+  </resultMap>
+</mapper>

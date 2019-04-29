@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deer.wms.bill.manage.dao.MtAloneRelocateRecordMapper">
+  <resultMap id="BaseResultMap" type="com.deer.wms.bill.manage.model.MtAloneRelocateRecord">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="record_id" jdbcType="INTEGER" property="recordId" />
+    <result column="relocate_time" jdbcType="TIMESTAMP" property="relocateTime" />
+    <result column="before_cell_code" jdbcType="VARCHAR" property="beforeCellCode" />
+    <result column="after_cell_code" jdbcType="VARCHAR" property="afterCellCode" />
+    <result column="detection_barcode" jdbcType="VARCHAR" property="detectionBarcode" />
+  </resultMap>
+
+
+</mapper>

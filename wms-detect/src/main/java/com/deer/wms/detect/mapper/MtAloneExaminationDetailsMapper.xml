@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deer.wms.detect.dao.MtAloneExaminationDetailsMapper">
+  <resultMap id="BaseResultMap" type="com.deer.wms.detect.model.MtAloneExaminationDetails">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="addTime" jdbcType="TIMESTAMP" property="addtime" />
+    <result column="deleteStatus" jdbcType="INTEGER" property="deletestatus" />
+    <result column="product_det_barcode" jdbcType="VARCHAR" property="productDetBarcode" />
+    <result column="warehouse_barcode" jdbcType="VARCHAR" property="warehouseBarcode" />
+    <result column="position" jdbcType="VARCHAR" property="position" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="note" jdbcType="VARCHAR" property="note" />
+    <result column="fabric_id" jdbcType="INTEGER" property="fabricId" />
+  </resultMap>
+    <select id="findList" parameterType="com.deer.wms.detect.model.MtAloneExaminationDetailsCriteria" resultMap="BaseResultMap">
+    select * from mt_alone_examination_details
+    where 1=1
+    <if test="productDetBarcode != null and productDetBarcode != ''">
+     AND product_det_barcode =#{productDetBarcode}
+    </if>
+  </select>
+  
+  
+    <resultMap id="ProDetFabricMap" type="com.deer.wms.detect.model.MtAloneComProDetFabric">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="addTime" jdbcType="TIMESTAMP" property="addtime" />
+    <result column="deleteStatus" jdbcType="INTEGER" property="deletestatus" />
+    <result column="product_det_barcode" jdbcType="VARCHAR" property="productDetBarcode" />
+    <result column="warehouse_barcode" jdbcType="VARCHAR" property="productBarCode" />
+    <result column="position" jdbcType="VARCHAR" property="position" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="note" jdbcType="VARCHAR" property="detNote" />
+    <result column="fabric_id" jdbcType="INTEGER" property="fabricId" />
+    
+    <result column="product_name" jdbcType="VARCHAR" property="productName" />
+    <result column="larghezza" jdbcType="REAL" property="larghezza" />
+    <result column="grammage" jdbcType="REAL" property="grammage" />
+    <result column="specification" jdbcType="VARCHAR" property="specification" />
+    <result column="dyelot_num" jdbcType="VARCHAR" property="dyelotNum" />
+    
+    <result column="color_name" jdbcType="VARCHAR" property="colorName" />
+    <result column="product_det_index" jdbcType="INTEGER" property="productDetIndex" />
+    <result column="product_det_remain_length" jdbcType="REAL" property="remainLength" />
+    <result column="product_level" jdbcType="VARCHAR" property="productLevel" />
+    <result column="note" jdbcType="VARCHAR" property="detNote" />    
+    
+    <result column="detect_length" jdbcType="REAL" property="detectLength" />
+    <result column="product_code" jdbcType="VARCHAR" property="productCode" />
+  </resultMap>
+  
+    <select id="findFabricDetsByProCode" parameterType="java.lang.String" resultMap="ProDetFabricMap">
+    SELECT t0.* ,t1.`color_name`,t1.`grammage`,t1.`larghezza`,t1.`specification`,t1.`product_name`,t1.`dyelot_num`,t1.product_code,
+    t2.`color_name`,t2.`note`,t2.`product_det_remain_length`,t2.`product_det_index`,t2.`product_level`,t3.detect_length
+    FROM mt_alone_examination_details t0,mt_alone_product t1,mt_alone_product_det t2,mt_alone_detect_det t3
+    WHERE 
+    t1.`product_bar_code`=t0.`warehouse_barcode`
+    AND
+    t2.`product_det_barcode`=t0.`product_det_barcode`
+    AND
+    t3.product_det_barcode=t0.`product_det_barcode`
+    AND
+    t0.`warehouse_barcode`=#{productBarcode}
+   </select>
+  
+</mapper>

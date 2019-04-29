@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>流程模板列表</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv="Access-Control-Allow-Origin" content="*">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" href="example/layui/css/layui.css" media="all"/>
+</head>
+<body class="main_body" style="background: #dddddd">
+<div class="layui-fluid">
+    <table class="layui-hide" id="model_demo" lay-filter="test"></table>
+    <script type="text/html" id="barDemo">
+        <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="publish">启动流程</a>
+    </script>
+</div>
+<script type="text/javascript" src="example/layui/layui.js"></script>
+<script type="text/javascript" src="example/my/echart/echarts.js"></script>
+<script type="text/javascript">
+    layui.config({
+        base: "example/layui/lay/modules/"
+    }).use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'element'], function () {
+        var $ = layui.jquery;
+        var laydate = layui.laydate //日期
+            , laypage = layui.laypage //分页
+            , layer = layui.layer //弹层
+            , table = layui.table //表格
+            , carousel = layui.carousel //轮播
+            , upload = layui.upload //上传
+            , element = layui.element //元素操作
+        ; //滑块
+
+//执行一个 table 实例
+        table.render({
+            elem: '#model_demo'
+            , response: {
+                statusCode: 200 //规定成功的状态码，默认：0
+            }, where: {
+                currentPage: 0,
+                pageSize: 1000000
+            }
+            , request: {
+                modelType: 0
+
+            }
+            , url: 'workflow/processInstance/query' //数据接口
+            , title: '用户表'
+            , page: true //开启分页
+            , parseData: function (res) { //res 即为原始返回的数据
+                return {
+                    "code": 200, //解析接口状态
+                    "msg": res.message, //解析提示文本
+                    "count": res.totalCount, //解析数据长度
+                    "data": res.data //解析数据列表
+                };
+            }
+            , cols: [[ //表头
+                {type: 'checkbox', fixed: 'left'}
+                , {field: 'id', title: 'ID', sort: true, fixed: 'left', totalRowText: '合计：'}
+                , {field: 'name', title: '流程名称'}
+                , {field: 'key', title: '流程KEY', sort: true, totalRow: true}
+                , {fixed: 'right', width: 165, align: 'center', toolbar: '#barDemo'}
+            ]]
+        });
+
+
+        //监听行工具事件
+        table.on('tool(test)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+            var data = obj.data //获得当前行数据
+                , layEvent = obj.event; //获得 lay-event 对应的值
+            if (layEvent === 'publish') {
+                layer.msg('查看操作');
+                $.ajax({
+                    url: 'workflow/processInstance/start',
+                    type: 'post',
+                    data: {processKey: data.key,formJson:''},
+                    beforeSend: function () {
+                        this.layerIndex = layer.load(0, {shade: [0.5, '#393D49']});
+                    },
+                    success: function (data) {
+                        layer.msg(data.message);
+                    },
+                    complete: function () {
+                        layer.close(this.layerIndex);
+                    },
+                });
+            }
+        });
+    });
+
+
+</script>
+</body>
+</html>

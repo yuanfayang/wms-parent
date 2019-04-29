@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deer.wms.bill.manage.dao.MtAloneTagMapper">
+  <resultMap id="BaseResultMap" type="com.deer.wms.bill.manage.model.MtAloneTag">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="tag_id" jdbcType="INTEGER" property="tagId" />
+    <id column="tag_code" jdbcType="VARCHAR" property="tagCode" />
+    <result column="tag_name" jdbcType="VARCHAR" property="tagName" />
+    <result column="tag_type" jdbcType="INTEGER" property="tagType" />
+    <result column="is_default" jdbcType="INTEGER" property="isDefault" />
+  </resultMap>
+       <select id="findList" parameterType="com.deer.wms.bill.manage.model.MtAloneTag" resultMap="BaseResultMap">
+      select   *
+      from mt_alone_tag
+      where 1=1
+      <if test="tagType!=null and tagType!=''">
+       and tag_type = #{tagType} 
+       and tag_code!=1
+       and tag_code!=2
+       and tag_code!=3
+      </if>  
+      order by  is_default DESC
+      </select>
+      
+      <delete id="deleteByTagCode" parameterType="com.deer.wms.bill.manage.model.MtAloneTagCriteria">
+      delete 
+      from mt_alone_tag
+      where 1=1
+      <if test="tagCode!=null and tagCode!=''">
+       and tag_code = #{tagCode} 
+      </if>  
+      </delete>
+      
+      <select id="findDefaultTag" parameterType="com.deer.wms.bill.manage.model.MtAloneTagCriteria" resultMap="BaseResultMap">
+      <if test="tagType!=null and tagType!=''">
+      select   *
+      from mt_alone_tag
+      where 1=1
+       and tag_type = #{tagType} 
+       and is_default=1
+      </if>  
+      order by  is_default DESC
+      </select>
+</mapper>

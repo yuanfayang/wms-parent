@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deer.wms.system.manage.dao.MtAloneSampleClothMapper">
+  <resultMap id="MtAloneSampleClothMap" type="com.deer.wms.ware.task.model.MtAloneSampleCloth">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="product_id" jdbcType="INTEGER" property="productId" />
+    <result column="batch" jdbcType="VARCHAR" property="batch" />
+    <result column="supplier_code" jdbcType="VARCHAR" property="supplierCode" />
+    <result column="product_code" jdbcType="VARCHAR" property="productCode" />
+    <result column="item_code" jdbcType="VARCHAR" property="itemCode" />
+    <result column="sample_name" jdbcType="VARCHAR" property="sampleName" />
+    <result column="product_type_code" jdbcType="VARCHAR" property="productTypeCode" />
+    <result column="product_type_id" jdbcType="INTEGER" property="productTypeId" />
+    <result column="color_code" jdbcType="VARCHAR" property="colorCode" />
+    <result column="shell_fabric" jdbcType="VARCHAR" property="shellFabric" />
+    <result column="tissue" jdbcType="VARCHAR" property="tissue" />
+    <result column="origin" jdbcType="VARCHAR" property="origin" />
+    <result column="unit_code" jdbcType="VARCHAR" property="unitCode" />
+    <result column="supplier_num" jdbcType="INTEGER" property="supplierNum" />
+    <result column="price" jdbcType="REAL" property="price" />
+    <result column="larghezza" jdbcType="REAL" property="larghezza" />
+    <result column="larghezza_unit_code" jdbcType="VARCHAR" property="larghezzaUnitCode" />
+    <result column="grammage" jdbcType="REAL" property="grammage" />
+    <result column="grammage_unit_code" jdbcType="VARCHAR" property="grammageUnitCode" />
+    <result column="density" jdbcType="VARCHAR" property="density" />
+    <result column="specification" jdbcType="VARCHAR" property="specification" />
+    <result column="processing_mode" jdbcType="VARCHAR" property="processingMode" />
+    <result column="product_bar_code" jdbcType="VARCHAR" property="productBarCode" />
+    <result column="specimen_bar_code" jdbcType="VARCHAR" property="specimenBarCode" />
+    <result column="greffier_id" jdbcType="VARCHAR" property="greffierId" />
+    <result column="is_detection" jdbcType="INTEGER" property="isDetection" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
+    <result column="dyelot_num" jdbcType="VARCHAR" property="dyelotNum" />
+    <result column="rgb_hex" jdbcType="VARCHAR" property="rgbHex" />
+    <result column="color_name" jdbcType="VARCHAR" property="colorName" />
+    <result column="images" jdbcType="VARCHAR" property="images" />
+    <result column="accessory_file" jdbcType="VARCHAR" property="accessoryFile" />
+    <result column="company_id" jdbcType="INTEGER" property="companyId" />
+    <result column="state" jdbcType="VARCHAR" property="state" />
+    <result column="note" jdbcType="VARCHAR" property="note" />
+  </resultMap>
+  
+  
+</mapper>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deer.wms.bill.manage.dao.MtAlonePrintModelMapper">
+  <resultMap id="BaseResultMap" type="com.deer.wms.bill.manage.model.MtAlonePrintModel">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="print_model_id" jdbcType="INTEGER" property="printModelId" />
+    <result column="print_model_name" jdbcType="VARCHAR" property="printModelName" />
+    <result column="print_model_code" jdbcType="VARCHAR" property="printModelCode" />
+    <result column="print_model_type" jdbcType="INTEGER" property="printModelType" />
+    <result column="is_default" jdbcType="TINYINT" property="isDefault" />
+    <result column="is_preview" jdbcType="TINYINT" property="isPreview" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" /> 
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="create_man_id" jdbcType="INTEGER" property="createManId" />
+    <result column="notes" jdbcType="VARCHAR" property="notes" />
+    <result column="state" jdbcType="VARCHAR" property="state" />
+    <result column="company_id" jdbcType="INTEGER" property="companyId" />
+    <result column="print_model_content" jdbcType="LONGVARCHAR" property="printModelContent" />
+  </resultMap>
+  <select id="findList"
+		parameterType="com.deer.wms.bill.manage.model.MtAlonePrintModelParams"
+		resultMap="BaseResultMap">
+		select * from mt_alone_print_model where state='normal' 
+		<if test="keywords != null and keywords != ''">
+			AND print_model_name like concat('%', #{keywords}, '%')
+		</if>
+		<if test="printModelType != null and printModelType != '' and printModelType != -1">
+			AND print_model_type = #{printModelType}
+		</if>
+		<if test="companyId != null">
+			AND company_id =#{companyId}
+		</if>
+		order by is_default desc, create_time desc
+	</select>
+</mapper>

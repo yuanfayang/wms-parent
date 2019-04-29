@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deer.wms.detect.dao.MtAloneAccessoryMapper">
+  <resultMap id="BaseResultMap" type="com.deer.wms.detect.model.MtAloneAccessory">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="operator_id" jdbcType="INTEGER" property="operatorId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="creator_id" jdbcType="INTEGER" property="creatorId" />
+    <result column="updater_id" jdbcType="INTEGER" property="updaterId" />
+    <result column="version" jdbcType="INTEGER" property="version" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="company_id" jdbcType="INTEGER" property="companyId" />
+    <result column="ext" jdbcType="VARCHAR" property="ext" />
+    <result column="info" jdbcType="VARCHAR" property="info" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="path" jdbcType="VARCHAR" property="path" />
+    <result column="size" jdbcType="REAL" property="size" />
+    <result column="annex_code" jdbcType="VARCHAR" property="annexCode" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="content_type" jdbcType="VARCHAR" property="contentType" />
+  </resultMap>
+  <select id="findList"
+		parameterType="com.deer.wms.detect.model.MtAloneAccessoryParams"
+		resultMap="BaseResultMap">
+		select *
+		from mt_alone_accessory c
+		WHERE 1=1
+		<if test="companyId != null">
+			AND c.company_id = #{companyId}
+		</if>
+		<if test="keywords != null and keywords != ''">
+			AND c.name LIKE CONCAT('%', #{keywords}, '%')
+		</if>
+		ORDER BY c.create_time desc
+	</select>
+</mapper>

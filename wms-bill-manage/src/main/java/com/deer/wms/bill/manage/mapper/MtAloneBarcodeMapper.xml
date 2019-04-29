@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deer.wms.bill.manage.dao.MtAloneBarcodeMapper">
+  <resultMap id="BaseResultMap" type="com.deer.wms.bill.manage.model.MtAloneBarcode">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="barcode" jdbcType="VARCHAR" property="barcode" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="create_man_id" jdbcType="INTEGER" property="createManId" />
+    <result column="notes" jdbcType="VARCHAR" property="notes" />
+    <result column="state" jdbcType="VARCHAR" property="state" />
+    <result column="version" jdbcType="VARCHAR" property="version" />
+  </resultMap>
+    
+    <select id="getMaxBarcode"  resultType="java.lang.String">
+    SELECT barcode FROM mt_alone_barcode
+    WHERE id=(SELECT MAX(id) FROM mt_alone_barcode)
+    </select>
+  
+</mapper>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deer.wms.detect.dao.MtAloneJobMapper">
+  <resultMap id="BaseResultMap" type="com.deer.wms.detect.model.MtAloneJob">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="job_id" jdbcType="INTEGER" property="jobId" />
+    <result column="operator_id" jdbcType="INTEGER" property="operatorId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+      <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
+      <result column="creator_id" jdbcType="BIGINT" property="creatorId" />
+    <result column="updater_id" jdbcType="BIGINT" property="updaterId" />
+    <result column="version" jdbcType="INTEGER" property="version" />
+    <result column="process_status" jdbcType="INTEGER" property="processStatus" />
+    <result column="task_id" jdbcType="VARCHAR" property="taskId" />
+    <result column="instance_id" jdbcType="VARCHAR" property="instanceId" />
+    <result column="job_name" jdbcType="VARCHAR" property="jobName" />
+    <result column="craft_id" jdbcType="INTEGER" property="craftId" />
+    <result column="craft_num" jdbcType="REAL" property="craftNum" />
+    <result column="processing_fee" jdbcType="REAL" property="processingFee" />
+    <result column="company_id" jdbcType="INTEGER" property="companyId" />
+    <result column="beg_date" jdbcType="TIMESTAMP" property="begDate" />
+    <result column="end_date" jdbcType="TIMESTAMP" property="endDate" />
+    <result column="tracker_id" jdbcType="INTEGER" property="trackerId" />
+    <result column="memo" jdbcType="VARCHAR" property="memo" />
+  </resultMap>
+  <resultMap id="mtAloneJobVotMap" type="com.deer.wms.detect.model.MtAloneJobVo" extends='BaseResultMap'>
+    <result column="craft_type" jdbcType="VARCHAR" property="craftType" />
+    <result column="craft_unit" jdbcType="VARCHAR"	property="craftUnit" />
+    <result column="task_name" jdbcType="VARCHAR"	property="taskName" />
+      <result column="task_key" jdbcType="VARCHAR"	property="taskKey" />
+
+  </resultMap>
+  	<select id="findList"
+		parameterType="com.deer.wms.detect.model.MtAloneJobParams"
+		resultMap="mtAloneJobVotMap">
+		select j.*,c.craft_type,c.craft_unit,a.NAME_ task_name,a.KEY_ task_key
+		from mt_alone_job j
+        left join act_re_procdef a
+        on j.task_id = a.ID_
+		left join mt_alone_craft c
+		on j.craft_id = c.craft_id
+		WHERE c.is_use=1
+		<if test="companyId != null">
+			AND j.company_id = #{companyId}
+		</if>
+		<if test="keywords != null and keywords != ''">
+			AND j.job_name LIKE CONCAT('%', #{keywords}, '%')
+		</if>
+		ORDER BY j.create_time desc
+	</select>
+</mapper>

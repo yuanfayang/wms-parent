@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deer.wms.base.system.dao.UnitMapper">
+  <resultMap id="BaseResultMap" type="com.deer.wms.base.system.model.Unit">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="unit_id" jdbcType="INTEGER" property="unitId" />
+    <result column="unit_code" jdbcType="VARCHAR" property="unitCode" />
+    <result column="unit_name" jdbcType="VARCHAR" property="unitName" />
+    <result column="memo" jdbcType="VARCHAR" property="memo" />
+    <result column="company_id" jdbcType="INTEGER" property="companyId" />
+  </resultMap>
+
+  <delete id="deleteByCodeAndCom" parameterType="com.deer.wms.base.system.model.UnitCriteria">
+
+    delete from unit where unit_code = #{unitCode}
+    <if test="companyId != null">
+      AND company_id = #{companyId}
+    </if>
+
+  </delete>
+
+    <delete id="deleteByIdAndCom" parameterType="com.deer.wms.base.system.model.UnitParams">
+
+        delete from unit where unit_id = #{unitId}
+        <if test="companyId != null">
+            AND company_id = #{companyId}
+        </if>
+
+    </delete>
+
+  <select id="findList" parameterType="com.deer.wms.base.system.model.UnitCriteria" resultMap="BaseResultMap">
+    select   *
+    from unit  unit
+    left join company com on unit.company_id = com.company_id
+    where 1=1
+    <if test="keyWords != null and keyWords != ''">
+      AND unit.unit_name LIKE CONCAT('%', #{keyWords}, '%')
+    </if>
+    <if test="companyId != null">
+      AND com.company_id = #{companyId}
+    </if>
+    <if test="unitCode != null and unitCode != ''">
+      AND unit_code = #{unitCode}
+    </if>
+  </select>
+
+    <select id="findListNew" parameterType="com.deer.wms.base.system.model.UnitParams" resultMap="BaseResultMap">
+        select  * from unit  unit
+        <where>
+            <if test="keywords != null and keywords != ''">
+                AND (unit.unit_name LIKE CONCAT('%', #{keywords}, '%') or
+                unit.unit_code LIKE CONCAT('%', #{keywords}, '%') or
+                unit.memo LIKE CONCAT('%', #{keywords}, '%')
+                )
+            </if>
+            <if test="companyId != null">
+                AND unit.company_id = #{companyId}
+            </if>
+        </where> ORDER BY unit.unit_id, unit.unit_code desc
+    </select>
+
+    <select id="countRelProducts" parameterType="com.deer.wms.base.system.model.UnitParams" resultType="java.lang.Integer">
+        select   count(*)
+        from unit unit
+        inner join mt_alone_product product on unit.unit_code = product.unit_code
+        and unit.company_id = product.company_id
+        <where>
+            product.state = 'normal'
+
+            <if test="unitId != null and unitId != ''">
+                AND unit.unit_id = #{unitId}
+            </if>
+
+            <if test="companyId != null">
+                AND unit.company_id = #{companyId}
+            </if>
+        </where>
+    </select>
+
+
+</mapper>

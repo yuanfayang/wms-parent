@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deer.wms.bill.manage.dao.MtAloneReturnOrderMapper">
+  <resultMap id="BaseResultMap" type="com.deer.wms.bill.manage.model.MtAloneReturnOrder">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="return_id" jdbcType="INTEGER" property="returnId" />
+    <result column="return_order_code" jdbcType="VARCHAR" property="returnOrderCode" />
+    <result column="product_name" jdbcType="VARCHAR" property="productName" />
+    <result column="product_bar_code" jdbcType="VARCHAR" property="productBarCode" />
+    <result column="product_length" jdbcType="REAL" property="productLength" />
+    <result column="product_unit_price" jdbcType="REAL" property="productUnitPrice" />
+    <result column="return_time" jdbcType="TIMESTAMP" property="returnTime" />
+    <result column="client_name" jdbcType="VARCHAR" property="clientName" />
+    <result column="client_address" jdbcType="VARCHAR" property="clientAddress" />
+    <result column="express_fee" jdbcType="REAL" property="expressFee" />
+    <result column="linkman_name" jdbcType="VARCHAR" property="linkmanName" />
+    <result column="linkman_phone_number" jdbcType="VARCHAR" property="linkmanPhoneNumber" />
+    <result column="memo" jdbcType="VARCHAR" property="memo" />
+    <result column="reviewe_state" jdbcType="INTEGER" property="revieweState" />
+    <result column="product_total_price" jdbcType="REAL" property="productTotalPrice" />
+  </resultMap>
+  
+     <select id="findList" parameterType="com.deer.wms.bill.manage.model.MtAloneReturnOrderCriteria" resultMap="BaseResultMap">
+      select   *
+      from mt_alone_return_order
+      order by return_time DESC
+     </select>
+     
+      <select id="findListBykeyAndDate" parameterType="com.deer.wms.bill.manage.model.MtAloneReturnOrderCriteria" resultMap="BaseResultMap">
+      select   *
+      from mt_alone_return_order 
+      where 1=1
+      <if test="keyWord!=null and keyWord!=''">
+       and product_name LIKE CONCAT('%', #{keyWord}, '%')
+      </if>     
+      <if test="begDate!=null and begDate!=''">
+      <![CDATA[   and DATE_FORMAT(return_time, '%Y-%m-%d')>=  DATE_FORMAT(#{begDate}, '%Y-%m-%d')   ]]>
+      </if>
+      <if test="endDate!=null and endDate!=''">
+      <![CDATA[  and DATE_FORMAT(return_time, '%Y-%m-%d') <= DATE_FORMAT(#{endDate}, '%Y-%m-%d')    ]]>
+      </if>
+      order by  return_time DESC
+      </select>
+      
+    <resultMap id="detListByOrderResultMap" type="com.deer.wms.bill.manage.model.MtAloneProductDet">
+    <id column="product_det_id" jdbcType="INTEGER" property="productDetId" />
+    <result column="product_det_code" jdbcType="VARCHAR" property="productDetCode" />
+    <result column="product_det_index" jdbcType="INTEGER" property="productDetIndex" />
+    <result column="product_id" jdbcType="INTEGER" property="productId" />
+    <result column="product_det_length" jdbcType="REAL" property="productDetLength" />
+    <result column="product_det_remain_length" jdbcType="REAL" property="productDetRemainLength" />
+    <result column="cell_code" jdbcType="VARCHAR" property="cellCode" />
+    <result column="product_det_state" jdbcType="INTEGER" property="productDetState" />
+    <result column="volume_num" jdbcType="VARCHAR" property="volumeNum" />
+    <result column="color_code" jdbcType="VARCHAR" property="colorCode" />
+    <result column="dyelot_num" jdbcType="VARCHAR" property="dyelotNum" />
+    <result column="product_det_barcode" jdbcType="VARCHAR" property="productDetBarcode" />
+    <result column="warehouse_barcode" jdbcType="VARCHAR" property="warehouseBarcode" />
+    <result column="detection_barcode" jdbcType="VARCHAR" property="detectionBarcode" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="note" jdbcType="VARCHAR" property="note" />
+    <result column="weight" jdbcType="REAL" property="weight" />
+    <result column="flaw_info" jdbcType="VARCHAR" property="flawInfo" />
+    <result column="product_level" jdbcType="VARCHAR" property="productLevel" />
+    <result column="salable_product_length" jdbcType="REAL" property="salableProductLength" />
+    <result column="salable_code_length" jdbcType="REAL" property="salableCodeLength" />
+    <result column="is_detection" jdbcType="INTEGER" property="isDetection" />
+    <result column="detection_man_id" jdbcType="INTEGER" property="detectionManId" />
+    <result column="detection_machine_id" jdbcType="INTEGER" property="detectionMachineId" />
+    <result column="warehouse_entry_time" jdbcType="TIMESTAMP" property="warehouseEntryTime" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
+    <result column="delivery_state" jdbcType="INTEGER" property="deliveryState" />
+    <result column="return_state" jdbcType="INTEGER" property="returnState" />
+    <result column="detection_time" jdbcType="TIMESTAMP" property="detectionTime" />
+    <result column="color_name" jdbcType="VARCHAR" property="colorName" />
+    <result column="rgb_hex" jdbcType="VARCHAR" property="rgbHex" />
+    </resultMap>
+    
+      <select id="findDetListByOrder" parameterType="com.deer.wms.bill.manage.model.MtAloneReturnOrderCriteria" resultMap="detListByOrderResultMap">
+      SELECT productDet.*
+      FROM mt_alone_product_det productDet,mt_alone_flowrecord t0
+      WHERE  productDet.`product_det_barcode`=t0.`product_det_barcode`
+      AND t0.`return_order_code`=#{returnOrderCode}
+      AND productDet.`is_complete_out`=0
+  </select>  
+</mapper>

@@ -1,0 +1,85 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deer.wms.base.system.dao.MtAloneColorMapper">
+  <resultMap id="BaseResultMap" type="com.deer.wms.base.system.model.MtAloneColor">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="color_id" jdbcType="INTEGER" property="colorId" />
+    <result column="color_code" jdbcType="VARCHAR" property="colorCode" />
+    <result column="color_name" jdbcType="VARCHAR" property="colorName" />
+    <result column="color_name_ch" jdbcType="VARCHAR" property="colorNameCh" />
+    <result column="memo" jdbcType="VARCHAR" property="memo" />
+    <result column="company_id" jdbcType="INTEGER" property="companyId" />
+    <result column="rgb_r" jdbcType="INTEGER" property="rgbR" />
+    <result column="rgb_g" jdbcType="INTEGER" property="rgbG" />
+    <result column="rgb_b" jdbcType="INTEGER" property="rgbB" />
+    <result column="rgb_t" jdbcType="REAL" property="rgbT" />
+    <result column="rgb_hex" jdbcType="VARCHAR" property="rgbHex" />
+    <result column="pantone_code" jdbcType="VARCHAR" property="pantoneCode" />
+  </resultMap>
+
+  <delete id="deleteByCode" parameterType="com.deer.wms.base.system.model.MtAloneColorCriteria">
+
+    delete from mt_alone_color where color_code = #{colorCode}
+
+  </delete>
+
+    <delete id="deleteByIdParams" parameterType="com.deer.wms.base.system.model.MtAloneColorParams">
+        delete from mt_alone_color where color_id = #{colorId}
+        <if test="companyId != null">
+            AND company_id = #{companyId}
+        </if>
+    </delete>
+
+  <select id="findList" parameterType="com.deer.wms.base.system.model.MtAloneColorCriteria" resultMap="BaseResultMap">
+    select   *
+    from mt_alone_color
+  </select>
+
+    <select id="findListNew" parameterType="com.deer.wms.base.system.model.MtAloneColorParams" resultMap="BaseResultMap">
+        select * from mt_alone_color
+        <where>
+            <if test="keywords != null and keywords != ''">
+                AND (color_name LIKE CONCAT('%', #{keywords}, '%')
+                OR color_code LIKE CONCAT('%', #{keywords}, '%')
+                OR pantone_code LIKE CONCAT('%', #{keywords}, '%')
+                OR color_name_ch LIKE CONCAT('%', #{keywords}, '%')
+                OR memo LIKE CONCAT('%', #{keywords}, '%')
+                OR rgb_hex LIKE CONCAT('%', #{keywords}, '%')
+                )
+            </if>
+            <if test="companyId !=null">
+                AND company_id=#{companyId}
+            </if>
+        </where> order by color_id, color_code, pantone_code
+    </select>
+
+  <select id="findListByPTCode" parameterType="com.deer.wms.base.system.model.MtAloneColorCriteria" resultMap="BaseResultMap">
+    select   *
+    from mt_alone_color where 1=1
+    <if test="pantoneCode != null and pantoneCode != ''">
+      AND (
+            pantone_code LIKE CONCAT('%', #{pantoneCode}, '%')
+         OR color_name LIKE CONCAT('%', #{pantoneCode}, '%')
+         OR color_name_ch LIKE CONCAT('%', #{pantoneCode}, '%')
+      )
+    </if>
+  </select>
+
+    <select id="countRelProducts" parameterType="com.deer.wms.base.system.model.MtAloneColorParams" resultType="java.lang.Integer">
+        select   count(*)
+        from mt_alone_color color
+        inner join mt_alone_product product on color.color_code = product.color_code
+        and color.company_id = product.company_id
+        <where>
+        product.state = 'normal'
+            <if test="colorId != null and colorId != ''">
+                AND color.color_id = #{colorId}
+            </if>
+            <if test="companyId != null">
+                AND color.company_id = #{companyId}
+            </if>
+        </where>
+    </select>
+
+</mapper>

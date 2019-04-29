@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deer.wms.bill.manage.dao.MtAloneDeliveryDetMapper">
+  <resultMap id="BaseResultMap" type="com.deer.wms.bill.manage.model.MtAloneDeliveryDet">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="delivery_det_id" jdbcType="INTEGER" property="deliveryDetId" />
+    <result column="product_det_barcode" jdbcType="VARCHAR" property="productDetBarcode" />
+    <result column="product_barcode" jdbcType="VARCHAR" property="productBarcode" />
+    <result column="delivery_length" jdbcType="REAL" property="deliveryLength" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="create_man_id" jdbcType="INTEGER" property="createManId" />
+    <result column="notes" jdbcType="VARCHAR" property="notes" />
+    <result column="state" jdbcType="VARCHAR" property="state" />
+    <result column="company_id" jdbcType="INTEGER" property="companyId" />
+    <result column="version" jdbcType="VARCHAR" property="version" />
+    <result column="delivery_order_code" jdbcType="VARCHAR" property="deliveryOrderCode" />
+  </resultMap>
+</mapper>

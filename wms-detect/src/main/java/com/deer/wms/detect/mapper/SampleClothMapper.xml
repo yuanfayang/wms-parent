@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deer.wms.detect.dao.SampleClothMapper">
+	<resultMap id="BaseResultMap" type="com.deer.wms.detect.model.SampleCloth">
+		<!-- WARNING - @mbg.generated -->
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="product_id" jdbcType="INTEGER" property="productId" />
+		<result column="batch" jdbcType="VARCHAR" property="batch" />
+		<result column="supplier_code" jdbcType="VARCHAR" property="supplierCode" />
+		<result column="product_code" jdbcType="VARCHAR" property="productCode" />
+		<result column="item_code" jdbcType="VARCHAR" property="itemCode" />
+		<result column="sample_name" jdbcType="VARCHAR" property="sampleName" />
+		<result column="product_type_code" jdbcType="VARCHAR" property="productTypeCode" />
+		<result column="product_type_id" jdbcType="INTEGER" property="productTypeId" />
+		<result column="color_code" jdbcType="VARCHAR" property="colorCode" />
+		<result column="shell_fabric" jdbcType="VARCHAR" property="shellFabric" />
+		<result column="tissue" jdbcType="VARCHAR" property="tissue" />
+		<result column="origin" jdbcType="VARCHAR" property="origin" />
+		<result column="unit_code" jdbcType="VARCHAR" property="unitCode" />
+		<result column="supplier_num" jdbcType="INTEGER" property="supplierNum" />
+		<result column="price" jdbcType="REAL" property="price" />
+		<result column="larghezza" jdbcType="REAL" property="larghezza" />
+		<result column="larghezza_unit_code" jdbcType="VARCHAR" property="larghezzaUnitCode" />
+		<result column="grammage" jdbcType="REAL" property="grammage" />
+		<result column="grammage_unit_code" jdbcType="VARCHAR" property="grammageUnitCode" />
+		<result column="density" jdbcType="VARCHAR" property="density" />
+		<result column="specification" jdbcType="VARCHAR" property="specification" />
+		<result column="processing_mode" jdbcType="VARCHAR" property="processingMode" />
+		<result column="product_bar_code" jdbcType="VARCHAR" property="productBarCode" />
+		<result column="specimen_bar_code" jdbcType="VARCHAR" property="specimenBarCode" />
+		<result column="greffier_id" jdbcType="VARCHAR" property="greffierId" />
+		<result column="is_detection" jdbcType="INTEGER" property="isDetection" />
+		<result column="description" jdbcType="VARCHAR" property="description" />
+		<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
+		<result column="annex_code" jdbcType="VARCHAR" property="annexCode" />
+		<result column="dyelot_num" jdbcType="VARCHAR" property="dyelotNum" />
+		<result column="rgb_hex" jdbcType="VARCHAR" property="rgbHex" />
+		<result column="color_name" jdbcType="VARCHAR" property="colorName" />
+		<result column="company_id" jdbcType="INTEGER" property="companyId" />
+		<result column="state" jdbcType="VARCHAR" property="state" />
+		<result column="note" jdbcType="VARCHAR" property="note" />
+		<result column="images" jdbcType="VARCHAR" property="images" />
+	</resultMap>
+	<resultMap id="sampleClothsMap" type="com.deer.wms.detect.model.SampleClothVo" extends="BaseResultMap">
+		<collection property="accessorys" ofType="com.deer.wms.detect.model.MtAloneAccessoryVO">
+			<id column="accessory_id" jdbcType="INTEGER" property="id" />
+			<result column="ext" jdbcType="VARCHAR" property="ext" />
+			<result column="name" jdbcType="VARCHAR" property="name" />
+			<result column="path" jdbcType="VARCHAR" property="path" />
+			<result column="size" jdbcType="REAL" property="size" />
+			<result column="url" jdbcType="VARCHAR" property="url" />
+            <result column="content_type" jdbcType="VARCHAR" property="contentType" />
+		</collection>
+	</resultMap>
+	<select id="findList" parameterType="com.deer.wms.detect.model.SampleClothParams" resultMap="BaseResultMap">
+		select *
+		from mt_alone_sample_cloth c
+		WHERE 1=1
+		<if test="companyId != null">
+			AND c.company_id = #{companyId}
+		</if>
+		<if test="keywords != null and keywords != ''">
+			AND c.sample_name LIKE CONCAT('%', #{keywords}, '%')
+		</if>
+		ORDER BY c.create_time desc
+	</select>
+	<select id="findAccessoryList" parameterType="com.deer.wms.detect.model.SampleClothParams" resultMap="sampleClothsMap">
+		SELECT
+		c.*,
+		a.ext,
+		a.name,
+		a.path,
+		a.size,
+		a.url,
+		a.content_type,
+		o.accessory_id
+		FROM
+		mt_alone_sample_cloth c
+		LEFT JOIN
+		mt_alone_obj_accessory o
+		ON c.id = o.obj_id
+		LEFT JOIN mt_alone_accessory a
+		ON a.id =
+		o.accessory_id
+		where 1=1
+		<if test="companyId != null">
+			AND c.company_id = #{companyId}
+		</if>
+		<if test="keywords != null and keywords != ''">
+			AND c.sample_name LIKE CONCAT('%', #{keywords}, '%')
+		</if>
+		ORDER BY c.create_time desc
+	</select>
+	<select id="findDetailById" parameterType="int" resultMap="sampleClothsMap">
+		SELECT
+		c.*,
+		a.ext,
+		a.name,
+		a.path,
+		a.size,
+		a.url,
+		a.content_type,
+		o.accessory_id
+		FROM
+		mt_alone_sample_cloth c
+		LEFT JOIN
+		mt_alone_obj_accessory o
+		ON c.id = o.obj_id
+		LEFT JOIN mt_alone_accessory a
+		ON a.id = o.accessory_id
+		where c.id=#{id}
+	</select>
+</mapper>

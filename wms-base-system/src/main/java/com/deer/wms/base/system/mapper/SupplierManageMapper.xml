@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deer.wms.base.system.dao.SupplierManageMapper">
+  <resultMap id="BaseResultMap" type="com.deer.wms.base.system.model.SupplierManage">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="supplier_id" jdbcType="INTEGER" property="supplierId" />
+    <result column="supplier_code" jdbcType="VARCHAR" property="supplierCode" />
+    <result column="supplier_name" jdbcType="VARCHAR" property="supplierName" />
+    <result column="supplier_type" jdbcType="VARCHAR" property="supplierType" />
+    <result column="supplier_contacts" jdbcType="VARCHAR" property="supplierContacts" />
+    <result column="supplier_phone" jdbcType="VARCHAR" property="supplierPhone" />
+    <result column="supplier_site" jdbcType="VARCHAR" property="supplierSite" />
+    <result column="supplier_email" jdbcType="VARCHAR" property="supplierEmail" />
+    <result column="supplier_fax" jdbcType="VARCHAR" property="supplierFax" />
+    <result column="memo" jdbcType="VARCHAR" property="memo" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="company_id" jdbcType="INTEGER" property="companyId" />
+  </resultMap>
+
+  <delete id="deleteByCodeAndCom" parameterType="com.deer.wms.base.system.model.SupplierManageCriteria">
+
+    delete from supplier_manage
+
+    where  supplier_code = #{supplierCode}
+
+    <if test="companyId != null">
+      AND company_id = #{companyId}
+    </if>
+  </delete>
+
+    <delete id="deleteByIdAndCom" parameterType="com.deer.wms.base.system.model.SupplierManageParams">
+
+        delete from supplier_manage
+
+        where  supplier_id = #{supplierId}
+        <if test="companyId != null">
+            AND company_id = #{companyId}
+        </if>
+    </delete>
+
+    <select id="countRelProducts" parameterType="com.deer.wms.base.system.model.SupplierManageParams"  resultType="java.lang.Integer">
+        select   count(*)
+        from supplier_manage supplier
+        inner join mt_alone_product product on supplier.supplier_code = product.supplier_code
+        and supplier.company_id = product.company_id
+        <where>
+            state = 'normal'
+            <if test="supplierId != null and supplierId != ''">
+                  AND supplier_id = #{supplierId}
+            </if>
+            <if test="companyId != null">
+                  AND supplier.company_id = #{companyId}
+            </if>
+        </where>
+    </select>
+
+  <select id="findList" parameterType="com.deer.wms.base.system.model.SupplierManageCriteria"  resultMap="BaseResultMap">
+      select * from supplier_manage  sup
+      where 1=1
+      <if test="keyWords != null and keyWords != ''">
+        AND ( sup.supplier_name LIKE CONCAT('%', #{keyWords}, '%')
+        or sup.supplier_phone LIKE CONCAT('%', #{keyWords}, '%')
+        or sup.supplier_email LIKE CONCAT('%', #{keyWords}, '%')
+        or sup.supplier_site LIKE CONCAT('%', #{keyWords}, '%')
+        or sup.supplier_fax LIKE CONCAT('%', #{keyWords}, '%')
+        or sup.supplier_contacts LIKE CONCAT('%', #{keyWords}, '%')
+          )
+      </if>
+
+      <if test="companyId != null">
+        AND com.company_id = #{companyId}
+      </if>
+       order by sup.create_time desc
+  </select>
+
+    <select id="findListNew" parameterType="com.deer.wms.base.system.model.UnitParams"  resultMap="BaseResultMap">
+        select * from supplier_manage  sup
+        <where>
+           <if test="keywords != null and keywords != ''">
+            AND ( sup.supplier_name LIKE CONCAT('%', #{keywords}, '%')
+            or sup.supplier_phone LIKE CONCAT('%', #{keywords}, '%')
+            or sup.supplier_email LIKE CONCAT('%', #{keywords}, '%')
+            or sup.supplier_site LIKE CONCAT('%', #{keywords}, '%')
+            or sup.supplier_fax LIKE CONCAT('%', #{keywords}, '%')
+            or sup.supplier_contacts LIKE CONCAT('%', #{keywords}, '%')
+            )
+            </if>
+            <if test="companyId != null">
+                AND sup.company_id = #{companyId}
+            </if>
+        </where> order by sup.create_time desc
+    </select>
+
+</mapper>

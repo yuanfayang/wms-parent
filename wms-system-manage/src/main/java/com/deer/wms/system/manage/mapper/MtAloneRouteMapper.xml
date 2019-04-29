@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deer.wms.system.manage.dao.MtAloneRouteMapper">
+	<resultMap id="BaseResultMap" type="com.deer.wms.system.manage.model.MtAloneRoute">
+		<!-- WARNING - @mbg.generated -->
+		<id column="route_id" jdbcType="INTEGER" property="routeId" />
+		<result column="parent_id" jdbcType="INTEGER" property="parentId" />
+		<result column="resource_id" jdbcType="INTEGER" property="resourceId" />
+		<result column="route_code" jdbcType="VARCHAR" property="routeCode" />
+		<result column="route_path" jdbcType="VARCHAR" property="routePath" />
+		<result column="component_name" jdbcType="VARCHAR" property="componentName" />
+		<result column="component_path" jdbcType="VARCHAR" property="componentPath" />
+		<result column="label" jdbcType="VARCHAR" property="label" />
+		<result column="route_redirect" jdbcType="VARCHAR" property="routeRedirect" />
+		<result column="group_type" jdbcType="VARCHAR" property="groupType" />
+		<result column="sort" jdbcType="INTEGER" property="sort" />
+		<result column="create_man_id" jdbcType="INTEGER" property="createManId" />
+		<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+		<result column="state" jdbcType="VARCHAR" property="state" />
+	</resultMap>
+
+
+	<select id="findListByResourceId" parameterType="com.deer.wms.system.manage.model.resource.RouteParams" resultMap="BaseResultMap">
+		select * from mt_alone_route where state = 'normal'
+		<if test="resourceId != null and resourceId != ''">
+			AND resource_id =#{resourceId}
+		</if>
+		<if test="keywords != null and keywords != ''">
+			AND (
+			component_name like concat('%', #{keywords}, '%')
+			OR
+			component_path like concat('%', #{keywords}, '%')
+			OR
+			route_redirect like
+			concat('%', #{keywords}, '%')
+			)
+		</if>
+		order by sort,create_time desc
+	</select>
+
+	<resultMap id="RouteParentVoMap" type="com.deer.wms.project.seed.core.model.TreeVo">
+		<id column="route_id" jdbcType="INTEGER" property="id" />
+		<result column="label" jdbcType="VARCHAR" property="title" />
+	</resultMap>
+	<select id="findRouteByParentId" parameterType="int" resultMap="RouteParentVoMap">
+		select route_id, label from mt_alone_route where parent_id = #{id} and state='normal'
+	</select>
+</mapper>

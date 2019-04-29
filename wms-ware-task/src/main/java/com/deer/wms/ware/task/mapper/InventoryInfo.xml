@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deer.wms.ware.task.dao.InventoryInfoMapper">
+  <resultMap id="BaseResultMap" type="com.deer.wms.ware.task.model.InventoryInfo">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="inventory_code" jdbcType="VARCHAR" property="inventoryCode" />
+    <result column="ware_id" jdbcType="BIGINT" property="wareId" />
+    <result column="ware_name" jdbcType="VARCHAR" property="wareName" />
+    <result column="inventory_num" jdbcType="INTEGER" property="inventoryNum" />
+    <result column="real_num" jdbcType="INTEGER" property="realNum" />
+    <result column="operator_id" jdbcType="INTEGER" property="operatorId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="creator_id" jdbcType="BIGINT" property="creatorId" />
+    <result column="updater_id" jdbcType="BIGINT" property="updaterId" />
+    <result column="version" jdbcType="INTEGER" property="version" />
+    <result column="inventory_status" jdbcType="INTEGER" property="inventoryStatus" />
+    <result column="company_id" jdbcType="BIGINT" property="companyId" />
+    <result column="state" jdbcType="VARCHAR" property="state" />
+  </resultMap>
+  <resultMap id="InventoryInfoDtoMap" type="com.deer.wms.ware.task.model.InventoryInfoDto" extends="BaseResultMap">
+  	<result column="user_name" jdbcType="VARCHAR" property="userName" />
+  </resultMap>
+  	
+  	<select id="findList" resultMap="InventoryInfoDtoMap" >
+  		SELECT inven.id,inven.inventory_code,inven.ware_name,inven.create_time,inven.inventory_status,uinfo.user_name,inven.inventory_num,inven.real_num
+		FROM 
+		mt_alone_inventory_info inven LEFT JOIN user_info uinfo ON inven.creator_id = uinfo.user_id
+		WHERE 
+		inven.state = 'normal' 
+		and inven.company_id = (SELECT company_id FROM user_info WHERE user_id = #{currentUser.userId})
+		<if test="criteria.inventoryCode != null and criteria.inventoryCode != ''">
+      		AND (
+            inven.inventory_code LIKE CONCAT('%', #{criteria.inventoryCode}, '%')
+            )
+    	</if>
+    	<if test="criteria.inventoryStatus != null ">
+      		and inven.inventory_status = #{criteria.inventoryStatus}
+    	</if>
+    	<if test="criteria.workStartTime!=null and criteria.workStartTime!=''">
+    		<![CDATA[  and inven.create_time >= #{criteria.workStartTime}]]>
+		</if>
+		<if test="criteria.workEndTime!=null and criteria.workEndTime!=''">
+    		<![CDATA[  and inven.create_time <= DATE_ADD(#{criteria.workEndTime},INTERVAL 1 DAY)]]>
+		</if>
+		ORDER BY inven.create_time DESC
+
+
+  	</select>
+  	
+  	
+  	<resultMap id="CompanyProductDtoMap" type="com.deer.wms.ware.task.model.CompanyProductDto">
+  		<result column="product_name" jdbcType="VARCHAR" property="productName" />
+  		<result column="product_det_code" jdbcType="VARCHAR" property="productDetCode" />
+  		<result column="product_det_barcode" jdbcType="VARCHAR" property="productDetBarCode" />
+  		<result column="product_det_remain_length" jdbcType="FLOAT" property="productDetRemainLength" />
+  		<result column="color_name" jdbcType="VARCHAR" property="productColorName" />
+  		<result column="area_name" jdbcType="VARCHAR" property="areaName" />
+  		<result column="shelf_name" jdbcType="VARCHAR" property="shelfName" />
+  		<result column="cell_code" jdbcType="VARCHAR" property="cellCode" />
+  		<result column="ware_id" jdbcType="INTEGER" property="wareId" />
+  		<result column="ware_name" jdbcType="VARCHAR" property="wareName" />
+  	</resultMap>
+  	
+  	<select id="findCompanyProductDet" resultMap="CompanyProductDtoMap">
+  		SELECT product.product_name,productdet.product_det_code,productdet.product_det_barcode,productdet.product_det_remain_length,productdet.color_name,area.area_name,shelf.shelf_name,cell.cell_code,ware.ware_id,ware.ware_name
+		FROM mt_alone_product_det productdet
+		LEFT JOIN mt_alone_product product ON productdet.product_id = product.id
+		LEFT JOIN cell_info cell ON product.cell_code = cell.cell_code
+		LEFT JOIN shelf_info shelf ON cell.shelf_code = shelf.shelf_code
+		LEFT JOIN area_info area ON shelf.area_code = area.area_code
+		LEFT JOIN ware_info ware ON area.ware_code = ware.ware_code
+		LEFT JOIN item_type item ON product.product_type_code = item.item_type_code
+		WHERE productdet.state = 'normal'
+		AND product.company_id = (SELECT company_id FROM user_info WHERE user_id = #{currentUser.userId})
+		<if test="companyProductCriteria.wareId!=null and companyProductCriteria.wareId!=''">
+			AND ware.ware_id = #{companyProductCriteria.wareId}
+		</if>
+		<if test="companyProductCriteria.areaId!=null and companyProductCriteria.areaId!=''">
+			AND area.area_id = #{companyProductCriteria.areaId}
+		</if>
+		<if test="companyProductCriteria.shelfId!=null and companyProductCriteria.shelfId!=''">
+			AND shelf.shelf_id = #{companyProductCriteria.shelfId}
+		</if>
+		<if test="companyProductCriteria.itemTypeId!=null and companyProductCriteria.itemTypeId!=''">
+			AND item.item_type_id = #{companyProductCriteria.itemTypeId}
+		</if>
+  	</select>
+  	
+  	
+  	<resultMap id="WareInfoMap" type="com.deer.wms.ware.task.model.WareInfo">
+    	<!--
+     		WARNING - @mbg.generated
+    	-->
+    	<id column="ware_id" jdbcType="INTEGER" property="wareId" />
+    	<result column="ware_code" jdbcType="VARCHAR" property="wareCode" />
+    	<result column="ware_name" jdbcType="VARCHAR" property="wareName" />
+    	<result column="add_time" jdbcType="TIMESTAMP" property="addTime" />
+    	<result column="memo" jdbcType="VARCHAR" property="memo" />
+    	<result column="company_id" jdbcType="INTEGER" property="companyId" />
+  	</resultMap>
+  	
+  	<select id="findWareName" resultMap="WareInfoMap">
+  		SELECT ware_id,ware_name,ware_code
+		FROM ware_info
+		WHERE company_id = (SELECT company_id FROM user_info WHERE user_id = #{currentUser.userId})
+  	</select>
+  	
+  	<resultMap id="AreaInfoMap" type="com.deer.wms.ware.task.model.AreaInfo">
+    	<!--
+      		WARNING - @mbg.generated
+    	-->
+    	<id column="area_id" jdbcType="INTEGER" property="areaId" />
+    	<result column="ware_code" jdbcType="VARCHAR" property="wareCode" />
+    	<result column="area_code" jdbcType="VARCHAR" property="areaCode" />
+    	<result column="area_name" jdbcType="VARCHAR" property="areaName" />
+    	<result column="add_time" jdbcType="TIMESTAMP" property="addTime" />
+    	<result column="memo" jdbcType="VARCHAR" property="memo" />
+    	<result column="priority_level" jdbcType="INTEGER" property="priorityLevel" />
+    	<result column="abc_class" jdbcType="VARCHAR" property="abcClass" />
+    	<result column="area_type" jdbcType="VARCHAR" property="areaType" />
+    	<result column="company_id" jdbcType="INTEGER" property="companyId" />
+  	</resultMap>
+  	
+  	<select id="findAreaName" resultMap="AreaInfoMap">
+  		SELECT area_id,area_name,ware_code,area_code
+		FROM area_info
+		WHERE company_id = (SELECT company_id FROM user_info WHERE user_id = #{currentUser.userId})
+  	</select>
+  	
+  	<resultMap id="ShelfInfoMap" type="com.deer.wms.ware.task.model.ShelfInfo">
+    	<!--
+      		WARNING - @mbg.generated
+    	-->
+    	<id column="shelf_id" jdbcType="INTEGER" property="shelfId" />
+    	<result column="area_code" jdbcType="VARCHAR" property="areaCode" />
+    	<result column="shelf_code" jdbcType="VARCHAR" property="shelfCode" />
+    	<result column="shelf_name" jdbcType="VARCHAR" property="shelfName" />
+    	<result column="a_column" jdbcType="INTEGER" property="aColumn" />
+    	<result column="a_row" jdbcType="INTEGER" property="aRow" />
+    	<result column="add_time" jdbcType="TIMESTAMP" property="addTime" />
+    	<result column="memo" jdbcType="VARCHAR" property="memo" />
+    	<result column="cell_create_flag" jdbcType="INTEGER" property="cellCreateFlag" />
+    	<result column="shelf_row" jdbcType="INTEGER" property="shelfRow" />
+    	<result column="shelf_column" jdbcType="INTEGER" property="shelfColumn" />
+    	<result column="priority_level" jdbcType="INTEGER" property="priorityLevel" />
+    	<result column="abc_class" jdbcType="VARCHAR" property="abcClass" />
+    	<result column="order_no" jdbcType="INTEGER" property="orderNo" />
+    	<result column="r_c_order" jdbcType="INTEGER" property="rCOrder" />
+    	<result column="r_order" jdbcType="INTEGER" property="rOrder" />
+    	<result column="c_order" jdbcType="INTEGER" property="cOrder" />
+    	<result column="shelf_l" jdbcType="REAL" property="shelfL" />
+    	<result column="shelf_w" jdbcType="REAL" property="shelfW" />
+    	<result column="shelf_h" jdbcType="REAL" property="shelfH" />
+    	<result column="company_id" jdbcType="INTEGER" property="companyId" />
+  	</resultMap>
+  	
+  	<select id="findShelfName" resultMap="ShelfInfoMap">
+  		SELECT shelf_id,shelf_name,area_code
+		FROM shelf_info
+		WHERE company_id = (SELECT company_id FROM user_info WHERE user_id = #{currentUser.userId})
+  	</select>
+  	
+  	<select id="findWareNum" resultType="Integer">
+  		SELECT COUNT(*)
+		FROM mt_alone_product_det
+		WHERE company_id = (SELECT company_id FROM user_info WHERE user_id = #{currentUser.userId})
+		AND state = 'normal'
+  	</select>
+  	
+  	<resultMap id="ItemTypeMap" type="com.deer.wms.ware.task.model.ItemType">
+    	<!--
+     		WARNING - @mbg.generated
+    	-->
+    	<id column="item_type_id" jdbcType="INTEGER" property="itemTypeId" />
+    	<result column="item_type_code" jdbcType="VARCHAR" property="itemTypeCode" />
+    	<result column="item_type_name" jdbcType="VARCHAR" property="itemTypeName" />
+    	<result column="item_type_state" jdbcType="INTEGER" property="itemTypeState" />
+    	<result column="company_id" jdbcType="INTEGER" property="companyId" />
+    	<result column="memo" jdbcType="VARCHAR" property="memo" />
+  	</resultMap>
+  	
+  	<select id="findItemTypeName" resultMap="ItemTypeMap">
+  		SELECT item_type_id,item_type_name 
+		FROM item_type
+		WHERE company_id = (SELECT company_id FROM user_info WHERE user_id = #{currentUser.userId})
+  	</select>
+
+</mapper>

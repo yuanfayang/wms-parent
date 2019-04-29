@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deer.wms.bill.manage.dao.MtAloneFlowrecordMapper">
+  <resultMap id="BaseResultMap" type="com.deer.wms.bill.manage.model.MtAloneFlowrecord">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="flow_id" jdbcType="INTEGER" property="flowId" />
+    <result column="product_det_barcode" jdbcType="VARCHAR" property="productDetBarcode" />
+    <result column="product_barcode" jdbcType="VARCHAR" property="productBarcode" />
+    <result column="delivery_order_code" jdbcType="VARCHAR" property="deliveryOrderCode" />
+    <result column="product_det_returntime" jdbcType="TIMESTAMP" property="productDetReturntime" />
+    <result column="memo" jdbcType="VARCHAR" property="memo" />
+    <result column="return_state" jdbcType="INTEGER" property="returnState" />
+    <result column="flowcode_state" jdbcType="INTEGER" property="flowcodeState" />
+    <result column="product_det_waretime" jdbcType="TIMESTAMP" property="productDetWaretime" />
+    <result column="product_det_deliverytime" jdbcType="TIMESTAMP" property="productDetDeliverytime" />
+    <result column="delivery_length" jdbcType="REAL" property="deliveryLength" />
+    <result column="delivery_barcode" jdbcType="VARCHAR" property="deliveryBarcode" />
+    <result column="return_order_code" jdbcType="VARCHAR" property="returnOrderCode" />
+  </resultMap>
+</mapper>

@@ -1,5 +1,6 @@
 package com.deer.wms.workflow.service;
 
+import com.deer.wms.workflow.dto.FormResultDTO;
 import com.deer.wms.workflow.model.TaskForm;
 import org.flowable.form.api.FormInfo;
 import org.flowable.task.api.Task;
@@ -88,5 +89,5 @@ public interface TaskInstanceService {
      * @return java.util.List<org.flowable.form.api.FormInfo>
      * @author yanluxin  2019/4/24 19:40
      */
-    List<FormInfo> listTaskFormModelByInstanceId(String instanceId);
+    List<FormResultDTO> listTaskFormModelByInstanceId(String instanceId);
 }

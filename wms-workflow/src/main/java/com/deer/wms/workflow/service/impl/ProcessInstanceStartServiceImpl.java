@@ -49,7 +49,7 @@ public class ProcessInstanceStartServiceImpl implements ProcessInstanceStartServ
 
     @Override
     public List<ProcessDefinition> listProcessDefinition(int first, int maxResult) {
-        List<ProcessDefinition> processDefinitions = repositoryService.createProcessDefinitionQuery().listPage(first, maxResult);
+        List<ProcessDefinition> processDefinitions = repositoryService.createProcessDefinitionQuery().latestVersion().listPage(first, maxResult);
         return processDefinitions;
     }
 

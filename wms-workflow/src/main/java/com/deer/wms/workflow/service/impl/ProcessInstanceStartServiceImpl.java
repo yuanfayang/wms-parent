@@ -17,14 +17,14 @@ import org.flowable.engine.impl.persistence.entity.ExecutionEntityImpl;
 import org.flowable.engine.repository.ProcessDefinition;
 import org.flowable.engine.runtime.ProcessInstance;
 import org.flowable.image.ProcessDiagramGenerator;
+import org.flowable.ui.modeler.util.ImageGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -116,7 +116,19 @@ public class ProcessInstanceStartServiceImpl implements ProcessInstanceStartServ
         bpmnModel = bpmnModel_1;
         highLightedActivitisMap = layoutBpmnModel(process_1, highLightedActivitis, highLightedActivitList);
         List<String> highLightedFlows = getHighLightedFlows(bpmnModel.getMainProcess(), highLightedActivitisMap, highLightedActivitList, autoLayout);
-        return diagramGenerator.generateDiagram(bpmnModel, "png", highLightedActivitis, highLightedFlows, true);
+        FileOutputStream outputStream= null;
+        try {
+            outputStream = new FileOutputStream(new File("d:\\dd.png"));
+            try {
+                outputStream.write(ImageGenerator.createByteArrayForImage(ImageGenerator.createImage(bpmnModel),"png"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return diagramGenerator.generateDiagram(bpmnModel, "png", highLightedActivitis, highLightedFlows, 1.0, true);
     }
 
 

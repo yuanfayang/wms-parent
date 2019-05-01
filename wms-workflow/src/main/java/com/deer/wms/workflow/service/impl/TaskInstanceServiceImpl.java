@@ -129,9 +129,11 @@ public class TaskInstanceServiceImpl implements TaskInstanceService {
             formResultDTO.setTaskId(historicTaskInstance.getId());
             formResultDTO.setTaskName(historicTaskInstance.getName());
             formResultDTO.setUserId(historicTaskInstance.getAssignee());
-            User user = identityService.createUserQuery().userId(historicTaskInstance.getAssignee()).singleResult();
-            if (user != null) {
-                formResultDTO.setUserName(user.getDisplayName());
+            if (StringUtils.isNotBlank(historicTaskInstance.getAssignee())) {
+                User user = identityService.createUserQuery().userId(historicTaskInstance.getAssignee()).singleResult();
+                if (user != null) {
+                    formResultDTO.setUserName(user.getDisplayName());
+                }
             }
             formResultDTO.setEndDate(historicTaskInstance.getCreateTime());
             formResultDTO.setFormInfo(getTaskFormModel(formInstance.getTaskId()));

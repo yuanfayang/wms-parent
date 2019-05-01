@@ -116,17 +116,6 @@ public class ProcessInstanceStartServiceImpl implements ProcessInstanceStartServ
         bpmnModel = bpmnModel_1;
         highLightedActivitisMap = layoutBpmnModel(process_1, highLightedActivitis, highLightedActivitList);
         List<String> highLightedFlows = getHighLightedFlows(bpmnModel.getMainProcess(), highLightedActivitisMap, highLightedActivitList, autoLayout);
-        FileOutputStream outputStream= null;
-        try {
-            outputStream = new FileOutputStream(new File("d:\\dd.png"));
-            try {
-                outputStream.write(ImageGenerator.createByteArrayForImage(ImageGenerator.createImage(bpmnModel),"png"));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
 
         return diagramGenerator.generateDiagram(bpmnModel, "png", highLightedActivitis, highLightedFlows, 1.0, true);
     }

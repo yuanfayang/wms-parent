@@ -39,7 +39,7 @@ public class ToolMail
     @Value("${email.fromAddress}")
     private String fromAddress;
     
-    @Value("${email.password}")
+    @Value("${email.pwd}")
     private String password;
     
     @Value("${email.outTime}")

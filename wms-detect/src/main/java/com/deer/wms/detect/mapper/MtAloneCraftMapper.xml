@@ -1,62 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.deer.wms.detect.dao.MtAloneCraftMapper">
-	<resultMap id="BaseResultMap"
-		type="com.deer.wms.detect.model.MtAloneCraft">
-		<!-- WARNING - @mbg.generated -->
-		<id column="craft_id" jdbcType="INTEGER" property="craftId" />
-		<result column="pid" jdbcType="INTEGER" property="pid" />
-		<result column="craft_type" jdbcType="VARCHAR"
-			property="craftType" />
-		<result column="craft_unit" jdbcType="VARCHAR"
-			property="craftUnit" />
-		<result column="is_use" jdbcType="INTEGER" property="isUse" />
-		<result column="create_time" jdbcType="TIMESTAMP"
-			property="createTime" />
-		<result column="update_time" jdbcType="TIMESTAMP"
-			property="updateTime" />
-		<result column="version" jdbcType="VARCHAR" property="version" />
-		<result column="company_id" jdbcType="INTEGER"
-			property="companyId" />
-		<result column="memo" jdbcType="VARCHAR" property="memo" />
-	</resultMap>
-	<select id="findList"
-		parameterType="com.deer.wms.detect.model.MtAloneCraftParams"
-		resultMap="BaseResultMap">
-		select *
-		from mt_alone_craft c
-		WHERE 1=1
-		<if test="companyId != null">
-			AND c.company_id = #{companyId}
-		</if>
-		<if test="keywords != null and keywords != ''">
-			AND c.craft_type LIKE CONCAT('%', #{keywords}, '%')
-		</if>
-		ORDER BY c.create_time desc
-	</select>
-	<select id="parentListById"
-		parameterType="com.deer.wms.detect.model.MtAloneCraftParams"
-		resultMap="BaseResultMap">
-		SELECT T2.*
-		FROM (
-		SELECT
-		@r AS _id, 
-		(SELECT @r := pid FROM mt_alone_craft WHERE craft_id= _id) AS pid,
-		@l := @l + 1 AS lvl
-		FROM
-		(SELECT @r := #{craftId}, @l := 0) vars,
-		mt_alone_craft h
-		WHERE @r &lt;&gt; 0) T1
-		JOIN mt_alone_craft T2
-		ON T1._id = T2.craft_id 
-		AND T2.craft_id!=#{craftId}
-		AND T2.is_use = 1
-		<if test="companyId != null">
-			AND T2.company_id = #{companyId}
-		</if>
-		<if test="keywords != null and keywords != ''">
-			AND T2.craft_type LIKE CONCAT('%', #{keywords}, '%')
-		</if>
-		ORDER BY T1.lvl DESC
-	</select>
+    <resultMap id="BaseResultMap"
+               type="com.deer.wms.detect.model.MtAloneCraft">
+        <!-- WARNING - @mbg.generated -->
+        <id column="craft_id" jdbcType="INTEGER" property="craftId"/>
+        <result column="pid" jdbcType="INTEGER" property="pid"/>
+        <result column="craft_type" jdbcType="VARCHAR" property="craftType"/>
+        <result column="craft_unit" jdbcType="VARCHAR" property="craftUnit"/>
+        <result column="craft_level" jdbcType="INTEGER" property="craftLevel"/>
+        <result column="is_use" jdbcType="INTEGER" property="isUse"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="version" jdbcType="VARCHAR" property="version"/>
+        <result column="company_id" jdbcType="INTEGER" property="companyId"/>
+        <result column="memo" jdbcType="VARCHAR" property="memo"/>
+    </resultMap>
+    <select id="findList"
+            parameterType="com.deer.wms.detect.model.MtAloneCraftParams"
+            resultMap="BaseResultMap">
+        select *
+        from mt_alone_craft c
+        WHERE 1=1
+        <if test="companyId != null">
+            AND c.company_id = #{companyId}
+        </if>
+        <if test="keywords != null and keywords != ''">
+            AND c.craft_type LIKE CONCAT('%', #{keywords}, '%')
+        </if>
+        ORDER BY c.create_time desc
+    </select>
+    <select id="parentListById"
+            parameterType="com.deer.wms.detect.model.MtAloneCraftParams"
+            resultMap="BaseResultMap">
+        SELECT T2.*
+        FROM (
+        SELECT
+        @r AS _id,
+        (SELECT @r := pid FROM mt_alone_craft WHERE craft_id= _id) AS pid,
+        @l := @l + 1 AS lvl
+        FROM
+        (SELECT @r := #{craftId}, @l := 0) vars,
+        mt_alone_craft h
+        WHERE @r &lt;&gt; 0) T1
+        JOIN mt_alone_craft T2
+        ON T1._id = T2.craft_id
+        AND T2.craft_id!=#{craftId}
+        AND T2.is_use = 1
+        <if test="companyId != null">
+            AND T2.company_id = #{companyId}
+        </if>
+        <if test="keywords != null and keywords != ''">
+            AND T2.craft_type LIKE CONCAT('%', #{keywords}, '%')
+        </if>
+        ORDER BY T1.lvl DESC
+    </select>
 </mapper>

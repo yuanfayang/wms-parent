@@ -25,6 +25,12 @@ public class MtAloneCraft {
     private String craftUnit;
 
     /**
+     * 工艺级别
+     */
+    @Column(name = "craft_level")
+    private Integer craftLevel;
+
+    /**
      * 是否启用0-否 1-是
      */
     @Column(name = "is_use")
@@ -228,5 +234,13 @@ public class MtAloneCraft {
      */
     public void setMemo(String memo) {
         this.memo = memo;
+    }
+
+    public Integer getCraftLevel() {
+        return craftLevel;
+    }
+
+    public void setCraftLevel(Integer craftLevel) {
+        this.craftLevel = craftLevel;
     }
 }

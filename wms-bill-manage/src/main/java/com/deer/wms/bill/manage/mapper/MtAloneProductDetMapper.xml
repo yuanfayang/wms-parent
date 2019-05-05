@@ -130,7 +130,7 @@
     and is_complete_out=0
   </select>
   
-  <select id="findDetByCellCode" parameterType="com.deer.wms.bill.manage.model.MtAloneProductDetCriteria" resultMap="ProductDetDto">
+  <!--select id="findDetByCellCode" parameterType="com.deer.wms.bill.manage.model.MtAloneProductDetCriteria" resultMap="ProductDetDto">
     SELECT 
     pro.product_name product_name,
     pro.product_code product_code,
@@ -150,7 +150,29 @@
      and pro.cell_code = #{cellCode}
      and is_complete_out=0
     </if>  
-  </select>
+  </select-->
+
+    <select id="findDetByCellCode" parameterType="com.deer.wms.bill.manage.model.MtAloneProductDetCriteria" resultMap="ProductDetDto">
+        SELECT
+        pro.product_name product_name,
+        pro.product_code product_code,
+        pro.item_code item_code,
+        pro.cell_code cell_code,
+        pro.dyelot_num dyelot_num,
+        pro.color_name color_name,
+        sup.supplier_name supplier_name,
+        det.*
+        FROM mt_alone_product_det det
+        LEFT JOIN mt_alone_product pro
+        ON pro.id=det.product_id
+        LEFT JOIN supplier_manage sup
+        ON pro.supplier_code = sup.supplier_code
+        WHERE 1=1
+        <if test="cellCode!=null and cellCode!=''">
+            and det.cell_code = #{cellCode}
+            and is_complete_out=0
+        </if>
+    </select>
   
    <update id="addRollNum" parameterType="java.lang.String" >
     update mt_alone_product 

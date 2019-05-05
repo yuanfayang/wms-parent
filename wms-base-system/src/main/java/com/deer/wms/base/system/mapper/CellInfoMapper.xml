@@ -141,7 +141,7 @@
         </where> order by cell.shelf_code, cell.add_time,  cell.s_row, cell.s_column
     </select>
     
-    <select id="findListByRowColumn" parameterType="com.deer.wms.base.system.model.CellInfoCriteriaRowColumn" resultMap="BaseResultMap">
+    <!-- select id="findListByRowColumn" parameterType="com.deer.wms.base.system.model.CellInfoCriteriaRowColumn" resultMap="BaseResultMap">
 	SELECT
 	*,IFNULL(tmp1.num,0) AS roll_num
 	FROM
@@ -175,10 +175,10 @@
       AND s_column BETWEEN #{beginColumn} AND #{endColumn}
     </if>
     order by  s_row, s_column
-  </select>
+  </select-->
 
   
-    <!-- select id="findListByRowColumn" parameterType="com.deer.wms.base.system.model.CellInfoCriteriaRowColumn" resultMap="BaseResultMap">
+    <select id="findListByRowColumn" parameterType="com.deer.wms.base.system.model.CellInfoCriteriaRowColumn" resultMap="BaseResultMap">
     SELECT
 	*,IFNULL(tmp.num,0) AS roll_num
     FROM
@@ -194,17 +194,17 @@
     <if test="wareCode !=null and  wareCode !=''">
       AND ware_code=#{wareCode}
     </if>
-    <if test="companyId != null and companyId != ''">
+    <if test="companyId != null ">
       AND company_id =#{companyId}
     </if>
-     <if test="beginRow != null and beginRow != '' and endRow != null and endRow != '' ">
+     <if test="beginRow != null  and endRow != null ">
       AND s_row BETWEEN #{beginRow} AND #{endRow}
     </if>
-    <if test="beginColumn != null and beginColumn != '' and endColumn != null and endColumn != '' ">
+    <if test="beginColumn != null  and endColumn != null ">
       AND s_column BETWEEN #{beginColumn} AND #{endColumn}
     </if>
     order by  s_row, s_column
-  </select>   -->
+  </select>
 
     <!-- select id="findListByRowColumn" parameterType="com.deer.wms.base.system.model.CellInfoCriteriaRowColumn" resultMap="BaseResultMap">
     SELECT

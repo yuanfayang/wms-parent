@@ -258,12 +258,14 @@ public class MtAloneExaminationDetailsController {
         Date date=new Date();
 		//----------------------------------------------更新明细的三个长度和检测状态---------------------------------------------------------
         MtAloneProductDet mtAloneProductDet= mtAloneProductDetService.findProductDetByBarCode(mtAloneDetectDet.getProductDetBarcode());
+        MtAloneProduct mtAloneProduct = mtAloneProductService.findByBarcode(mtAloneProductDet.getWarehouseBarcode());
         mtAloneProductDet.setIsDetection(1);
         mtAloneProductDet.setProductDetLength(mtAloneDetectDet.getDetectLength());
         mtAloneProductDet.setProductDetRemainLength(mtAloneDetectDet.getDetectLength());
         mtAloneProductDet.setSalableProductLength(mtAloneDetectDet.getDetectLength());
         mtAloneProductDet.setProductLevel(mtAloneDetectDetDto.getProductLevel());
         mtAloneProductDet.setDetectionTime(date);
+        mtAloneProductDet.setCellCode(mtAloneProduct.getCellCode());
         /*
          * 检测人员id和姓名，待录入
          */

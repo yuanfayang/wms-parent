@@ -128,6 +128,7 @@ public class MtAloneProductDetController {
 		mtAloneProductDet.setIsCompleteOut(0);
 		mtAloneProductDet.setIsDetection(0);
 		mtAloneProductDet.setState("normal");
+		mtAloneProductDet.setCellCode(mtAloneProduct.getCellCode());
 		mtAloneProductDetService.save(mtAloneProductDet);
 
 		MtAloneDetectDet mtAloneDetectDet = new MtAloneDetectDet();
@@ -357,9 +358,8 @@ public class MtAloneProductDetController {
 		return ResultGenerator.genSuccessResult(pageInfo);
 	}
 
-	// @ApiImplicitParams({
-	// @ApiImplicitParam(name = "access-token", value = "token", paramType =
-	// "header", dataType = "String", required = true) })
+	@ApiImplicitParams({
+	        @ApiImplicitParam(name = "access-token", value = "token", paramType = "header", dataType = "String", required = true) })
 	@OperateLog(description = "出入库明细信息列表分页息", type = "查询")
 	@ApiOperation(value = "出入库明细信息列表分页", notes = "出入库明细信息列表分页")
 	@GetMapping("/list/new")

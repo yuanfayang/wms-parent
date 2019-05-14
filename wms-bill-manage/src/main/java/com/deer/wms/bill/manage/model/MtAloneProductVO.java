@@ -12,7 +12,15 @@ public class MtAloneProductVO extends MtAloneProduct{
 	
 	String supplierName=null;
 
+	String itemTypeName=null;
 
+	public String getItemTypeName() {
+		return itemTypeName;
+	}
+
+	public void setItemTypeName(String itemTypeName) {
+		this.itemTypeName = itemTypeName;
+	}
 
 	public Integer getRollNum() {
 		return rollNum;

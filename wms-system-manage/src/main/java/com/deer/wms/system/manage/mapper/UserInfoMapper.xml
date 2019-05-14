@@ -204,5 +204,29 @@
 
     </select>
 
+    <!-- 根据公司id查找所有销售员  -->
+    <select id="getSalespersonList" resultMap="BaseResultMap" parameterType="com.deer.wms.system.manage.model.user.UserInfoParams">
+        SELECT u.* FROM user_info u WHERE u.`user_id`=ANY
+        (SELECT ur.user_id FROM user_role ur
+        WHERE ur.`role_id` =
+        (SELECT r.role_id FROM role r
+        WHERE r.`role_name`="销售员"
+        <if test="companyId != null">
+            AND r.`company_id`= #{companyId}
+        </if>))
+    </select>
+
+    <!-- 根据公司id查找所有销售员  -->
+    <select id="getPurchaserList" resultMap="BaseResultMap" parameterType="com.deer.wms.system.manage.model.user.UserInfoParams">
+        SELECT u.* FROM user_info u WHERE u.`user_id`=ANY
+        (SELECT ur.user_id FROM user_role ur
+        WHERE ur.`role_id` =
+        (SELECT r.role_id FROM role r
+        WHERE r.`role_name`="采购员"
+        <if test="companyId != null">
+            AND r.`company_id`= #{companyId}
+        </if>))
+    </select>
+
 
 </mapper>

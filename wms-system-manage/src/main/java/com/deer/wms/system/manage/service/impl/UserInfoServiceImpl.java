@@ -388,4 +388,16 @@ public class UserInfoServiceImpl extends AbstractService<UserInfo, Integer> impl
 		super.update(userInfo);
 	}
 
+	@Override
+	public List<UserInfo> getSalespersonList(UserInfoParams params) {
+		List<UserInfo> list = userInfoMapper.getSalespersonList(params);
+		return list;
+	}
+
+	@Override
+	public List<UserInfo> getPurchaserList(UserInfoParams params) {
+		List<UserInfo> list = userInfoMapper.getPurchaserList(params);
+		return list;
+	}
+
 }

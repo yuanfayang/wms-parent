@@ -338,4 +338,53 @@ public class UserInfoController {
         userInfoService.pwdReset(userInfo,currentUser); 
         return ResultGenerator.genSuccessResult();
     }
+
+
+    /**
+     * 查找某公司下的所有销售员
+     *
+     * @param params
+     * @return
+     */
+    @ApiOperation(value = "查找某公司下的所有销售员", notes = "查找某公司下的所有销售员")
+    @Authority
+    @ApiImplicitParams( { @ApiImplicitParam( name = "access-token", value = "token", paramType = "header", dataType = "String", required = true ) } )
+    @GetMapping("/salespersonList")
+    @OperateLog(description = "查找某公司下的所有销售员", type = "查询")
+    public Result getSalespersonList(UserInfoParams params, @ApiIgnore @User CurrentUser currentUser) {
+        if(currentUser==null){
+            return ResultGenerator.genFailResult( CommonCode.SERVICE_ERROR,"未登录错误",null );
+        }
+        StringUtil.trimObjectStringProperties(params);
+        if (currentUser.getCompanyType() != SystemManageConstant.COMPANY_TYPE_OPERATE){
+            params.setCompanyId(currentUser.getCompanyId());
+        }
+        PageHelper.startPage(params.getPageNum(), params.getPageSize());
+        List<UserInfo> list = userInfoService.getSalespersonList(params);
+        return ResultGenerator.genSuccessResult(new PageInfo<>(list));
+    }
+
+    /**
+     * 查找某公司下的所有销售员
+     *
+     * @param params
+     * @return
+     */
+    @ApiOperation(value = "查找某公司下的所有采购员", notes = "查找某公司下的所有采购员")
+    @Authority
+    @ApiImplicitParams( { @ApiImplicitParam( name = "access-token", value = "token", paramType = "header", dataType = "String", required = true ) } )
+    @GetMapping("/purchaserList")
+    @OperateLog(description = "查找某公司下的所有采购员", type = "查询")
+    public Result getPurchaserList(UserInfoParams params, @ApiIgnore @User CurrentUser currentUser) {
+        if(currentUser==null){
+            return ResultGenerator.genFailResult( CommonCode.SERVICE_ERROR,"未登录错误",null );
+        }
+        StringUtil.trimObjectStringProperties(params);
+        if (currentUser.getCompanyType() != SystemManageConstant.COMPANY_TYPE_OPERATE){
+            params.setCompanyId(currentUser.getCompanyId());
+        }
+        PageHelper.startPage(params.getPageNum(), params.getPageSize());
+        List<UserInfo> list = userInfoService.getPurchaserList(params);
+        return ResultGenerator.genSuccessResult(new PageInfo<>(list));
+    }
 }

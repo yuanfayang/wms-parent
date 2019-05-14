@@ -104,7 +104,7 @@ public interface UserInfoService extends Service<UserInfo, Integer> {
     /**
      * 发送邮箱短信验证码
      *
-     * @param mobile 手机号码
+     * @param email 手机号码
      */
     void sendEmailCode(String email);
 
@@ -132,5 +132,18 @@ public interface UserInfoService extends Service<UserInfo, Integer> {
 	 * @param currentUser 
 	 */
 	void pwdReset(UserInfo userInfo, CurrentUser currentUser);
-
+    /**
+     * 销售员列表
+     *
+     * @param params 查询条件
+     * @return
+     */
+    List<UserInfo> getSalespersonList(UserInfoParams params);
+    /**
+     * 采购员列表
+     *
+     * @param params 查询条件
+     * @return
+     */
+    List<UserInfo> getPurchaserList(UserInfoParams params);
 }

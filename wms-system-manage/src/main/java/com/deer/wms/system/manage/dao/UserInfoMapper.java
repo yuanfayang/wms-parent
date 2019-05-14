@@ -41,9 +41,18 @@ public interface UserInfoMapper extends Mapper<UserInfo> {
 
     /**
      * 根据用户名、手机号、邮箱查找用户信息
-     * @param userInfo
+     * @param account
      */
     UserInfo selectUserInfo(String account);
 
-	
+    /**
+     * 根据公司id查找销售员
+     * @param params
+     */
+    List<UserInfo> getSalespersonList(UserInfoParams params);
+    /**
+     * 根据公司id查找采购员
+     * @param params
+     */
+    List<UserInfo> getPurchaserList(UserInfoParams params);
 }

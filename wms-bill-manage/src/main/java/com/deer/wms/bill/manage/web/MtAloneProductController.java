@@ -35,13 +35,22 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import springfox.documentation.annotations.ApiIgnore;
 
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFRichTextString;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * Created by on 2018/11/24.
@@ -201,6 +210,85 @@ public class MtAloneProductController {
 		}
 		PageInfo pageInfo = new PageInfo(listNew);
 		return ResultGenerator.genSuccessResult(pageInfo);
+	}
+	
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = "access-token", value = "token", paramType = "header", dataType = "String", required = true) })
+	@OperateLog(description = "商品信息导出excel", type = "查询new")
+	@ApiOperation(value = "商品信息导出excel", notes = "商品信息导出excel")
+	@GetMapping("/list/new/excel")
+	public Result productNewListExcel(MtAloneProductParams params, @ApiIgnore @User CurrentUser currentUser,HttpServletResponse response) throws Exception{
+		if (currentUser == null) {
+			return ResultGenerator.genFailResult(CommonCode.SERVICE_ERROR, "未登录错误", null);
+		}
+		StringUtil.trimObjectStringProperties(params);
+
+		if (currentUser.getCompanyType() != SystemManageConstant.COMPANY_TYPE_MT) {
+			params.setCompanyId(currentUser.getCompanyId());
+		} else {
+			params.setCompanyId(null);
+		}
+		
+		String fileName="产品信息.xls";
+		response.setContentType("application/msexcel");
+		response.setHeader("Content-disposition","attachment;filename=" +  fileName +";filename*=utf-8''"+ URLEncoder.encode(fileName,"UTF-8"));
+		
+		
+		List<MtAloneProductVO> list = mtAloneProductService.findListNew(params);
+		List<MtAloneProductVO> listNew = new ArrayList();
+
+		for (int i = 0; i < list.size(); i++) {
+			if (list.get(i).getRemainLength() != 0 || list.get(i).getDeliveryLength() == 0) {
+				listNew.add(list.get(i));
+			}
+		}
+		HSSFWorkbook workBook = new HSSFWorkbook();
+		HSSFSheet sheet = workBook.createSheet("信息表");
+		//新增数据行
+		int rowNum = 1;
+		String[] headers = { "产品名称", "供应商名", "产品编号", "物料编号", "产品类型", "登记米数", "产品卷数", "产品颜色", "产品缸号", "面料成分", "产品组织", "产品产地", "进价单位", "是否要检测", "门幅(cm)", "克重(g/m2)", "产品密度", "产品规格", "加工方式", "分配仓位", "描述信息", "产品备注"};
+		//headers表示excel表中第一行的表头
+		
+		HSSFRow row = sheet.createRow(0);
+        //在excel表中添加表头
+		
+		for(int i=0;i<headers.length;i++){
+            HSSFCell cell = row.createCell(i);
+            HSSFRichTextString text = new HSSFRichTextString(headers[i]);
+            cell.setCellValue(text);
+        }
+		
+		//在表中存放查询到的数据放入对应的列
+        for (MtAloneProductVO mtAloneProductVO : listNew) {
+            HSSFRow row1 = sheet.createRow(rowNum);
+            row1.createCell(0).setCellValue(mtAloneProductVO.getProductName());
+            row1.createCell(1).setCellValue(mtAloneProductVO.getSupplierName());
+            row1.createCell(2).setCellValue(mtAloneProductVO.getProductCode());
+            row1.createCell(3).setCellValue(mtAloneProductVO.getItemCode());
+            row1.createCell(4).setCellValue(mtAloneProductVO.getProductTypeCode());
+            row1.createCell(5).setCellValue(mtAloneProductVO.getProductLength());
+            row1.createCell(6).setCellValue(mtAloneProductVO.getRollNum());
+            row1.createCell(7).setCellValue(mtAloneProductVO.getColorName());
+            row1.createCell(8).setCellValue(mtAloneProductVO.getDyelotNum());
+            row1.createCell(9).setCellValue(mtAloneProductVO.getShellFabric());
+            row1.createCell(10).setCellValue(mtAloneProductVO.getTissue());
+            row1.createCell(11).setCellValue(mtAloneProductVO.getOrigin());
+            row1.createCell(12).setCellValue(mtAloneProductVO.getPrice());
+            row1.createCell(13).setCellValue(mtAloneProductVO.getIsDetection());
+            row1.createCell(14).setCellValue(mtAloneProductVO.getLarghezza());
+            row1.createCell(15).setCellValue(mtAloneProductVO.getGrammage());
+            row1.createCell(16).setCellValue(mtAloneProductVO.getDensity());
+            row1.createCell(17).setCellValue(mtAloneProductVO.getSpecification());
+            row1.createCell(18).setCellValue(mtAloneProductVO.getProcessingMode());
+            row1.createCell(19).setCellValue(mtAloneProductVO.getCellCode());
+            row1.createCell(20).setCellValue(mtAloneProductVO.getDescription());
+            row1.createCell(21).setCellValue(mtAloneProductVO.getNote());
+            rowNum++;
+        }
+		response.flushBuffer();
+	    workBook.write(response.getOutputStream());
+	    workBook.close();
+		return ResultGenerator.genSuccessResult();
 	}
 
 	@ApiImplicitParams({

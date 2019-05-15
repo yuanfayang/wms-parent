@@ -18,6 +18,9 @@ public class ItemType {
     @Column(name = "item_type_state")
     private Integer itemTypeState;
 
+    @Column(name = "parent_id")
+    private Integer parentId;
+
     @Column(name = "company_id")
     private Integer companyId;
 
@@ -80,6 +83,19 @@ public class ItemType {
         this.itemTypeState = itemTypeState;
     }
 
+    /**
+     * @return parent_id
+     */
+    public Integer getParentId() {
+        return parentId;
+    }
+
+    /**
+     * @param parentId
+     */
+    public void setParentId(Integer parentId) {
+        this.parentId = parentId;
+    }
     /**
      * @return company_id
      */

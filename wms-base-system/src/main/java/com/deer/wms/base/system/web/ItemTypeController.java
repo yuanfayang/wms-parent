@@ -74,6 +74,12 @@ public class ItemTypeController {
     //    return ResultGenerator.genSuccessResult();
     //}
 
+    /**
+     * 如果有子类型，不允许删除
+     * @param itemTypeId
+     * @param currentUser
+     * @return
+     */
     @Authority
     @ApiImplicitParams({
             @ApiImplicitParam(name = "access-token", value = "token", paramType="header", dataType="String", required = true)
@@ -91,8 +97,9 @@ public class ItemTypeController {
         params.setItemTypeId(itemTypeId);
         params.setCompanyId(currentUser.getCompanyId());
 
-        Integer countRelProducts = itemTypeService.countRelProducts(params);
-        if(countRelProducts!=0){
+        Integer countChildren = itemTypeService.countChildren(params);//统计子节点数
+        Integer countRelProducts = itemTypeService.countRelProducts(params);//统计关联产品数
+        if(countRelProducts!=0 && countChildren!=0){
             return ResultGenerator.genSuccessResult(CommonCode.HAVE_CHILDREN_RECORD,"该类型下有关联的货物，无法删除！",null);
         }
         itemTypeService.deleteByIdAndCom(params);
@@ -158,5 +165,41 @@ public class ItemTypeController {
         List<ItemType> list = itemTypeService.findListNew(params);
         PageInfo pageInfo = new PageInfo(list);
         return ResultGenerator.genSuccessResult(pageInfo);
+    }
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "access-token", value = "token", paramType="header", dataType="String", required = true)
+    })
+    @GetMapping("/childrenList")
+    @ApiOperation(value="子类型查询列表",notes="子类型查询列表")
+    public Result childrenList(ItemTypeParams params, @ApiIgnore @User CurrentUser currentUser) {
+
+        if(currentUser==null){
+            return ResultGenerator.genFailResult( CommonCode.SERVICE_ERROR,"未登录错误",null );
+        }
+        StringUtil.trimObjectStringProperties(params);
+        params.setCompanyId(currentUser.getCompanyId());
+
+        PageHelper.startPage(params.getPageNum(), params.getPageSize());
+        List<ItemType> list = itemTypeService.findChildrenList(params);
+        PageInfo pageInfo = new PageInfo(list);
+        return ResultGenerator.genSuccessResult(pageInfo);
+    }
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "access-token", value = "token", paramType="header", dataType="String", required = true)
+    })
+    @GetMapping("/parent")
+    @ApiOperation(value="父类型查询",notes="父类型查询")
+    public Result parent(ItemTypeParams params, @ApiIgnore @User CurrentUser currentUser) {
+
+        if(currentUser==null){
+            return ResultGenerator.genFailResult( CommonCode.SERVICE_ERROR,"未登录错误",null );
+        }
+        StringUtil.trimObjectStringProperties(params);
+        params.setCompanyId(currentUser.getCompanyId());
+
+        ItemType parent = itemTypeService.findParent(params);
+        return ResultGenerator.genSuccessResult(parent);
     }
 }

@@ -20,4 +20,10 @@ public interface ItemTypeService extends Service<ItemType, Integer> {
     void deleteByIdAndCom(ItemTypeParams params);
 
     Integer countRelProducts(ItemTypeParams params);
+
+    Integer countChildren(ItemTypeParams params);
+
+    List<ItemType> findChildrenList(ItemTypeParams params);
+
+    ItemType findParent(ItemTypeParams params);
 }

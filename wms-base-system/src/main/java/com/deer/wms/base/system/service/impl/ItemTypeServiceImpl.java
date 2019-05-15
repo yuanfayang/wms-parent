@@ -47,4 +47,19 @@ public class ItemTypeServiceImpl extends AbstractService<ItemType, Integer> impl
     public Integer countRelProducts(ItemTypeParams params) {
         return itemTypeMapper.countRelProducts(params);
     }
+
+    @Override
+    public Integer countChildren(ItemTypeParams params) {
+        return itemTypeMapper.countChildren(params);
+    }
+
+    @Override
+    public List<ItemType> findChildrenList(ItemTypeParams params) {
+        return itemTypeMapper.findChildrenList(params);
+    }
+
+    @Override
+    public ItemType findParent(ItemTypeParams params) {
+        return itemTypeMapper.findParent(params);
+    }
 }

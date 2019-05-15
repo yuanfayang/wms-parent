@@ -47,7 +47,7 @@
         and supplier.company_id = product.company_id
         <where>
             state = 'normal'
-            <if test="supplierId != null and supplierId != ''">
+            <if test="supplierId != null">
                   AND supplier_id = #{supplierId}
             </if>
             <if test="companyId != null">

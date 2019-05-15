@@ -102,7 +102,7 @@
         select count(*) from area_info area
         inner join shelf_info shelf on area.area_code = shelf.area_code and area.company_id = shelf.company_id
         <where>
-            <if test="areaId != null and areaId != ''">
+            <if test="areaId != null">
                 AND area.area_id = #{areaId}
             </if>
             <if test="companyId != null">

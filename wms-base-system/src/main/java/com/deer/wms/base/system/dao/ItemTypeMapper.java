@@ -15,4 +15,10 @@ public interface ItemTypeMapper extends Mapper<ItemType> {
     void deleteByIdAndCom(ItemTypeParams params);
 
     Integer countRelProducts(ItemTypeParams params);
+
+    Integer countChildren(ItemTypeParams params);
+
+    List<ItemType> findChildrenList(ItemTypeParams params);
+
+    ItemType findParent(ItemTypeParams params);
 }

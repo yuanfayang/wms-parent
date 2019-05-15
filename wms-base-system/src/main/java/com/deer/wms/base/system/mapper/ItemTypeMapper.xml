@@ -8,6 +8,7 @@
     <id column="item_type_id" jdbcType="INTEGER" property="itemTypeId" />
     <result column="item_type_code" jdbcType="VARCHAR" property="itemTypeCode" />
     <result column="item_type_name" jdbcType="VARCHAR" property="itemTypeName" />
+    <result column="parent_id" jdbcType="INTEGER" property="parentId" />
     <result column="item_type_state" jdbcType="INTEGER" property="itemTypeState" />
     <result column="company_id" jdbcType="INTEGER" property="companyId" />
 
@@ -69,7 +70,7 @@
         and itemType.company_id = product.company_id
         <where>
             product.state = 'normal'
-            <if test="itemTypeId != null and itemTypeId != ''">
+            <if test="itemTypeId != null">
                 AND itemType.item_type_id = #{itemTypeId}
             </if>
             <if test="companyId != null">
@@ -77,6 +78,44 @@
             </if>
         </where>
     </select>
+
+    <select id="countChildren" parameterType="com.deer.wms.base.system.model.ItemTypeParams" resultType="java.lang.Integer">
+        select   count(*)
+        from item_type itemType
+        <where>
+            <if test="itemTypeId != null">
+                AND itemType.parent_id = #{itemTypeId}
+            </if>
+            <if test="companyId != null">
+                AND itemType.company_id = #{companyId}
+            </if>
+        </where>
+    </select>
+
+    <select id="findChildrenList" parameterType="com.deer.wms.base.system.model.ItemTypeParams"  resultMap="BaseResultMap">
+        select * from item_type itemType
+        <where>
+            <if test="itemTypeId != null">
+                and itemType.parent_id = #{itemTypeId}
+            </if>
+            <if test="companyId != null">
+                AND itemType.company_id = #{companyId}
+            </if>
+        </where> ORDER BY itemType.item_type_id, itemType.item_type_code
+    </select>
+
+    <select id="findParent" parameterType="com.deer.wms.base.system.model.ItemTypeParams"  resultMap="BaseResultMap">
+        select * from item_type itemType
+        <where>
+            <if test="parentId != null">
+                and itemType.item_type_id = #{parentId}
+            </if>
+            <if test="companyId != null">
+                AND itemType.company_id = #{companyId}
+            </if>
+        </where>
+    </select>
+
 
 </mapper>
 

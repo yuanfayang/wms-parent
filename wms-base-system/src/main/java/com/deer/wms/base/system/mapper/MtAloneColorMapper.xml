@@ -73,7 +73,7 @@
         and color.company_id = product.company_id
         <where>
         product.state = 'normal'
-            <if test="colorId != null and colorId != ''">
+            <if test="colorId != null">
                 AND color.color_id = #{colorId}
             </if>
             <if test="companyId != null">

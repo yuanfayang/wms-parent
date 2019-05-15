@@ -88,7 +88,7 @@
         select count(*) from ware_info ware
         inner join area_info area on ware.ware_code = area.ware_code and ware.company_id = area.company_id
         <where>
-                <if test="wareId != null and wareId != ''">
+                <if test="wareId != null">
                     AND ware.ware_id = #{wareId}
                 </if>
 

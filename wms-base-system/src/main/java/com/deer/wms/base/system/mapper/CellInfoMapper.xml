@@ -44,7 +44,7 @@
         where shelf_code in
         (select shelf_code from shelf_info
         <where>
-            <if test="shelfId != null and shelfId != ''">
+            <if test="shelfId != null">
                 AND shelf_id = #{shelfId}
             </if>
             <if test="companyId != null">

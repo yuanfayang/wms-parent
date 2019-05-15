@@ -12,6 +12,7 @@ public class InventoryInfoCriteria extends QueryParams{
 	private Integer inventoryStatus;
     private String workStartTime;
     private String workEndTime;
+    private String itemTypeName;
 	public String getInventoryCode() {
 		return inventoryCode;
 	}
@@ -35,6 +36,12 @@ public class InventoryInfoCriteria extends QueryParams{
 	}
 	public void setWorkEndTime(String workEndTime) {
 		this.workEndTime = workEndTime;
+	}
+	public String getItemTypeName() {
+		return itemTypeName;
+	}
+	public void setItemTypeName(String itemTypeName) {
+		this.itemTypeName = itemTypeName;
 	}
     
 	

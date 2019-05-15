@@ -46,6 +46,9 @@
 		<if test="criteria.workEndTime!=null and criteria.workEndTime!=''">
     		<![CDATA[  and inven.create_time <= DATE_ADD(#{criteria.workEndTime},INTERVAL 1 DAY)]]>
 		</if>
+		<if test="criteria.itemTypeName!=null and criteria.itemTypeName!=''">
+			and inven.item_type_name = #{criteria.itemTypeName}
+		</if>
 		ORDER BY inven.create_time DESC
 
 

@@ -2,6 +2,13 @@ package com.deer.wms.ware.task.web;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFRichTextString;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.deer.wms.base.system.model.AreaInfo;
 import com.deer.wms.bill.manage.constant.BillManageConstant;
 import com.deer.wms.bill.manage.constant.BillManagePublicMethod;
+import com.deer.wms.bill.manage.model.MtAloneProductVO;
 import com.deer.wms.intercept.annotation.User;
 import com.deer.wms.intercept.common.data.CurrentUser;
 import com.deer.wms.project.seed.core.result.CommonCode;
@@ -74,7 +82,7 @@ public class InventoryInfoController {
     public Result detail(@PathVariable Integer id) {
         InventoryInfo inventoryInfo = inventoryInfoService.findById(id);
         return ResultGenerator.genSuccessResult(inventoryInfo);
-    }
+    }  
 
 	@ApiOperation(value = "库存盘点list", notes = "库存盘点list")
 	@ApiImplicitParams( { @ApiImplicitParam( name = "access-token", value = "token", paramType = "header", dataType = "String", required = true ) } )
@@ -100,6 +108,49 @@ public class InventoryInfoController {
         PageInfo pageInfo = new PageInfo(list);
         return ResultGenerator.genSuccessResult(pageInfo);
 	}
+	
+	@ApiOperation(value = "公司产品明细导出Excel", notes = "公司产品明细导出Excel")
+	@ApiImplicitParams( { @ApiImplicitParam( name = "access-token", value = "token", paramType = "header", dataType = "String", required = true ) } )
+    @GetMapping("/company/product/excel")
+	public Result companyProductDetExcel(CompanyProductCriteria companyProductCriteria,@ApiIgnore @User CurrentUser currentUser,HttpServletResponse response) throws Exception{
+    	if(currentUser==null){
+            return ResultGenerator.genFailResult( CommonCode.SERVICE_ERROR,"未登录错误",null );
+        }
+        List<CompanyProductDto> list = inventoryInfoService.findCompanyProductDet(companyProductCriteria,currentUser);               
+		HSSFWorkbook workBook = new HSSFWorkbook();
+		HSSFSheet sheet = workBook.createSheet("信息表");
+		//新增数据行
+		int rowNum = 1;
+		String[] headers = { "产品名称", "产品编号", "布卷条码", "米数", "颜色", "货区", "货架", "货位", "仓库编码"};
+		//headers表示excel表中第一行的表头
+		
+		HSSFRow row = sheet.createRow(0);
+		for(int i=0;i<headers.length;i++){
+            HSSFCell cell = row.createCell(i);
+            HSSFRichTextString text = new HSSFRichTextString(headers[i]);
+            cell.setCellValue(text);
+        }
+		//在表中存放查询到的数据放入对应的列
+        for (CompanyProductDto companyProductDto : list) {
+            HSSFRow row1 = sheet.createRow(rowNum);
+            row1.createCell(0).setCellValue(companyProductDto.getProductName());
+            row1.createCell(1).setCellValue(companyProductDto.getProductDetCode());
+            row1.createCell(2).setCellValue(companyProductDto.getProductDetBarCode());
+            row1.createCell(3).setCellValue(companyProductDto.getProductDetRemainLength());
+            row1.createCell(4).setCellValue(companyProductDto.getProductColorName());
+            row1.createCell(5).setCellValue(companyProductDto.getAreaName());
+            row1.createCell(6).setCellValue(companyProductDto.getShelfName());
+            row1.createCell(7).setCellValue(companyProductDto.getCellCode());
+            row1.createCell(8).setCellValue(companyProductDto.getWareId());
+            rowNum++;
+        }
+		response.flushBuffer();
+	    workBook.write(response.getOutputStream());
+	    workBook.close();
+        return ResultGenerator.genSuccessResult();
+	}
+	
+	
 	@ApiOperation(value = "公司仓库名称", notes = "公司仓库名称")
 	@ApiImplicitParams( { @ApiImplicitParam( name = "access-token", value = "token", paramType = "header", dataType = "String", required = true ) } )
     @GetMapping("/wareName")

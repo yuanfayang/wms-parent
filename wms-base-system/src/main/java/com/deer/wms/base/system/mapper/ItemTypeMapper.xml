@@ -107,13 +107,21 @@
     <select id="findParent" parameterType="com.deer.wms.base.system.model.ItemTypeParams"  resultMap="BaseResultMap">
         select * from item_type itemType
         <where>
-            <if test="parentId != null">
-                and itemType.item_type_id = #{parentId}
-            </if>
+            itemType.item_type_id =
+            (select itemType.parent_id from item_type itemType
+                <where>
+                    <if test="itemTypeId != null">
+                        and itemType.item_type_id = #{itemTypeId}
+                    </if>
+                    <if test="companyId != null">
+                        AND itemType.company_id = #{companyId}
+                    </if>
+                </where>)
             <if test="companyId != null">
                 AND itemType.company_id = #{companyId}
             </if>
         </where>
+
     </select>
 
 

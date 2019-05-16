@@ -83,7 +83,7 @@ public class ItemTypeController {
     @Authority
     @ApiImplicitParams({
             @ApiImplicitParam(name = "access-token", value = "token", paramType="header", dataType="String", required = true)
-            , @ApiImplicitParam(name = "itemTypeid", value = "颜色id", paramType="path", dataType="Integer", required = true)
+            , @ApiImplicitParam(name = "colorId", value = "类型id", paramType="path", dataType="Integer", required = true)
     })
     @DeleteMapping("/delete/{itemTypeId}")
     @ApiOperation(value="删除物料类型信息",notes="删除物料类型信息")
@@ -99,9 +99,14 @@ public class ItemTypeController {
 
         Integer countChildren = itemTypeService.countChildren(params);//统计子节点数
         Integer countRelProducts = itemTypeService.countRelProducts(params);//统计关联产品数
-        if(countRelProducts!=0 && countChildren!=0){
+
+        if(countRelProducts!=0){
             return ResultGenerator.genSuccessResult(CommonCode.HAVE_CHILDREN_RECORD,"该类型下有关联的货物，无法删除！",null);
         }
+        if(countChildren!=0){
+            return ResultGenerator.genSuccessResult(CommonCode.HAVE_CHILDREN_RECORD,"该类型下有子类型，无法删除！",null);
+        }
+
         itemTypeService.deleteByIdAndCom(params);
         return ResultGenerator.genSuccessResult();
     }
@@ -154,7 +159,6 @@ public class ItemTypeController {
     @GetMapping("/list")
     @ApiOperation(value="物料类型查询列表",notes="物料类型查询列表")
     public Result listNew(ItemTypeParams params, @ApiIgnore @User CurrentUser currentUser) {
-
         if(currentUser==null){
             return ResultGenerator.genFailResult( CommonCode.SERVICE_ERROR,"未登录错误",null );
         }
@@ -167,16 +171,17 @@ public class ItemTypeController {
         return ResultGenerator.genSuccessResult(pageInfo);
     }
 
+    @OperateLog(description = "子类型查询列表", type = "查询")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "access-token", value = "token", paramType="header", dataType="String", required = true)
     })
     @GetMapping("/childrenList")
     @ApiOperation(value="子类型查询列表",notes="子类型查询列表")
     public Result childrenList(ItemTypeParams params, @ApiIgnore @User CurrentUser currentUser) {
-
         if(currentUser==null){
             return ResultGenerator.genFailResult( CommonCode.SERVICE_ERROR,"未登录错误",null );
         }
+
         StringUtil.trimObjectStringProperties(params);
         params.setCompanyId(currentUser.getCompanyId());
 
@@ -186,16 +191,17 @@ public class ItemTypeController {
         return ResultGenerator.genSuccessResult(pageInfo);
     }
 
+    @OperateLog(description = "父类型查询", type = "查询")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "access-token", value = "token", paramType="header", dataType="String", required = true)
     })
     @GetMapping("/parent")
     @ApiOperation(value="父类型查询",notes="父类型查询")
     public Result parent(ItemTypeParams params, @ApiIgnore @User CurrentUser currentUser) {
-
         if(currentUser==null){
             return ResultGenerator.genFailResult( CommonCode.SERVICE_ERROR,"未登录错误",null );
         }
+
         StringUtil.trimObjectStringProperties(params);
         params.setCompanyId(currentUser.getCompanyId());
 

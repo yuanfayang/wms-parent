@@ -35,36 +35,36 @@ public class MtAloneHomePageController {
     @Autowired
     private MtAloneProductService productService;
 
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "access-token", value = "token", paramType = "header", dataType = "String", required = true) })
-    @OperateLog(description = "查询首页上面统计信息", type = "查询")
-    @ApiOperation(value = "查询首页上面统计信息", notes = "查询首页上面统计信息")
-    @GetMapping("/homePageAboveCount")
-    public Result homePageAboveCount() {
-        MtAloneHomePageAboveDto homePageAboveDto = mtAloneProductDetService.findHomePageAboveCount();
-        return ResultGenerator.genSuccessResult(homePageAboveDto);
-    }
+    //@ApiImplicitParams({
+    //        @ApiImplicitParam(name = "access-token", value = "token", paramType = "header", dataType = "String", required = true) })
+    //@OperateLog(description = "查询首页上面统计信息", type = "查询")
+    //@ApiOperation(value = "查询首页上面统计信息", notes = "查询首页上面统计信息")
+    //@GetMapping("/homePageAboveCount")
+    //public Result homePageAboveCount() {
+    //    MtAloneHomePageAboveDto homePageAboveDto = mtAloneProductDetService.findHomePageAboveCount();
+    //    return ResultGenerator.genSuccessResult(homePageAboveDto);
+    //}
 
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "access-token", value = "token", paramType = "header", dataType = "String", required = true) })
-    @OperateLog(description = "查询首页下面统计信息", type = "查询")
-    @ApiOperation(value = "查询首页下面统计信息", notes = "查询首页下面统计信息")
-    @GetMapping("/homePageBelowCount")
-    public Result homePageBelowCount(MtAloneHomePageCriteria criteria) {
-        MtAloneHomePageBelowDto homePageBelowDto = mtAloneProductDetService.findHomePageBelowCount(criteria);
-        return ResultGenerator.genSuccessResult(homePageBelowDto);
-    }
-
-    /**弃用*/
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "access-token", value = "token", paramType = "header", dataType = "String", required = true) })
-    @OperateLog(description = "根据仓库id统计不同状态货位数", type = "查询")
-    @ApiOperation(value = "根据仓库id统计不同状态货位数", notes = "根据仓库id统计不同状态货位数")
-    @GetMapping("/countCellStateByWareCode")
-    public Result countCellStateByWareCode(MtAloneHomePageCriteria criteria) {
-        MtAloneCellStateDto cellUtil = mtAloneProductDetService.findCountCellStateByWareCode(criteria);
-        return ResultGenerator.genSuccessResult(cellUtil);
-    }
+    //@ApiImplicitParams({
+    //        @ApiImplicitParam(name = "access-token", value = "token", paramType = "header", dataType = "String", required = true) })
+    //@OperateLog(description = "查询首页下面统计信息", type = "查询")
+    //@ApiOperation(value = "查询首页下面统计信息", notes = "查询首页下面统计信息")
+    //@GetMapping("/homePageBelowCount")
+    //public Result homePageBelowCount(MtAloneHomePageCriteria criteria) {
+    //    MtAloneHomePageBelowDto homePageBelowDto = mtAloneProductDetService.findHomePageBelowCount(criteria);
+    //    return ResultGenerator.genSuccessResult(homePageBelowDto);
+    //}
+    //
+    ///**弃用*/
+    //@ApiImplicitParams({
+    //        @ApiImplicitParam(name = "access-token", value = "token", paramType = "header", dataType = "String", required = true) })
+    //@OperateLog(description = "根据仓库id统计不同状态货位数", type = "查询")
+    //@ApiOperation(value = "根据仓库id统计不同状态货位数", notes = "根据仓库id统计不同状态货位数")
+    //@GetMapping("/countCellStateByWareCode")
+    //public Result countCellStateByWareCode(MtAloneHomePageCriteria criteria) {
+    //    MtAloneCellStateDto cellUtil = mtAloneProductDetService.findCountCellStateByWareCode(criteria);
+    //    return ResultGenerator.genSuccessResult(cellUtil);
+    //}
 
     @ApiImplicitParams({
             @ApiImplicitParam(name = "access-token", value = "token", paramType = "header", dataType = "String", required = true) })

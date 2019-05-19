@@ -477,7 +477,6 @@
         select
         (select IFNULL(sum(detect.detect_length),0) from mt_alone_detect_det detect
             <where>
-                detect.state = 'normal'
                 <if test="currentDate != null">
                   and DATE_FORMAT(create_time,'%Y-%m-%d') = DATE_FORMAT(#{currentDate}, '%Y-%m-%d')
                 </if>
@@ -618,7 +617,7 @@
         select DATE_FORMAT(detect.create_time,'%Y-%m-%d') as date, sum(IFNULL(detect.detect_length,0)) as milesSum from mt_alone_product product
         inner join mt_alone_detect_det detect on product.product_bar_code = detect.product_barcode and product.company_id = detect.company_id
             <where>
-                detect.state = 'normal' and product.state = 'normal'
+                product.state = 'normal'
                 <if test="productTypeCode != null and productTypeCode != ''">
                     and product.product_type_code =  #{productTypeCode}
                 </if>

@@ -46,10 +46,10 @@ public class MtAloneFabricDefectController {
 	@ApiImplicitParams({
 		@ApiImplicitParam(name = "access-token", value = "token", paramType = "header", dataType = "String", required = true) })
 	@OperateLog(description = "删除瑕疵信息", type = "删除")
-    @GetMapping("/delete")
+    @DeleteMapping("/delete/{id}")
     @ApiOperation(value="删除瑕疵信息",notes="删除瑕疵信息")
-    public Result delete( Integer mtAloneFabricDefectId) {
-        mtAloneFabricDefectService.deleteById(mtAloneFabricDefectId);
+    public Result delete( @PathVariable Integer id) {
+        mtAloneFabricDefectService.deleteById(id);
         return ResultGenerator.genSuccessResult();
     } 
 	@ApiImplicitParams({

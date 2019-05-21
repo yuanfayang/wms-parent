@@ -87,6 +87,8 @@ public class ShelfInfoController {
                 cellInfo.setCompanyId(companyId);
                 cellInfo.setCellCode(cellCode);
                 cellInfo.setMemo(cellName);
+                cellInfo.setCellName(cellName);
+                cellInfo.setCellAlias(cellName);    //别名跟名称默认相同，可以修改， @wb 2019-05-20
 
                 cellInfo.setShelfCode(shelfInfo.getShelfCode());
                 cellInfo.setsColumn(j);

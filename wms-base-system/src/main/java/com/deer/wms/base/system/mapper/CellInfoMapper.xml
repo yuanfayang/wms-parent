@@ -9,6 +9,8 @@
 
     <result column="shelf_code" jdbcType="VARCHAR" property="shelfCode" />
     <result column="cell_code" jdbcType="VARCHAR" property="cellCode" />
+      <result column="cell_name" jdbcType="VARCHAR" property="cellName" />
+      <result column="cell_alias" jdbcType="VARCHAR" property="cellAlias" />
     <result column="s_column" jdbcType="INTEGER" property="sColumn" />
     <result column="s_row" jdbcType="INTEGER" property="sRow" />
     <result column="add_time" jdbcType="TIMESTAMP" property="addTime" />

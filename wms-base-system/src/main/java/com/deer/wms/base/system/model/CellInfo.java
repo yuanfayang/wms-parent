@@ -21,11 +21,23 @@ public class CellInfo {
     private String shelfCode;
 
     /**
-     * 货物编码
+     * 货位编码
      */
     @Column(name = "cell_code")
     private String cellCode;
 
+    /**
+     * 货位名称
+     */
+    @Column(name = "cell_name")
+    private String cellName;
+
+
+    /**
+     * 货位别名
+     */
+    @Column(name = "cell_alias")
+    private String cellAlias;
     /**
      * 添加时间
      */
@@ -137,6 +149,42 @@ public class CellInfo {
     public void setCellCode(String cellCode) {
         this.cellCode = cellCode;
     }
+
+    /**
+     * 获取货位名称
+     *
+     * @return cell_name - 货位名称
+     */
+    public String getCellName() {
+        return cellName;
+    }
+    /**
+     * 设置货位名称
+     *
+     * @param cellName 货位名称
+     */
+    public void setCellName(String cellName) {
+        this.cellName = cellName;
+    }
+
+    /**
+     * 获取货位别名
+     *
+     * @return cell_alias - 货位别名
+     */
+    public String getCellAlias() {
+        return cellAlias;
+    }
+
+    /**
+     * 设置货位名称
+     *
+     * @param cell_alias 货位别名
+     */
+    public void setCellAlias(String cellAlias) {
+        this.cellAlias = cellAlias;
+    }
+
 
     /**
      * 获取添加时间

@@ -30,6 +30,7 @@
     <result column="state" jdbcType="VARCHAR" property="state" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+      <result column="salesperson_id" jdbcType="INTEGER" property="salespersonId" />
   </resultMap>
   
    <resultMap id="DeliveryCombinationMap" type="com.deer.wms.bill.manage.model.MtAloneDeliveryOrderVO" extends="BaseResultMap">

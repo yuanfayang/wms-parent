@@ -156,6 +156,13 @@ public class MtAloneDeliveryOrder {
    @Column(name = "update_time")
    private Date updateTime;
 
+
+    /**
+     * 绑定销售员id
+     */
+    @Column(name = "salesperson_id")
+    private Integer salespersonId;
+
     /**
      * 获取出库单id
      *
@@ -585,4 +592,22 @@ public class MtAloneDeliveryOrder {
 	public void setUpdateTime(Date updateTime) {
 		this.updateTime = updateTime;
 	}
+
+    /**
+     * 获取绑定销售员id
+     *
+     * @return salesperson_id - 绑定销售员id
+     */
+    public Integer getSalespersonId() {
+        return salespersonId;
+    }
+
+    /**
+     * 设置绑定销售员id
+     *
+     * @param salespersonId 绑定销售员id
+     */
+    public void setSalespersonId(Integer salespersonId) {
+        this.salespersonId = salespersonId;
+    }
 }

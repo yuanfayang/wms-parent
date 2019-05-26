@@ -260,7 +260,11 @@ public class MtAloneProduct {
      * 状态 delete-删除 normal-正常
      */
     private String state;
-
+    /**
+     * 采购员id
+     */
+    @Column(name = "purchaser_id")
+    private Integer purchaserId;
     /**
      * @return id
      */
@@ -1065,5 +1069,22 @@ public class MtAloneProduct {
      */
     public void setState(String state) {
         this.state = state;
+    }
+    /**
+     * 获取绑定采购员id
+     *
+     * @return purchaser_id - 绑定采购员id
+     */
+    public Integer getPurchaserId() {
+        return purchaserId;
+    }
+
+    /**
+     * 设置绑定采购员id
+     *
+     * @param purchaserId 绑定采购员id
+     */
+    public void setPurchaserId(Integer purchaserId) {
+        this.purchaserId = purchaserId;
     }
 }

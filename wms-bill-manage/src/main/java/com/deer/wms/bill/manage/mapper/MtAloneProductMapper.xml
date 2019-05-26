@@ -254,13 +254,13 @@
     <select id="findCountCellStateByComId" parameterType="com.deer.wms.bill.manage.model.MtAloneHomePageParams" resultType="com.deer.wms.bill.manage.model.MtAloneCellStateDto">
         select
         <!--查询有货货位数-->
-        (select count(distinct(product.cell_code))  from mt_alone_product product
+        (select count(distinct(productDet.cell_code))  from mt_alone_product_det productDet
         inner join cell_info cell
-        on product.company_id = cell.company_id and product.cell_code = cell.cell_code
+        on productDet.company_id = cell.company_id and productDet.cell_code = cell.cell_code
         <where>
-            product.cell_code is not null and product.state='normal'
+            productDet.cell_code is not null and productDet.state='normal'
             <if test="companyId != null">
-                AND product.company_id=#{companyId}
+                AND productDet.company_id=#{companyId}
             </if>
         </where>) countInStock,
 

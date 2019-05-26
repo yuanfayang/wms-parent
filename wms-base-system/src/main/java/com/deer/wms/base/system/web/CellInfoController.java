@@ -170,6 +170,9 @@ public class CellInfoController {
         criteria.setEndColumn((criteria.getColumnNum()-1)*criteria.getColumnSize()+criteria.getColumnSize());
 
         ShelfInfo shelfInfo=shelfInfoService.findBy("shelfCode", criteria.getShelfCode());
+       if(shelfInfo==null){
+           return ResultGenerator.genSuccessResult(new HashMap());
+       }
         int shelfRowNum=shelfInfo.getShelfRow();
         int shelfColumnNum=shelfInfo.getShelfRow();
         List<CellInfoDto> listTem = cellInfoService.findListByRowColumn(criteria);

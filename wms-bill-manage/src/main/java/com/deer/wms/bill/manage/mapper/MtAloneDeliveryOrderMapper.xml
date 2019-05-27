@@ -35,6 +35,7 @@
   
    <resultMap id="DeliveryCombinationMap" type="com.deer.wms.bill.manage.model.MtAloneDeliveryOrderVO" extends="BaseResultMap">
      <result column="delivery_length" jdbcType="REAL" property="deliveryLength" />
+     <result column="salesperson" jdbcType="VARCHAR" property="salesperson" />
   </resultMap>
   
      <select id="findList" parameterType="com.deer.wms.bill.manage.model.MtAloneDeliveryOrderCriteria" resultMap="BaseResultMap">
@@ -44,12 +45,14 @@
      </select>
      
       <select id="findListNew" parameterType="com.deer.wms.bill.manage.model.MtAloneDeliveryOrderParams" resultMap="DeliveryCombinationMap">
-      SELECT   deli.*,tmp1.deliverylength AS delivery_length
+      SELECT   deli.*,u.user_name AS salesperson,tmp1.deliverylength AS delivery_length
       FROM mt_alone_delivery_order deli
       LEFT JOIN mt_alone_product pro 
       ON pro.product_bar_code= deli.product_bar_code
       LEFT JOIN (SELECT delivery_det.`delivery_order_code` AS ordercode,SUM(delivery_det.`delivery_length`)AS deliverylength FROM mt_alone_delivery_det delivery_det GROUP BY delivery_det.`delivery_order_code`) tmp1
       ON tmp1.ordercode=deli.`delivery_order_code`
+          LEFT JOIN user_info u
+          ON u.user_id= deli.salesperson_id
       WHERE deli.state='normal'
       <if test="keywords != null and keywords != ''">
         AND (
@@ -89,19 +92,23 @@
       order by  delivery_time DESC
       </select>
       
-     <resultMap id="DeliveryDetResultMap" type="com.deer.wms.bill.manage.model.MtAloneDeliveryDetListVO">
-    <id column="delivery_length" jdbcType="FLOAT" property="deliveryLength" />
-    <result column="delivery_barcode" jdbcType="VARCHAR" property="deliveryBarcode" />
-    <result column="product_det_length" jdbcType="FLOAT" property="productDetLength" />
-    <result column="cell_code" jdbcType="VARCHAR" property="cellCode" />
-    <result column="item_code" jdbcType="VARCHAR" property="itemCode" />
-    <result column="product_name" jdbcType="VARCHAR" property="productName" />
-    <result column="specification" jdbcType="VARCHAR" property="specification" />
-    <result column="operator_name" jdbcType="VARCHAR" property="operatorName" />
+    <resultMap id="DeliveryDetResultMap" type="com.deer.wms.bill.manage.model.MtAloneDeliveryDetListVO">
+        <id column="delivery_length" jdbcType="FLOAT" property="deliveryLength" />
+        <result column="delivery_barcode" jdbcType="VARCHAR" property="deliveryBarcode" />
+        <result column="product_det_length" jdbcType="FLOAT" property="productDetLength" />
+        <result column="cell_code" jdbcType="VARCHAR" property="cellCode" />
+        <result column="cell_alias" jdbcType="VARCHAR" property="cellAlias" />
+        <result column="item_code" jdbcType="VARCHAR" property="itemCode" />
+        <result column="product_name" jdbcType="VARCHAR" property="productName" />
+        <result column="specification" jdbcType="VARCHAR" property="specification" />
+        <result column="operator_name" jdbcType="VARCHAR" property="operatorName" />
     </resultMap>
   
       <select id="findDeliveryOrderDetList" parameterType="com.deer.wms.bill.manage.model.MtAloneDeliveryOrderCriteria" resultMap="DeliveryDetResultMap">
-		SELECT deldet.*,pro.product_name,pro.product_code,pro.item_code,pro.specification,pro.cell_code,det.detect_length
+		SELECT deldet.*,
+		pro.product_name,pro.product_code,
+		pro.item_code,pro.specification,
+		det.cell_code,det.detect_length
 		FROM mt_alone_delivery_det deldet
 		LEFT JOIN mt_alone_product pro ON deldet.`product_barcode`=pro.`product_bar_code`
 		LEFT JOIN mt_alone_product_det det ON deldet.`product_det_barcode`=det.`product_det_barcode`
@@ -119,6 +126,7 @@
     <result column="product_det_length" jdbcType="REAL" property="productDetLength" />
     <result column="product_det_remain_length" jdbcType="REAL" property="productDetRemainLength" />
     <result column="cell_code" jdbcType="VARCHAR" property="cellCode" />
+    <result column="cell_alias" jdbcType="VARCHAR" property="cellAlias" />
     <result column="product_det_state" jdbcType="INTEGER" property="productDetState" />
     <result column="volume_num" jdbcType="VARCHAR" property="volumeNum" />
     <result column="color_code" jdbcType="VARCHAR" property="colorCode" />
@@ -148,9 +156,11 @@
     </resultMap>
       
   <select id="findDetListByOrder" parameterType="com.deer.wms.bill.manage.model.MtAloneDeliveryOrderCriteria" resultMap="detListByOrderResultMap">
-      SELECT productDet.*,t0.delivery_length
+      SELECT
+      productDet.*,
+      t0.delivery_length
       FROM mt_alone_product_det productDet,mt_alone_delivery_det t0
-      WHERE 1=1 
+      WHERE 1=1
       <if test="deliveryOrderCode!=null and deliveryOrderCode!=''">
       AND  productDet.`product_det_barcode`=t0.`product_det_barcode`
       AND t0.`delivery_order_code`=#{deliveryOrderCode}

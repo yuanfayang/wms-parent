@@ -28,6 +28,7 @@
      <result column="supplier_name" jdbcType="VARCHAR" property="supplierName" />
      <result column="product_det_index" jdbcType="INTEGER" property="productDetIndex" />
      <result column="cell_code" jdbcType="VARCHAR" property="cellCode" />
+     <result column="cell_alias" jdbcType="VARCHAR" property="cellAlias" />
      <result column="detect_length" jdbcType="REAL" property="detectLength" />
   </resultMap>
   
@@ -100,7 +101,8 @@
     sup.supplier_name supplier_name, 
     dettmp.product_det_index,
     detectdet.detect_length,
-    det.* 
+    det.*,
+    c.cell_alias
     FROM mt_alone_delivery_det det 
     LEFT JOIN mt_alone_product_det dettmp
     ON dettmp.product_det_barcode=det.product_det_barcode
@@ -110,6 +112,7 @@
     ON pro.product_bar_code=det.product_barcode
     LEFT JOIN supplier_manage sup 
     ON pro.supplier_code = sup.supplier_code
+    LEFT JOIN cell_info c ON c.cell_code=dettmp.cell_code
     WHERE 1=1
     <if test="companyId != null">
         AND det.company_id = #{companyId}

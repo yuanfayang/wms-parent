@@ -6,6 +6,10 @@ public class MtAloneDeliveryDetListVO extends MtAloneDeliveryDet{
 	 */
 	private String cellCode;
 	/*
+	 * 产品料号，来自仓位表
+	 */
+	private String cellAlias;
+	/*
 	 * 产品料号，来自产品表
 	 */
 	private String itemCode;
@@ -61,6 +65,13 @@ public class MtAloneDeliveryDetListVO extends MtAloneDeliveryDet{
 	public void setDetectLength(Float detectLength) {
 		this.detectLength = detectLength;
 	}
-	
-	
+
+
+	public String getCellAlias() {
+		return cellAlias;
+	}
+
+	public void setCellAlias(String cellAlias) {
+		this.cellAlias = cellAlias;
+	}
 }

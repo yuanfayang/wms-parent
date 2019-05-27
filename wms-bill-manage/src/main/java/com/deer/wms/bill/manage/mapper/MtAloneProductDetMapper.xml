@@ -46,6 +46,7 @@
      <result column="product_code" jdbcType="VARCHAR" property="productCode" />
      <result column="item_code" jdbcType="VARCHAR" property="itemCode" />
      <result column="supplier_name" jdbcType="VARCHAR" property="supplierName" />
+     <result column="cell_alias" jdbcType="VARCHAR" property="cellAlias" />
   </resultMap>
    <!--select id="findList" parameterType="com.deer.wms.bill.manage.model.MtAloneProductDetCriteria" resultMap="BaseResultMap">
     select   *
@@ -104,12 +105,15 @@
     pro.dyelot_num dyelot_num,
     pro.color_name color_name, 
     sup.supplier_name supplier_name, 
-    det.* 
+    det.* ,
+    c.cell_alias
     FROM mt_alone_product_det det 
     LEFT JOIN mt_alone_product pro
     ON pro.id=det.product_id
     LEFT JOIN supplier_manage sup 
     ON pro.supplier_code = sup.supplier_code
+    LEFT JOIN cell_info c
+    ON det.cell_code = c.cell_code
     WHERE 1=1
     <if test="productId!=null">
     AND det.product_id = #{productId}
@@ -655,7 +659,6 @@
         </where>
         group by DATE_FORMAT(delivery.create_time,'%Y-%m-%d') ORDER BY DATE_FORMAT(delivery.create_time,'%Y-%m-%d')
     </select>
-
 
 
 </mapper>

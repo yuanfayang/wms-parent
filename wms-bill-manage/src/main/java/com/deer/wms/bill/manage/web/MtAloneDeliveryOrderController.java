@@ -87,7 +87,9 @@ public class MtAloneDeliveryOrderController {
             return ResultGenerator.genFailResult( CommonCode.SERVICE_ERROR,"未登录错误",null );
         }
     	
-    	MtAloneDeliveryOrder mtAloneDeliveryOrder= mtAloneDeliveryDetListDto.getMtAloneDeliveryOrder();   
+    	MtAloneDeliveryOrder mtAloneDeliveryOrder= mtAloneDeliveryDetListDto.getMtAloneDeliveryOrder();
+
+		mtAloneDeliveryOrder.setOperatorName(currentUser.getUserName());
 
     	if (currentUser.getCompanyType() != SystemManageConstant.COMPANY_TYPE_MT){
     		mtAloneDeliveryOrder.setCompanyId(currentUser.getCompanyId());

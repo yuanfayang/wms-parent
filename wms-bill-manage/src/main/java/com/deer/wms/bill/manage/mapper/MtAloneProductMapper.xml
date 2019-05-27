@@ -60,6 +60,7 @@
      <result column="remain_length" jdbcType="REAL" property="remainLength" />
      <result column="supplier_name" jdbcType="VARCHAR" property="supplierName" />
         <result column="item_type_name" jdbcType="VARCHAR" property="itemTypeName" />
+        <result column="purchaser" jdbcType="VARCHAR" property="purchaser" />
   </resultMap>
   
    <resultMap id="ProductDeliveryMap" type="com.deer.wms.bill.manage.model.MtAloneProductDeliveryVO" extends="BaseResultMap">
@@ -77,7 +78,7 @@
      
      <select id="findListNew" parameterType="com.deer.wms.bill.manage.model.MtAloneProductParams" resultMap="ProductCombinationMap">
 		SELECT
-		*,IFNULL(tmp0.num,0) AS roll_num,IFNULL(tmp1.deliverylength,0) AS delivery_length,IFNULL(tmp2.detectlength,0) AS detect_length,IFNULL(tmp2.detectlength,0)-IFNULL(tmp1.deliverylength,0) AS remain_length,tmp3.sup_name AS supplier_name,tmp4.type_name AS item_type_name
+		pro.*,u.user_name AS purchaser,IFNULL(tmp0.num,0) AS roll_num,IFNULL(tmp1.deliverylength,0) AS delivery_length,IFNULL(tmp2.detectlength,0) AS detect_length,IFNULL(tmp2.detectlength,0)-IFNULL(tmp1.deliverylength,0) AS remain_length,tmp3.sup_name AS supplier_name,tmp4.type_name AS item_type_name
 		FROM mt_alone_product pro
 		LEFT JOIN (SELECT det.`warehouse_barcode` AS barcode0,COUNT(*) AS num FROM mt_alone_product_det det WHERE det.is_complete_out=0 GROUP BY det.`warehouse_barcode`)tmp0 
 		ON tmp0.barcode0=pro.`product_bar_code`
@@ -89,6 +90,8 @@
 		ON tmp3.sup_code= pro.supplier_code
         LEFT JOIN (SELECT item.item_type_code AS type_code,item.item_type_name AS type_name FROM item_type item )tmp4
         ON tmp4.type_code= pro.product_type_code
+        LEFT JOIN user_info u
+        ON u.user_id= pro.purchaser_id
 	    WHERE pro.state='normal'
       <if test="keywords != null and keywords != ''">
         AND (

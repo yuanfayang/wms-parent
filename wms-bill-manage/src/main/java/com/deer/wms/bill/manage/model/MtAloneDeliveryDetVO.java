@@ -7,8 +7,9 @@ public class MtAloneDeliveryDetVO extends MtAloneDeliveryDet{
     private String productName;//产品名称
     private String colorName;//产品颜色
     private String rgbHex;//颜色编码
-    private String cellCode;
-    private Integer productDetIndex;
+	private String cellCode;
+	private String cellAlias;
+	private Integer productDetIndex;
     private Float productDetLength=(float) 0;
     private Float productDetRemainLength=(float) 0;
     private Float detectLength=(float) 0;
@@ -80,5 +81,12 @@ public class MtAloneDeliveryDetVO extends MtAloneDeliveryDet{
 		this.rgbHex = rgbHex;
 	}
 
-	
+
+	public String getCellAlias() {
+		return cellAlias;
+	}
+
+	public void setCellAlias(String cellAlias) {
+		this.cellAlias = cellAlias;
+	}
 }

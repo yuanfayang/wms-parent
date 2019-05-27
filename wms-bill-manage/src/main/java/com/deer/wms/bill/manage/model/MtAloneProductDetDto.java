@@ -19,7 +19,8 @@ public class MtAloneProductDetDto extends MtAloneProductDet{
 
     private Float price;//进货单价
     
-    private String cellName;//货位别名
+    private String cellName;//货位名称
+    private String cellAlias;//货位别名
 
     public String getSupplierCode() {
         return supplierCode;  
@@ -92,5 +93,12 @@ public class MtAloneProductDetDto extends MtAloneProductDet{
 	public void setCellName(String cellName) {
 		this.cellName = cellName;
 	}
-    
+
+    public String getCellAlias() {
+        return cellAlias;
+    }
+
+    public void setCellAlias(String cellAlias) {
+        this.cellAlias = cellAlias;
+    }
 }

@@ -13,6 +13,7 @@ public class MtAloneProductVO extends MtAloneProduct{
 	String supplierName=null;
 
 	String itemTypeName=null;
+	private String purchaser;
 
 	public String getItemTypeName() {
 		return itemTypeName;
@@ -63,4 +64,11 @@ public class MtAloneProductVO extends MtAloneProduct{
 	}
 
 
+	public String getPurchaser() {
+		return purchaser;
+	}
+
+	public void setPurchaser(String purchaser) {
+		this.purchaser = purchaser;
+	}
 }

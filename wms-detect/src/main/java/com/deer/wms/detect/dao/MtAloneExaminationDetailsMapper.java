@@ -10,7 +10,9 @@ import com.deer.wms.detect.model.MtAloneExaminationDetailsCriteria;
 import com.deer.wms.project.seed.core.mapper.Mapper;
 
 public interface MtAloneExaminationDetailsMapper extends Mapper<MtAloneExaminationDetails> {
-	public List<MtAloneExaminationDetails> findList(MtAloneExaminationDetailsCriteria  criteria);
+	 List<MtAloneExaminationDetails> findList(MtAloneExaminationDetailsCriteria  criteria);
 
-	public List<MtAloneComProDetFabric> findFabricDetsByProCode(@Param("productBarcode")String productBarcode);
+	 List<MtAloneComProDetFabric> findFabricDetsByProCode(@Param("productBarcode")String productBarcode);
+
+     void deleteByProductBarcode(String productDetBarcode);
 }

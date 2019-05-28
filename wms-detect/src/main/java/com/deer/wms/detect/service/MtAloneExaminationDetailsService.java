@@ -21,4 +21,5 @@ public interface MtAloneExaminationDetailsService extends Service<MtAloneExamina
 
 	List<MtAloneComProDetFabric> findFabricDetsByProCode(@Param("productBarcode")String productBarcode);
 
+    void deleteByProductBarcode(String productDetBarcode);
 }

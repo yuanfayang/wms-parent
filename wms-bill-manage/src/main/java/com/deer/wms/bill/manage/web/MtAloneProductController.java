@@ -1,6 +1,7 @@
 package com.deer.wms.bill.manage.web;
 
 import com.deer.wms.base.system.model.CellInfo;
+import com.deer.wms.bill.manage.model.*;
 import com.deer.wms.project.seed.annotation.OperateLog;
 import com.deer.wms.project.seed.constant.SystemManageConstant;
 import com.deer.wms.project.seed.core.result.CommonCode;
@@ -10,16 +11,6 @@ import com.deer.wms.project.seed.util.RandomUtil;
 import com.deer.wms.project.seed.util.StringUtil;
 import com.deer.wms.base.system.service.CellInfoService;
 import com.deer.wms.bill.manage.constant.BillManagePublicMethod;
-import com.deer.wms.bill.manage.model.MtAloneBarcode;
-import com.deer.wms.bill.manage.model.MtAloneDeliveryParams;
-import com.deer.wms.bill.manage.model.MtAloneProduct;
-import com.deer.wms.bill.manage.model.MtAloneProductCriteria;
-import com.deer.wms.bill.manage.model.MtAloneProductDeliveryVO;
-import com.deer.wms.bill.manage.model.MtAloneProductDet;
-import com.deer.wms.bill.manage.model.MtAloneProductDetCriteria;
-import com.deer.wms.bill.manage.model.MtAloneProductDetParams;
-import com.deer.wms.bill.manage.model.MtAloneProductParams;
-import com.deer.wms.bill.manage.model.MtAloneProductVO;
 import com.deer.wms.bill.manage.service.MtAloneBarcodeService;
 import com.deer.wms.bill.manage.service.MtAloneFlowrecordService;
 import com.deer.wms.bill.manage.service.MtAloneProductDetService;
@@ -127,7 +118,7 @@ public class MtAloneProductController {
 		}
 		MtAloneProductDetParams params = new MtAloneProductDetParams();
 		params.setProductId(mtAloneProductId);
-		List<MtAloneProductDet> detList = mtAloneProductDetService.findDetilByProductId(params);
+		List<MtAloneProductDetDto> detList = mtAloneProductDetService.findDetilByProductId(params);
 		if (detList != null && detList.size() > 0) {
 			return ResultGenerator.genSuccessResult(CommonCode.HAVE_CHILDREN_RECORD, "存在未出完的布卷，请先确认！", null);
 		}

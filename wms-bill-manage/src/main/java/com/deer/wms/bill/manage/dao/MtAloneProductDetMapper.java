@@ -71,7 +71,7 @@ public interface MtAloneProductDetMapper extends Mapper<MtAloneProductDet> {
 
 	void updateCell(MtAloneProductCriteria mtAloneProductCriteria);
 
-	List<MtAloneProductDet> findDetilByProductId(MtAloneProductDetParams params);
+	List<MtAloneProductDetDto> findDetilByProductId(MtAloneProductDetParams params);
 
 	MtAloneProductDet getIsNotDetectDet(MtAloneProductDetCriteria criteria);
 

@@ -36,4 +36,9 @@ public class MtAloneExaminationDetailsServiceImpl extends AbstractService<MtAlon
 	public List<MtAloneComProDetFabric> findFabricDetsByProCode(@Param("productBarcode")String productBarcode) {
 		return mtAloneExaminationDetailsMapper.findFabricDetsByProCode(productBarcode);
 	}
+
+    @Override
+    public void deleteByProductBarcode(String productDetBarcode) {
+        mtAloneExaminationDetailsMapper.deleteByProductBarcode(productDetBarcode);
+    }
 }

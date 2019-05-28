@@ -37,7 +37,7 @@ public class MtAloneProductDetServiceImpl extends AbstractService<MtAloneProduct
 	
 
 	@Override
-	public List<MtAloneProductDet> findDetilByProductId(MtAloneProductDetParams params) {
+	public List<MtAloneProductDetDto> findDetilByProductId(MtAloneProductDetParams params) {
 		return mtAloneProductDetMapper.findDetilByProductId(params);
 	}
 

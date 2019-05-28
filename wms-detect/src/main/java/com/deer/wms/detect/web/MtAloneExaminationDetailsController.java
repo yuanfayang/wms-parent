@@ -87,6 +87,22 @@ public class MtAloneExaminationDetailsController {
         mtAloneExaminationDetailsService.save(mtAloneExaminationDetails);
         return ResultGenerator.genSuccessResult();
     }
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "access-token", value = "token", paramType = "header", dataType = "String", required = true) })
+    @OperateLog(description = "更新明细的瑕疵信息", type = "更新")
+    @PostMapping("/updateDefectDetails")
+    @ApiOperation(value="更新明细的瑕疵信息",notes="更新明细的瑕疵信息")
+    public Result update(@RequestBody List<MtAloneExaminationDetails> mtAloneExaminationDetails) {
+
+	    if(mtAloneExaminationDetails.size()==0){
+            return ResultGenerator.genSuccessResult();
+        }
+	    //先删除之前的记录
+        String productDetBarcode =mtAloneExaminationDetails.get(0).getProductDetBarcode();
+        mtAloneExaminationDetailsService.deleteByProductBarcode(productDetBarcode);
+        add(mtAloneExaminationDetails);
+        return ResultGenerator.genSuccessResult();
+    }
 	@ApiImplicitParams({
 		@ApiImplicitParam(name = "access-token", value = "token", paramType = "header", dataType = "String", required = true) })
 	@OperateLog(description = "根据明细瑕疵ID删除明细瑕疵信息", type = "删除")

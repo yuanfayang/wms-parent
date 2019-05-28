@@ -65,7 +65,7 @@ public interface MtAloneProductDetService extends Service<MtAloneProductDet, Int
 
 	void updateCell(MtAloneProductCriteria mtAloneProductCriteria);
 
-	List<MtAloneProductDet> findDetilByProductId(MtAloneProductDetParams params);
+	List<MtAloneProductDetDto> findDetilByProductId(MtAloneProductDetParams params);
 
 	List<MtAloneExaminationDetails> findDetExaminationDetails(@Param("productCode") String productCode);
 

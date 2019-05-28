@@ -3,7 +3,7 @@ package com.deer.wms.bill.manage.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MtAloneProductDetExamDto extends MtAloneProductDet{
+public class MtAloneProductDetExamDto extends MtAloneProductDetDto{
 
     private List<MtAloneExaminationDetails>detExaminationDetailsList=new ArrayList<MtAloneExaminationDetails>();
 

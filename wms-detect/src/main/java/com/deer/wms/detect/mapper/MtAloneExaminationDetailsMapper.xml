@@ -64,5 +64,9 @@
     AND
     t0.`warehouse_barcode`=#{productBarcode}
    </select>
+
+  <delete id="deleteByProductBarcode" parameterType="java.lang.String">
+    DELETE FROM  mt_alone_examination_details   WHERE product_det_barcode = #{productDetBarcode}
+  </delete>
   
 </mapper>

@@ -98,9 +98,11 @@ public class MtAloneExaminationDetailsController {
             return ResultGenerator.genSuccessResult();
         }
 	    //先删除之前的记录
-        String productDetBarcode =mtAloneExaminationDetails.get(0).getProductDetBarcode();
+        String productDetBarcode = mtAloneExaminationDetails.get(0).getProductDetBarcode();
         mtAloneExaminationDetailsService.deleteByProductBarcode(productDetBarcode);
-        add(mtAloneExaminationDetails);
+        if(mtAloneExaminationDetails.get(0).getFabricId() != null){
+            add(mtAloneExaminationDetails);
+        }
         return ResultGenerator.genSuccessResult();
     }
 	@ApiImplicitParams({

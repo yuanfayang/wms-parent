@@ -660,5 +660,26 @@
         group by DATE_FORMAT(delivery.create_time,'%Y-%m-%d') ORDER BY DATE_FORMAT(delivery.create_time,'%Y-%m-%d')
     </select>
 
+    <resultMap id="DetExaminationMap" type="com.deer.wms.bill.manage.model.MtAloneExaminationDetails">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="addTime" jdbcType="TIMESTAMP" property="addtime" />
+        <result column="deleteStatus" jdbcType="INTEGER" property="deletestatus" />
+        <result column="product_det_barcode" jdbcType="VARCHAR" property="productDetBarcode" />
+        <result column="warehouse_barcode" jdbcType="VARCHAR" property="warehouseBarcode" />
+        <result column="position" jdbcType="VARCHAR" property="position" />
+        <result column="description" jdbcType="VARCHAR" property="description" />
+        <result column="note" jdbcType="VARCHAR" property="note" />
+        <result column="fabric_id" jdbcType="INTEGER" property="fabricId" />
+    </resultMap>
+
+
+    <select id="findDetExaminationDetails" parameterType="java.lang.String" resultMap="DetExaminationMap">
+        select * from mt_alone_examination_details
+        where 1=1
+        <if test="productCode != null and productCode != ''">
+            AND warehouse_barcode=#{productCode}
+        </if>
+    </select>
+
 
 </mapper>

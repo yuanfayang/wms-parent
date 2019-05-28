@@ -80,4 +80,6 @@ public interface MtAloneProductDetMapper extends Mapper<MtAloneProductDet> {
     List<MtAloneAriAndDelVo> findHomePageBelowArrivalCountNew(MtAloneHomePageParams params);
 
     List<MtAloneAriAndDelVo> findHomePageBelowDeliveryCountNew(MtAloneHomePageParams params);
+
+    List<MtAloneExaminationDetails> findDetExaminationDetails(@Param("productCode") String productCode);
 }

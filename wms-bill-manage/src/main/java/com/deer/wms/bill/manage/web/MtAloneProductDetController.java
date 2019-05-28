@@ -467,7 +467,19 @@ public class MtAloneProductDetController {
 		}
 		PageHelper.startPage(params.getPageNum(), params.getPageSize());
 		List<MtAloneProductDet> list = mtAloneProductDetService.findDetilByProductId(params);
-		PageInfo pageInfo = new PageInfo(list);
+		List<MtAloneExaminationDetails> listExaminationDetails=mtAloneProductDetService.findDetExaminationDetails(list.get(0).getWarehouseBarcode());
+		List<MtAloneProductDetExamDto>detExaminationDetailsList=new ArrayList<MtAloneProductDetExamDto>();
+		for(int i=0;i<list.size();i++){
+			MtAloneProductDetExamDto mtAloneProductDetExamDto=new MtAloneProductDetExamDto();
+			BeanUtils.copyProperties(list.get(i),mtAloneProductDetExamDto);
+			for(int j=0;j<listExaminationDetails.size();j++){
+				if(list.get(i).getWarehouseBarcode().equals(listExaminationDetails.get(j).getWarehouseBarcode())){
+					mtAloneProductDetExamDto.getDetExaminationDetailsList().add(listExaminationDetails.get(j));
+				}
+			}
+			detExaminationDetailsList.add(mtAloneProductDetExamDto);
+		}
+		PageInfo pageInfo = new PageInfo(detExaminationDetailsList);
 		return ResultGenerator.genSuccessResult(pageInfo);
 	}
 

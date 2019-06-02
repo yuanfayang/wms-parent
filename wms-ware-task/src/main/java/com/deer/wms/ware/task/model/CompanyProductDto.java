@@ -10,9 +10,16 @@ public class CompanyProductDto {
 	private String areaName;		//货区
 	private String shelfName;		//货架
 	private String cellCode;		//货位
+	private String cellName;
 	private String inventoryCode;		//盘点单号
 	private Integer wareId;			//仓库id
 	private String wareName;		//仓库名称
+	public String getCellName() {
+		return cellName;
+	}
+	public void setCellName(String cellName) {
+		this.cellName = cellName;
+	}
 	public String getProductName() {
 		return productName;
 	}

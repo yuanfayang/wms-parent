@@ -64,12 +64,13 @@
   		<result column="area_name" jdbcType="VARCHAR" property="areaName" />
   		<result column="shelf_name" jdbcType="VARCHAR" property="shelfName" />
   		<result column="cell_code" jdbcType="VARCHAR" property="cellCode" />
+  		<result column="cell_name" jdbcType="VARCHAR" property="cellName" />
   		<result column="ware_id" jdbcType="INTEGER" property="wareId" />
   		<result column="ware_name" jdbcType="VARCHAR" property="wareName" />
   	</resultMap>
   	
   	<select id="findCompanyProductDet" resultMap="CompanyProductDtoMap">
-  		SELECT product.product_name,productdet.product_det_code,productdet.product_det_barcode,productdet.product_det_remain_length,productdet.color_name,area.area_name,shelf.shelf_name,cell.cell_code,ware.ware_id,ware.ware_name
+  		SELECT product.product_name,productdet.product_det_code,productdet.product_det_barcode,productdet.product_det_remain_length,productdet.color_name,area.area_name,shelf.shelf_name,cell.cell_code,cell.cell_name,ware.ware_id,ware.ware_name
 		FROM mt_alone_product_det productdet
 		LEFT JOIN mt_alone_product product ON productdet.product_id = product.id
 		LEFT JOIN cell_info cell ON product.cell_code = cell.cell_code

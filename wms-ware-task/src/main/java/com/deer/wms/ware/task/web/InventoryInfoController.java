@@ -117,7 +117,16 @@ public class InventoryInfoController {
             return ResultGenerator.genFailResult( CommonCode.SERVICE_ERROR,"未登录错误",null );
         }
         List<CompanyProductDto> list = inventoryInfoService.findCompanyProductDet(companyProductCriteria,currentUser);               
-		HSSFWorkbook workBook = new HSSFWorkbook();
+
+        String filename = "学生信息";
+        String fileName = new String(filename.getBytes(), "iso-8859-1")+ ".xlsx";
+        response.setContentType("application/octet-stream;charset=utf-8");
+        response.setHeader("Content-disposition", "attachment;filename=" + fileName);
+        response.setContentType("application/x-download;charset=utf-8");
+        response.flushBuffer();
+        response.setCharacterEncoding("UTF-8");
+        
+        HSSFWorkbook workBook = new HSSFWorkbook();
 		HSSFSheet sheet = workBook.createSheet("信息表");
 		//新增数据行
 		int rowNum = 1;
@@ -140,11 +149,11 @@ public class InventoryInfoController {
             row1.createCell(4).setCellValue(companyProductDto.getProductColorName());
             row1.createCell(5).setCellValue(companyProductDto.getAreaName());
             row1.createCell(6).setCellValue(companyProductDto.getShelfName());
-            row1.createCell(7).setCellValue(companyProductDto.getCellCode());
+            row1.createCell(7).setCellValue(companyProductDto.getCellName());
             row1.createCell(8).setCellValue(companyProductDto.getWareId());
             rowNum++;
         }
-		response.flushBuffer();
+//		response.flushBuffer();
 	    workBook.write(response.getOutputStream());
 	    workBook.close();
         return ResultGenerator.genSuccessResult();

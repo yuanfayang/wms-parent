@@ -333,6 +333,7 @@ public class MtAloneExaminationDetailsController {
 		mtAloneProductDet.setState("normal");
 		mtAloneProductDet.setProductId(mtAloneProduct.getId());
 		mtAloneProductDet.setCompanyId(mtAloneProduct.getCompanyId());
+        mtAloneProductDet.setCellCode(mtAloneProduct.getCellCode());
    
 		return mtAloneProductDet;	
 	}

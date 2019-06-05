@@ -119,6 +119,7 @@ public class MtAloneProductDetController {
 		mtAloneBarcode.setBarcode(productDetBarcode);
 		mtAloneBarcodeService.save(mtAloneBarcode);
 
+		//单独增加的明细三个长度已经在前台赋值了
 		mtAloneProductDet.setProductId(mtAloneProduct.getId());
 		mtAloneProductDet.setProductDetBarcode(productDetBarcode);
 		mtAloneProductDet.setWarehouseBarcode(mtAloneProduct.getProductBarCode());
@@ -126,11 +127,12 @@ public class MtAloneProductDetController {
 		mtAloneProductDet.setCreateTime(new Date());
 		mtAloneProductDet.setDeliveryState(0);
 		mtAloneProductDet.setIsCompleteOut(0);
-		mtAloneProductDet.setIsDetection(0);
+		//单独添加的明细就默认为检测过了
+		mtAloneProductDet.setIsDetection(1);
 		mtAloneProductDet.setState("normal");
 		mtAloneProductDet.setCellCode(mtAloneProduct.getCellCode());
 		mtAloneProductDetService.save(mtAloneProductDet);
-
+        //检测表中也增加相应记录
 		MtAloneDetectDet mtAloneDetectDet = new MtAloneDetectDet();
 		mtAloneDetectDet.setProductBarcode(mtAloneProduct.getProductBarCode());
 		mtAloneDetectDet.setProductDetBarcode(productDetBarcode);

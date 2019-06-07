@@ -1,7 +1,5 @@
 package com.deer.wms.workflow.web;
 
-import com.deer.wms.workflow.command.GetProcessCmd;
-import com.deer.wms.workflow.dto.FormResultDTO;
 import com.deer.wms.workflow.model.Msg;
 import com.deer.wms.workflow.model.TaskForm;
 import com.deer.wms.workflow.model.TaskImplVo;
@@ -13,7 +11,6 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
-import org.flowable.bpmn.model.Process;
 import org.flowable.engine.ManagementService;
 import org.flowable.engine.TaskService;
 import org.flowable.form.api.FormInfo;
@@ -24,7 +21,10 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 /**
  * TaskInstanceController
@@ -77,21 +77,13 @@ public class TaskInstanceController {
     }
 
     private List<TaskImplVo> changeTaskToTaskVo(final List<Task> taskList) {
-        Map<String,Process> processMap=new HashMap<>(8);
-
         List<TaskImplVo> taskImplVos = new ArrayList<>(taskList.size());
         taskList.forEach(task -> {
-            Process process=processMap.get(task.getProcessDefinitionId());
-            if(process==null){
-                process=  managementService.executeCommand(new GetProcessCmd(task.getProcessDefinitionId()));
-                processMap.put(task.getProcessDefinitionId(),process);
-            }
             TaskImplVo taskImplVo = new TaskImplVo();
             taskImplVo.setTaskId(task.getId());
             taskImplVo.setTaskName(task.getName());
             taskImplVo.setFormKey(task.getFormKey());
             taskImplVo.setProcessInstanceId(task.getProcessInstanceId());
-            taskImplVo.setProcessDefName(process.getName());
             taskImplVo.setProcessId(task.getProcessDefinitionId());
             taskImplVos.add(taskImplVo);
         });
@@ -192,7 +184,7 @@ public class TaskInstanceController {
             @ApiImplicitParam(name = "instandId", paramType = "query", dataType = "String", required = true, value = "流程实例ID"),
     })
     public Msg listTaskFormByInstandId(String instandId) {
-        List<FormResultDTO> formInfoList = taskInstanceServiceImpl.listTaskFormModelByInstanceId(instandId);
+        List<FormInfo> formInfoList = taskInstanceServiceImpl.listTaskFormModelByInstanceId(instandId);
         return new Msg("获取表单列表", true).setData(formInfoList);
     }
 }

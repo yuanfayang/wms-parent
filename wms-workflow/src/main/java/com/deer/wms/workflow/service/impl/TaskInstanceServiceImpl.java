@@ -1,18 +1,19 @@
 package com.deer.wms.workflow.service.impl;
 
 import com.deer.wms.workflow.command.*;
-import com.deer.wms.workflow.dto.FormResultDTO;
 import com.deer.wms.workflow.model.TaskForm;
 import com.deer.wms.workflow.service.TaskInstanceService;
 import org.apache.commons.lang3.StringUtils;
 import org.flowable.bpmn.model.Process;
-import org.flowable.engine.*;
+import org.flowable.engine.IdentityService;
+import org.flowable.engine.ManagementService;
+import org.flowable.engine.ProcessEngineConfiguration;
+import org.flowable.engine.TaskService;
 import org.flowable.form.api.FormInfo;
 import org.flowable.form.api.FormInstance;
+import org.flowable.form.api.FormModel;
 import org.flowable.form.api.FormService;
-import org.flowable.idm.api.User;
 import org.flowable.task.api.Task;
-import org.flowable.task.api.history.HistoricTaskInstance;
 import org.flowable.ui.common.properties.FlowableCommonAppProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,7 +22,6 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -37,15 +37,12 @@ public class TaskInstanceServiceImpl implements TaskInstanceService {
     @Resource
     private TaskService taskService;
     @Resource
-    private HistoryService historyService;
-    @Resource
     private IdentityService identityService;
     @Resource
     private ProcessEngineConfiguration processEngineConfiguration;
     private FlowableCommonAppProperties properties;
     @Resource
     private FormService formService;
-
 
     @Autowired
     public void setProperties(FlowableCommonAppProperties properties) {
@@ -115,29 +112,11 @@ public class TaskInstanceServiceImpl implements TaskInstanceService {
     }
 
     @Override
-    public List<FormResultDTO> listTaskFormModelByInstanceId(String instandId) {
-        IdentityService identityService = processEngineConfiguration.getIdentityService();
+    public List<FormInfo> listTaskFormModelByInstanceId(String instandId) {
         List<FormInstance> formInstanceList = formService.createFormInstanceQuery().processInstanceId(instandId).list();
-        final List<FormResultDTO> formInfoList = new ArrayList<>();
-        //查询流程实例
-        final List<HistoricTaskInstance> taskEntityList = historyService.createHistoricTaskInstanceQuery().processInstanceId(instandId).list();
-        final Map<String, HistoricTaskInstance> taskMap = new HashMap<>((int) (taskEntityList.size() / 0.75));
-        taskEntityList.forEach(task -> taskMap.put(task.getId(), task));
+        final List<FormInfo> formInfoList = new ArrayList<>();
         formInstanceList.forEach(formInstance -> {
-            FormResultDTO formResultDTO = new FormResultDTO();
-            HistoricTaskInstance historicTaskInstance = taskMap.get(formInstance.getTaskId());
-            formResultDTO.setTaskId(historicTaskInstance.getId());
-            formResultDTO.setTaskName(historicTaskInstance.getName());
-            formResultDTO.setUserId(historicTaskInstance.getAssignee());
-            if (StringUtils.isNotBlank(historicTaskInstance.getAssignee())) {
-                User user = identityService.createUserQuery().userId(historicTaskInstance.getAssignee()).singleResult();
-                if (user != null) {
-                    formResultDTO.setUserName(user.getDisplayName());
-                }
-            }
-            formResultDTO.setEndDate(historicTaskInstance.getCreateTime());
-            formResultDTO.setFormInfo(getTaskFormModel(formInstance.getTaskId()));
-            formInfoList.add(formResultDTO);
+            formInfoList.add(getTaskFormModel(formInstance.getTaskId()));
         });
         return formInfoList;
     }

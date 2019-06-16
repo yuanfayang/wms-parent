@@ -4,7 +4,6 @@ import com.deer.wms.workflow.flowable.CustomFlowableProperties;
 import com.deer.wms.workflow.flowable.FlowableUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.flowable.bpmn.model.AssociationDirection;
-import org.flowable.image.exception.FlowableImageException;
 import org.flowable.image.impl.DefaultProcessDiagramCanvas;
 import org.flowable.image.util.ReflectUtil;
 
@@ -13,10 +12,7 @@ import java.awt.*;
 import java.awt.geom.Line2D;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 
 /**
  * MYProcessDiagramCanvas
@@ -71,14 +67,12 @@ public class MyProcessDiagramCanvas extends DefaultProcessDiagramCanvas {
         }
     }
 
-    @Override
     public void initialize(String imageType) {
         //初始化配置参数
         init();
         if ("png".equalsIgnoreCase(imageType)) {
             this.processDiagram = new BufferedImage(canvasWidth, canvasHeight, BufferedImage.TYPE_INT_ARGB);
-        }
-        else {
+        } else {
             this.processDiagram = new BufferedImage(canvasWidth, canvasHeight, BufferedImage.TYPE_INT_RGB);
         }
 
@@ -126,7 +120,6 @@ public class MyProcessDiagramCanvas extends DefaultProcessDiagramCanvas {
         }
     }
 
-    @Override
     public void drawHighLight(int x, int y, int width, int height) {
         Paint originalPaint = g.getPaint();
         Stroke originalStroke = g.getStroke();
@@ -144,7 +137,6 @@ public class MyProcessDiagramCanvas extends DefaultProcessDiagramCanvas {
     /**
      * 修改连线图形
      */
-    @Override
     public void drawConnection(int[] xPoints, int[] yPoints, boolean conditional, boolean isDefault, String connectionType,
                                AssociationDirection associationDirection, boolean highLighted, double scaleFactor) {
 
@@ -154,8 +146,7 @@ public class MyProcessDiagramCanvas extends DefaultProcessDiagramCanvas {
         g.setPaint(CONNECTION_COLOR);
         if (connectionType.equals("association")) {
             g.setStroke(ASSOCIATION_STROKE);
-        }
-        else if (highLighted) {
+        } else if (highLighted) {
             //连线高亮颜色
             g.setPaint(HIGHLIGHT_CONNECTION_COLOR);
             g.setStroke(HIGHLIGHT_FLOW_STROKE);
@@ -190,34 +181,5 @@ public class MyProcessDiagramCanvas extends DefaultProcessDiagramCanvas {
         }
         g.setPaint(originalPaint);
         g.setStroke(originalStroke);
-    }
-
-    @Override
-    public InputStream generateImage(String imageType) {
-        if (closed) {
-            throw new FlowableImageException("ProcessDiagramGenerator already closed");
-        }
-        minX = (minX <= 5) ? 5 : minX;
-        minY = (minY <= 5) ? 5 : minY;
-        BufferedImage imageToSerialize = processDiagram;
-        if (minX >= 0 && minY >= 0) {
-            imageToSerialize = processDiagram.getSubimage(minX - 5, minY - 5, canvasWidth - minX + 5, canvasHeight - minY + 5);
-        }
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        try {
-            ImageIO.write(imageToSerialize, imageType, out);
-
-        } catch (IOException e) {
-            throw new FlowableImageException("Error while generating process image", e);
-        } finally {
-            try {
-                if (out != null) {
-                    out.close();
-                }
-            } catch (IOException ignore) {
-                // Exception is silently ignored
-            }
-        }
-        return new ByteArrayInputStream(out.toByteArray());
     }
 }

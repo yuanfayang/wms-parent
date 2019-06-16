@@ -15,6 +15,8 @@ package org.flowable.ui.modeler.domain;
 public class Model extends AbstractModel {
 
     private byte[] thumbnail;
+    //ylx-update 2019/6/2 22:20 新增加
+    private String defVersion;
 
     public Model() {
         super();
@@ -28,4 +30,11 @@ public class Model extends AbstractModel {
         this.thumbnail = thumbnail;
     }
 
+    public String getDefVersion() {
+        return defVersion;
+    }
+
+    public void setDefVersion(String defVersion) {
+        this.defVersion = defVersion;
+    }
 }

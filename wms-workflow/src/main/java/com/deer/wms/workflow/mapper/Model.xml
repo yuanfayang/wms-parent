@@ -19,6 +19,7 @@
         <result property="modelType" column="model_type" jdbcType="INTEGER" />
         <result property="thumbnail" column="thumbnail" jdbcType="${blobType}" />
         <result property="tenantId" column="tenant_id" jdbcType="VARCHAR" />
+       <result property="defVersion" column="defversion" jdbcType="VARCHAR" />
     </resultMap>
 
     <insert id="insertModel" parameterType="org.flowable.ui.modeler.domain.Model">
@@ -86,33 +87,40 @@
     </select>
     
     <select id="selectModelByParameters" parameterType="map" resultMap="modelResultMap">
-        select * from ${prefix}ACT_DE_MODEL
+      SELECT
+      model.*,
+      def.defversion
+      FROM
+      ${prefix}ACT_DE_MODEL model
+      LEFT JOIN
+      ( SELECT key_, max( version_ ) defversion FROM ${prefix}act_re_procdef def GROUP BY key_ ) def
+      ON model.model_key = def.key_
         <where> 
             <if test="modelType != null">
-               model_type = #{modelType, jdbcType=VARCHAR}
+              model.model_type = #{modelType, jdbcType=VARCHAR}
             </if>
             <if test="filter != null">
-               and (lower(name) like #{filter, jdbcType=VARCHAR} or lower(description) like #{filter, jdbcType=VARCHAR}) 
+               and (lower(model.name) like #{filter, jdbcType=VARCHAR} or lower(model.description) like #{filter, jdbcType=VARCHAR})
             </if>
             <if test="key != null">
-               and model_key = #{key, jdbcType=VARCHAR}
+               and model.model_key = #{key, jdbcType=VARCHAR}
             </if>
             <if test="tenantId != null">
-               and tenant_id = #{tenantId, jdbcType=VARCHAR}
+               and model.tenant_id = #{tenantId, jdbcType=VARCHAR}
             </if>
         </where>
         <if test="sort != null">
             <if test="sort == 'nameAsc'">
-                order by name asc
+                order by model.name asc
             </if>
             <if test="sort == 'nameDesc'">
-                order by name desc
+                order by model.name desc
             </if>
             <if test="sort == 'modifiedAsc'">
-                order by last_updated asc
+                order by model.last_updated asc
             </if>
             <if test="sort == 'modifiedDesc'">
-                order by last_updated desc
+                order by model.last_updated desc
             </if>
         </if>
     </select>

@@ -38,7 +38,8 @@ public class ModelRepresentation extends AbstractRepresentation {
     protected String comment;
     protected Integer modelType;
     protected String tenantId;
-
+    //ylx-update 2019/6/2 22:20 新增加
+    protected String defVersion;
     public ModelRepresentation(AbstractModel model) {
         initialize(model);
     }
@@ -59,7 +60,9 @@ public class ModelRepresentation extends AbstractRepresentation {
         this.comment = model.getComment();
         this.modelType = model.getModelType();
         this.tenantId = model.getTenantId();
-
+        if(model instanceof  Model) {
+            this.defVersion =((Model)model).getDefVersion();
+        }
         // When based on a ProcessModel and not history, this is always the latest version
         if (model instanceof Model) {
             this.setLatestVersion(true);
@@ -162,6 +165,14 @@ public class ModelRepresentation extends AbstractRepresentation {
 
     public void setTenantId(String tenantId) {
         this.tenantId = tenantId;
+    }
+
+    public String getDefVersion() {
+        return defVersion;
+    }
+
+    public void setDefVersion(String defVersion) {
+        this.defVersion = defVersion;
     }
 
     public Model toModel() {

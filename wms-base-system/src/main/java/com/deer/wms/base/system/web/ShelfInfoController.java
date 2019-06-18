@@ -66,23 +66,43 @@ public class ShelfInfoController {
         shelfInfo.setShelfCode(shelfCode);
         shelfInfoService.save(shelfInfo);
         ShelfInfo shelfInfoSaved = shelfInfoService.findBy("shelfCode",shelfInfo.getShelfCode());
-        Integer shelfRow=shelfInfo.getShelfRow();
-        Integer shelfColumn=shelfInfo.getShelfColumn();
+
         Float shelfL = shelfInfo.getShelfL();
         Float shelfW = shelfInfo.getShelfW();
         Float shelfH = shelfInfo.getShelfH();
+        String shelfRC = shelfInfo.getShelfRowColumn();
 
-        Float cellL = shelfL/shelfRow;
+        String[] shelfRCs = shelfRC.split(",");//按“，”打断形成字符串数组
+        ArrayList<Integer> shelfRCList = new ArrayList<Integer>();
+        shelfRCList.clear();
+        for (int i = 0; i < shelfRCs.length; i++) {
+            if(shelfRCs[i]!=null && !shelfRCs[i].trim().equals("")){
+                Integer columns = Integer.parseInt(shelfRCs[i].trim());
+                if(columns!=null) {
+                    shelfRCList.add(columns);
+                }
+            }
+        }
+        Integer shelfRow = shelfRCList.size();
+        Integer[] shelfRowColumn = new Integer[shelfRow];
+        for (int i = 0; i < shelfRow; i++) {
+            shelfRowColumn[i] = shelfRCList.get(i);
+        }
+
+        Float[] cellL = new Float[shelfRowColumn.length];
+        for (int i = 0; i < cellL.length; i++) {
+            cellL[i] = shelfL/shelfRowColumn[i];
+        }
         Float cellW = shelfW;
-        Float cellH = shelfH/shelfColumn;
+        Float cellH = shelfH/shelfRow;
 
         List<CellInfo> shelfList=new ArrayList<CellInfo>();
         for(int i=1;i<=shelfRow;i++){
-            for (int j=1;j<=shelfColumn;j++){
+            for (int j=1;j<=shelfRowColumn[i-1];j++){
 
                 String cellCode= "HW" + "-"+companyId  +"-"+ wareInfo.getWareId() +"-"+  areaInfo.getAreaId()  +"-"+shelfInfoSaved.getShelfId() + "-"+ i +"-"+   j;
                 String cellName=areaInfo.getAreaName()+"-"+shelfInfo.getShelfName()+ "-"+i +"-"+   j;
-                
+
                 CellInfo cellInfo=new CellInfo();
                 cellInfo.setCompanyId(companyId);
                 cellInfo.setCellCode(cellCode);
@@ -93,7 +113,7 @@ public class ShelfInfoController {
                 cellInfo.setShelfCode(shelfInfo.getShelfCode());
                 cellInfo.setsColumn(j);
                 cellInfo.setsRow(i);
-                cellInfo.setCellL(cellL);
+                cellInfo.setCellL(cellL[i-1]);
                 cellInfo.setCellW(cellW);
                 cellInfo.setCellH(cellH);
                 //默认无货
@@ -102,12 +122,75 @@ public class ShelfInfoController {
                 shelfList.add(cellInfo);
             }
         }
-         cellInfoService.save(shelfList);
+        cellInfoService.save(shelfList);
 //        cellInfoService.setOrder(shelfInfo);
 
 
         return ResultGenerator.genSuccessResult();
     }
+
+//    @PostMapping("/insert")
+//    @ApiOperation(value="添加货架信息",notes="添加货架信息")
+//    @Transactional
+//    public Result add(@RequestBody ShelfInfo shelfInfo, @ApiIgnore @User CurrentUser currentUser) {
+//        if(currentUser == null){
+//            return ResultGenerator.genFailResult(CommonCode.SERVICE_ERROR,"未登录！",null);
+//        }
+//
+//        Integer companyId = currentUser.getCompanyId();
+//
+//        AreaInfo areaInfo = areaInfoService.findBy("areaCode",shelfInfo.getAreaCode());
+//        WareInfo wareInfo = wareInfoService.findBy("wareCode",areaInfo.getWareCode());
+//        String  nowDate = DateUtils.getNowDateTimeString();
+//        shelfInfo.setAddTime(nowDate);
+//        shelfInfo.setCompanyId(companyId);
+//        String shelfCode= "HJ" + companyId  +"-"+ wareInfo.getWareId()
+//                +"-"+ areaInfo.getAreaId()   +"-"+  RandomNo.createTimeString().substring(8,14);
+//        shelfInfo.setShelfCode(shelfCode);
+//        shelfInfoService.save(shelfInfo);
+//        ShelfInfo shelfInfoSaved = shelfInfoService.findBy("shelfCode",shelfInfo.getShelfCode());
+//        Integer shelfRow=shelfInfo.getShelfRow();
+//        Integer shelfColumn=shelfInfo.getShelfColumn();
+//        Float shelfL = shelfInfo.getShelfL();
+//        Float shelfW = shelfInfo.getShelfW();
+//        Float shelfH = shelfInfo.getShelfH();
+//
+//        Float cellL = shelfL/shelfRow;
+//        Float cellW = shelfW;
+//        Float cellH = shelfH/shelfColumn;
+//
+//        List<CellInfo> shelfList=new ArrayList<CellInfo>();
+//        for(int i=1;i<=shelfRow;i++){
+//            for (int j=1;j<=shelfColumn;j++){
+//
+//                String cellCode= "HW" + "-"+companyId  +"-"+ wareInfo.getWareId() +"-"+  areaInfo.getAreaId()  +"-"+shelfInfoSaved.getShelfId() + "-"+ i +"-"+   j;
+//                String cellName=areaInfo.getAreaName()+"-"+shelfInfo.getShelfName()+ "-"+i +"-"+   j;
+//
+//                CellInfo cellInfo=new CellInfo();
+//                cellInfo.setCompanyId(companyId);
+//                cellInfo.setCellCode(cellCode);
+//                cellInfo.setMemo(cellName);
+//                cellInfo.setCellName(cellName);
+//                cellInfo.setCellAlias(cellName);    //别名跟名称默认相同，可以修改， @wb 2019-05-20
+//
+//                cellInfo.setShelfCode(shelfInfo.getShelfCode());
+//                cellInfo.setsColumn(j);
+//                cellInfo.setsRow(i);
+//                cellInfo.setCellL(cellL);
+//                cellInfo.setCellW(cellW);
+//                cellInfo.setCellH(cellH);
+//                //默认无货
+//                cellInfo.setState(0);
+//                cellInfo.setAddTime(nowDate);
+//                shelfList.add(cellInfo);
+//            }
+//        }
+//         cellInfoService.save(shelfList);
+////        cellInfoService.setOrder(shelfInfo);
+//
+//
+//        return ResultGenerator.genSuccessResult();
+//    }
 
     //@ApiImplicitParams({
     //        @ApiImplicitParam(name = "access-token", value = "token", paramType="header", dataType="String", required = true)

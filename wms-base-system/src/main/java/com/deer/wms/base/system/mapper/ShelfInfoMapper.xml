@@ -25,6 +25,7 @@
       <result column="shelf_l" jdbcType="REAL" property="shelfL" />
       <result column="shelf_w" jdbcType="REAL" property="shelfW" />
       <result column="shelf_h" jdbcType="REAL" property="shelfH" />
+      <result column="shelf_row_column" jdbcType="VARCHAR" property="shelfRowColumn" />
       <result column="company_id" jdbcType="INTEGER" property="companyId" />
 
   </resultMap>

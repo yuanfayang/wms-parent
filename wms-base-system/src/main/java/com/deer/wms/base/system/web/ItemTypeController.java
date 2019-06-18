@@ -1,9 +1,6 @@
 package com.deer.wms.base.system.web;
 import com.deer.wms.base.system.constant.BaseSystemConstant;
-import com.deer.wms.base.system.model.ItemType;
-import com.deer.wms.base.system.model.ItemTypeCriteria;
-import com.deer.wms.base.system.model.ItemTypeParams;
-import com.deer.wms.base.system.model.WareInfoCriteria;
+import com.deer.wms.base.system.model.*;
 import com.deer.wms.base.system.service.ItemTypeService;
 import com.deer.wms.intercept.annotation.Authority;
 import com.deer.wms.intercept.annotation.User;
@@ -124,6 +121,21 @@ public class ItemTypeController {
         Integer companyId = currentUser.getCompanyId();
         itemType.setCompanyId(companyId);
         itemTypeService.update(itemType);
+        return ResultGenerator.genSuccessResult();
+    }
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "access-token", value = "token", paramType="header", dataType="String", required = true)
+    })
+    @PostMapping("/update/all")
+    @ApiOperation(value="更新所有产品类型",notes="更新所有产品类型")
+    public Result update(@RequestBody ItemTypes itemTypes, @ApiIgnore @User CurrentUser currentUser) {
+        if(currentUser == null){
+            return ResultGenerator.genFailResult(CommonCode.SERVICE_ERROR,"未登录！",null);
+        }
+        for(ItemType itemType : itemTypes.getItemTypes()){
+            itemTypeService.update(itemType);
+        }
         return ResultGenerator.genSuccessResult();
     }
 

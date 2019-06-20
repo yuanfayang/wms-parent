@@ -10,6 +10,7 @@
     <result column="item_type_name" jdbcType="VARCHAR" property="itemTypeName" />
     <result column="parent_id" jdbcType="INTEGER" property="parentId" />
     <result column="item_type_state" jdbcType="INTEGER" property="itemTypeState" />
+    <result column="item_type_level" jdbcType="INTEGER" property="itemTypeLevel" />
     <result column="company_id" jdbcType="INTEGER" property="companyId" />
 
 

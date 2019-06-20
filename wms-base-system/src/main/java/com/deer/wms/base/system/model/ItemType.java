@@ -18,6 +18,9 @@ public class ItemType {
     @Column(name = "item_type_state")
     private Integer itemTypeState;
 
+    @Column(name = "item_type_level")
+    private Integer itemTypeLevel;
+
     @Column(name = "parent_id")
     private Integer parentId;
 
@@ -116,5 +119,13 @@ public class ItemType {
 
     public void setMemo(String memo) {
         this.memo = memo;
+    }
+
+    public Integer getItemTypeLevel() {
+        return itemTypeLevel;
+    }
+
+    public void setItemTypeLevel(Integer itemTypeLevel) {
+        this.itemTypeLevel = itemTypeLevel;
     }
 }

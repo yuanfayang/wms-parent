@@ -119,6 +119,12 @@ public class ShelfInfo {
     private Float shelfH;
 
     /**
+     * 货架每行的列数，以“，”分隔
+     */
+    @Column(name = "shelf_row_column")
+    private String shelfRowColumn;
+
+    /**
      * 公司id
      */
     @Column(name = "company_id")
@@ -470,6 +476,24 @@ public class ShelfInfo {
      */
     public void setShelfH(Float shelfH) {
         this.shelfH = shelfH;
+    }
+
+    /**
+     * 获取货架行列
+     *
+     * @return shelf_row_column - 货架行列
+     */
+    public String getShelfRowColumn() {
+        return shelfRowColumn;
+    }
+
+    /**
+     * 设置货架行列
+     *
+     * @param shelf_row_column  货架行列
+     */
+    public void setShelfRowColumn(String shelfRowColumn) {
+        this.shelfRowColumn = shelfRowColumn;
     }
 
     /**

@@ -45,6 +45,12 @@ public class MtAloneProduct {
     private String productTypeCode;
 
     /**
+     * 产品品种
+     */
+    @Column(name = "product_variety_code")
+    private String productVarietyCode;
+
+    /**
      * 颜色编号
      */
     @Column(name = "color_code")
@@ -385,6 +391,24 @@ public class MtAloneProduct {
      */
     public void setProductTypeCode(String productTypeCode) {
         this.productTypeCode = productTypeCode;
+    }
+
+    /**
+     * 获取产品品种
+     *
+     * @return product_variety_code - 产品品种
+     */
+    public String getProductVarietyCode() {
+        return productVarietyCode;
+    }
+
+    /**
+     * 设置产品品种
+     *
+     * @param productVarietyCode 产品品种
+     */
+    public void setProductVarietyCode(String productVarietyCode) {
+        this.productVarietyCode = productVarietyCode;
     }
 
     /**

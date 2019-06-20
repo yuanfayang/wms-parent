@@ -12,6 +12,7 @@
       <result column="item_code" jdbcType="VARCHAR" property="itemCode" />
       <result column="product_name" jdbcType="VARCHAR" property="productName" />
       <result column="product_type_code" jdbcType="VARCHAR" property="productTypeCode" />
+      <result column="product_variety_code" jdbcType="VARCHAR" property="productVarietyCode" />
       <result column="color_code" jdbcType="VARCHAR" property="colorCode" />
       <result column="shell_fabric" jdbcType="VARCHAR" property="shellFabric" />
       <result column="tissue" jdbcType="VARCHAR" property="tissue" />

@@ -28,6 +28,12 @@ public class MtAloneFabricDefect {
     private Integer deletestatus;
 
     /**
+     * 状态
+     */
+    @Column(name = "defectType")
+    private Integer defectType;
+
+    /**
      * 瑕疵名称
      */
     @Column(name = "defect_name")
@@ -178,5 +184,23 @@ public class MtAloneFabricDefect {
      */
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    /**
+     * 获取类型
+     *
+     * @return defectType - 类型
+     */
+    public Integer getDefectType() {
+        return defectType;
+    }
+
+    /**
+     * 设置类型
+     *
+     * @param defectType 类型
+     */
+    public void setDefectType(Integer defectType) {
+        this.defectType = defectType;
     }
 }

@@ -21,4 +21,6 @@ public interface ItemTypeMapper extends Mapper<ItemType> {
     List<ItemType> findChildrenList(ItemTypeParams params);
 
     ItemType findParent(ItemTypeParams params);
+
+    List<ItemType> getVarietyTypeList(ItemTypeParams params);
 }

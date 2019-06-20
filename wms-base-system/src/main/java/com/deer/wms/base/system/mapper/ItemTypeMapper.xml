@@ -125,6 +125,19 @@
 
     </select>
 
+    <select id="getVarietyTypeList" parameterType="com.deer.wms.base.system.model.ItemTypeParams"  resultMap="BaseResultMap">
+        select * from item_type itemType
+        <where> 1=1
+            <if test="varietyTypeId != null">
+                AND itemType.item_type_state =#{varietyTypeId}
+            </if>
+            <if test="companyId != null">
+                AND itemType.company_id = #{companyId}
+            </if>
+        </where>
+
+    </select>
+
 
 </mapper>
 

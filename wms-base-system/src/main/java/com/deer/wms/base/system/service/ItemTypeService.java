@@ -26,4 +26,6 @@ public interface ItemTypeService extends Service<ItemType, Integer> {
     List<ItemType> findChildrenList(ItemTypeParams params);
 
     ItemType findParent(ItemTypeParams params);
+
+    List<ItemType> getVarietyTypeList(ItemTypeParams params);
 }

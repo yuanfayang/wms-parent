@@ -62,4 +62,9 @@ public class ItemTypeServiceImpl extends AbstractService<ItemType, Integer> impl
     public ItemType findParent(ItemTypeParams params) {
         return itemTypeMapper.findParent(params);
     }
+
+    @Override
+    public List<ItemType> getVarietyTypeList(ItemTypeParams params) {
+        return itemTypeMapper.getVarietyTypeList(params);
+    }
 }

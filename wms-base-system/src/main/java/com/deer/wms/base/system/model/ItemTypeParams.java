@@ -5,6 +5,16 @@ import com.deer.wms.project.seed.core.service.QueryParams;
 public class ItemTypeParams extends QueryParams{
     private Integer itemTypeId;
 
+    private Integer varietyTypeId;
+
+    public Integer getVarietyTypeId() {
+        return varietyTypeId;
+    }
+
+    public void setVarietyTypeId(Integer varietyTypeId) {
+        this.varietyTypeId = varietyTypeId;
+    }
+
     public Integer getItemTypeId() {
         return itemTypeId;
     }

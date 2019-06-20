@@ -220,4 +220,22 @@ public class ItemTypeController {
         ItemType parent = itemTypeService.findParent(params);
         return ResultGenerator.genSuccessResult(parent);
     }
+
+    @OperateLog(description = "查询产品分类和产品品种", type = "查询")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "access-token", value = "token", paramType="header", dataType="String", required = true)
+    })
+    @GetMapping("/varietyTypeList")
+    @ApiOperation(value="查询产品分类和产品品种",notes="查询产品分类和产品品种")
+    public Result varietyTypeList(ItemTypeParams params, @ApiIgnore @User CurrentUser currentUser) {
+        if(currentUser==null){
+            return ResultGenerator.genFailResult( CommonCode.SERVICE_ERROR,"未登录错误",null );
+        }
+
+        StringUtil.trimObjectStringProperties(params);
+        params.setCompanyId(currentUser.getCompanyId());
+
+        List<ItemType> list = itemTypeService.getVarietyTypeList(params);
+        return ResultGenerator.genSuccessResult(list);
+    }
 }

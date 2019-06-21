@@ -34,4 +34,6 @@ public interface MtAloneProductService extends Service<MtAloneProduct, Integer> 
 	List<MtAloneProductDeliveryVO> findDeliveryProForms(MtAloneDeliveryParams params);
 
 	MtAloneProductCellVO findByBarcodeNew(@Param("productBarcode")String productBarcode);
+
+	MtAloneProductCellVO findById(Integer id);
 }

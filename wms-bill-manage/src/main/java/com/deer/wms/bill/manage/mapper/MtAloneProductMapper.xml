@@ -159,7 +159,7 @@
      </select>
      
       <select id="findByBarcodeNew" parameterType="java.lang.String" resultMap="ProductCellMap">
-      select   pro.*,cell.memo as cell_name
+      select   pro.*,cell.cell_alias as cell_name
       from mt_alone_product pro
       left join cell_info cell
       on pro.cell_code=cell.cell_code
@@ -168,6 +168,14 @@
        and product_bar_code = #{productBarcode}
       </if>  
      </select>
+
+    <select id="findById" parameterType="java.lang.Integer" resultMap="ProductCellMap">
+        select   pro.*,cell.cell_alias as cell_name
+        from mt_alone_product pro
+        left join cell_info cell
+        on pro.cell_code=cell.cell_code
+        where pro.id = #{id}
+    </select>
   
       <select id="findListBykeyAndDate" parameterType="com.deer.wms.bill.manage.model.MtAloneProductCriteria" resultMap="BaseResultMap">
       select   *

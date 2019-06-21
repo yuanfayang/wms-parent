@@ -78,5 +78,10 @@ public class MtAloneProductServiceImpl extends AbstractService<MtAloneProduct, I
 		return mtAloneProductMapper.findByBarcodeNew(productBarcode);
 	}
 
+	@Override
+	public MtAloneProductCellVO findById(Integer id) {
+		return mtAloneProductMapper.findById(id);
+	}
+
 
 }

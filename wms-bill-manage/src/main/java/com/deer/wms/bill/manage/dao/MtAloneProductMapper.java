@@ -29,4 +29,6 @@ public interface MtAloneProductMapper extends Mapper<MtAloneProduct> {
 	List<MtAloneProductDeliveryVO> findDeliveryProForms(MtAloneDeliveryParams params);
 
 	MtAloneProductCellVO findByBarcodeNew(@Param("productBarcode")String productBarcode);
+
+    MtAloneProductCellVO findById(Integer id);
 }

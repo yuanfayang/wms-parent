@@ -8,12 +8,12 @@ public class MtAloneProductParams extends QueryParams{
 	private Integer companyId;
 	
 	private String productTypeCode;
+
+    private String productVarietyCode;
 	
 	private String begDate;
 	
 	private String endDate;
-	
-    
 
 	public String getBegDate() {
 		return begDate;
@@ -39,7 +39,15 @@ public class MtAloneProductParams extends QueryParams{
 		this.productTypeCode = productTypeCode;
 	}
 
-	public Integer getCompanyId() {
+    public String getProductVarietyCode() {
+        return productVarietyCode;
+    }
+
+    public void setProductVarietyCode(String productVarietyCode) {
+        this.productVarietyCode = productVarietyCode;
+    }
+
+    public Integer getCompanyId() {
 		return companyId;
 	}
 

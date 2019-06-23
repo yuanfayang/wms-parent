@@ -31,4 +31,8 @@ public class BaseSystemConstant {
     public static final int COMPANY_TYPE_OPERATE = -1;
 
     public static final int COMPANY_TYPE_MT = 0;
+
+    public static final int ITEM_TYPE = 0;//item_type表中item_type_state字段为0，即产品分类标识
+
+    public static final int ITEM_VARIETY = 1;//item_type表中item_type_state字段为1，即产品品种标识
 }

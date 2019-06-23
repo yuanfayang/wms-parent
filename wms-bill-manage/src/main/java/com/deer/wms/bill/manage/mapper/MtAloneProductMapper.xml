@@ -79,7 +79,7 @@
      
      <select id="findListNew" parameterType="com.deer.wms.bill.manage.model.MtAloneProductParams" resultMap="ProductCombinationMap">
 		SELECT
-		pro.*,u.user_name AS purchaser,IFNULL(tmp0.num,0) AS roll_num,IFNULL(tmp1.deliverylength,0) AS delivery_length,IFNULL(tmp2.detectlength,0) AS detect_length,IFNULL(tmp2.detectlength,0)-IFNULL(tmp1.deliverylength,0) AS remain_length,tmp3.sup_name AS supplier_name,tmp4.type_name AS item_type_name
+		pro.*,u.user_name AS purchaser,IFNULL(tmp0.num,0) AS roll_num,IFNULL(tmp1.deliverylength,0) AS delivery_length,IFNULL(tmp2.detectlength,0) AS detect_length,IFNULL(tmp2.detectlength,0)-IFNULL(tmp1.deliverylength,0) AS remain_length,tmp3.sup_name AS supplier_name,tmp4.type_name AS item_type_name,temp5.variety_name AS item_variety_name
 		FROM mt_alone_product pro
 		LEFT JOIN (SELECT det.`warehouse_barcode` AS barcode0,COUNT(*) AS num FROM mt_alone_product_det det WHERE det.is_complete_out=0 GROUP BY det.`warehouse_barcode`)tmp0 
 		ON tmp0.barcode0=pro.`product_bar_code`
@@ -89,8 +89,10 @@
 		ON tmp2.barcode2=pro.`product_bar_code`
 		LEFT JOIN (SELECT sup.supplier_code AS sup_code,sup.supplier_name AS sup_name FROM supplier_manage sup )tmp3
 		ON tmp3.sup_code= pro.supplier_code
-        LEFT JOIN (SELECT item.item_type_code AS type_code,item.item_type_name AS type_name FROM item_type item )tmp4
+        LEFT JOIN (SELECT item.item_type_code AS type_code,item.item_type_name AS type_name FROM item_type item where item.item_type_state = 0)tmp4
         ON tmp4.type_code= pro.product_type_code
+        LEFT JOIN (SELECT item.item_type_code AS variety_code,item.item_type_name AS variety_name FROM item_type item where item.item_type_state = 1)tmp5
+        ON tmp5.variety_code= pro.product_variety_code
         LEFT JOIN user_info u
         ON u.user_id= pro.purchaser_id
 	    WHERE pro.state='normal'
@@ -101,11 +103,16 @@
         OR pro.item_code LIKE CONCAT('%', #{keywords}, '%')
         OR pro.cell_code LIKE CONCAT('%', #{keywords}, '%')
         OR pro.color_name LIKE CONCAT('%', #{keywords}, '%')
+        OR item_type_name LIKE CONCAT('%', #{keywords}, '%')
+        OR item_variety_name LIKE CONCAT('%', #{keywords}, '%')
         OR tmp3.sup_name LIKE CONCAT('%', #{keywords}, '%')
         )
       </if>
-      <if test="productTypeCode != null and productTypeCode != ''">
+      <if test="productTypeCode != null">
         AND pro.product_type_code= #{productTypeCode}
+      </if>
+      <if test="productVarietyCode != null">
+        AND pro.product_variety_code= #{productVarietyCode}
       </if>
       <if test="companyId != null">
         AND pro.company_id = #{companyId}

@@ -338,6 +338,19 @@ public class MtAloneProductDetController {
 		return ResultGenerator.genSuccessResult();
 	}
 
+
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "access-token", value = "token", paramType = "header", dataType = "String", required = true) })
+	@OperateLog(description = "修改商品明细信息", type = "更新")
+	@ApiOperation(value = "修改商品明细信息", notes = "修改商品明细信息")
+	@PostMapping("/update/all")
+	public Result updateAll(@RequestBody MtAloneProductDets mtAloneProductDetList) {
+		for(MtAloneProductDet det : mtAloneProductDetList.getMtAloneProductDetList()){
+			mtAloneProductDetService.update(det);
+		}
+		return ResultGenerator.genSuccessResult();
+	}
+
 	@ApiImplicitParams({
 			@ApiImplicitParam(name = "access-token", value = "token", paramType = "header", dataType = "String", required = true) })
 	@OperateLog(description = "根据ID查询单个明细信息", type = "查询")

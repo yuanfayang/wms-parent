@@ -61,6 +61,7 @@
      <result column="remain_length" jdbcType="REAL" property="remainLength" />
      <result column="supplier_name" jdbcType="VARCHAR" property="supplierName" />
         <result column="item_type_name" jdbcType="VARCHAR" property="itemTypeName" />
+        <result column="item_variety_name" jdbcType="VARCHAR" property="itemVarietyName" />
         <result column="purchaser" jdbcType="VARCHAR" property="purchaser" />
   </resultMap>
   
@@ -79,7 +80,7 @@
      
      <select id="findListNew" parameterType="com.deer.wms.bill.manage.model.MtAloneProductParams" resultMap="ProductCombinationMap">
 		SELECT
-		pro.*,u.user_name AS purchaser,IFNULL(tmp0.num,0) AS roll_num,IFNULL(tmp1.deliverylength,0) AS delivery_length,IFNULL(tmp2.detectlength,0) AS detect_length,IFNULL(tmp2.detectlength,0)-IFNULL(tmp1.deliverylength,0) AS remain_length,tmp3.sup_name AS supplier_name,tmp4.type_name AS item_type_name,temp5.variety_name AS item_variety_name
+		pro.*,u.user_name AS purchaser,IFNULL(tmp0.num,0) AS roll_num,IFNULL(tmp1.deliverylength,0) AS delivery_length,IFNULL(tmp2.detectlength,0) AS detect_length,IFNULL(tmp2.detectlength,0)-IFNULL(tmp1.deliverylength,0) AS remain_length,tmp3.sup_name AS supplier_name,tmp4.type_name AS item_type_name,tmp5.variety_name AS item_variety_name
 		FROM mt_alone_product pro
 		LEFT JOIN (SELECT det.`warehouse_barcode` AS barcode0,COUNT(*) AS num FROM mt_alone_product_det det WHERE det.is_complete_out=0 GROUP BY det.`warehouse_barcode`)tmp0 
 		ON tmp0.barcode0=pro.`product_bar_code`
@@ -108,10 +109,10 @@
         OR tmp3.sup_name LIKE CONCAT('%', #{keywords}, '%')
         )
       </if>
-      <if test="productTypeCode != null">
+      <if test="productTypeCode != null and productTypeCode !=''">
         AND pro.product_type_code= #{productTypeCode}
       </if>
-      <if test="productVarietyCode != null">
+      <if test="productVarietyCode != null and productVarietyCode !=''">
         AND pro.product_variety_code= #{productVarietyCode}
       </if>
       <if test="companyId != null">

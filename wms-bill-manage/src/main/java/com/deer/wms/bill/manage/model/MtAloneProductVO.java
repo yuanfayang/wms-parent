@@ -13,7 +13,18 @@ public class MtAloneProductVO extends MtAloneProduct{
 	String supplierName=null;
 
 	String itemTypeName=null;
-	private String purchaser;
+
+	String itemVarietyName = null;
+
+    public String getItemVarietyName() {
+        return itemVarietyName;
+    }
+
+    public void setItemVarietyName(String itemVarietyName) {
+        this.itemVarietyName = itemVarietyName;
+    }
+
+    private String purchaser;
 
 	public String getItemTypeName() {
 		return itemTypeName;

@@ -97,6 +97,7 @@
         LEFT JOIN user_info u
         ON u.user_id= pro.purchaser_id
 	    WHERE pro.state='normal'
+        AND (IFNULL(tmp2.detectlength,0)-IFNULL(tmp1.deliverylength,0)!=0 OR tmp1.deliverylength=0)
       <if test="keywords != null and keywords != ''">
         AND (
         pro.product_name LIKE CONCAT('%', #{keywords}, '%')

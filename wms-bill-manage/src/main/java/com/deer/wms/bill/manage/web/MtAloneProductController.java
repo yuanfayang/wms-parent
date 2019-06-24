@@ -192,14 +192,14 @@ public class MtAloneProductController {
 
 		PageHelper.startPage(params.getPageNum(), params.getPageSize());
 		List<MtAloneProductVO> list = mtAloneProductService.findListNew(params);
-		List<MtAloneProductVO> listNew = new ArrayList();
+//		List<MtAloneProductVO> listNew = new ArrayList();
 
-		for (int i = 0; i < list.size(); i++) {
-			if (list.get(i).getRemainLength() != 0 || list.get(i).getDeliveryLength() == 0) {
-				listNew.add(list.get(i));
-			}
-		}
-		PageInfo pageInfo = new PageInfo(listNew);
+//		for (int i = 0; i < list.size(); i++) {
+//			if (list.get(i).getRemainLength() != 0 || list.get(i).getDeliveryLength() == 0) {
+//				listNew.add(list.get(i));
+//			}
+//		}
+		PageInfo pageInfo = new PageInfo(list);
 		return ResultGenerator.genSuccessResult(pageInfo);
 	}
 	

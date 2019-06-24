@@ -255,6 +255,7 @@ public class MtAloneExaminationDetailsController {
         mtAloneProductDetDto.setProductCode(mtAloneProduct.getProductCode());
         mtAloneProductDetDto.setCellCode(mtAloneProduct.getCellCode());
         mtAloneProductDetDto.setCellName(mtAloneProduct.getCellName());
+        mtAloneProductDetDto.setImages(mtAloneProduct.getImages());
         return ResultGenerator.genSuccessResult(mtAloneProductDetDto);
     }
 	@ApiImplicitParams({

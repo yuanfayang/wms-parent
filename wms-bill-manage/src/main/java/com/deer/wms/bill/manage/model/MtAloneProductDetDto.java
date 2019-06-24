@@ -22,6 +22,16 @@ public class MtAloneProductDetDto extends MtAloneProductDet{
     private String cellName;//货位名称
     private String cellAlias;//货位别名
 
+    private String images;
+
+    public String getImages() {
+        return images;
+    }
+
+    public void setImages(String images) {
+        this.images = images;
+    }
+
     public String getSupplierCode() {
         return supplierCode;  
     }

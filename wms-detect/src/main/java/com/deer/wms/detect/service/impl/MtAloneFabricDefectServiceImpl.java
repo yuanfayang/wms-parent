@@ -41,4 +41,9 @@ public class MtAloneFabricDefectServiceImpl extends AbstractService<MtAloneFabri
 	public MtAloneProductDet findProductDetByBarCode(@Param("productDetBarCode")String productDetBarCode) {
 		return mtAloneFabricDefectMapper.findProductDetByBarCode(productDetBarCode);
 	}
+
+	@Override
+	public List<MtAloneFabricDefect> findListByTypeId(MtAloneFabricDefectCriteria criteria) {
+		return mtAloneFabricDefectMapper.findListByTypeId(criteria);
+	}
 }

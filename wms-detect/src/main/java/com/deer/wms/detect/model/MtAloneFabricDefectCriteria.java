@@ -15,6 +15,16 @@ public class MtAloneFabricDefectCriteria  {
      */
     private Integer pageSize =199999;
 
+    private Integer fabricTypeId=1;
+
+    public Integer getFabricTypeId() {
+        return fabricTypeId;
+    }
+
+    public void setFabricTypeId(Integer fabricTypeId) {
+        this.fabricTypeId = fabricTypeId;
+    }
+
     public Integer getPageNum() {
         return pageNum;
     }

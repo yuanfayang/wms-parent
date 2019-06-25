@@ -93,4 +93,16 @@ public class MtAloneFabricDefectController {
         PageInfo pageInfo = new PageInfo(list);
         return ResultGenerator.genSuccessResult(pageInfo);
     }
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "access-token", value = "token", paramType = "header", dataType = "String", required = true) })
+    @OperateLog(description = "根据瑕疵种类ID获取瑕疵信息", type = "查询")
+    @GetMapping("/fabricListByTypeId")
+    @ApiOperation(value="根据瑕疵种类ID获取瑕疵信息",notes="根据瑕疵种类ID获取瑕疵信息")
+    public Result fabricListByTypeId(MtAloneFabricDefectCriteria criteria) {
+        PageHelper.startPage(criteria.getPageNum(), criteria.getPageSize());
+        List<MtAloneFabricDefect> list = mtAloneFabricDefectService.findListByTypeId(criteria);
+        PageInfo pageInfo = new PageInfo(list);
+        return ResultGenerator.genSuccessResult(pageInfo);
+    }
 }

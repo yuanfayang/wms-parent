@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deer.wms.detect.dao.MtAloneFabricTypeMapper">
+  <resultMap id="BaseResultMap" type="com.deer.wms.detect.model.MtAloneFabricType">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="fabric_type_name" jdbcType="VARCHAR" property="fabricTypeName" />
+    <result column="state" jdbcType="VARCHAR" property="state" />
+    <result column="memo" jdbcType="VARCHAR" property="memo" />
+    <result column="company_id" jdbcType="INTEGER" property="companyId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+
+  <select id="findList" parameterType="com.deer.wms.detect.model.MtAloneFabricTypeParams" resultMap="BaseResultMap">
+    select * from mt_alone_fabric_type ty
+    where 1=1
+    <if test="companyId != null">
+      AND ty.company_id = #{companyId}
+    </if>
+  </select>
+</mapper>

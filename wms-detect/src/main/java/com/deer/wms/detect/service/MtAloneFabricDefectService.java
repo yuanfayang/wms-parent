@@ -21,4 +21,5 @@ public interface MtAloneFabricDefectService extends Service<MtAloneFabricDefect,
 
 	MtAloneProductDet findProductDetByBarCode(@Param("productDetBarCode")String productDetBarCode);
 
+    List<MtAloneFabricDefect> findListByTypeId(MtAloneFabricDefectCriteria criteria);
 }

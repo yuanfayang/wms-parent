@@ -21,6 +21,14 @@
     where 1=1
     and deleteStatus!=1
   </select>
+
+  <select id="findListByTypeId" parameterType="com.deer.wms.detect.model.MtAloneFabricDefectCriteria" resultMap="BaseResultMap">
+    select * from mt_alone_fabric_defect def
+    where 1=1
+    <if test="fabricTypeId != null">
+      AND def.defect_type = #{fabricTypeId}
+    </if>
+  </select>
   
   <select id="findDefectByName" parameterType="com.deer.wms.detect.model.MtAloneFabricDefectCriteria" resultMap="BaseResultMap">
     select * from mt_alone_fabric_defect where 1=1 and deleteStatus!=1

@@ -15,5 +15,7 @@ public interface MtAloneFabricDefectMapper extends Mapper<MtAloneFabricDefect> {
 
 	List<MtAloneFabricDefect> findList(MtAloneFabricDefectCriteria criteria);
 
+	List<MtAloneFabricDefect> findListByTypeId(MtAloneFabricDefectCriteria criteria);
+
 	MtAloneProductDet findProductDetByBarCode(@Param("productDetBarCode")String productDetBarCode);
 }

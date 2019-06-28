@@ -97,7 +97,7 @@
         LEFT JOIN user_info u
         ON u.user_id= pro.purchaser_id
 	    WHERE pro.state='normal'
-        AND (IFNULL(tmp2.detectlength,0)-IFNULL(tmp1.deliverylength,0)!=0 OR tmp1.deliverylength=0)
+        AND (IFNULL(tmp2.detectlength,0)-IFNULL(tmp1.deliverylength,0)!=0 OR IFNULL( tmp1.deliverylength, 0 )=0)
       <if test="keywords != null and keywords != ''">
         AND (
         pro.product_name LIKE CONCAT('%', #{keywords}, '%')
@@ -105,8 +105,6 @@
         OR pro.item_code LIKE CONCAT('%', #{keywords}, '%')
         OR pro.cell_code LIKE CONCAT('%', #{keywords}, '%')
         OR pro.color_name LIKE CONCAT('%', #{keywords}, '%')
-        OR item_type_name LIKE CONCAT('%', #{keywords}, '%')
-        OR item_variety_name LIKE CONCAT('%', #{keywords}, '%')
         OR tmp3.sup_name LIKE CONCAT('%', #{keywords}, '%')
         )
       </if>

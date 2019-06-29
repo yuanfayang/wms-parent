@@ -233,10 +233,13 @@ public class MtAloneExaminationDetailsController {
     @ApiOperation(value="检测时，每调用一次该方法可获取该产品下一条未检测的明细",notes="检测时，每调用一次该方法可获取该产品下一条未检测的明细")
     public Result findOneProductDet(String productBarcode) {
     	MtAloneProductDetDto mtAloneProductDetDto=new MtAloneProductDetDto();
-    	MtAloneProductDetCriteria criteria=new MtAloneProductDetCriteria();
-    	criteria.setProductBarcode(productBarcode);
-    	MtAloneProductDet mtAloneProductDet=mtAloneProductDetService.getIsNotDetectDet(criteria);
         MtAloneProductCellVO mtAloneProduct = mtAloneProductService.findByBarcodeNew(productBarcode);
+        if(mtAloneProduct==null){
+            return ResultGenerator.genFailResult( CommonCode.SERVICE_ERROR,"仓库内没有该产品！",null );
+        }
+        MtAloneProductDetCriteria criteria=new MtAloneProductDetCriteria();
+        criteria.setProductBarcode(productBarcode);
+        MtAloneProductDet mtAloneProductDet=mtAloneProductDetService.getIsNotDetectDet(criteria);
     	if(mtAloneProductDet!=null) {
             BeanUtils.copyProperties(mtAloneProductDet,mtAloneProductDetDto);
             MtAloneDetectDet mtAloneDetectDet=mtAloneDetectDetService.findBy("productDetBarcode", mtAloneProductDet.getProductDetBarcode());

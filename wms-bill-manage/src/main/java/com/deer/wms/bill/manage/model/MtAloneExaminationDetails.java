@@ -49,8 +49,8 @@ public class MtAloneExaminationDetails {
     /**
      * 描述信息
      */
-    @ApiModelProperty(value="描述信息",name="description")
-    private String description;
+    @ApiModelProperty(value="描述信息",name="descriptions")
+    private String descriptions;
 
     /**
      * 备注
@@ -175,19 +175,19 @@ public class MtAloneExaminationDetails {
     /**
      * 获取描述信息
      *
-     * @return description - 描述信息
+     * @return descriptions - 描述信息
      */
-    public String getDescription() {
-        return description;
+    public String getDescriptions() {
+        return descriptions;
     }
 
     /**
      * 设置描述信息
      *
-     * @param description 描述信息
+     * @param descriptions 描述信息
      */
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDescriptions(String descriptions) {
+        this.descriptions = descriptions;
     }
 
     /**

@@ -41,8 +41,13 @@ public class MtAloneProductDetServiceImpl extends AbstractService<MtAloneProduct
 		return mtAloneProductDetMapper.findDetilByProductId(params);
 	}
 
+//     @Override
+//     public List<MtAloneExaminationDetails> findDetExaminationDetails(@Param("productCode") String productCode) {
+//         return mtAloneProductDetMapper.findDetExaminationDetails(productCode);
+//     }
+
      @Override
-     public List<MtAloneExaminationDetails> findDetExaminationDetails(@Param("productCode") String productCode) {
+     public List<MtAloneProDetListVO> findDetExaminationDetails(@Param("productCode") String productCode) {
          return mtAloneProductDetMapper.findDetExaminationDetails(productCode);
      }
 

@@ -11,7 +11,16 @@ public class MtAloneProductDetParams extends QueryParams{
      * 明细类型，0-入库，1-出库
      */
     private Integer productDetType=0;
-      
+
+    private String productBarCode;
+
+	public String getProductBarCode() {
+		return productBarCode;
+	}
+
+	public void setProductBarCode(String productBarCode) {
+		this.productBarCode = productBarCode;
+	}
 
 	public Integer getProductDetType() {
 		return productDetType;

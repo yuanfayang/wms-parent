@@ -465,11 +465,49 @@ public class MtAloneProductDetController {
 		return ResultGenerator.genSuccessResult(pageInfo);
 	}
 
+//	@ApiImplicitParams({
+//			@ApiImplicitParam(name = "access-token", value = "token", paramType = "header", dataType = "String", required = true) })
+//	@OperateLog(description = "单个产品对应产品明细信", type = "查询")
+//	@ApiOperation(value = "单个产品对应产品明细信息", notes = "单个产品对应产品明细信息")
+//	@GetMapping("/detsByProductId")
+//	public Result detsById(MtAloneProductDetParams params, @ApiIgnore @User CurrentUser currentUser) {
+//		if (currentUser == null) {
+//			return ResultGenerator.genFailResult(CommonCode.SERVICE_ERROR, "未登录错误", null);
+//		}
+//
+//		if (currentUser.getCompanyType() != SystemManageConstant.COMPANY_TYPE_MT) {
+//			params.setCompanyId(currentUser.getCompanyId());
+//		} else {
+//			params.setCompanyId(null);
+//		}
+//		PageHelper.startPage(params.getPageNum(), params.getPageSize());
+//		List<MtAloneProductDetDto> list = mtAloneProductDetService.findDetilByProductId(params);
+//		List<MtAloneProductDetExamDto> detExaminationDetailsList = new ArrayList<MtAloneProductDetExamDto>();
+//		if(!list.isEmpty()){
+//			List<MtAloneExaminationDetails> listExaminationDetails=mtAloneProductDetService.findDetExaminationDetails(list.get(0).getWarehouseBarcode());
+//			for(int i=0;i<list.size();i++){
+//				MtAloneProductDetExamDto mtAloneProductDetExamDto=new MtAloneProductDetExamDto();
+//				BeanUtils.copyProperties(list.get(i),mtAloneProductDetExamDto);
+//				for(int j=0;j<listExaminationDetails.size();j++){
+//					if(list.get(i).getProductDetBarcode().equals(listExaminationDetails.get(j).getProductDetBarcode())){
+//						mtAloneProductDetExamDto.getDetExaminationDetailsList().add(listExaminationDetails.get(j));
+//					}
+//				}
+//				detExaminationDetailsList.add(mtAloneProductDetExamDto);
+//			}
+//			PageInfo pageInfo = new PageInfo(detExaminationDetailsList);
+//			return ResultGenerator.genSuccessResult(pageInfo);
+//		}else{
+//			PageInfo pageInfo = new PageInfo(list);
+//			return ResultGenerator.genSuccessResult(pageInfo);
+//		}
+//	}
+
 	@ApiImplicitParams({
 			@ApiImplicitParam(name = "access-token", value = "token", paramType = "header", dataType = "String", required = true) })
 	@OperateLog(description = "单个产品对应产品明细信", type = "查询")
 	@ApiOperation(value = "单个产品对应产品明细信息", notes = "单个产品对应产品明细信息")
-	@GetMapping("/detsByProductId")
+	@GetMapping("/detsByProductBarCode")
 	public Result detsById(MtAloneProductDetParams params, @ApiIgnore @User CurrentUser currentUser) {
 		if (currentUser == null) {
 			return ResultGenerator.genFailResult(CommonCode.SERVICE_ERROR, "未登录错误", null);
@@ -481,26 +519,9 @@ public class MtAloneProductDetController {
 			params.setCompanyId(null);
 		}
 		PageHelper.startPage(params.getPageNum(), params.getPageSize());
-		List<MtAloneProductDetDto> list = mtAloneProductDetService.findDetilByProductId(params);
-		List<MtAloneProductDetExamDto> detExaminationDetailsList = new ArrayList<MtAloneProductDetExamDto>();
-		if(!list.isEmpty()){
-			List<MtAloneExaminationDetails> listExaminationDetails=mtAloneProductDetService.findDetExaminationDetails(list.get(0).getWarehouseBarcode());
-			for(int i=0;i<list.size();i++){
-				MtAloneProductDetExamDto mtAloneProductDetExamDto=new MtAloneProductDetExamDto();
-				BeanUtils.copyProperties(list.get(i),mtAloneProductDetExamDto);
-				for(int j=0;j<listExaminationDetails.size();j++){
-					if(list.get(i).getProductDetBarcode().equals(listExaminationDetails.get(j).getProductDetBarcode())){
-						mtAloneProductDetExamDto.getDetExaminationDetailsList().add(listExaminationDetails.get(j));
-					}
-				}
-				detExaminationDetailsList.add(mtAloneProductDetExamDto);
-			}
-			PageInfo pageInfo = new PageInfo(detExaminationDetailsList);
-			return ResultGenerator.genSuccessResult(pageInfo);
-		}else{
-			PageInfo pageInfo = new PageInfo(list);
-			return ResultGenerator.genSuccessResult(pageInfo);
-		}
+		List<MtAloneProDetListVO> listExaminationDetails=mtAloneProductDetService.findDetExaminationDetails(params.getProductBarCode());
+		PageInfo pageInfo = new PageInfo(listExaminationDetails);
+		return ResultGenerator.genSuccessResult(pageInfo);
 	}
 
 	@ApiImplicitParams({

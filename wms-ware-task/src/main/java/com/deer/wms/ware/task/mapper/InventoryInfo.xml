@@ -57,6 +57,7 @@
   	
   	<resultMap id="CompanyProductDtoMap" type="com.deer.wms.ware.task.model.CompanyProductDto">
   		<result column="product_name" jdbcType="VARCHAR" property="productName" />
+  		<result column="product_code" jdbcType="VARCHAR" property="productCode"/>
   		<result column="product_det_code" jdbcType="VARCHAR" property="productDetCode" />
   		<result column="product_det_barcode" jdbcType="VARCHAR" property="productDetBarCode" />
   		<result column="product_det_remain_length" jdbcType="FLOAT" property="productDetRemainLength" />
@@ -67,10 +68,11 @@
   		<result column="cell_name" jdbcType="VARCHAR" property="cellName" />
   		<result column="ware_id" jdbcType="INTEGER" property="wareId" />
   		<result column="ware_name" jdbcType="VARCHAR" property="wareName" />
+  		<result column="cell_alias" jdbcType="VARCHAR" property="cellAlias"/>
   	</resultMap>
   	
   	<select id="findCompanyProductDet" resultMap="CompanyProductDtoMap">
-  		SELECT product.product_name,productdet.product_det_code,productdet.product_det_barcode,productdet.product_det_remain_length,productdet.color_name,area.area_name,shelf.shelf_name,cell.cell_code,cell.cell_name,ware.ware_id,ware.ware_name
+  		SELECT product.product_name,product.product_code,productdet.product_det_barcode,productdet.product_det_remain_length,productdet.color_name,area.area_name,shelf.shelf_name,cell.cell_code,cell.cell_alias,ware.ware_id,ware.ware_name
 		FROM mt_alone_product_det productdet
 		LEFT JOIN mt_alone_product product ON productdet.product_id = product.id
 		LEFT JOIN cell_info cell ON product.cell_code = cell.cell_code

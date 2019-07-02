@@ -3,6 +3,7 @@ package com.deer.wms.ware.task.model;
 public class CompanyProductDto {
 
 	private String productName;   //产品名称
+	private String productCode;
 	private String productDetCode;		//产品编号
 	private String productDetBarCode;		//产品明细条形码
 	private float productDetRemainLength;		//米数
@@ -14,6 +15,19 @@ public class CompanyProductDto {
 	private String inventoryCode;		//盘点单号
 	private Integer wareId;			//仓库id
 	private String wareName;		//仓库名称
+	private String cellAlias;		//货位别名
+	public String getProductCode() {
+		return productCode;
+	}
+	public void setProductCode(String productCode) {
+		this.productCode = productCode;
+	}
+	public String getCellAlias() {
+		return cellAlias;
+	}
+	public void setCellAlias(String cellAlias) {
+		this.cellAlias = cellAlias;
+	}
 	public String getCellName() {
 		return cellName;
 	}

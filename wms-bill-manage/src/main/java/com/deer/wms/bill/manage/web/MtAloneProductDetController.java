@@ -519,7 +519,7 @@ public class MtAloneProductDetController {
 			params.setCompanyId(null);
 		}
 		PageHelper.startPage(params.getPageNum(), params.getPageSize());
-		List<MtAloneProDetListVO> listExaminationDetails=mtAloneProductDetService.findDetExaminationDetails(params.getProductBarCode());
+		List<MtAloneDetFabsListVO> listExaminationDetails=mtAloneProductDetService.findDetExaminationDetails(params.getProductBarCode());
 		PageInfo pageInfo = new PageInfo(listExaminationDetails);
 		return ResultGenerator.genSuccessResult(pageInfo);
 	}

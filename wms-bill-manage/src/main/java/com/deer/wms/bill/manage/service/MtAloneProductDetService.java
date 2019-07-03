@@ -68,7 +68,7 @@ public interface MtAloneProductDetService extends Service<MtAloneProductDet, Int
 	List<MtAloneProductDetDto> findDetilByProductId(MtAloneProductDetParams params);
 
 //	List<MtAloneExaminationDetails> findDetExaminationDetails(@Param("productCode") String productCode);
-	List<MtAloneProDetListVO> findDetExaminationDetails(@Param("productCode") String productCode);
+	List<MtAloneDetFabsListVO> findDetExaminationDetails(@Param("productCode") String productCode);
 
 	MtAloneProductDet getIsNotDetectDet(MtAloneProductDetCriteria criteria);
 

@@ -703,8 +703,8 @@
         where 1=1
         <if test="productCode != null and productCode != ''">
             AND det.warehouse_barcode=#{productCode}
-            AND fab.product_det_barcode=det.product_det_barcode
         </if>
+        AND fab.product_det_barcode=det.product_det_barcode
     </select>
 
 

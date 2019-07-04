@@ -195,7 +195,7 @@ public class MtAloneExaminationDetailsController {
         			if(mtAloneComProDetFabricList.get(s).getProductDetBarcode().equals(productDetCodeList.get(k))) {
         				MtAloneExaminationDetails mtAloneExaminationDetails=new MtAloneExaminationDetails();
         				mtAloneExaminationDetails.setPosition(mtAloneComProDetFabricList.get(s).getPosition());
-        				mtAloneExaminationDetails.setDescriptions(mtAloneComProDetFabricList.get(s).getDescription());
+        				mtAloneExaminationDetails.setDescription(mtAloneComProDetFabricList.get(s).getDescription());
         				mtAloneExaminationDetList.add(mtAloneExaminationDetails);
         				
         				mtAloneProductDetFabrics.setColorName(mtAloneComProDetFabricList.get(s).getColorName());

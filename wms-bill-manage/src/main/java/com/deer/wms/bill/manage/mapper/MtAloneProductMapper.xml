@@ -272,20 +272,18 @@
     </delete>
 
     <select id="findCountCellStateByComId" parameterType="com.deer.wms.bill.manage.model.MtAloneHomePageParams" resultType="com.deer.wms.bill.manage.model.MtAloneCellStateDto">
-        select
+        SELECT
         <!--查询有货货位数-->
-        (select count(distinct(productDet.cell_code))  from mt_alone_product_det productDet
-        inner join cell_info cell
-        on productDet.company_id = cell.company_id and productDet.cell_code = cell.cell_code
+        (SELECT COUNT(DISTINCT(productDet.cell_code)) FROM mt_alone_product_det productDet
         <where>
-            productDet.cell_code is not null and productDet.state='normal'
+            productDet.cell_code IS NOT NULL AND productDet.state='normal'
             <if test="companyId != null">
                 AND productDet.company_id=#{companyId}
             </if>
         </where>) countInStock,
 
         <!--查询货位总数-->
-        (select count(distinct(cell.cell_code)) from cell_info cell
+        (SELECT COUNT(DISTINCT(cell.cell_code)) FROM cell_info cell
         <where>
             <if test="companyId != null">
                 AND cell.company_id=#{companyId}
@@ -293,8 +291,7 @@
         </where>)sumCells,
 
         <!--查询锁定货位数-->
-        (select count(CASE state WHEN 2 THEN 1 ELSE null END)
-        from cell_info cell
+        (SELECT COUNT(CASE state WHEN 2 THEN 1 ELSE NULL END) FROM cell_info cell
         <where>
             <if test="companyId != null">
                 AND cell.company_id=#{companyId}
@@ -302,13 +299,15 @@
         </where>) countLock,
 
         <!--查询故障货位数-->
-        (select count(CASE state WHEN 3 THEN 1 ELSE null END)
-        from cell_info cell
+        (SELECT COUNT(CASE state WHEN 3 THEN 1 ELSE NULL END) FROM cell_info cell
         <where>
             <if test="companyId != null">
                 AND cell.company_id=#{companyId}
             </if>
-        </where>) countFault  from dual
-
+        </where>) countFault FROM dual
     </select>
+
+
+
+
 </mapper>

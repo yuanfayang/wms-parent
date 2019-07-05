@@ -164,6 +164,11 @@ public class MtAloneProductDetServiceImpl extends AbstractService<MtAloneProduct
          return homePageBelowDto;
      }
 
+     @Override
+     public List<MtAloneDetFabsListVO> findDetsWithoutFabs(@Param("productCode") String productCode) {
+         return  mtAloneProductDetMapper.findDetsWithoutFabs(productCode);
+     }
+
 
      @Override
 	public MtAloneProductDet findOneDetByProCode(@Param("productBarCode")String productBarCode) {

@@ -83,4 +83,6 @@ public interface MtAloneProductDetMapper extends Mapper<MtAloneProductDet> {
 
 //    List<MtAloneExaminationDetails> findDetExaminationDetails(@Param("productCode") String productCode);
 	List<MtAloneDetFabsListVO> findDetExaminationDetails(@Param("productCode") String productCode);
+
+    List<MtAloneDetFabsListVO> findDetsWithoutFabs(@Param("productCode") String productCode);
 }

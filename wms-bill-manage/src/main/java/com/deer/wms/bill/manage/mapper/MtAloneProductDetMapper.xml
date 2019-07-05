@@ -758,6 +758,33 @@
         <if test="productCode != null and productCode != ''">
             AND det.warehouse_barcode=#{productCode}
         </if>
+        order by  det.create_time desc
+    </select>
+
+    <resultMap id="DetWithoutFabsMap" type="com.deer.wms.bill.manage.model.MtAloneDetFabsListVO" extends="BaseResultMap">
+        <result column="product_name" jdbcType="VARCHAR" property="productName" />
+        <result column="product_code" jdbcType="VARCHAR" property="productCode" />
+        <result column="cell_alias" jdbcType="VARCHAR" property="cellAlias" />
+    </resultMap>
+    <select id="findDetsWithoutFabs" parameterType="java.lang.String" resultMap="DetExaminationMap">
+        SELECT
+        pro.product_name ,
+        pro.product_code ,
+        pro.dyelot_num ,
+        pro.color_name ,
+        cell.cell_alias,
+        det.*
+
+        FROM mt_alone_product_det det
+        LEFT JOIN mt_alone_product pro
+        ON pro.product_bar_code=det.warehouse_barcode
+        LEFT JOIN cell_info cell
+        ON cell.cell_code=det.cell_code
+        WHERE 1=1
+        <if test="productCode != null and productCode != ''">
+            AND det.warehouse_barcode=#{productCode}
+        </if>
+            order by  det.create_time desc
     </select>
 
 

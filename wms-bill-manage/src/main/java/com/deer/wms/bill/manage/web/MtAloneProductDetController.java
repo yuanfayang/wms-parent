@@ -427,11 +427,11 @@ public class MtAloneProductDetController {
 	public Result detailByBarcode(MtAloneProductDetCriteria criteria) {
 		PageHelper.startPage(criteria.getPageNum(), criteria.getPageSize());
 		List<MtAloneProductDet> list = mtAloneProductDetService.findDetilByProductBarcode(criteria);
-		MtAloneProduct mtAloneProduct = mtAloneProductService.findByBarcode(list.get(0).getWarehouseBarcode());
-		for(int i=0;i<list.size();i++) {
-			list.get(i).setColorName(mtAloneProduct.getColorName());
-			list.get(i).setDyelotNum(mtAloneProduct.getDyelotNum());
-		}
+//		MtAloneProduct mtAloneProduct = mtAloneProductService.findByBarcode(list.get(0).getWarehouseBarcode());
+//		for(int i=0;i<list.size();i++) {
+//			list.get(i).setColorName(mtAloneProduct.getColorName());
+//			list.get(i).setDyelotNum(mtAloneProduct.getDyelotNum());
+//		}
 		PageInfo pageInfo = new PageInfo(list);
 		return ResultGenerator.genSuccessResult(pageInfo);
 	}
@@ -520,6 +520,26 @@ public class MtAloneProductDetController {
 		}
 		PageHelper.startPage(params.getPageNum(), params.getPageSize());
 		List<MtAloneDetFabsListVO> listExaminationDetails=mtAloneProductDetService.findDetExaminationDetails(params.getProductBarCode());
+		PageInfo pageInfo = new PageInfo(listExaminationDetails);
+		return ResultGenerator.genSuccessResult(pageInfo);
+	}
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "access-token", value = "token", paramType = "header", dataType = "String", required = true) })
+	@OperateLog(description = "单个产品对应产品明细信，不含瑕疵", type = "查询")
+	@ApiOperation(value = "单个产品对应产品明细信息，不含瑕疵", notes = "单个产品对应产品明细信息，不含瑕疵")
+	@GetMapping("/detsWithoutFabs")
+	public Result detsWithoutFabs(MtAloneProductDetParams params, @ApiIgnore @User CurrentUser currentUser) {
+		if (currentUser == null) {
+			return ResultGenerator.genFailResult(CommonCode.SERVICE_ERROR, "未登录错误", null);
+		}
+
+		if (currentUser.getCompanyType() != SystemManageConstant.COMPANY_TYPE_MT) {
+			params.setCompanyId(currentUser.getCompanyId());
+		} else {
+			params.setCompanyId(null);
+		}
+		PageHelper.startPage(params.getPageNum(), params.getPageSize());
+		List<MtAloneDetFabsListVO> listExaminationDetails=mtAloneProductDetService.findDetsWithoutFabs(params.getProductBarCode());
 		PageInfo pageInfo = new PageInfo(listExaminationDetails);
 		return ResultGenerator.genSuccessResult(pageInfo);
 	}

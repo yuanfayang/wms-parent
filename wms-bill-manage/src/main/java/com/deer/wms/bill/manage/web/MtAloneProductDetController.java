@@ -518,12 +518,12 @@ public class MtAloneProductDetController {
 		} else {
 			params.setCompanyId(null);
 		}
-
-		params.setStartRow((params.getPageNum()-1)*params.getPageSize());
-		List<MtAloneDetFabsListVO> listExaminationDetails=mtAloneProductDetService.findDetExaminationDetails(params);
-		for(int i=0;i<listExaminationDetails.size();i++){
-			System.out.println("====================================="+listExaminationDetails.get(i).getProductDetId());
-		}
+		QueryParamsDet detParams=new QueryParamsDet();
+		BeanUtils.copyProperties(params, detParams);
+		detParams.setPageNumber(params.getPageNum());
+		detParams.setPageSizes(params.getPageSize());
+		detParams.setStartRow((detParams.getPageNumber()-1)*detParams.getPageSizes());
+		List<MtAloneDetFabsListVO> listExaminationDetails=mtAloneProductDetService.findDetExaminationDetails(detParams);
 		return ResultGenerator.genSuccessResult(listExaminationDetails);
 	}
 	@ApiImplicitParams({
@@ -541,8 +541,12 @@ public class MtAloneProductDetController {
 		} else {
 			params.setCompanyId(null);
 		}
-		params.setStartRow((params.getPageNum()-1)*params.getPageSize());
-		List<MtAloneDetFabsListVO> listExaminationDetails=mtAloneProductDetService.findDetsWithoutFabs(params);
+		QueryParamsDet detParams=new QueryParamsDet();
+		BeanUtils.copyProperties(params, detParams);
+		detParams.setPageNumber(params.getPageNum());
+		detParams.setPageSizes(params.getPageSize());
+		detParams.setStartRow((detParams.getPageNumber()-1)*detParams.getPageSizes());
+		List<MtAloneDetFabsListVO> listExaminationDetails=mtAloneProductDetService.findDetsWithoutFabs(detParams);
 		return ResultGenerator.genSuccessResult(listExaminationDetails);
 	}
 

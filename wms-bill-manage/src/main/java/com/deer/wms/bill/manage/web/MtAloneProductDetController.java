@@ -518,10 +518,13 @@ public class MtAloneProductDetController {
 		} else {
 			params.setCompanyId(null);
 		}
-		PageHelper.startPage(params.getPageNum(), params.getPageSize());
-		List<MtAloneDetFabsListVO> listExaminationDetails=mtAloneProductDetService.findDetExaminationDetails(params.getProductBarCode());
-		PageInfo pageInfo = new PageInfo(listExaminationDetails);
-		return ResultGenerator.genSuccessResult(pageInfo);
+
+		params.setStartRow((params.getPageNum()-1)*params.getPageSize());
+		List<MtAloneDetFabsListVO> listExaminationDetails=mtAloneProductDetService.findDetExaminationDetails(params);
+		for(int i=0;i<listExaminationDetails.size();i++){
+			System.out.println("====================================="+listExaminationDetails.get(i).getProductDetId());
+		}
+		return ResultGenerator.genSuccessResult(listExaminationDetails);
 	}
 	@ApiImplicitParams({
 			@ApiImplicitParam(name = "access-token", value = "token", paramType = "header", dataType = "String", required = true) })
@@ -538,10 +541,9 @@ public class MtAloneProductDetController {
 		} else {
 			params.setCompanyId(null);
 		}
-		PageHelper.startPage(params.getPageNum(), params.getPageSize());
-		List<MtAloneDetFabsListVO> listExaminationDetails=mtAloneProductDetService.findDetsWithoutFabs(params.getProductBarCode());
-		PageInfo pageInfo = new PageInfo(listExaminationDetails);
-		return ResultGenerator.genSuccessResult(pageInfo);
+		params.setStartRow((params.getPageNum()-1)*params.getPageSize());
+		List<MtAloneDetFabsListVO> listExaminationDetails=mtAloneProductDetService.findDetsWithoutFabs(params);
+		return ResultGenerator.genSuccessResult(listExaminationDetails);
 	}
 
 	@ApiImplicitParams({

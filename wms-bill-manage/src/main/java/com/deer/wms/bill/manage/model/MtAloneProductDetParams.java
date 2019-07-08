@@ -18,6 +18,16 @@ public class MtAloneProductDetParams extends QueryParams{
 		return productBarCode;
 	}
 
+	private Integer startRow=0;
+
+	public Integer getStartRow() {
+		return startRow;
+	}
+
+	public void setStartRow(Integer startRow) {
+		this.startRow = startRow;
+	}
+
 	public void setProductBarCode(String productBarCode) {
 		this.productBarCode = productBarCode;
 	}

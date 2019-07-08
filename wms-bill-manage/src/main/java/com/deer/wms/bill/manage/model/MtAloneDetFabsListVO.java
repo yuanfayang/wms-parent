@@ -11,6 +11,36 @@ public class MtAloneDetFabsListVO extends MtAloneProductDet{
 
     private String cellAlias;//货位别名
 
+    private String supplierName;//供应商名称
+
+    private String itemCode;//料号
+
+    public String getSupplierName() {
+        return supplierName;
+    }
+
+    public void setSupplierName(String supplierName) {
+        this.supplierName = supplierName;
+    }
+
+    public String getItemCode() {
+        return itemCode;
+    }
+
+    public void setItemCode(String itemCode) {
+        this.itemCode = itemCode;
+    }
+
+    private Integer total=999;
+
+    public Integer getTotal() {
+        return total;
+    }
+
+    public void setTotal(Integer total) {
+        this.total = total;
+    }
+
 
     public String getProductCode() {
         return productCode;

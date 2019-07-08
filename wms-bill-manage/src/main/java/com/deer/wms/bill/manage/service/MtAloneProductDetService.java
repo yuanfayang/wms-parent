@@ -68,7 +68,7 @@ public interface MtAloneProductDetService extends Service<MtAloneProductDet, Int
 	List<MtAloneProductDetDto> findDetilByProductId(MtAloneProductDetParams params);
 
 //	List<MtAloneExaminationDetails> findDetExaminationDetails(@Param("productCode") String productCode);
-	List<MtAloneDetFabsListVO> findDetExaminationDetails(@Param("productCode") String productCode);
+	List<MtAloneDetFabsListVO> findDetExaminationDetails(MtAloneProductDetParams params);
 
 	MtAloneProductDet getIsNotDetectDet(MtAloneProductDetCriteria criteria);
 
@@ -76,5 +76,5 @@ public interface MtAloneProductDetService extends Service<MtAloneProductDet, Int
 
     MtAloneHomePageBelowDto findHomePageBelowCountNew(MtAloneHomePageParams params);
 
-    List<MtAloneDetFabsListVO> findDetsWithoutFabs(@Param("productCode") String productCode);
+    List<MtAloneDetFabsListVO> findDetsWithoutFabs(MtAloneProductDetParams params);
 }

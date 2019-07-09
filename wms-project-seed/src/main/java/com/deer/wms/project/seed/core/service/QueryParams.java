@@ -22,7 +22,7 @@ public abstract class QueryParams {
      */
 	private Integer companyId = -999;
 
-    
+
 	public Integer getPageNum() {
 		return pageNum;
 	}

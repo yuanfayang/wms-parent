@@ -77,4 +77,6 @@ public interface MtAloneProductDetService extends Service<MtAloneProductDet, Int
     MtAloneHomePageBelowDto findHomePageBelowCountNew(MtAloneHomePageParams params);
 
     List<MtAloneDetFabsListVO> findDetsWithoutFabs(QueryParamsDet params);
+
+    Long findDetsWithoutFabsCount(QueryParamsDet detParams);
 }

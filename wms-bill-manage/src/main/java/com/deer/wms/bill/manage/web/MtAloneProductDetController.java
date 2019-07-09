@@ -509,22 +509,33 @@ public class MtAloneProductDetController {
 	@ApiOperation(value = "单个产品对应产品明细信息", notes = "单个产品对应产品明细信息")
 	@GetMapping("/detsByProductBarCode")
 	public Result detsById(MtAloneProductDetParams params, @ApiIgnore @User CurrentUser currentUser) {
+
 		if (currentUser == null) {
 			return ResultGenerator.genFailResult(CommonCode.SERVICE_ERROR, "未登录错误", null);
 		}
 
 		if (currentUser.getCompanyType() != SystemManageConstant.COMPANY_TYPE_MT) {
+
 			params.setCompanyId(currentUser.getCompanyId());
+
 		} else {
 			params.setCompanyId(null);
 		}
+
 		QueryParamsDet detParams=new QueryParamsDet();
+
 		BeanUtils.copyProperties(params, detParams);
+
 		detParams.setPageNumber(params.getPageNum());
 		detParams.setPageSizes(params.getPageSize());
 		detParams.setStartRow((detParams.getPageNumber()-1)*detParams.getPageSizes());
+
 		List<MtAloneDetFabsListVO> listExaminationDetails=mtAloneProductDetService.findDetExaminationDetails(detParams);
-		return ResultGenerator.genSuccessResult(listExaminationDetails);
+
+		Long total = mtAloneProductDetService.findDetsWithoutFabsCount(detParams);
+		PageInfo pageInfo = new PageInfo(listExaminationDetails);
+		pageInfo.setTotal(total);
+		return ResultGenerator.genSuccessResult(pageInfo);
 	}
 	@ApiImplicitParams({
 			@ApiImplicitParam(name = "access-token", value = "token", paramType = "header", dataType = "String", required = true) })
@@ -547,7 +558,10 @@ public class MtAloneProductDetController {
 		detParams.setPageSizes(params.getPageSize());
 		detParams.setStartRow((detParams.getPageNumber()-1)*detParams.getPageSizes());
 		List<MtAloneDetFabsListVO> listExaminationDetails=mtAloneProductDetService.findDetsWithoutFabs(detParams);
-		return ResultGenerator.genSuccessResult(listExaminationDetails);
+        Long total = mtAloneProductDetService.findDetsWithoutFabsCount(detParams);
+		PageInfo pageInfo = new PageInfo(listExaminationDetails);
+		pageInfo.setTotal(total);
+		return ResultGenerator.genSuccessResult(pageInfo);
 	}
 
 	@ApiImplicitParams({

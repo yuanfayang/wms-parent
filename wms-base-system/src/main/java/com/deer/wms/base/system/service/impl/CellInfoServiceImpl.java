@@ -1,6 +1,5 @@
 package com.deer.wms.base.system.service.impl;
 
-import com.deer.wms.base.system.dao.AreaInfoMapper;
 import com.deer.wms.base.system.dao.CellInfoMapper;
 import com.deer.wms.base.system.model.*;
 import com.deer.wms.base.system.service.CellInfoService;
@@ -12,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -88,5 +86,9 @@ public class CellInfoServiceImpl extends AbstractService<CellInfo, Integer> impl
         cellInfoMapper.deleteByShelfId(params);
     }
 
+    @Override
+    public void deleteListByIds(List<CellInfo> list) {
+        cellInfoMapper.deleteListByIds(list);
+    }
 
 }

@@ -12,10 +12,9 @@ public interface CellInfoMapper extends Mapper<CellInfo> {
 	List<CellInfoDto> findListByRowColumn(CellInfoCriteriaRowColumn criteria);
 	
 	int findRollCountByCellCode(@Param("cellCode") String cellCode);
-
     List<CellInfoDto> findListNew(CellInfoParams params);
-
     List<CellInfoDto> findListByRowColumnNew(CellInfoParamsRowColumn params);
-
     void deleteByShelfId(ShelfInfoParams params);
+
+    void deleteListByIds(List<CellInfo> list);
 }

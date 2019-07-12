@@ -1,45 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.deer.wms.base.system.dao.CellInfoMapper">
-  <resultMap id="BaseResultMap" type="com.deer.wms.base.system.model.CellInfoDto">
-    <!--
-      WARNING - @mbg.generated
-    -->
-    <id column="cell_id" jdbcType="INTEGER" property="cellId" />
+    <resultMap id="BaseResultMap" type="com.deer.wms.base.system.model.CellInfoDto">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="cell_id" jdbcType="INTEGER" property="cellId"/>
 
-    <result column="shelf_code" jdbcType="VARCHAR" property="shelfCode" />
-    <result column="cell_code" jdbcType="VARCHAR" property="cellCode" />
-      <result column="cell_name" jdbcType="VARCHAR" property="cellName" />
-      <result column="cell_alias" jdbcType="VARCHAR" property="cellAlias" />
-    <result column="s_column" jdbcType="INTEGER" property="sColumn" />
-    <result column="s_row" jdbcType="INTEGER" property="sRow" />
-    <result column="add_time" jdbcType="TIMESTAMP" property="addTime" />
-    <result column="memo" jdbcType="VARCHAR" property="memo" />
-    <result column="shelf_name" jdbcType="VARCHAR" property="shelfName" />
-    <result column="area_name" jdbcType="VARCHAR" property="areaName" />
-    <result column="ware_name" jdbcType="VARCHAR" property="wareName" />
-    <result column="company_id" jdbcType="INTEGER" property="companyId" />
-    <result column="company_name" jdbcType="INTEGER" property="companyName" />
-    <result column="state" jdbcType="INTEGER" property="state" />
-    <result column="cell_bar_code" jdbcType="VARCHAR" property="cellBarCode" />
+        <result column="shelf_code" jdbcType="VARCHAR" property="shelfCode"/>
+        <result column="cell_code" jdbcType="VARCHAR" property="cellCode"/>
+        <result column="cell_name" jdbcType="VARCHAR" property="cellName"/>
+        <result column="cell_alias" jdbcType="VARCHAR" property="cellAlias"/>
+        <result column="s_column" jdbcType="INTEGER" property="sColumn"/>
+        <result column="s_row" jdbcType="INTEGER" property="sRow"/>
+        <result column="add_time" jdbcType="TIMESTAMP" property="addTime"/>
+        <result column="memo" jdbcType="VARCHAR" property="memo"/>
+        <result column="shelf_name" jdbcType="VARCHAR" property="shelfName"/>
+        <result column="area_name" jdbcType="VARCHAR" property="areaName"/>
+        <result column="ware_name" jdbcType="VARCHAR" property="wareName"/>
+        <result column="company_id" jdbcType="INTEGER" property="companyId"/>
+        <result column="company_name" jdbcType="INTEGER" property="companyName"/>
+        <result column="state" jdbcType="INTEGER" property="state"/>
+        <result column="cell_bar_code" jdbcType="VARCHAR" property="cellBarCode"/>
 
-    <result column="order_no" jdbcType="INTEGER" property="orderNo" />
-    <result column="roll_num" jdbcType="INTEGER" property="rollNum" />
+        <result column="order_no" jdbcType="INTEGER" property="orderNo"/>
+        <result column="roll_num" jdbcType="INTEGER" property="rollNum"/>
 
-      <result column="cell_l" jdbcType="REAL" property="cellL" />
-      <result column="cell_w" jdbcType="REAL" property="cellW" />
-      <result column="cell_h" jdbcType="REAL" property="cellH" />
-      <result column="company_id" jdbcType="INTEGER" property="companyId" />
-  </resultMap>
+        <result column="cell_l" jdbcType="REAL" property="cellL"/>
+        <result column="cell_w" jdbcType="REAL" property="cellW"/>
+        <result column="cell_h" jdbcType="REAL" property="cellH"/>
+        <result column="company_id" jdbcType="INTEGER" property="companyId"/>
+    </resultMap>
 
-  <delete id="deleteByCodeAndCom" parameterType="com.deer.wms.base.system.model.CellInfoCriteria">
-    delete from cell_info
-    where cell_code = #{cellCode}
-    <if test="companyId != null">
-      AND company_id = #{companyId}
-    </if>
+    <delete id="deleteByCodeAndCom" parameterType="com.deer.wms.base.system.model.CellInfoCriteria">
+        delete from cell_info
+        where cell_code = #{cellCode}
+        <if test="companyId != null">
+            AND company_id = #{companyId}
+        </if>
 
-  </delete>
+    </delete>
 
     <delete id="deleteByShelfId" parameterType="com.deer.wms.base.system.model.ShelfInfoParams">
         delete from cell_info
@@ -52,50 +52,14 @@
             <if test="companyId != null">
                 AND company_id = #{companyId}
             </if>
-        </where>)
+        </where>
+        )
 
         <if test="companyId != null">
             AND company_id = #{companyId}
         </if>
 
     </delete>
-
-    <!--
-    <select id="findList" parameterType="com.deer.wms.base.system.model.CellInfoCriteria" resultMap="BaseResultMap">
-    select
-  *
-    from cell_info_view
-
-    where 1=1
-    <if  test="keyWords != null and keyWords != ''">
-      AND ( shelf_name LIKE CONCAT('%', #{keyWords}, '%')
-      OR cell_name LIKE CONCAT('%', #{keyWords}, '%')
-      OR  area_name LIKE CONCAT('%', #{keyWords}, '%')
-      OR  ware_name  LIKE CONCAT('%', #{keyWords}, '%'))
-    </if>
-    <if test="shelfCode != null and shelfCode != ''">
-      AND shelf_code =#{shelfCode}
-    </if>
-    <if test="areaCode !=null and  areaCode !=''">
-      AND area_code=#{areaCode}
-    </if>
-    <if test="wareCode !=null and  wareCode !=''">
-      AND ware_code=#{wareCode}
-    </if>
-    <if test="companyId != null and companyId != ''">
-      AND company_id =#{companyId}
-    </if>
-    <if test="cellBarCode != null and cellBarCode != ''">
-      AND (cell_bar_code =#{cellBarCode} or cell_code = #{cellBarCode})
-    </if>
-    <if test="cellCode != null and cellCode != ''">
-      AND (cell_code =#{cellCode} or cell_bar_code = #{cellCode})
-    </if>
-
-    order by ware_code , area_code ,shelf_code , s_row, s_column
-
-  </select>
-  -->
     <select id="findList" parameterType="com.deer.wms.base.system.model.CellInfoCriteria" resultMap="BaseResultMap">
         select * from cell_info
         where 1=1
@@ -140,110 +104,48 @@
             <if test="companyId != null">
                 AND cell.company_id =#{companyId}
             </if>
-        </where> order by cell.shelf_code, cell.add_time,  cell.s_row, cell.s_column
+        </where>
+        order by cell.shelf_code, cell.add_time, cell.s_row, cell.s_column
     </select>
-    
-    <!-- select id="findListByRowColumn" parameterType="com.deer.wms.base.system.model.CellInfoCriteriaRowColumn" resultMap="BaseResultMap">
-	SELECT
-	*,IFNULL(tmp1.num,0) AS roll_num
-	FROM
-	cell_info t0
-	LEFT JOIN 
-		(SELECT COUNT(*)AS num,tmp.barcode,tmp.cellcode AS ccode FROM mt_alone_product_det det 
-		   INNER JOIN(SELECT pro.product_bar_code AS barcode, t1.cellcode AS cellcode FROM mt_alone_product pro 
-			         INNER JOIN (SELECT t0.cell_code AS cellcode FROM cell_info t0)t1
-			         ON pro.`cell_code`=t1.cellcode)tmp 
-		   ON  det.`warehouse_barcode`=tmp.barcode 
-		   AND det.`is_complete_out`=0
-		   GROUP BY tmp.cellcode )tmp1
-    ON t0.`cell_code`=tmp1.ccode 
-    WHERE 1=1  
-	<if test="shelfCode != null and shelfCode != ''">
-      AND shelf_code =#{shelfCode}
-    </if>
-    <if test="areaCode !=null and  areaCode !=''">
-      AND area_code=#{areaCode}
-    </if>
-    <if test="wareCode !=null and  wareCode !=''">
-      AND ware_code=#{wareCode}
-    </if>
-    <if test="companyId != null">
-      AND company_id =#{companyId}
-    </if>
-     <if test="beginRow != null and beginRow != '' and endRow != null and endRow != '' ">
-      AND s_row BETWEEN #{beginRow} AND #{endRow}
-    </if>
-    <if test="beginColumn != null and beginColumn != '' and endColumn != null and endColumn != '' ">
-      AND s_column BETWEEN #{beginColumn} AND #{endColumn}
-    </if>
-    order by  s_row, s_column
-  </select-->
 
-  
-    <select id="findListByRowColumn" parameterType="com.deer.wms.base.system.model.CellInfoCriteriaRowColumn" resultMap="BaseResultMap">
-    SELECT
-	*,IFNULL(tmp.num,0) AS roll_num
-    FROM
-	cell_info t0
-    LEFT JOIN ( SELECT t.cell_code AS mt_cell_code, COUNT( * ) AS num FROM mt_alone_product_det t WHERE t.cell_code IS NOT NULL AND  t.is_complete_out=0 GROUP BY t.cell_code ) tmp ON t0.cell_code = tmp.mt_cell_code 
-    WHERE 1=1  
-	<if test="shelfCode != null and shelfCode != ''">
-      AND shelf_code =#{shelfCode}
-    </if>
-    <if test="areaCode !=null and  areaCode !=''">
-      AND area_code=#{areaCode}
-    </if>
-    <if test="wareCode !=null and  wareCode !=''">
-      AND ware_code=#{wareCode}
-    </if>
-    <if test="companyId != null ">
-      AND company_id =#{companyId}
-    </if>
-     <if test="beginRow != null  and endRow != null ">
-      AND s_row BETWEEN #{beginRow} AND #{endRow}
-    </if>
-    <if test="beginColumn != null  and endColumn != null ">
-      AND s_column BETWEEN #{beginColumn} AND #{endColumn}
-    </if>
-    order by  s_row, s_column
-  </select>
-
-    <!-- select id="findListByRowColumn" parameterType="com.deer.wms.base.system.model.CellInfoCriteriaRowColumn" resultMap="BaseResultMap">
-    SELECT
-	*,IFNULL(tmp.num,0) AS roll_num
-    FROM
-	cell_info t0
-    LEFT JOIN ( SELECT t.warehouse_barcode AS pro_code, COUNT( * ) AS num FROM mt_alone_product_det t WHERE t.is_complete_out=0) 
-    tmp ON tmp.pro_code= (SELECT t1.product_bar_code FROM mt_alone_product t1 WHERE t1.cell_code IS NOT NULL  GROUP BY t1.cell_code)
-    WHERE 1=1  
-	<if test="shelfCode != null and shelfCode != ''">
-      AND shelf_code =#{shelfCode}
-    </if>
-    <if test="areaCode !=null and  areaCode !=''">
-      AND area_code=#{areaCode}
-    </if>
-    <if test="wareCode !=null and  wareCode !=''">
-      AND ware_code=#{wareCode}
-    </if>
-    <if test="companyId != null and companyId != ''">
-      AND company_id =#{companyId}
-    </if>
-     <if test="beginRow != null and beginRow != '' and endRow != null and endRow != '' ">
-      AND s_row BETWEEN #{beginRow} AND #{endRow}
-    </if>
-    <if test="beginColumn != null and beginColumn != '' and endColumn != null and endColumn != '' ">
-      AND s_column BETWEEN #{beginColumn} AND #{endColumn}
-    </if>
-    order by  s_row, s_column
-  </select>
-   -->
-
-    <select id="findListByRowColumnNew" parameterType="com.deer.wms.base.system.model.CellInfoParamsRowColumn" resultMap="BaseResultMap">
+    <select id="findListByRowColumn" parameterType="com.deer.wms.base.system.model.CellInfoCriteriaRowColumn"
+            resultMap="BaseResultMap">
         SELECT
         *,IFNULL(tmp.num,0) AS roll_num
         FROM
         cell_info t0
-        LEFT JOIN ( SELECT t.cell_code AS mt_cell_code, COUNT( * ) AS num FROM mt_alone_product_det t WHERE t.cell_code IS NOT NULL AND  t.is_complete_out=0 GROUP BY t.cell_code ) tmp ON t0.cell_code = tmp.mt_cell_code
+        LEFT JOIN ( SELECT t.cell_code AS mt_cell_code, COUNT( * ) AS num FROM mt_alone_product_det t WHERE t.cell_code
+        IS NOT NULL AND t.is_complete_out=0 GROUP BY t.cell_code ) tmp ON t0.cell_code = tmp.mt_cell_code
+        WHERE 1=1
+        <if test="shelfCode != null and shelfCode != ''">
+            AND shelf_code =#{shelfCode}
+        </if>
+        <if test="areaCode !=null and  areaCode !=''">
+            AND area_code=#{areaCode}
+        </if>
+        <if test="wareCode !=null and  wareCode !=''">
+            AND ware_code=#{wareCode}
+        </if>
+        <if test="companyId != null ">
+            AND company_id =#{companyId}
+        </if>
+        <if test="beginRow != null  and endRow != null ">
+            AND s_row BETWEEN #{beginRow} AND #{endRow}
+        </if>
+        <if test="beginColumn != null  and endColumn != null ">
+            AND s_column BETWEEN #{beginColumn} AND #{endColumn}
+        </if>
+        order by s_row, s_column
+    </select>
+
+    <select id="findListByRowColumnNew" parameterType="com.deer.wms.base.system.model.CellInfoParamsRowColumn"
+            resultMap="BaseResultMap">
+        SELECT
+        *,IFNULL(tmp.num,0) AS roll_num
+        FROM
+        cell_info t0
+        LEFT JOIN ( SELECT t.cell_code AS mt_cell_code, COUNT( * ) AS num FROM mt_alone_product_det t WHERE t.cell_code
+        IS NOT NULL AND t.is_complete_out=0 GROUP BY t.cell_code ) tmp ON t0.cell_code = tmp.mt_cell_code
         <where>
             <if test="keywords != null and keywords != ''">
                 AND (shelf_code LIKE CONCAT('%', #{keywords}, '%')
@@ -263,64 +165,50 @@
                 AND s_column BETWEEN #{beginColumn} AND #{endColumn}
             </if>
         </where>
-        order by  s_row, s_column
+        order by s_row, s_column
+    </select>
+
+    <select id="findRollCountByCellCode" parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM mt_alone_product_det det
+        <if test="cellCode!=null and cellCode!=''">
+            INNER JOIN(SELECT pro.product_bar_code AS barcode FROM mt_alone_product pro WHERE
+            pro.`cell_code`=#{cellCode} )tmp
+            ON det.`warehouse_barcode`=tmp.barcode
+            AND det.`is_complete_out`=0
+        </if>
     </select>
 
 
-   <!--  select id="findRollCountByCellCode" parameterType="java.lang.String" resultType="java.lang.Integer">
-    select count(*) 
-    from mt_alone_product_det 
-    where 1=1
-    <if test="cellCode!=null and cellCode!=''">
-     and cell_code = #{cellCode}
-      and is_complete_out=0
-    </if>  
-  </select>  -->
-  
-   <select id="findRollCountByCellCode" parameterType="java.lang.String" resultType="java.lang.Integer">
-    SELECT COUNT(*) FROM mt_alone_product_det det 
-    <if test="cellCode!=null and cellCode!=''">
-    INNER JOIN(SELECT pro.product_bar_code AS barcode FROM mt_alone_product pro WHERE pro.`cell_code`=#{cellCode} )tmp 
-    ON  det.`warehouse_barcode`=tmp.barcode 
-    AND det.`is_complete_out`=0
-    </if>  
-  </select>
-
-  
-   <!--  select id="findCountByCellCode" parameterType="java.lang.String" resultType="java.lang.Integer">
-      SELECT COUNT(product_det_id)FROM mt_alone_product_det  det
-      WHERE det.state='normal'
-      <if test="cellCode!=null and cellCode!=''">
-      AND det.`warehouse_barcode`=(SELECT product_bar_code FROM mt_alone_product 
-      WHERE mt_alone_product.`cell_code`=#{cellCode})
-      AND is_complete_out=0
-      </if> 
-   </select>  -->
-   
     <select id="findCountByCellCode" parameterType="java.lang.String" resultType="java.lang.Integer">
-      SELECT COUNT(product_det_id)FROM mt_alone_product_det  det
-      WHERE det.state='normal'
-      <if test="cellCode!=null and cellCode!=''">
-      AND det.`cell_code`=#{cellCode}
-      AND det.is_complete_out=0
-      </if> 
-   </select>
+        SELECT COUNT(product_det_id)FROM mt_alone_product_det det
+        WHERE det.state='normal'
+        <if test="cellCode!=null and cellCode!=''">
+            AND det.`cell_code`=#{cellCode}
+            AND det.is_complete_out=0
+        </if>
+    </select>
 
-  <select id="findByCellCode" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select
-    cell_id,
-    shelf_code,
-    cell_code,
-    s_column,
-    s_row,
-    add_time,
-    memo,
-    state,
-    cell_bar_code,
-    order_no
-
-
-     from cell_info
-    where cell_code = #{cellCode}
+    <select id="findByCellCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT
+	cell_id,
+	shelf_code,
+	cell_code,
+	s_column,
+	s_row,
+	add_time,
+	memo,
+	state,
+	cell_bar_code,
+	order_no
+FROM
+	cell_info
+WHERE
+	cell_code = #{cellCode}
   </select>
+  <delete id="deleteListByIds" parameterType="java.util.List">
+    DELETE FROM cell_info WHERE cell_id in
+      <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+          #{item.cellId,jdbcType=VARCHAR}
+      </foreach>
+  </delete>
 </mapper>

@@ -23,4 +23,6 @@ public interface CellInfoService extends Service<CellInfo, Integer> {
     List<CellInfoDto> findListByRowColumnNew(CellInfoParamsRowColumn params);
 
     void deleteByShelfId(ShelfInfoParams params);
+
+    void deleteListByIds(List<CellInfo> list);
 }

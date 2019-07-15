@@ -1,11 +1,10 @@
 package ${basePackage}.service;
 
 import ${basePackage}.model.${modelNameUpperCamel};
-import ${basePackage}.model.${modelNameUpperCamel}Criteria;
+import ${basePackage}.model.${modelNameUpperCamel}Params;
 
 import com.deer.wms.project.seed.core.service.Service;
 import java.util.List;
-import ${basePackage}.model.${modelNameUpperCamel}Dto;
 
 /**
  * Created by ${author} on ${date}.
@@ -13,6 +12,6 @@ import ${basePackage}.model.${modelNameUpperCamel}Dto;
 public interface ${modelNameUpperCamel}Service extends Service<${modelNameUpperCamel}, ${type}> {
 
 
-    List<${modelNameUpperCamel}Dto> findList(${modelNameUpperCamel}Criteria  criteria) ;
+    List<${modelNameUpperCamel}> findList(${modelNameUpperCamel}Params  params) ;
 
 }

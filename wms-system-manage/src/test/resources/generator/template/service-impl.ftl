@@ -2,7 +2,7 @@ package ${basePackage}.service.impl;
 
 import ${basePackage}.dao.${modelNameUpperCamel}Mapper;
 import ${basePackage}.model.${modelNameUpperCamel};
-import ${basePackage}.model.${modelNameUpperCamel}Criteria;
+import ${basePackage}.model.${modelNameUpperCamel}Params;
 import ${basePackage}.service.${modelNameUpperCamel}Service;
 
 import com.deer.wms.project.seed.core.service.AbstractService;
@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
-import ${basePackage}.model.${modelNameUpperCamel}Dto;
 
 /**
  * Created by ${author} on ${date}.
@@ -24,7 +23,7 @@ public class ${modelNameUpperCamel}ServiceImpl extends AbstractService<${modelNa
 
 
     @Override
-    public List<${modelNameUpperCamel}Dto> findList(${modelNameUpperCamel}Criteria  criteria) {
-        return ${modelNameLowerCamel}Mapper.findList(criteria);
+    public List<${modelNameUpperCamel}> findList(${modelNameUpperCamel}Params  params) {
+        return ${modelNameLowerCamel}Mapper.findList(params);
     }
 }

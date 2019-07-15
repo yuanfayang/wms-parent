@@ -26,6 +26,12 @@ public class SupplierManage {
     private String supplierName;
 
     /**
+     * 供应商代号
+     */
+    @Column(name = "supplier_codename")
+    private String supplierCodeName;
+
+    /**
      * 供应商类型
      */
     @Column(name = "supplier_type")
@@ -130,6 +136,24 @@ public class SupplierManage {
      */
     public void setSupplierName(String supplierName) {
         this.supplierName = supplierName;
+    }
+
+    /**
+     * 获取供应商代号
+     *
+     * @return supplier_codename - 供应商代号
+     */
+    public String getSupplierCodeName() {
+        return supplierCodeName;
+    }
+
+    /**
+     * 设置供应商代号
+     *
+     * @param supplierCodeName 供应商代号
+     */
+    public void setSupplierCodeName(String supplierCodeName) {
+        this.supplierCodeName = supplierCodeName;
     }
 
     /**

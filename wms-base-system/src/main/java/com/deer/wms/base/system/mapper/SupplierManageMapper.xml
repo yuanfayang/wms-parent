@@ -8,6 +8,7 @@
     <id column="supplier_id" jdbcType="INTEGER" property="supplierId" />
     <result column="supplier_code" jdbcType="VARCHAR" property="supplierCode" />
     <result column="supplier_name" jdbcType="VARCHAR" property="supplierName" />
+    <result column="supplier_codename" jdbcType="VARCHAR" property="supplierCodeName" />
     <result column="supplier_type" jdbcType="VARCHAR" property="supplierType" />
     <result column="supplier_contacts" jdbcType="VARCHAR" property="supplierContacts" />
     <result column="supplier_phone" jdbcType="VARCHAR" property="supplierPhone" />
@@ -61,6 +62,7 @@
       where 1=1
       <if test="keyWords != null and keyWords != ''">
         AND ( sup.supplier_name LIKE CONCAT('%', #{keyWords}, '%')
+        or sup.supplier_codename LIKE CONCAT('%', #{keywords}, '%')
         or sup.supplier_phone LIKE CONCAT('%', #{keyWords}, '%')
         or sup.supplier_email LIKE CONCAT('%', #{keyWords}, '%')
         or sup.supplier_site LIKE CONCAT('%', #{keyWords}, '%')
@@ -80,6 +82,7 @@
         <where>
            <if test="keywords != null and keywords != ''">
             AND ( sup.supplier_name LIKE CONCAT('%', #{keywords}, '%')
+            or sup.supplier_codename LIKE CONCAT('%', #{keywords}, '%')
             or sup.supplier_phone LIKE CONCAT('%', #{keywords}, '%')
             or sup.supplier_email LIKE CONCAT('%', #{keywords}, '%')
             or sup.supplier_site LIKE CONCAT('%', #{keywords}, '%')

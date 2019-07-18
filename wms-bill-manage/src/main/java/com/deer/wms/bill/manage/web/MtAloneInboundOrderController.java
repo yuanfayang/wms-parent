@@ -14,6 +14,8 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import springfox.documentation.annotations.ApiIgnore;
 
@@ -28,16 +30,17 @@ import java.util.List;
 /**
 * Created by gtt on 2019/07/18.
 */
-@Api(description = "xxx接口")
+@Api(description = "入库单接口")
 @RestController
 @RequestMapping("/mt/alone/inbound/orders")
 public class MtAloneInboundOrderController {
 
     @Autowired
     private MtAloneInboundOrderService mtAloneInboundOrderService;
-
-    @OperateLog(description = "添加xxx", type = "增加")
-    @ApiOperation(value = "添加xxx", notes = "添加xxx")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "access-token", value = "token", paramType = "header", dataType = "String", required = true) })
+    @OperateLog(description = "添加入库单", type = "增加")
+    @ApiOperation(value = "添加入库单", notes = "添加入库单")
     @PostMapping("/add")
     public Result add(@RequestBody MtAloneInboundOrder mtAloneInboundOrder, @ApiIgnore @User CurrentUser currentUser) {
         if(currentUser==null){
@@ -48,30 +51,38 @@ public class MtAloneInboundOrderController {
         mtAloneInboundOrderService.save(mtAloneInboundOrder);
         return ResultGenerator.genSuccessResult();
     }
-    
-    @OperateLog(description = "删除xxx", type = "删除")
-    @ApiOperation(value = "删除xxx", notes = "删除xxx")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "access-token", value = "token", paramType = "header", dataType = "String", required = true) })
+    @OperateLog(description = "删除入库单", type = "删除")
+    @ApiOperation(value = "删除入库单", notes = "删除入库单")
     @DeleteMapping("/delete/{id}")
     public Result delete(@PathVariable Integer Id) {
         mtAloneInboundOrderService.deleteById(Id);
         return ResultGenerator.genSuccessResult();
     }
-    
-    @OperateLog(description = "修改xxx", type = "更新")
-    @ApiOperation(value = "修改xxx", notes = "修改xxx")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "access-token", value = "token", paramType = "header", dataType = "String", required = true) })
+    @OperateLog(description = "修改入库单", type = "更新")
+    @ApiOperation(value = "修改入库单", notes = "修改入库单")
     @PostMapping("/update")
     public Result update(@RequestBody MtAloneInboundOrder mtAloneInboundOrder) {
         mtAloneInboundOrder.setUpdateTime(new Date());
         mtAloneInboundOrderService.update(mtAloneInboundOrder);
         return ResultGenerator.genSuccessResult();
     }
-
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "access-token", value = "token", paramType = "header", dataType = "String", required = true) })
+    @OperateLog(description = "根据ID获取入库单", type = "获取")
+    @ApiOperation(value = "根据ID获取入库单", notes = "根据ID获取入库单")
     @GetMapping("/detail/{id}")
     public Result detail(@PathVariable Integer id) {
         MtAloneInboundOrder mtAloneInboundOrder = mtAloneInboundOrderService.findById(id);
         return ResultGenerator.genSuccessResult(mtAloneInboundOrder);
     }
-
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "access-token", value = "token", paramType = "header", dataType = "String", required = true) })
+    @OperateLog(description = "入库单列表", type = "获取")
+    @ApiOperation(value = "入库单列表", notes = "入库单列表")
     @GetMapping("/list")
     public Result list(MtAloneInboundOrderParams params, @ApiIgnore @User CurrentUser currentUser) {
         if(currentUser==null){

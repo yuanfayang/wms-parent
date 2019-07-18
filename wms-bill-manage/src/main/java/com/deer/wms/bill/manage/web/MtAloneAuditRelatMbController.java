@@ -14,6 +14,8 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import springfox.documentation.annotations.ApiIgnore;
 
@@ -28,16 +30,17 @@ import java.util.List;
 /**
 * Created by gtt on 2019/07/18.
 */
-@Api(description = "xxx接口")
+@Api(description = "审核业务模板-关联节点模板接口")
 @RestController
 @RequestMapping("/mt/alone/audit/relat/mbs")
 public class MtAloneAuditRelatMbController {
 
     @Autowired
     private MtAloneAuditRelatMbService mtAloneAuditRelatMbService;
-
-    @OperateLog(description = "添加xxx", type = "增加")
-    @ApiOperation(value = "添加xxx", notes = "添加xxx")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "access-token", value = "token", paramType = "header", dataType = "String", required = true) })
+    @OperateLog(description = "添加关联节点模板", type = "增加")
+    @ApiOperation(value = "添加关联节点模板", notes = "添加关联节点模板")
     @PostMapping("/add")
     public Result add(@RequestBody MtAloneAuditRelatMb mtAloneAuditRelatMb, @ApiIgnore @User CurrentUser currentUser) {
         if(currentUser==null){
@@ -48,30 +51,38 @@ public class MtAloneAuditRelatMbController {
         mtAloneAuditRelatMbService.save(mtAloneAuditRelatMb);
         return ResultGenerator.genSuccessResult();
     }
-    
-    @OperateLog(description = "删除xxx", type = "删除")
-    @ApiOperation(value = "删除xxx", notes = "删除xxx")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "access-token", value = "token", paramType = "header", dataType = "String", required = true) })
+    @OperateLog(description = "删除关联节点模板", type = "删除")
+    @ApiOperation(value = "删除关联节点模板", notes = "删除关联节点模板")
     @DeleteMapping("/delete/{id}")
     public Result delete(@PathVariable Integer Id) {
         mtAloneAuditRelatMbService.deleteById(Id);
         return ResultGenerator.genSuccessResult();
     }
-    
-    @OperateLog(description = "修改xxx", type = "更新")
-    @ApiOperation(value = "修改xxx", notes = "修改xxx")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "access-token", value = "token", paramType = "header", dataType = "String", required = true) })
+    @OperateLog(description = "修改关联节点模板", type = "更新")
+    @ApiOperation(value = "修改关联节点模板", notes = "修改关联节点模板")
     @PostMapping("/update")
     public Result update(@RequestBody MtAloneAuditRelatMb mtAloneAuditRelatMb) {
 //        mtAloneAuditRelatMb.setUpdateTime(new Date());
         mtAloneAuditRelatMbService.update(mtAloneAuditRelatMb);
         return ResultGenerator.genSuccessResult();
     }
-
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "access-token", value = "token", paramType = "header", dataType = "String", required = true) })
+    @OperateLog(description = "根据ID获取关联节点模板", type = "获取")
+    @ApiOperation(value = "根据ID获取关联节点模板", notes = "根据ID获取关联节点模板")
     @GetMapping("/detail/{id}")
     public Result detail(@PathVariable Integer id) {
         MtAloneAuditRelatMb mtAloneAuditRelatMb = mtAloneAuditRelatMbService.findById(id);
         return ResultGenerator.genSuccessResult(mtAloneAuditRelatMb);
     }
-
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "access-token", value = "token", paramType = "header", dataType = "String", required = true) })
+    @OperateLog(description = "关联节点模板列表", type = "获取")
+    @ApiOperation(value = "关联节点模板列表", notes = "关联节点模板列表")
     @GetMapping("/list")
     public Result list(MtAloneAuditRelatMbParams params, @ApiIgnore @User CurrentUser currentUser) {
         if(currentUser==null){

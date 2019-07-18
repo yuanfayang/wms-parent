@@ -14,6 +14,8 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import springfox.documentation.annotations.ApiIgnore;
 
@@ -28,16 +30,17 @@ import java.util.List;
 /**
 * Created by gtt on 2019/07/18.
 */
-@Api(description = "xxx接口")
+@Api(description = "审核意见接口")
 @RestController
 @RequestMapping("/mt/alone/audit/node/opinion/tabs")
 public class MtAloneAuditNodeOpinionTabController {
 
     @Autowired
     private MtAloneAuditNodeOpinionTabService mtAloneAuditNodeOpinionTabService;
-
-    @OperateLog(description = "添加xxx", type = "增加")
-    @ApiOperation(value = "添加xxx", notes = "添加xxx")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "access-token", value = "token", paramType = "header", dataType = "String", required = true) })
+    @OperateLog(description = "添加审核意见", type = "增加")
+    @ApiOperation(value = "添加审核意见", notes = "添加审核意见")
     @PostMapping("/add")
     public Result add(@RequestBody MtAloneAuditNodeOpinionTab mtAloneAuditNodeOpinionTab, @ApiIgnore @User CurrentUser currentUser) {
         if(currentUser==null){
@@ -48,30 +51,38 @@ public class MtAloneAuditNodeOpinionTabController {
         mtAloneAuditNodeOpinionTabService.save(mtAloneAuditNodeOpinionTab);
         return ResultGenerator.genSuccessResult();
     }
-    
-    @OperateLog(description = "删除xxx", type = "删除")
-    @ApiOperation(value = "删除xxx", notes = "删除xxx")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "access-token", value = "token", paramType = "header", dataType = "String", required = true) })
+    @OperateLog(description = "删除审核意见", type = "删除")
+    @ApiOperation(value = "删除审核意见", notes = "删除审核意见")
     @DeleteMapping("/delete/{id}")
     public Result delete(@PathVariable Integer Id) {
         mtAloneAuditNodeOpinionTabService.deleteById(Id);
         return ResultGenerator.genSuccessResult();
     }
-    
-    @OperateLog(description = "修改xxx", type = "更新")
-    @ApiOperation(value = "修改xxx", notes = "修改xxx")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "access-token", value = "token", paramType = "header", dataType = "String", required = true) })
+    @OperateLog(description = "修改审核意见", type = "更新")
+    @ApiOperation(value = "修改审核意见", notes = "修改审核意见")
     @PostMapping("/update")
     public Result update(@RequestBody MtAloneAuditNodeOpinionTab mtAloneAuditNodeOpinionTab) {
 //        mtAloneAuditNodeOpinionTab.setUpdateTime(new Date());
         mtAloneAuditNodeOpinionTabService.update(mtAloneAuditNodeOpinionTab);
         return ResultGenerator.genSuccessResult();
     }
-
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "access-token", value = "token", paramType = "header", dataType = "String", required = true) })
+    @OperateLog(description = "根据ID获取审核意见", type = "获取")
+    @ApiOperation(value = "根据ID获取审核意见", notes = "根据ID获取审核意见")
     @GetMapping("/detail/{id}")
     public Result detail(@PathVariable Integer id) {
         MtAloneAuditNodeOpinionTab mtAloneAuditNodeOpinionTab = mtAloneAuditNodeOpinionTabService.findById(id);
         return ResultGenerator.genSuccessResult(mtAloneAuditNodeOpinionTab);
     }
-
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "access-token", value = "token", paramType = "header", dataType = "String", required = true) })
+    @OperateLog(description = "审核意见列表", type = "获取")
+    @ApiOperation(value = "审核意见列表", notes = "审核意见列表")
     @GetMapping("/list")
     public Result list(MtAloneAuditNodeOpinionTabParams params, @ApiIgnore @User CurrentUser currentUser) {
         if(currentUser==null){

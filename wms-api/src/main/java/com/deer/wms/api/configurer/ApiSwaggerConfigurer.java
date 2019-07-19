@@ -145,15 +145,15 @@ public class ApiSwaggerConfigurer extends WebMvcConfigurerAdapter {
                 .build();
     }
 
-    /*@Bean
-    public Docket createSupplyRestApi() {
-        return new Docket(DocumentationType.SWAGGER_2).groupName("供应管理")
-                .apiInfo(apiInfo("供应管理服务提供的 RestFul APIs"))
+    @Bean
+    public Docket createProduceManageRestApi() {
+        return new Docket(DocumentationType.SWAGGER_2).groupName("生产管理")
+                .apiInfo(apiInfo("生产管理服务提供的 RestFul APIs"))
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.chinamobile.pallet.supply"))
+                .apis(RequestHandlerSelectors.basePackage("com.deer.wms.produce.manage"))
                 .paths(PathSelectors.any())
                 .build();
-    }*/
+    }
 
     /*@Bean
     public Docket createOperationRestApi() {

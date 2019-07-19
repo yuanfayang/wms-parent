@@ -41,6 +41,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
         , "com.deer.wms.report"
         , "com.deer.wms.finance"
         , "com.deer.wms.operation"
+        , "com.deer.wms.produce.manage"
         , "com.deer.wms.device.manage"
         , "com.deer.wms.detect"
         , "com.deer.wms.ware.task"

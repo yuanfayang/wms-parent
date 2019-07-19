@@ -26,6 +26,7 @@
         <module>wms-finance</module>
         <module>wms-bill-manage</module>
         <module>wms-operation</module>
+        <module>wms-produce-manage</module>
         <module>wms-ware-task</module>
         <module>wms-device-manage</module>
         <module>wms-detect</module>

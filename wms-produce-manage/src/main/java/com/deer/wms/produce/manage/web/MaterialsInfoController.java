@@ -30,7 +30,7 @@ import java.util.List;
 */
 @Api(description = "xxx接口")
 @RestController
-@RequestMapping("/mt/alone/materials/infos")
+@RequestMapping("/materials/infos")
 public class MaterialsInfoController {
 
     @Autowired

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deer.wms.produce.manage.dao.ProcessQualityInfoMapper">
+  <resultMap id="BaseResultMap" type="com.deer.wms.produce.manage.model.ProcessQualityInfo">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="operator_id" jdbcType="INTEGER" property="operatorId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="version" jdbcType="INTEGER" property="version" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="process_id" jdbcType="INTEGER" property="processId" />
+    <result column="complete_ratio" jdbcType="VARCHAR" property="completeRatio" />
+    <result column="quality_info" jdbcType="VARCHAR" property="qualityInfo" />
+    <result column="completed_num" jdbcType="INTEGER" property="completedNum" />
+    <result column="product_annex_code" jdbcType="VARCHAR" property="productAnnexCode" />
+    <result column="memo" jdbcType="VARCHAR" property="memo" />
+    <result column="company_id" jdbcType="INTEGER" property="companyId" />
+  </resultMap>
+</mapper>

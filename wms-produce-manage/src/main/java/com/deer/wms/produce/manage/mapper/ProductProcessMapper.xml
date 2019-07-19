@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deer.wms.produce.manage.dao.ProductProcessMapper">
+  <resultMap id="BaseResultMap" type="com.deer.wms.produce.manage.model.ProductProcess">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="operator_id" jdbcType="INTEGER" property="operatorId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="version" jdbcType="INTEGER" property="version" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="product_process_name" jdbcType="VARCHAR" property="productProcessName" />
+    <result column="finish_time" jdbcType="TIMESTAMP" property="finishTime" />
+    <result column="product_bom_id" jdbcType="INTEGER" property="productBomId" />
+    <result column="specification" jdbcType="VARCHAR" property="specification" />
+    <result column="process_price" jdbcType="REAL" property="processPrice" />
+    <result column="len" jdbcType="REAL" property="len" />
+    <result column="pi_num" jdbcType="INTEGER" property="piNum" />
+    <result column="process_content" jdbcType="VARCHAR" property="processContent" />
+    <result column="merchandiser_id" jdbcType="INTEGER" property="merchandiserId" />
+    <result column="memo" jdbcType="VARCHAR" property="memo" />
+    <result column="review_status" jdbcType="INTEGER" property="reviewStatus" />
+    <result column="review_time" jdbcType="TIMESTAMP" property="reviewTime" />
+    <result column="reviewer_id" jdbcType="INTEGER" property="reviewerId" />
+    <result column="product_annex_code" jdbcType="VARCHAR" property="productAnnexCode" />
+    <result column="company_id" jdbcType="INTEGER" property="companyId" />
+  </resultMap>
+</mapper>

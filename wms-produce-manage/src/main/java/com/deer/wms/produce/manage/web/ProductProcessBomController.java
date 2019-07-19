@@ -27,7 +27,7 @@ import java.util.List;
 */
 @Api(description = "xxx接口")
 @RestController
-@RequestMapping("/mt/alone/product/process/boms")
+@RequestMapping("/product/process/boms")
 public class ProductProcessBomController {
 
     @Autowired

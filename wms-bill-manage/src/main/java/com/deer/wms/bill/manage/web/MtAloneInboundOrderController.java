@@ -1,12 +1,13 @@
 package com.deer.wms.bill.manage.web;
 
+import com.deer.wms.bill.manage.model.*;
+import com.deer.wms.bill.manage.service.MtAloneAuditRelatMbService;
+import com.deer.wms.bill.manage.service.MtAloneAuditRelatService;
 import com.deer.wms.project.seed.annotation.OperateLog;
 import com.deer.wms.project.seed.constant.SystemManageConstant;
 import com.deer.wms.project.seed.core.result.CommonCode;
 import com.deer.wms.project.seed.core.result.Result;
 import com.deer.wms.project.seed.core.result.ResultGenerator;
-import com.deer.wms.bill.manage.model.MtAloneInboundOrder;
-import com.deer.wms.bill.manage.model.MtAloneInboundOrderParams;
 import com.deer.wms.bill.manage.service.MtAloneInboundOrderService;
 import com.deer.wms.intercept.annotation.User;
 import com.deer.wms.intercept.common.data.CurrentUser;
@@ -17,6 +18,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.BeanUtils;
 import springfox.documentation.annotations.ApiIgnore;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +39,11 @@ public class MtAloneInboundOrderController {
 
     @Autowired
     private MtAloneInboundOrderService mtAloneInboundOrderService;
+    @Autowired
+    private MtAloneAuditRelatMbService mtAloneAuditRelatMbService;
+    @Autowired
+    private MtAloneAuditRelatService mtAloneAuditRelatService;
+
     @ApiImplicitParams({
             @ApiImplicitParam(name = "access-token", value = "token", paramType = "header", dataType = "String", required = true) })
     @OperateLog(description = "添加入库单", type = "增加")
@@ -49,6 +56,15 @@ public class MtAloneInboundOrderController {
 		 mtAloneInboundOrder.setCreateTime(new Date());
 		 mtAloneInboundOrder.setCompanyId(currentUser.getCompanyId());
         mtAloneInboundOrderService.save(mtAloneInboundOrder);
+
+        MtAloneAuditRelatMbParams params=new MtAloneAuditRelatMbParams();
+        params.setAuditTaskMBId(mtAloneInboundOrder.getAuditTaskId());
+        List<MtAloneAuditRelatMb> relatListMb=mtAloneAuditRelatMbService.findList(params);
+        for(int i=0;i<relatListMb.size();i++){
+            MtAloneAuditRelat relat=new MtAloneAuditRelat();
+            BeanUtils.copyProperties(relatListMb.get(i), relat);
+            mtAloneAuditRelatService.save(relat);
+        }
         return ResultGenerator.genSuccessResult();
     }
     @ApiImplicitParams({

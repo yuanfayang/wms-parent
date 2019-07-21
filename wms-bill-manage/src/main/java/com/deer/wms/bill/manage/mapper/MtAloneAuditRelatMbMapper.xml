@@ -19,4 +19,12 @@
     <result column="memo" jdbcType="VARCHAR" property="memo" />
     <result column="company_id" jdbcType="INTEGER" property="companyId" />
   </resultMap>
+
+  <select id="findList" parameterType="com.deer.wms.bill.manage.model.MtAloneAuditRelatMbParams" resultMap="BaseResultMap">
+      select * from mt_alone_audit_relat_mb  mb
+      where mb.audit_task_MB_id=#{auditTaskMBId}
+    <if test="companyId != null">
+      AND mb.company_id = #{companyId}
+    </if>
+  </select>
 </mapper>

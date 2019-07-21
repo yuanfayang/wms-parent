@@ -81,8 +81,8 @@ public class MtAloneAuditRelatController {
     }
     @ApiImplicitParams({
             @ApiImplicitParam(name = "access-token", value = "token", paramType = "header", dataType = "String", required = true) })
-    @OperateLog(description = "审核业务关联节点列表", type = "获取")
-    @ApiOperation(value = "审核业务关联节点列表", notes = "审核业务关联节点列表")
+    @OperateLog(description = "根据审核业务ID获取关联节点列表", type = "获取")
+    @ApiOperation(value = "根据审核业务ID获取关联节点列表", notes = "根据审核业务ID获取关联节点列表")
     @GetMapping("/list")
     public Result list(MtAloneAuditRelatParams params, @ApiIgnore @User CurrentUser currentUser) {
         if(currentUser==null){

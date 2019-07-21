@@ -81,8 +81,8 @@ public class MtAloneAuditRelatMbController {
     }
     @ApiImplicitParams({
             @ApiImplicitParam(name = "access-token", value = "token", paramType = "header", dataType = "String", required = true) })
-    @OperateLog(description = "关联节点模板列表", type = "获取")
-    @ApiOperation(value = "关联节点模板列表", notes = "关联节点模板列表")
+    @OperateLog(description = "根据业务模板ID获取关联节点模板列表", type = "获取")
+    @ApiOperation(value = "根据业务模板ID获取关联节点模板列表", notes = "根据业务模板ID获取关联节点模板列表")
     @GetMapping("/list")
     public Result list(MtAloneAuditRelatMbParams params, @ApiIgnore @User CurrentUser currentUser) {
         if(currentUser==null){

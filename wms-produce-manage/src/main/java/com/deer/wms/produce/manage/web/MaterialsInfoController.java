@@ -10,6 +10,7 @@ import com.deer.wms.produce.manage.model.MaterialsInfoParams;
 import com.deer.wms.produce.manage.service.MaterialsInfoService;
 import com.deer.wms.intercept.annotation.User;
 import com.deer.wms.intercept.common.data.CurrentUser;
+import com.deer.wms.project.seed.util.StringUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
@@ -71,11 +72,43 @@ public class MaterialsInfoController {
         return ResultGenerator.genSuccessResult(materialsInfo);
     }
 
+
+//    @OperateLog(description = "商品信息分页查询new", type = "查询new")
+//    @ApiOperation(value = "商品信息列表分页", notes = "商品信息列表分页")
+//    @GetMapping("/list/new")
+//    public Result productListNew(MtAloneProductParams params, @ApiIgnore @User CurrentUser currentUser) {
+//        if (currentUser == null) {
+//            return ResultGenerator.genFailResult(CommonCode.SERVICE_ERROR, "未登录错误", null);
+//        }
+//        StringUtil.trimObjectStringProperties(params);
+//
+//        if (currentUser.getCompanyType() != SystemManageConstant.COMPANY_TYPE_MT) {
+//            params.setCompanyId(currentUser.getCompanyId());
+//        } else {
+//            params.setCompanyId(null);
+//        }
+//
+//        PageHelper.startPage(params.getPageNum(), params.getPageSize());
+//        List<MtAloneProductVO> list = mtAloneProductService.findListNew(params);
+////		List<MtAloneProductVO> listNew = new ArrayList();
+//
+////		for (int i = 0; i < list.size(); i++) {
+////			if (list.get(i).getRemainLength() != 0 || list.get(i).getDeliveryLength() == 0) {
+////				listNew.add(list.get(i));
+////			}
+////		}
+//        PageInfo pageInfo = new PageInfo(list);
+//        return ResultGenerator.genSuccessResult(pageInfo);
+//    }
+
+    //@OperateLog(description = "物料信息分页查询", type = "查询")
+    //@ApiOperation(value = "物料信息列表分页", notes = "物料信息列表分页")
     //@GetMapping("/list")
     //public Result list(MaterialsInfoParams params, @ApiIgnore @User CurrentUser currentUser) {
     //    if(currentUser==null){
     //        return ResultGenerator.genFailResult(CommonCode.SERVICE_ERROR,"未登录错误",null );
     //    }
+    //    StringUtil.trimObjectStringProperties(params);
     //
     //	if (currentUser.getCompanyType() != SystemManageConstant.COMPANY_TYPE_MT){
     //		params.setCompanyId(currentUser.getCompanyId());

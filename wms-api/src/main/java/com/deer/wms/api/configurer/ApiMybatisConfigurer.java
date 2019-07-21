@@ -8,6 +8,7 @@ import com.deer.wms.file.constant.FileConstant;
 import com.deer.wms.finance.constant.FinanceConstant;
 import com.deer.wms.message.constant.MessageConstant;
 import com.deer.wms.operation.constant.OperationConstant;
+import com.deer.wms.produce.manage.constant.ProduceManageConstant;
 import com.deer.wms.project.seed.configurer.AbstractMybatisConfigurer;
 import com.deer.wms.report.constant.ReportConstant;
 import com.deer.wms.system.manage.constant.SystemManageConstant;
@@ -42,6 +43,7 @@ public class ApiMybatisConfigurer extends AbstractMybatisConfigurer {
                 + ", " + OperationConstant.DAO_PACKAGE
                 + ", " + BaseSystemConstant.DAO_PACKAGE
                 + ", " + WareTaskConstant.DAO_PACKAGE
+                + ", " + ProduceManageConstant.DAO_PACKAGE
                 + ", " + DeviceManageConstant.DAO_PACKAGE
                 + ", " + DetectConstant.DAO_PACKAGE
                 + ", " + WorkFlowConstant.DAO_PACKAGE

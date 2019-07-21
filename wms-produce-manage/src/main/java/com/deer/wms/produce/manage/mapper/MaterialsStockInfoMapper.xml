@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deer.wms.produce.manage.dao.MaterialsStockInfoMapper">
+  <resultMap id="BaseResultMap" type="com.deer.wms.produce.manage.model.MaterialsStockInfo">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="operator_id" jdbcType="INTEGER" property="operatorId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="version" jdbcType="VARCHAR" property="version" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="materials_id" jdbcType="INTEGER" property="materialsId" />
+    <result column="quantity" jdbcType="REAL" property="quantity" />
+    <result column="unit_id" jdbcType="INTEGER" property="unitId" />
+    <result column="position_name" jdbcType="VARCHAR" property="positionName" />
+    <result column="memo" jdbcType="VARCHAR" property="memo" />
+    <result column="company_id" jdbcType="INTEGER" property="companyId" />
+  </resultMap>
+</mapper>

@@ -271,6 +271,13 @@ public class MtAloneProduct {
      */
     @Column(name = "purchaser_id")
     private Integer purchaserId;
+
+    /**
+     * 绑定入库单code
+     */
+    @Column(name = "inbound_order_code")
+    private String inboundOrderCode;
+
     /**
      * @return id
      */
@@ -1111,4 +1118,18 @@ public class MtAloneProduct {
     public void setPurchaserId(Integer purchaserId) {
         this.purchaserId = purchaserId;
     }
+
+    /**
+     * 获取绑定入库单code
+     *
+     * @return inboundOrderCode - 绑定入库单code
+     */
+    public String getInboundOrderCode() { return inboundOrderCode; }
+
+    /**
+     * 设置绑定入库单code
+     *
+     * @param inboundOrderCode 绑定入库单code
+     */
+    public void setInboundOrderCode(String inboundOrderCode) { this.inboundOrderCode = inboundOrderCode; }
 }

@@ -52,6 +52,7 @@
       <result column="cell_code" jdbcType="VARCHAR" property="cellCode" />
       <result column="state" jdbcType="VARCHAR" property="state" />
       <result column="purchaser_id" jdbcType="INTEGER" property="purchaserId" />
+      <result column="inbound_order_code" jdbcType="VARCHAR" property="inboundOrderCode" />
   </resultMap>
    
     <resultMap id="ProductCombinationMap" type="com.deer.wms.bill.manage.model.MtAloneProductVO" extends="BaseResultMap">

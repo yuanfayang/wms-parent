@@ -14,4 +14,5 @@ public interface MtAloneInboundOrderService extends Service<MtAloneInboundOrder,
 
     List<MtAloneInboundOrder> findList(MtAloneInboundOrderParams  params) ;
 
+    List<MtAloneInboundOrder> findOrderProList(MtAloneInboundOrderParams params);
 }

@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface MtAloneInboundOrderMapper extends Mapper<MtAloneInboundOrder> {
     List<MtAloneInboundOrder> findList(MtAloneInboundOrderParams params);
+
+    List<MtAloneInboundOrder> findOrderProList(MtAloneInboundOrderParams params);
 }

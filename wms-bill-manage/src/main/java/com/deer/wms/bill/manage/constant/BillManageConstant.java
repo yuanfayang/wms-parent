@@ -42,5 +42,9 @@ public class BillManageConstant {
      * DJJ=打卷机编号
      */
     public static final String WINDING_MACHINE_TYPE = "DJJ";
+    /**
+     * 入库单审核业务模板ID
+     */
+    public static final Integer INBOUND_TASK_MB_ID = 1;
 
 }

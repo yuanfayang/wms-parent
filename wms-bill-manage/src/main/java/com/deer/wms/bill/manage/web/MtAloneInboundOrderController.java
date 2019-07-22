@@ -1,14 +1,14 @@
 package com.deer.wms.bill.manage.web;
 
+import com.deer.wms.bill.manage.constant.BillManageConstant;
+import com.deer.wms.bill.manage.constant.BillManagePublicMethod;
 import com.deer.wms.bill.manage.model.*;
-import com.deer.wms.bill.manage.service.MtAloneAuditRelatMbService;
-import com.deer.wms.bill.manage.service.MtAloneAuditRelatService;
+import com.deer.wms.bill.manage.service.*;
 import com.deer.wms.project.seed.annotation.OperateLog;
 import com.deer.wms.project.seed.constant.SystemManageConstant;
 import com.deer.wms.project.seed.core.result.CommonCode;
 import com.deer.wms.project.seed.core.result.Result;
 import com.deer.wms.project.seed.core.result.ResultGenerator;
-import com.deer.wms.bill.manage.service.MtAloneInboundOrderService;
 import com.deer.wms.intercept.annotation.User;
 import com.deer.wms.intercept.common.data.CurrentUser;
 import com.github.pagehelper.PageHelper;
@@ -24,6 +24,7 @@ import springfox.documentation.annotations.ApiIgnore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List; 
 
@@ -43,28 +44,63 @@ public class MtAloneInboundOrderController {
     private MtAloneAuditRelatMbService mtAloneAuditRelatMbService;
     @Autowired
     private MtAloneAuditRelatService mtAloneAuditRelatService;
+    @Autowired
+    private MtAloneAuditTaskMbService mtAloneAuditTaskMbService;
+    @Autowired
+    private MtAloneAuditTaskService mtAloneAuditTaskService;
+    @Autowired
+    private MtAloneAuditNodeTaskService mtAloneAuditNodeTaskService;
+    @Autowired
+    private MtAloneProductService mtAloneProductService;
+
 
     @ApiImplicitParams({
             @ApiImplicitParam(name = "access-token", value = "token", paramType = "header", dataType = "String", required = true) })
     @OperateLog(description = "添加入库单", type = "增加")
     @ApiOperation(value = "添加入库单", notes = "添加入库单")
     @PostMapping("/add")
-    public Result add(@RequestBody MtAloneInboundOrder mtAloneInboundOrder, @ApiIgnore @User CurrentUser currentUser) {
+    public Result add(@RequestBody MtAloneInBoundOrderProVO mtAloneInBoundOrderProVO, @ApiIgnore @User CurrentUser currentUser) {
         if(currentUser==null){
             return ResultGenerator.genFailResult( CommonCode.SERVICE_ERROR,"未登录错误",null );
         }
-		 mtAloneInboundOrder.setCreateTime(new Date());
-		 mtAloneInboundOrder.setCompanyId(currentUser.getCompanyId());
-        mtAloneInboundOrderService.save(mtAloneInboundOrder);
-
+        //---------------------生成审核业务模板实例-----------------------------
+        MtAloneAuditTaskMb mtAloneAuditTaskMb=mtAloneAuditTaskMbService.findById(BillManageConstant.INBOUND_TASK_MB_ID);
+        MtAloneAuditTask mtAloneAuditTask=new MtAloneAuditTask();
+        mtAloneAuditTask.setAuditTaskMbId(BillManageConstant.INBOUND_TASK_MB_ID);
+        mtAloneAuditTask.setAuditTaskName(mtAloneAuditTaskMb.getAuditTaskName());
+        mtAloneAuditTask.setCompanyId(currentUser.getCompanyId());
+        mtAloneAuditTask.setCreateTime(new Date());
+        mtAloneAuditTask.setIsTaskCompleted(0);
+        mtAloneAuditTaskService.save(mtAloneAuditTask);
+        //-------------------生成审核业务节点模板实例----------------------------
         MtAloneAuditRelatMbParams params=new MtAloneAuditRelatMbParams();
-        params.setAuditTaskMBId(mtAloneInboundOrder.getAuditTaskId());
+        params.setAuditTaskMBId(BillManageConstant.INBOUND_TASK_MB_ID);
         List<MtAloneAuditRelatMb> relatListMb=mtAloneAuditRelatMbService.findList(params);
+        List<MtAloneAuditRelat> relatList=new ArrayList<MtAloneAuditRelat>();
         for(int i=0;i<relatListMb.size();i++){
             MtAloneAuditRelat relat=new MtAloneAuditRelat();
             BeanUtils.copyProperties(relatListMb.get(i), relat);
-            mtAloneAuditRelatService.save(relat);
+            relat.setAuditTaskId(mtAloneAuditTask.getId());
+            relatList.add(relat);
         }
+        mtAloneAuditRelatService.save(relatList);
+        //-------------------生成审核业务流程实例--------------------------------
+        MtAloneAuditNodeTask mtAloneAuditNodeTask=new MtAloneAuditNodeTask();
+        mtAloneAuditNodeTask.setAuditTaskId(mtAloneAuditTask.getId());
+        mtAloneAuditNodeTask.setAuditTaskName(mtAloneAuditTask.getAuditTaskName());
+        mtAloneAuditNodeTask.setCompanyId(currentUser.getCompanyId());
+        mtAloneAuditNodeTask.setCreateTime(new Date());
+        mtAloneAuditNodeTaskService.save(mtAloneAuditNodeTask);
+        //-------------------生成入库单,保存相应产品------------------------------
+        MtAloneInboundOrder mtAloneInboundOrder=new MtAloneInboundOrder();
+        BeanUtils.copyProperties(mtAloneInBoundOrderProVO, mtAloneInboundOrder);
+        mtAloneInboundOrder.setCreateTime(new Date());
+        mtAloneInboundOrder.setCompanyId(currentUser.getCompanyId());
+        mtAloneInboundOrder.setAuditTaskId(mtAloneAuditTask.getId());
+        mtAloneInboundOrder.setInboundOrderCode(BillManagePublicMethod.creatInBoundOrderCode());
+        mtAloneInboundOrderService.save(mtAloneInboundOrder);
+        mtAloneProductService.save(mtAloneInBoundOrderProVO.getProList());
+
         return ResultGenerator.genSuccessResult();
     }
     @ApiImplicitParams({
@@ -97,8 +133,8 @@ public class MtAloneInboundOrderController {
     }
     @ApiImplicitParams({
             @ApiImplicitParam(name = "access-token", value = "token", paramType = "header", dataType = "String", required = true) })
-    @OperateLog(description = "入库单列表", type = "获取")
-    @ApiOperation(value = "入库单列表", notes = "入库单列表")
+    @OperateLog(description = "入库单及相应产品列表", type = "获取")
+    @ApiOperation(value = "入库单及相应产品列表", notes = "入库单及相应产品列表")
     @GetMapping("/list")
     public Result list(MtAloneInboundOrderParams params, @ApiIgnore @User CurrentUser currentUser) {
         if(currentUser==null){
@@ -111,7 +147,7 @@ public class MtAloneInboundOrderController {
 			params.setCompanyId(null);
         }
         PageHelper.startPage(params.getPageNum(), params.getPageSize());
-        List<MtAloneInboundOrder> list = mtAloneInboundOrderService.findList(params);
+        List<MtAloneInboundOrder> list = mtAloneInboundOrderService.findOrderProList(params);
         PageInfo pageInfo = new PageInfo(list);
         return ResultGenerator.genSuccessResult(pageInfo);
     }

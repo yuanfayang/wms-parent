@@ -41,5 +41,15 @@ public class BillManagePublicMethod {
 			orderCode=orderType+bach+rondomStr;
 		}
 		return orderCode;
-	} 
+	}
+
+	public static String creatInBoundOrderCode(){
+		String orderCode=null;
+		Date date = new Date();
+		SimpleDateFormat sdf= new SimpleDateFormat("yyyyMMdd");
+		String bach= sdf.format(date);
+		String rondomStr=RandomUtil.generateString(4);
+		orderCode="RK"+bach+rondomStr;
+		return orderCode;
+	}
 }

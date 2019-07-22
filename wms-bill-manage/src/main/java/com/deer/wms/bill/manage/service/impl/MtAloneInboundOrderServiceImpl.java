@@ -26,4 +26,9 @@ public class MtAloneInboundOrderServiceImpl extends AbstractService<MtAloneInbou
     public List<MtAloneInboundOrder> findList(MtAloneInboundOrderParams  params) {
         return mtAloneInboundOrderMapper.findList(params);
     }
+
+    @Override
+    public List<MtAloneInboundOrder> findOrderProList(MtAloneInboundOrderParams params) {
+        return mtAloneInboundOrderMapper.findOrderProList(params);
+    }
 }

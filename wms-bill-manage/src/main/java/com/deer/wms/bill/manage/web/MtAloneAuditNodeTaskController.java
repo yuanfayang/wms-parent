@@ -30,7 +30,7 @@ import java.util.List;
 /**
 * Created by gtt on 2019/07/18.
 */
-@Api(description = "审核人员审核节点接口")
+@Api(description = "审核流程实例接口")
 @RestController
 @RequestMapping("/mt/alone/audit/node/tasks")
 public class MtAloneAuditNodeTaskController {
@@ -39,8 +39,8 @@ public class MtAloneAuditNodeTaskController {
     private MtAloneAuditNodeTaskService mtAloneAuditNodeTaskService;
     @ApiImplicitParams({
             @ApiImplicitParam(name = "access-token", value = "token", paramType = "header", dataType = "String", required = true) })
-    @OperateLog(description = "添加审核人员审核节点", type = "增加")
-    @ApiOperation(value = "添加审核人员审核节点", notes = "添加审核人员审核节点")
+    @OperateLog(description = "添加审核流程实例", type = "增加")
+    @ApiOperation(value = "添加审核流程实例", notes = "添加审核流程实例")
     @PostMapping("/add")
     public Result add(@RequestBody MtAloneAuditNodeTask mtAloneAuditNodeTask, @ApiIgnore @User CurrentUser currentUser) {
         if(currentUser==null){
@@ -53,8 +53,8 @@ public class MtAloneAuditNodeTaskController {
     }
     @ApiImplicitParams({
             @ApiImplicitParam(name = "access-token", value = "token", paramType = "header", dataType = "String", required = true) })
-    @OperateLog(description = "删除审核人员审核节点", type = "删除")
-    @ApiOperation(value = "删除审核人员审核节点", notes = "删除审核人员审核节点")
+    @OperateLog(description = "删除审核流程实例", type = "删除")
+    @ApiOperation(value = "删除审核流程实例", notes = "删除审核流程实例")
     @DeleteMapping("/delete/{id}")
     public Result delete(@PathVariable Integer Id) {
         mtAloneAuditNodeTaskService.deleteById(Id);
@@ -62,8 +62,8 @@ public class MtAloneAuditNodeTaskController {
     }
     @ApiImplicitParams({
             @ApiImplicitParam(name = "access-token", value = "token", paramType = "header", dataType = "String", required = true) })
-    @OperateLog(description = "修改审核人员审核节点", type = "更新")
-    @ApiOperation(value = "修改审核人员审核节点", notes = "修改审核人员审核节点")
+    @OperateLog(description = "修改审核流程实例", type = "更新")
+    @ApiOperation(value = "修改审核流程实例", notes = "修改审核流程实例")
     @PostMapping("/update")
     public Result update(@RequestBody MtAloneAuditNodeTask mtAloneAuditNodeTask) {
 //        mtAloneAuditNodeTask.setUpdateTime(new Date());
@@ -72,8 +72,8 @@ public class MtAloneAuditNodeTaskController {
     }
     @ApiImplicitParams({
             @ApiImplicitParam(name = "access-token", value = "token", paramType = "header", dataType = "String", required = true) })
-    @OperateLog(description = "根据ID获取审核人员审核节点", type = "获取")
-    @ApiOperation(value = "根据ID获取审核人员审核节点", notes = "根据ID获取审核人员审核节点")
+    @OperateLog(description = "根据ID获取审核流程实例", type = "获取")
+    @ApiOperation(value = "根据ID获取审核流程实例", notes = "根据ID获取审核流程实例")
     @GetMapping("/detail/{id}")
     public Result detail(@PathVariable Integer id) {
         MtAloneAuditNodeTask mtAloneAuditNodeTask = mtAloneAuditNodeTaskService.findById(id);
@@ -81,8 +81,8 @@ public class MtAloneAuditNodeTaskController {
     }
     @ApiImplicitParams({
             @ApiImplicitParam(name = "access-token", value = "token", paramType = "header", dataType = "String", required = true) })
-    @OperateLog(description = "审核人员审核节点列表", type = "获取")
-    @ApiOperation(value = "审核人员审核节点列表", notes = "审核人员审核节点列表")
+    @OperateLog(description = "审核流程实例列表", type = "获取")
+    @ApiOperation(value = "审核流程实例列表", notes = "审核流程实例列表")
     @GetMapping("/list")
     public Result list(MtAloneAuditNodeTaskParams params, @ApiIgnore @User CurrentUser currentUser) {
         if(currentUser==null){

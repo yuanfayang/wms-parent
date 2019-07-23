@@ -99,6 +99,9 @@ public class MtAloneInboundOrderController {
         mtAloneInboundOrder.setAuditTaskId(mtAloneAuditTask.getId());
         mtAloneInboundOrder.setInboundOrderCode(BillManagePublicMethod.creatInBoundOrderCode());
         mtAloneInboundOrderService.save(mtAloneInboundOrder);
+        for(int i=0;i<mtAloneInBoundOrderProVO.getProList().size();i++){
+            mtAloneInBoundOrderProVO.getProList().get(i).setInboundOrderCode(BillManagePublicMethod.creatInBoundOrderCode());
+        }
         mtAloneProductService.save(mtAloneInBoundOrderProVO.getProList());
 
         return ResultGenerator.genSuccessResult();

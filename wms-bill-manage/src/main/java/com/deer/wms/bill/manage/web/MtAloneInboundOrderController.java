@@ -52,6 +52,8 @@ public class MtAloneInboundOrderController {
     private MtAloneAuditNodeTaskService mtAloneAuditNodeTaskService;
     @Autowired
     private MtAloneProductService mtAloneProductService;
+    @Autowired
+    private MtAloneBarcodeService mtAloneBarcodeService;
 
 
     @ApiImplicitParams({
@@ -74,13 +76,34 @@ public class MtAloneInboundOrderController {
         mtAloneAuditTaskService.save(mtAloneAuditTask);
         //-------------------生成审核业务节点模板实例----------------------------
         MtAloneAuditRelatMbParams params=new MtAloneAuditRelatMbParams();
+        params.setCompanyId(currentUser.getCompanyId());
         params.setAuditTaskMBId(BillManageConstant.INBOUND_TASK_MB_ID);
         List<MtAloneAuditRelatMb> relatListMb=mtAloneAuditRelatMbService.findList(params);
         List<MtAloneAuditRelat> relatList=new ArrayList<MtAloneAuditRelat>();
+
+        Integer maxId=mtAloneAuditRelatService.findMaxId();
         for(int i=0;i<relatListMb.size();i++){
+            maxId=maxId+1;
             MtAloneAuditRelat relat=new MtAloneAuditRelat();
             BeanUtils.copyProperties(relatListMb.get(i), relat);
+            if(i==0&&relatListMb.size()>1){
+                relat.setPrevNodeId(0);
+                relat.setNextNodeId(maxId+1);
+            }
+            else if(i==relatListMb.size()-1&&relatListMb.size()>1){
+                relat.setPrevNodeId(maxId-1);
+                relat.setNextNodeId(0);
+            }
+            else if(relatListMb.size()==1){
+                relat.setPrevNodeId(0);
+                relat.setNextNodeId(0);
+            }else{
+                relat.setPrevNodeId(maxId-1);
+                relat.setNextNodeId(maxId+1);
+            }
             relat.setAuditTaskId(mtAloneAuditTask.getId());
+            relat.setId(maxId);
+            relat.setNodeOrder(i+1);
             relatList.add(relat);
         }
         mtAloneAuditRelatService.save(relatList);
@@ -99,9 +122,20 @@ public class MtAloneInboundOrderController {
         mtAloneInboundOrder.setAuditTaskId(mtAloneAuditTask.getId());
         mtAloneInboundOrder.setInboundOrderCode(BillManagePublicMethod.creatInBoundOrderCode());
         mtAloneInboundOrderService.save(mtAloneInboundOrder);
+
+        String maxBarcode = mtAloneBarcodeService.getMaxBarcode();
+        List<MtAloneBarcode> barCodeList=new ArrayList<MtAloneBarcode>();
         for(int i=0;i<mtAloneInBoundOrderProVO.getProList().size();i++){
             mtAloneInBoundOrderProVO.getProList().get(i).setInboundOrderCode(BillManagePublicMethod.creatInBoundOrderCode());
+            String productBarcode = BillManagePublicMethod.creatBarCode(maxBarcode);
+            mtAloneInBoundOrderProVO.getProList().get(i).setProductBarCode(productBarcode);
+            maxBarcode=productBarcode;
+
+            MtAloneBarcode mtAloneBarcode = new MtAloneBarcode();
+            mtAloneBarcode.setBarcode(maxBarcode);
+            barCodeList.add(mtAloneBarcode);
         }
+        mtAloneBarcodeService.save(barCodeList);
         mtAloneProductService.save(mtAloneInBoundOrderProVO.getProList());
 
         return ResultGenerator.genSuccessResult();

@@ -26,4 +26,8 @@ public class MtAloneAuditRelatServiceImpl extends AbstractService<MtAloneAuditRe
     public List<MtAloneAuditRelat> findList(MtAloneAuditRelatParams  params) {
         return mtAloneAuditRelatMapper.findList(params);
     }
+    @Override
+    public Integer findMaxId(){
+        return mtAloneAuditRelatMapper.findMaxId();
+    }
 }

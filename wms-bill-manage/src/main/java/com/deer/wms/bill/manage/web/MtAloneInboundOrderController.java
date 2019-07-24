@@ -116,17 +116,18 @@ public class MtAloneInboundOrderController {
         mtAloneAuditNodeTaskService.save(mtAloneAuditNodeTask);
         //-------------------生成入库单,保存相应产品------------------------------
         MtAloneInboundOrder mtAloneInboundOrder=new MtAloneInboundOrder();
+        String inBoundOrderCode=BillManagePublicMethod.creatInBoundOrderCode();
         BeanUtils.copyProperties(mtAloneInBoundOrderProVO, mtAloneInboundOrder);
         mtAloneInboundOrder.setCreateTime(new Date());
         mtAloneInboundOrder.setCompanyId(currentUser.getCompanyId());
         mtAloneInboundOrder.setAuditTaskId(mtAloneAuditTask.getId());
-        mtAloneInboundOrder.setInboundOrderCode(BillManagePublicMethod.creatInBoundOrderCode());
+        mtAloneInboundOrder.setInboundOrderCode(inBoundOrderCode);
         mtAloneInboundOrderService.save(mtAloneInboundOrder);
 
         String maxBarcode = mtAloneBarcodeService.getMaxBarcode();
         List<MtAloneBarcode> barCodeList=new ArrayList<MtAloneBarcode>();
         for(int i=0;i<mtAloneInBoundOrderProVO.getProList().size();i++){
-            mtAloneInBoundOrderProVO.getProList().get(i).setInboundOrderCode(BillManagePublicMethod.creatInBoundOrderCode());
+            mtAloneInBoundOrderProVO.getProList().get(i).setInboundOrderCode(inBoundOrderCode);
             String productBarcode = BillManagePublicMethod.creatBarCode(maxBarcode);
             mtAloneInBoundOrderProVO.getProList().get(i).setProductBarCode(productBarcode);
             maxBarcode=productBarcode;

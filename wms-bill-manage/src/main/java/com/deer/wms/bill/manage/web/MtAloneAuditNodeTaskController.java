@@ -1,5 +1,8 @@
 package com.deer.wms.bill.manage.web;
 
+import com.deer.wms.bill.manage.model.MtAloneAuditRelat;
+import com.deer.wms.bill.manage.model.MtAloneAuditRelatParams;
+import com.deer.wms.bill.manage.service.MtAloneAuditRelatService;
 import com.deer.wms.project.seed.annotation.OperateLog;
 import com.deer.wms.project.seed.constant.SystemManageConstant;
 import com.deer.wms.project.seed.core.result.CommonCode;
@@ -22,6 +25,7 @@ import springfox.documentation.annotations.ApiIgnore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List; 
 
@@ -37,6 +41,8 @@ public class MtAloneAuditNodeTaskController {
 
     @Autowired
     private MtAloneAuditNodeTaskService mtAloneAuditNodeTaskService;
+    @Autowired
+    private MtAloneAuditRelatService mtAloneAuditRelatService;
     @ApiImplicitParams({
             @ApiImplicitParam(name = "access-token", value = "token", paramType = "header", dataType = "String", required = true) })
     @OperateLog(description = "添加审核流程实例", type = "增加")
@@ -98,6 +104,58 @@ public class MtAloneAuditNodeTaskController {
         List<MtAloneAuditNodeTask> list = mtAloneAuditNodeTaskService.findList(params);
         PageInfo pageInfo = new PageInfo(list);
         return ResultGenerator.genSuccessResult(pageInfo);
+    }
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "access-token", value = "token", paramType = "header", dataType = "String", required = true) })
+    @OperateLog(description = "审核流程流转", type = "更新")
+    @ApiOperation(value = "审核流程流转", notes = "审核流程流转")
+    @PostMapping("/updateTask")
+    public Result updateTask(MtAloneAuditNodeTaskParams params, @ApiIgnore @User CurrentUser currentUser) {
+        if(currentUser==null){
+            return ResultGenerator.genFailResult(CommonCode.SERVICE_ERROR,"未登录错误",null );
+        }
+
+        if (currentUser.getCompanyType() != SystemManageConstant.COMPANY_TYPE_MT){
+            params.setCompanyId(currentUser.getCompanyId());
+        }else{
+            params.setCompanyId(null);
+        }
+
+        MtAloneAuditRelatParams relatParams=new MtAloneAuditRelatParams();
+        relatParams.setAuditTaskId(params.getAuditTaskId());
+        List<MtAloneAuditRelat>relatList=mtAloneAuditRelatService.findList(relatParams);
+        List<MtAloneAuditNodeTask>taskList=mtAloneAuditNodeTaskService.findList(params);
+        if(params.getNodeOrderNow()==1){
+            taskList.get(0).setCurrentAuditNodeId(relatList.get(0).getId());
+            taskList.get(0).setCurrentAuditNodeName(relatList.get(0).getAuditNodeName());
+            taskList.get(0).setIsAudit(0);
+            mtAloneAuditNodeTaskService.update(taskList.get(0));
+        }else if(params.getNodeOrderNow()==0){
+            taskList.get(taskList.size()-1).setIsAudit(1);
+            taskList.get(taskList.size()-1).setAuditTime(new Date());
+            taskList.get(taskList.size()-1).setReviewerId(currentUser.getUserId());
+        }else {
+            //将上个节点的状态更新，变为审核通过
+            taskList.get(params.getNodeOrderNow()-2).setIsAudit(1);
+            taskList.get(params.getNodeOrderNow()-2).setAuditTime(new Date());
+            taskList.get(params.getNodeOrderNow()-2).setReviewerId(currentUser.getUserId());
+            mtAloneAuditNodeTaskService.update(taskList.get(params.getNodeOrderNow()-2));
+            //删除该节点后的那条记录，这一步有可能是回退的
+            mtAloneAuditNodeTaskService.deleteById(taskList.get(taskList.size()-1).getId());
+            //对当前节点进行插入一条记录
+            MtAloneAuditNodeTask mtAloneAuditNodeTask=new MtAloneAuditNodeTask();
+            mtAloneAuditNodeTask.setIsAudit(0);
+            mtAloneAuditNodeTask.setCurrentAuditNodeName(relatList.get(params.getNodeOrderNow()-1).getAuditNodeName());
+            mtAloneAuditNodeTask.setCurrentAuditNodeId(relatList.get(params.getNodeOrderNow()-1).getId());
+            mtAloneAuditNodeTask.setAuditTaskId(taskList.get(0).getAuditTaskId());
+            mtAloneAuditNodeTask.setAuditTaskName(taskList.get(0).getAuditTaskName());
+            mtAloneAuditNodeTask.setCreateTime(new Date());
+            mtAloneAuditNodeTask.setCompanyId(currentUser.getCompanyId());
+            mtAloneAuditNodeTask.setOperatorId(currentUser.getUserId());
+            mtAloneAuditNodeTaskService.save(mtAloneAuditNodeTask);
+        }
+        return ResultGenerator.genSuccessResult();
     }
 
 }

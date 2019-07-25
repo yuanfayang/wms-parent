@@ -28,6 +28,7 @@
     <if test="companyId != null">
       AND relat.company_id = #{companyId}
     </if>
+    order by relat.node_order
   </select>
 
   <select id="findMaxId"  resultType="java.lang.Integer">

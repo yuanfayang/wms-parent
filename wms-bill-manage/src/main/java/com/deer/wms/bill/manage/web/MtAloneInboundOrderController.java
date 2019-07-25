@@ -173,8 +173,8 @@ public class MtAloneInboundOrderController {
             @ApiImplicitParam(name = "access-token", value = "token", paramType = "header", dataType = "String", required = true) })
     @OperateLog(description = "入库单及相应产品列表", type = "获取")
     @ApiOperation(value = "入库单及相应产品列表", notes = "入库单及相应产品列表")
-    @GetMapping("/list")
-    public Result list(MtAloneInboundOrderParams params, @ApiIgnore @User CurrentUser currentUser) {
+    @GetMapping("/inOrderProlist")
+    public Result inOrderProlist(MtAloneInboundOrderParams params, @ApiIgnore @User CurrentUser currentUser) {
         if(currentUser==null){
             return ResultGenerator.genFailResult(CommonCode.SERVICE_ERROR,"未登录错误",null );
         }
@@ -185,7 +185,28 @@ public class MtAloneInboundOrderController {
 			params.setCompanyId(null);
         }
         PageHelper.startPage(params.getPageNum(), params.getPageSize());
-        List<MtAloneInboundOrder> list = mtAloneInboundOrderService.findOrderProList(params);
+        List<MtAloneInBoundOrderProVO> list = mtAloneInboundOrderService.findOrderProList(params);
+        PageInfo pageInfo = new PageInfo(list);
+        return ResultGenerator.genSuccessResult(pageInfo);
+    }
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "access-token", value = "token", paramType = "header", dataType = "String", required = true) })
+    @OperateLog(description = "入库单及相应产品明细列表", type = "获取")
+    @ApiOperation(value = "入库单及相应产品明细列表", notes = "入库单及相应产品明细列表")
+    @GetMapping("/inOrderProDetlist")
+    public Result inOrderProDetlist(MtAloneInboundOrderParams params, @ApiIgnore @User CurrentUser currentUser) {
+        if(currentUser==null){
+            return ResultGenerator.genFailResult(CommonCode.SERVICE_ERROR,"未登录错误",null );
+        }
+
+        if (currentUser.getCompanyType() != SystemManageConstant.COMPANY_TYPE_MT){
+            params.setCompanyId(currentUser.getCompanyId());
+        }else{
+            params.setCompanyId(null);
+        }
+        PageHelper.startPage(params.getPageNum(), params.getPageSize());
+        List<MtAloneInboundOrderProDetVO> list = mtAloneInboundOrderService.findOrderProDetList(params);
         PageInfo pageInfo = new PageInfo(list);
         return ResultGenerator.genSuccessResult(pageInfo);
     }

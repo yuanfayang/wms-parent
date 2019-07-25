@@ -1,8 +1,10 @@
 package com.deer.wms.bill.manage.service.impl;
 
 import com.deer.wms.bill.manage.dao.MtAloneInboundOrderMapper;
+import com.deer.wms.bill.manage.model.MtAloneInBoundOrderProVO;
 import com.deer.wms.bill.manage.model.MtAloneInboundOrder;
 import com.deer.wms.bill.manage.model.MtAloneInboundOrderParams;
+import com.deer.wms.bill.manage.model.MtAloneInboundOrderProDetVO;
 import com.deer.wms.bill.manage.service.MtAloneInboundOrderService;
 
 import com.deer.wms.project.seed.core.service.AbstractService;
@@ -28,7 +30,12 @@ public class MtAloneInboundOrderServiceImpl extends AbstractService<MtAloneInbou
     }
 
     @Override
-    public List<MtAloneInboundOrder> findOrderProList(MtAloneInboundOrderParams params) {
+    public List<MtAloneInBoundOrderProVO> findOrderProList(MtAloneInboundOrderParams params) {
         return mtAloneInboundOrderMapper.findOrderProList(params);
+    }
+
+    @Override
+    public List<MtAloneInboundOrderProDetVO> findOrderProDetList(MtAloneInboundOrderParams params) {
+        return mtAloneInboundOrderMapper.findOrderProDetList(params);
     }
 }

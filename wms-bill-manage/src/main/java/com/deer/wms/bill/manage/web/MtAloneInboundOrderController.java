@@ -146,8 +146,8 @@ public class MtAloneInboundOrderController {
     @OperateLog(description = "删除入库单", type = "删除")
     @ApiOperation(value = "删除入库单", notes = "删除入库单")
     @DeleteMapping("/delete/{id}")
-    public Result delete(@PathVariable Integer Id) {
-        mtAloneInboundOrderService.deleteById(Id);
+    public Result delete(@PathVariable Integer id) {
+        mtAloneInboundOrderService.deleteById(id);
         return ResultGenerator.genSuccessResult();
     }
     @ApiImplicitParams({

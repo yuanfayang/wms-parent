@@ -10,8 +10,7 @@ import java.util.List;
  * Created by guo on 2019/07/18.
  */
 public interface MaterialsInfoService extends Service<MaterialsInfo, Integer> {
+    List<MaterialsInfo> findList(MaterialsInfoParams params);
 
-
-    //List<MaterialsInfo> findList(MaterialsInfoParams params) ;
 
 }

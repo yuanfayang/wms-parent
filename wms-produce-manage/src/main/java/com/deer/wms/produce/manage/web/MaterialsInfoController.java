@@ -101,24 +101,20 @@ public class MaterialsInfoController {
 //        return ResultGenerator.genSuccessResult(pageInfo);
 //    }
 
-    //@OperateLog(description = "物料信息分页查询", type = "查询")
-    //@ApiOperation(value = "物料信息列表分页", notes = "物料信息列表分页")
-    //@GetMapping("/list")
-    //public Result list(MaterialsInfoParams params, @ApiIgnore @User CurrentUser currentUser) {
-    //    if(currentUser==null){
-    //        return ResultGenerator.genFailResult(CommonCode.SERVICE_ERROR,"未登录错误",null );
-    //    }
-    //    StringUtil.trimObjectStringProperties(params);
-    //
-    //	if (currentUser.getCompanyType() != SystemManageConstant.COMPANY_TYPE_MT){
-    //		params.setCompanyId(currentUser.getCompanyId());
-		//}else{
-		//	params.setCompanyId(null);
-    //    }
-    //    PageHelper.startPage(params.getPageNum(), params.getPageSize());
-    //    List<MaterialsInfo> list = materialsInfoService.findList(params);
-    //    PageInfo pageInfo = new PageInfo(list);
-    //    return ResultGenerator.genSuccessResult(pageInfo);
-    //}
+    @OperateLog(description = "物料信息分页查询", type = "查询")
+    @ApiOperation(value = "物料信息列表分页", notes = "物料信息列表分页")
+    @GetMapping("/list")
+    public Result list(MaterialsInfoParams params, @ApiIgnore @User CurrentUser currentUser) {
+        //if(currentUser==null){
+        //    return ResultGenerator.genFailResult(CommonCode.SERVICE_ERROR,"未登录错误",null );
+        //}
+        //StringUtil.trimObjectStringProperties(params);
+
+        params.setCompanyId(0);
+        PageHelper.startPage(params.getPageNum(), params.getPageSize());
+        List<MaterialsInfo> list = materialsInfoService.findList(params);
+        PageInfo pageInfo = new PageInfo(list);
+        return ResultGenerator.genSuccessResult(pageInfo);
+    }
 
 }

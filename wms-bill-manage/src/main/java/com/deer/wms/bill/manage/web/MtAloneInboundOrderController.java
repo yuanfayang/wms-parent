@@ -171,6 +171,15 @@ public class MtAloneInboundOrderController {
     }
     @ApiImplicitParams({
             @ApiImplicitParam(name = "access-token", value = "token", paramType = "header", dataType = "String", required = true) })
+    @OperateLog(description = "根据auditTaskId获取入库单", type = "获取")
+    @ApiOperation(value = "根据auditTaskId获取入库单", notes = "根据auditTaskId获取入库单")
+    @GetMapping("/detail/{auditTaskId}")
+    public Result detailByAuditTaskId(MtAloneInboundOrderParams params) {
+        MtAloneInboundOrder mtAloneInboundOrder = mtAloneInboundOrderService.findOrderByAuditTaskId(params);
+        return ResultGenerator.genSuccessResult(mtAloneInboundOrder);
+    }
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "access-token", value = "token", paramType = "header", dataType = "String", required = true) })
     @OperateLog(description = "入库单及相应产品列表", type = "获取")
     @ApiOperation(value = "入库单及相应产品列表", notes = "入库单及相应产品列表")
     @GetMapping("/inOrderProlist")

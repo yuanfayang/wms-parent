@@ -7,6 +7,8 @@ import com.deer.wms.project.seed.core.service.QueryParams;
 */
 public class MtAloneInboundOrderParams extends QueryParams {
 
+    private Integer auditTaskId;
+
     /**
      * 开始时间
      */
@@ -31,5 +33,13 @@ public class MtAloneInboundOrderParams extends QueryParams {
 
     public void setEndDate(String endDate) {
         this.endDate = endDate;
+    }
+
+    public Integer getAuditTaskId() {
+        return auditTaskId;
+    }
+
+    public void setAuditTaskId(Integer auditTaskId) {
+        this.auditTaskId = auditTaskId;
     }
 }

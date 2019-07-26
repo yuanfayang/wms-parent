@@ -188,4 +188,9 @@
         </if>
         order by inOrder.create_time desc
     </select>
+
+    <select id="findOrderByAuditTaskId" parameterType="com.deer.wms.bill.manage.model.MtAloneInboundOrderParams" resultMap="BaseResultMap">
+        select * from mt_alone_inbound_order inOrder
+        where inOrder.audit_task_id=#{auditTaskId}
+    </select>
 </mapper>

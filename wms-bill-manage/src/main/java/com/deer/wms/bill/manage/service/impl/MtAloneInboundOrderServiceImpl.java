@@ -38,4 +38,9 @@ public class MtAloneInboundOrderServiceImpl extends AbstractService<MtAloneInbou
     public List<MtAloneInboundOrderProDetVO> findOrderProDetList(MtAloneInboundOrderParams params) {
         return mtAloneInboundOrderMapper.findOrderProDetList(params);
     }
+
+    @Override
+    public MtAloneInboundOrder findOrderByAuditTaskId(MtAloneInboundOrderParams params) {
+        return mtAloneInboundOrderMapper.findOrderByAuditTaskId(params);
+    }
 }

@@ -1,15 +1,13 @@
 package com.deer.wms.bill.manage.web;
 
-import com.deer.wms.bill.manage.model.MtAloneAuditRelat;
-import com.deer.wms.bill.manage.model.MtAloneAuditRelatParams;
+import com.deer.wms.bill.manage.model.*;
 import com.deer.wms.bill.manage.service.MtAloneAuditRelatService;
+import com.deer.wms.bill.manage.service.MtAloneInboundOrderService;
 import com.deer.wms.project.seed.annotation.OperateLog;
 import com.deer.wms.project.seed.constant.SystemManageConstant;
 import com.deer.wms.project.seed.core.result.CommonCode;
 import com.deer.wms.project.seed.core.result.Result;
 import com.deer.wms.project.seed.core.result.ResultGenerator;
-import com.deer.wms.bill.manage.model.MtAloneAuditNodeTask;
-import com.deer.wms.bill.manage.model.MtAloneAuditNodeTaskParams;
 import com.deer.wms.bill.manage.service.MtAloneAuditNodeTaskService;
 import com.deer.wms.intercept.annotation.User;
 import com.deer.wms.intercept.common.data.CurrentUser;
@@ -43,6 +41,8 @@ public class MtAloneAuditNodeTaskController {
     private MtAloneAuditNodeTaskService mtAloneAuditNodeTaskService;
     @Autowired
     private MtAloneAuditRelatService mtAloneAuditRelatService;
+    @Autowired
+    private MtAloneInboundOrderService mtAloneInboundOrderService;
     @ApiImplicitParams({
             @ApiImplicitParam(name = "access-token", value = "token", paramType = "header", dataType = "String", required = true) })
     @OperateLog(description = "添加审核流程实例", type = "增加")
@@ -126,6 +126,9 @@ public class MtAloneAuditNodeTaskController {
         relatParams.setAuditTaskId(params.getAuditTaskId());
         List<MtAloneAuditRelat>relatList=mtAloneAuditRelatService.findList(relatParams);
         List<MtAloneAuditNodeTask>taskList=mtAloneAuditNodeTaskService.findList(params);
+        MtAloneInboundOrderParams orderParams=new MtAloneInboundOrderParams();
+        orderParams.setAuditTaskId(params.getAuditTaskId());
+        MtAloneInboundOrder mtAloneInboundOrder = mtAloneInboundOrderService.findOrderByAuditTaskId(orderParams);
         if(params.getNodeOrderNow()==1&&taskList.size()==1){
             taskList.get(0).setCurrentAuditNodeId(relatList.get(0).getId());
             taskList.get(0).setCurrentAuditNodeName(relatList.get(0).getAuditNodeName());
@@ -137,6 +140,8 @@ public class MtAloneAuditNodeTaskController {
             taskList.get(taskList.size()-1).setAuditTime(new Date());
             taskList.get(taskList.size()-1).setReviewerId(currentUser.getUserId());
             mtAloneAuditNodeTaskService.update(taskList.get(taskList.size()-1));
+            mtAloneInboundOrder.setIsAuditTask(2);
+            mtAloneInboundOrderService.update(mtAloneInboundOrder);
         }else {
             //删除该节点后的那条记录，这一步有可能是回退的
             if(params.getNodeOrderNow()<taskList.size()){

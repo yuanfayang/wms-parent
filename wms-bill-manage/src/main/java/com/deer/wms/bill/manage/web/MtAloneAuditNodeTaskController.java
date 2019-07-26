@@ -126,34 +126,45 @@ public class MtAloneAuditNodeTaskController {
         relatParams.setAuditTaskId(params.getAuditTaskId());
         List<MtAloneAuditRelat>relatList=mtAloneAuditRelatService.findList(relatParams);
         List<MtAloneAuditNodeTask>taskList=mtAloneAuditNodeTaskService.findList(params);
-        if(params.getNodeOrderNow()==1){
+        if(params.getNodeOrderNow()==1&&taskList.size()==1){
             taskList.get(0).setCurrentAuditNodeId(relatList.get(0).getId());
             taskList.get(0).setCurrentAuditNodeName(relatList.get(0).getAuditNodeName());
             taskList.get(0).setIsAudit(0);
             mtAloneAuditNodeTaskService.update(taskList.get(0));
-        }else if(params.getNodeOrderNow()==0){
+        }
+        else if(params.getIsAudit()==1){
             taskList.get(taskList.size()-1).setIsAudit(1);
             taskList.get(taskList.size()-1).setAuditTime(new Date());
             taskList.get(taskList.size()-1).setReviewerId(currentUser.getUserId());
+            mtAloneAuditNodeTaskService.update(taskList.get(taskList.size()-1));
         }else {
-            //将上个节点的状态更新，变为审核通过
-            taskList.get(params.getNodeOrderNow()-2).setIsAudit(1);
-            taskList.get(params.getNodeOrderNow()-2).setAuditTime(new Date());
-            taskList.get(params.getNodeOrderNow()-2).setReviewerId(currentUser.getUserId());
-            mtAloneAuditNodeTaskService.update(taskList.get(params.getNodeOrderNow()-2));
             //删除该节点后的那条记录，这一步有可能是回退的
-            mtAloneAuditNodeTaskService.deleteById(taskList.get(taskList.size()-1).getId());
-            //对当前节点进行插入一条记录
-            MtAloneAuditNodeTask mtAloneAuditNodeTask=new MtAloneAuditNodeTask();
-            mtAloneAuditNodeTask.setIsAudit(0);
-            mtAloneAuditNodeTask.setCurrentAuditNodeName(relatList.get(params.getNodeOrderNow()-1).getAuditNodeName());
-            mtAloneAuditNodeTask.setCurrentAuditNodeId(relatList.get(params.getNodeOrderNow()-1).getId());
-            mtAloneAuditNodeTask.setAuditTaskId(taskList.get(0).getAuditTaskId());
-            mtAloneAuditNodeTask.setAuditTaskName(taskList.get(0).getAuditTaskName());
-            mtAloneAuditNodeTask.setCreateTime(new Date());
-            mtAloneAuditNodeTask.setCompanyId(currentUser.getCompanyId());
-            mtAloneAuditNodeTask.setOperatorId(currentUser.getUserId());
-            mtAloneAuditNodeTaskService.save(mtAloneAuditNodeTask);
+            if(params.getNodeOrderNow()<taskList.size()){
+                mtAloneAuditNodeTaskService.deleteById(taskList.get(taskList.size()-1).getId());
+                taskList.get(params.getNodeOrderNow()-1).setIsAudit(0);
+                taskList.get(params.getNodeOrderNow()-1).setReviewerId(0);
+                taskList.get(params.getNodeOrderNow()-1).setAuditTime(null);
+                mtAloneAuditNodeTaskService.update(taskList.get(params.getNodeOrderNow()-1));
+            }else {
+                //将上个节点的状态更新，变为审核通过
+                taskList.get(params.getNodeOrderNow()-2).setIsAudit(1);
+                taskList.get(params.getNodeOrderNow()-2).setAuditTime(new Date());
+                taskList.get(params.getNodeOrderNow()-2).setReviewerId(currentUser.getUserId());
+                mtAloneAuditNodeTaskService.update(taskList.get(params.getNodeOrderNow()-2));
+
+                //对当前节点进行插入一条记录
+                MtAloneAuditNodeTask mtAloneAuditNodeTask=new MtAloneAuditNodeTask();
+                mtAloneAuditNodeTask.setIsAudit(0);
+                mtAloneAuditNodeTask.setCurrentAuditNodeName(relatList.get(params.getNodeOrderNow()-1).getAuditNodeName());
+                mtAloneAuditNodeTask.setCurrentAuditNodeId(relatList.get(params.getNodeOrderNow()-1).getId());
+                mtAloneAuditNodeTask.setAuditTaskId(taskList.get(0).getAuditTaskId());
+                mtAloneAuditNodeTask.setAuditTaskName(taskList.get(0).getAuditTaskName());
+                mtAloneAuditNodeTask.setCreateTime(new Date());
+                mtAloneAuditNodeTask.setCompanyId(currentUser.getCompanyId());
+                mtAloneAuditNodeTask.setOperatorId(currentUser.getUserId());
+                mtAloneAuditNodeTaskService.save(mtAloneAuditNodeTask);
+            }
+
         }
         return ResultGenerator.genSuccessResult();
     }

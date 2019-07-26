@@ -29,7 +29,6 @@
         <result column="cell_l" jdbcType="REAL" property="cellL"/>
         <result column="cell_w" jdbcType="REAL" property="cellW"/>
         <result column="cell_h" jdbcType="REAL" property="cellH"/>
-        <result column="company_id" jdbcType="INTEGER" property="companyId"/>
     </resultMap>
 
     <delete id="deleteByCodeAndCom" parameterType="com.deer.wms.base.system.model.CellInfoCriteria">

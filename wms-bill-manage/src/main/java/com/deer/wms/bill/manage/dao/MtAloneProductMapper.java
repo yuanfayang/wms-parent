@@ -24,6 +24,8 @@ public interface MtAloneProductMapper extends Mapper<MtAloneProduct> {
 
 	List<MtAloneProductVO> findListNew(MtAloneProductParams params);
 
+	Integer findListNewCount(MtAloneProductParams params);
+
     MtAloneCellStateDto findCountCellStateByComId(MtAloneHomePageParams params);
 
 	List<MtAloneProductDeliveryVO> findDeliveryProForms(MtAloneDeliveryParams params);

@@ -4,6 +4,8 @@ import com.deer.wms.bill.manage.model.MtAloneAuditRelatMb;
 import com.deer.wms.bill.manage.model.MtAloneAuditRelatMbParams;
 
 import com.deer.wms.project.seed.core.service.Service;
+import jdk.nashorn.internal.ir.IdentNode;
+
 import java.util.List;
 
 /**
@@ -13,5 +15,6 @@ public interface MtAloneAuditRelatMbService extends Service<MtAloneAuditRelatMb,
 
 
     List<MtAloneAuditRelatMb> findList(MtAloneAuditRelatMbParams  params) ;
+
 
 }

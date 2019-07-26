@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface MtAloneAuditRelatMapper extends Mapper<MtAloneAuditRelat> {
     List<MtAloneAuditRelat> findList(MtAloneAuditRelatParams params);
+    Integer findMaxId();
 }

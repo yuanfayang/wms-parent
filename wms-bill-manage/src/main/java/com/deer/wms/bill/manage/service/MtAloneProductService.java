@@ -29,6 +29,8 @@ public interface MtAloneProductService extends Service<MtAloneProduct, Integer> 
 
 	List<MtAloneProductVO> findListNew(MtAloneProductParams params);
 
+	Integer findListNewCount(MtAloneProductParams params);
+
     MtAloneCellStateDto findCountCellStateByComId(MtAloneHomePageParams params);
 
 	List<MtAloneProductDeliveryVO> findDeliveryProForms(MtAloneDeliveryParams params);

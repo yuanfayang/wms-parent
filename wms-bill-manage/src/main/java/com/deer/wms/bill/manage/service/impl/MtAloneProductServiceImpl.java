@@ -63,7 +63,12 @@ public class MtAloneProductServiceImpl extends AbstractService<MtAloneProduct, I
 		return mtAloneProductMapper.findListNew(params);
 	}
 
-    @Override
+	@Override
+	public Integer findListNewCount(MtAloneProductParams params) {
+		return mtAloneProductMapper.findListNewCount(params);
+	}
+
+	@Override
     public MtAloneCellStateDto findCountCellStateByComId(MtAloneHomePageParams params) {
         return mtAloneProductMapper.findCountCellStateByComId(params);
     }

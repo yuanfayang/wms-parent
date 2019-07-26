@@ -7,8 +7,7 @@ import com.deer.wms.project.seed.constant.SystemManageConstant;
 import com.deer.wms.project.seed.core.result.CommonCode;
 import com.deer.wms.project.seed.core.result.Result;
 import com.deer.wms.project.seed.core.result.ResultGenerator;
-import com.deer.wms.project.seed.util.RandomUtil;
-import com.deer.wms.project.seed.util.StringUtil;
+import com.deer.wms.project.seed.util.*;
 import com.deer.wms.base.system.service.CellInfoService;
 import com.deer.wms.bill.manage.constant.BillManagePublicMethod;
 import com.deer.wms.bill.manage.service.MtAloneBarcodeService;
@@ -20,17 +19,23 @@ import com.deer.wms.intercept.common.data.CurrentUser;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
+import com.lkx.util.ExcelTypeEnum;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.xssf.streaming.SXSSFRow;
+import org.apache.poi.xssf.streaming.SXSSFSheet;
+import org.apache.poi.xssf.streaming.SXSSFWorkbook;
+import org.apache.poi.xssf.usermodel.XSSFCellStyle;
+import org.apache.poi.xssf.usermodel.XSSFFont;
+import org.springframework.util.CollectionUtils;
 import springfox.documentation.annotations.ApiIgnore;
 
-import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFRichTextString;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,9 +43,12 @@ import java.io.IOException;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
@@ -207,8 +215,9 @@ public class MtAloneProductController {
 		@ApiImplicitParam(name = "access-token", value = "token", paramType = "header", dataType = "String", required = true) })
 	@OperateLog(description = "商品信息导出excel", type = "查询new")
 	@ApiOperation(value = "商品信息导出excel", notes = "商品信息导出excel")
-	@GetMapping("/list/new/excel")
-	public Result productNewListExcel(MtAloneProductParams params, @ApiIgnore @User CurrentUser currentUser,HttpServletResponse response) throws Exception{
+	@PostMapping("/list/new/excel")
+	public Result productNewListExcel(@RequestBody MtAloneProductParams params,@ApiIgnore @User CurrentUser currentUser,
+									  HttpServletRequest request, HttpServletResponse response) throws Exception{
 		if (currentUser == null) {
 			return ResultGenerator.genFailResult(CommonCode.SERVICE_ERROR, "未登录错误", null);
 		}
@@ -219,66 +228,163 @@ public class MtAloneProductController {
 		} else {
 			params.setCompanyId(null);
 		}
-		
-		String fileName="产品信息.xls";
-		response.setContentType("application/msexcel");
-		response.setHeader("Content-disposition","attachment;filename=" +  fileName +";filename*=utf-8''"+ URLEncoder.encode(fileName,"UTF-8"));
-		
-		
-		List<MtAloneProductVO> list = mtAloneProductService.findListNew(params);
-		List<MtAloneProductVO> listNew = new ArrayList();
 
-		for (int i = 0; i < list.size(); i++) {
-			if (list.get(i).getRemainLength() != 0 || list.get(i).getDeliveryLength() == 0) {
-				listNew.add(list.get(i));
+
+		List<String> titles = params.getHeadersName();
+
+		//创建poi导出数据对象
+		SXSSFWorkbook sxssfWorkbook = new SXSSFWorkbook();
+
+		//创建sheet页
+		SXSSFSheet sheet = sxssfWorkbook.createSheet("sheet1");
+
+		CellStyle cellStyle = sxssfWorkbook.createCellStyle();
+		//设置居中
+		cellStyle.setAlignment(XSSFCellStyle.ALIGN_CENTER);
+
+		//设置边框
+		cellStyle.setBorderBottom(XSSFCellStyle.BORDER_THIN); //下边框
+		cellStyle.setBorderLeft(XSSFCellStyle.BORDER_THIN);//左边框
+		cellStyle.setBorderTop(XSSFCellStyle.BORDER_THIN);//上边框
+		cellStyle.setBorderRight(XSSFCellStyle.BORDER_THIN);//右边框
+
+		CellStyle cellStyleHead = sxssfWorkbook.createCellStyle();
+		//设置居中
+		cellStyleHead.setAlignment(XSSFCellStyle.ALIGN_CENTER);
+
+		//设置边框
+		cellStyleHead.setBorderBottom(XSSFCellStyle.BORDER_THIN); //下边框
+		cellStyleHead.setBorderLeft(XSSFCellStyle.BORDER_THIN);//左边框
+		cellStyleHead.setBorderTop(XSSFCellStyle.BORDER_THIN);//上边框
+		cellStyleHead.setBorderRight(XSSFCellStyle.BORDER_THIN);//右边框
+
+		XSSFFont font = (XSSFFont)sxssfWorkbook.createFont();
+		font.setBoldweight(XSSFFont.BOLDWEIGHT_BOLD);// 这是字体加粗
+		cellStyleHead.setFont(font);
+
+		//创建表头
+		SXSSFRow headRow = sheet.createRow(0);
+
+		for (int i=0;i<titles.size();i++){
+			Cell cell = headRow.createCell(i);
+			cell.setCellValue(titles.get(i));
+			cell.setCellStyle(cellStyleHead);
+		}
+
+		List<MtAloneProductVO> list = mtAloneProductService.findListNew(params);
+		List<List<String>> data = new ArrayList<>();
+		for (MtAloneProductVO mtAloneProductVO:list){
+			List<String> stringList = new ArrayList<>();
+			for (int i = 0 ; i < params.getHeadersName().size() ; i++){
+				if (params.getHeadersName().get(i).equals("产品编号")){
+					stringList.add(mtAloneProductVO.getProductCode());
+				}else if (params.getHeadersName().get(i).equals("产品名称")){
+					stringList.add(mtAloneProductVO.getProductName());
+				}else if (params.getHeadersName().get(i).equals("产品分类")){
+					stringList.add(mtAloneProductVO.getItemTypeName());
+				}else if (params.getHeadersName().get(i).equals("产品品种")){
+					stringList.add(mtAloneProductVO.getItemVarietyName());
+				}else if (params.getHeadersName().get(i).equals("供应商名称")){
+					stringList.add(mtAloneProductVO.getSupplierName());
+				}else if (params.getHeadersName().get(i).equals("颜色名称")){
+					stringList.add(mtAloneProductVO.getColorName());
+				}else if (params.getHeadersName().get(i).equals("产品缸号")){
+					stringList.add(mtAloneProductVO.getDyelotNum());
+				}else if (params.getHeadersName().get(i).equals("颜色")){
+					stringList.add(mtAloneProductVO.getColorCode());
+				}else if (params.getHeadersName().get(i).equals("登记卷数")){
+					stringList.add(String.valueOf(mtAloneProductVO.getWareNum()));
+				}else if (params.getHeadersName().get(i).equals("登记米数")){
+					stringList.add(String.valueOf(mtAloneProductVO.getProductLength()));
+				}else if (params.getHeadersName().get(i).equals("入库卷数")){
+					stringList.add(String.valueOf(mtAloneProductVO.getRollNum()));
+				}else if (params.getHeadersName().get(i).equals("入库米数")){
+					stringList.add(String.valueOf(mtAloneProductVO.getDetectLength()));
+				}else if (params.getHeadersName().get(i).equals("剩余米数")){
+					stringList.add(String.valueOf(mtAloneProductVO.getRemainLength()));
+				}else if (params.getHeadersName().get(i).equals("物料编号")){
+					stringList.add(mtAloneProductVO.getItemCode());
+				}else if (params.getHeadersName().get(i).equals("面料成分")){
+					stringList.add(mtAloneProductVO.getShellFabric());
+				}else if (params.getHeadersName().get(i).equals("产品组织")){
+					stringList.add(String.valueOf(mtAloneProductVO.getIsDetection()));
+				}else if (params.getHeadersName().get(i).equals("产品产地")){
+					stringList.add(mtAloneProductVO.getOrigin());
+				}else if (params.getHeadersName().get(i).equals("进货单价")){
+					stringList.add(String.valueOf(mtAloneProductVO.getPrice()));
+				}else if (params.getHeadersName().get(i).equals("门幅(cm)")){
+					stringList.add(String.valueOf(mtAloneProductVO.getLarghezza()));
+				}else if (params.getHeadersName().get(i).equals("克重(g/m2)")){
+					stringList.add(String.valueOf(mtAloneProductVO.getGrammage()));
+				}else if (params.getHeadersName().get(i).equals("产品密度")){
+					stringList.add(mtAloneProductVO.getDensity());
+				}else if (params.getHeadersName().get(i).equals("产品规格")){
+					stringList.add(mtAloneProductVO.getSpecification());
+				}else if (params.getHeadersName().get(i).equals("加工方式")){
+					stringList.add(mtAloneProductVO.getProcessingMode());
+				}else if (params.getHeadersName().get(i).equals("采购员")){
+					stringList.add(mtAloneProductVO.getPurchaser());
+				}else if (params.getHeadersName().get(i).equals("描述信息")){
+					stringList.add(mtAloneProductVO.getDescription());
+				}else if (params.getHeadersName().get(i).equals("产品备注")){
+					stringList.add(mtAloneProductVO.getNote());
+				}else if (params.getHeadersName().get(i).equals("创建时间")){
+					stringList.add(DateUtils.dateToStr(mtAloneProductVO.getCreateTime(),DateUtils.DEFAULT_DATE_FORMAT));
+				}else {
+
+				}
+			}
+			data.add(stringList);
+		}
+
+		Cell cell = null;
+		if(!CollectionUtils.isEmpty(data)){
+			for (int i=0;i<data.size();i++) {
+				//填充数据
+				SXSSFRow dataRow = sheet.createRow(i + 1);
+				for (int j=0;j<titles.size();j++) {
+					cell = dataRow.createCell(j);
+					cell.setCellValue(data.get(i).get(j));
+					cell.setCellStyle(cellStyle); // 单元格的样式
+				}
 			}
 		}
-		HSSFWorkbook workBook = new HSSFWorkbook();
-		HSSFSheet sheet = workBook.createSheet("信息表");
-		//新增数据行
-		int rowNum = 1;
-		String[] headers = { "产品名称", "供应商名", "产品编号", "物料编号", "产品类型", "登记米数", "产品卷数", "产品颜色", "产品缸号", "面料成分", "产品组织", "产品产地", "进价单位", "是否要检测", "门幅(cm)", "克重(g/m2)", "产品密度", "产品规格", "加工方式", "分配仓位", "描述信息", "产品备注"};
-		//headers表示excel表中第一行的表头
-		
-		HSSFRow row = sheet.createRow(0);
-        //在excel表中添加表头
-		
-		for(int i=0;i<headers.length;i++){
-            HSSFCell cell = row.createCell(i);
-            HSSFRichTextString text = new HSSFRichTextString(headers[i]);
-            cell.setCellValue(text);
-        }
-		
-		//在表中存放查询到的数据放入对应的列
-        for (MtAloneProductVO mtAloneProductVO : listNew) {
-            HSSFRow row1 = sheet.createRow(rowNum);
-            row1.createCell(0).setCellValue(mtAloneProductVO.getProductName());
-            row1.createCell(1).setCellValue(mtAloneProductVO.getSupplierName());
-            row1.createCell(2).setCellValue(mtAloneProductVO.getProductCode());
-            row1.createCell(3).setCellValue(mtAloneProductVO.getItemCode());
-            row1.createCell(4).setCellValue(mtAloneProductVO.getProductTypeCode());
-            row1.createCell(5).setCellValue(mtAloneProductVO.getProductLength());
-            row1.createCell(6).setCellValue(mtAloneProductVO.getRollNum());
-            row1.createCell(7).setCellValue(mtAloneProductVO.getColorName());
-            row1.createCell(8).setCellValue(mtAloneProductVO.getDyelotNum());
-            row1.createCell(9).setCellValue(mtAloneProductVO.getShellFabric());
-            row1.createCell(10).setCellValue(mtAloneProductVO.getTissue());
-            row1.createCell(11).setCellValue(mtAloneProductVO.getOrigin());
-            row1.createCell(12).setCellValue(mtAloneProductVO.getPrice());
-            row1.createCell(13).setCellValue(mtAloneProductVO.getIsDetection());
-            row1.createCell(14).setCellValue(mtAloneProductVO.getLarghezza());
-            row1.createCell(15).setCellValue(mtAloneProductVO.getGrammage());
-            row1.createCell(16).setCellValue(mtAloneProductVO.getDensity());
-            row1.createCell(17).setCellValue(mtAloneProductVO.getSpecification());
-            row1.createCell(18).setCellValue(mtAloneProductVO.getProcessingMode());
-            row1.createCell(19).setCellValue(mtAloneProductVO.getCellCode());
-            row1.createCell(20).setCellValue(mtAloneProductVO.getDescription());
-            row1.createCell(21).setCellValue(mtAloneProductVO.getNote());
-            rowNum++;
-        }
+
+
+		// 下载导出
+		String fileName = "库存Excel.xlsx";
+
+
+		// 解决文件乱码
+		final String userAgent = request.getHeader("user-agent");
+		if (userAgent != null && userAgent.indexOf("Firefox") >= 0
+				|| userAgent.indexOf("Chrome") >= 0 || userAgent.indexOf("Safari") >= 0) {
+			fileName = new String(fileName.getBytes(), "ISO8859-1");
+		} else {
+			fileName = URLEncoder.encode(fileName, "UTF8"); // 其他浏览器
+		}
+
+		// 设置头信息
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("application/vnd.ms-excel;charset=UTF-8");
+		response.setHeader("Content-Disposition", "attachment;filename=" + fileName);
+		response.addHeader("Pargam", "no-cache");
+		response.addHeader("Cache-Control", "no-cache");
+		response.setDateHeader("Expires", 0);
+
+
+		//创建一个输出流
+		ServletOutputStream outputStream = response.getOutputStream();
+
 		response.flushBuffer();
-	    workBook.write(response.getOutputStream());
-	    workBook.close();
+
+		//写入数据
+		sxssfWorkbook.write(outputStream);
+
+		// 关闭
+		outputStream.close();
+		sxssfWorkbook.close();
+
 		return ResultGenerator.genSuccessResult();
 	}
 

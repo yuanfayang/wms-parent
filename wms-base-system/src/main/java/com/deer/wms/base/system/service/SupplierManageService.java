@@ -3,6 +3,8 @@ import com.deer.wms.base.system.model.SupplierManage;
 import com.deer.wms.base.system.model.SupplierManageCriteria;
 import com.deer.wms.base.system.model.SupplierManageParams;
 import com.deer.wms.project.seed.core.service.Service;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.util.List;
 
 
@@ -18,4 +20,6 @@ public interface SupplierManageService extends Service<SupplierManage, Integer> 
     void deleteByIdAndCom(SupplierManageParams params);
 
     Integer countRelProducts(SupplierManageParams params);
+
+    Integer listExcelImport(String fileName, MultipartFile file) throws Exception;
 }

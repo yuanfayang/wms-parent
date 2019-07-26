@@ -1,6 +1,7 @@
 package com.deer.wms.bill.manage.model;
 
 import java.util.Date;
+import java.util.List;
 
 import com.deer.wms.project.seed.core.service.QueryParams;
 
@@ -14,6 +15,16 @@ public class MtAloneProductParams extends QueryParams{
 	private String begDate;
 	
 	private String endDate;
+
+	private List<String> headersName;
+
+	public List<String> getHeadersName() {
+		return headersName;
+	}
+
+	public void setHeadersName(List<String> headersName) {
+		this.headersName = headersName;
+	}
 
 	public String getBegDate() {
 		return begDate;

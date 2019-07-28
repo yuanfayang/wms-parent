@@ -8,7 +8,7 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="operator_id" jdbcType="INTEGER" property="operatorId" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="version" jdbcType="INTEGER" property="version" />
+    <result column="version" jdbcType="VARCHAR" property="version" />
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="materials_name" jdbcType="VARCHAR" property="materialsName" />
     <result column="parent_id" jdbcType="INTEGER" property="parentId" />

@@ -3,6 +3,7 @@ package com.deer.wms.produce.manage.web;
 import com.deer.wms.produce.manage.constant.ProduceManageConstant;
 import com.deer.wms.produce.manage.constant.ProduceManagePublicMethod;
 import com.deer.wms.produce.manage.model.*;
+import com.deer.wms.produce.manage.service.MaterialsOutgoingLogService;
 import com.deer.wms.produce.manage.service.MaterialsStockInfoService;
 import com.deer.wms.project.seed.annotation.OperateLog;
 import com.deer.wms.project.seed.constant.SystemManageConstant;
@@ -42,11 +43,14 @@ public class MaterialsInfoController {
     @Autowired
     private MaterialsStockInfoService materialsStockInfoService;
 
+    @Autowired
+    private MaterialsOutgoingLogService materialsOutgoingLogService;
 
     @OperateLog(description = "添加物料", type = "增加")
     @ApiOperation(value = "添加物料", notes = "添加物料")
     @PostMapping("/add")
     public Result add(@RequestBody MaterialsVO materialsVO, @ApiIgnore @User CurrentUser currentUser) {
+        //同时增加物料信息、库存信息、入库信息
         if(currentUser==null){
             return ResultGenerator.genFailResult( CommonCode.SERVICE_ERROR,"未登录错误",null );
         }
@@ -57,7 +61,7 @@ public class MaterialsInfoController {
         materialsInfo.setStatus(ProduceManageConstant.STATUS_AVAILABLE);
         materialsInfo.setOperatorId(currentUser.getUserId());
         materialsInfo.setCompanyId(currentUser.getCompanyId());
-        materialsInfo.setCode(ProduceManagePublicMethod.creatMaterialsCode());
+        materialsInfo.setCode(ProduceManagePublicMethod.creatUniqueCode("WL"));
         materialsInfoService.save(materialsInfo);
 
         MaterialsStockInfo stock = materialsVO.getMaterialsStockInfo();
@@ -66,6 +70,17 @@ public class MaterialsInfoController {
         stock.setStatus(ProduceManageConstant.STATUS_AVAILABLE);
         stock.setCompanyId(materialsInfo.getCompanyId());
         materialsStockInfoService.save(stock);
+
+        MaterialsOutgoingLog inLog = new MaterialsOutgoingLog();
+        inLog.setCompanyId(materialsInfo.getCompanyId());
+        inLog.setCreateTime(date);
+        inLog.setMaterialsId(materialsInfo.getId());
+        inLog.setMaterialsName(materialsInfo.getMaterialsName());
+        inLog.setOperatorId(materialsInfo.getOperatorId());
+        inLog.setPositionName(stock.getPositionName());
+        inLog.setQuantity(stock.getQuantity());
+        inLog.setType(ProduceManageConstant.TYPE_IN);
+        materialsOutgoingLogService.save(inLog);
 
         return ResultGenerator.genSuccessResult();
     }

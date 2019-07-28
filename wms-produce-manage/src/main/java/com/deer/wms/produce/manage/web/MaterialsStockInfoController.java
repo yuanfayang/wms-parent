@@ -24,7 +24,7 @@ import java.util.List;
 /**
 * Created by guo on 2019/07/21.
 */
-@Api(description = "xxx接口")
+@Api(description = "物料库存接口")
 @RestController
 @RequestMapping("/materials/stock/infos")
 public class MaterialsStockInfoController {

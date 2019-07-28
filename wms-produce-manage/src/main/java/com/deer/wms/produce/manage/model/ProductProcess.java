@@ -10,6 +10,12 @@ public class ProductProcess {
     private Integer id;
 
     /**
+     * 生产计划单号
+     */
+    @Column(name = "code")
+    private String code;
+
+    /**
      * 操作员id
      */
     @Column(name = "operator_id")
@@ -133,6 +139,24 @@ public class ProductProcess {
      */
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    /**code
+     * 获取生产计划单号
+     *
+     * @return  - 生产计划单号
+     */
+    public String getCode() {
+        return code;
+    }
+
+    /**
+     * 设置生产计划单号
+     *
+     * @param code 生产计划单号
+     */
+    public void setCode(String code) {
+        this.code = code;
     }
 
     /**

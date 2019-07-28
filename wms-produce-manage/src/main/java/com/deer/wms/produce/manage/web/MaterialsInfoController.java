@@ -71,17 +71,19 @@ public class MaterialsInfoController {
         return ResultGenerator.genSuccessResult();
     }
     
-    @OperateLog(description = "删除物料", type = "删除")
-    @ApiOperation(value = "删除物料", notes = "删除物料")
-    @DeleteMapping("/delete/{materialsId}")
-    public Result delete(@PathVariable Integer materialsId) {
-        //删除物料，顺带删除相应的库存信息
-        MaterialsInfo materialsInfo = materialsInfoService.findBy();
-        materialsInfoService.deleteById(materialsId);
-        MaterialsStockInfo stock = materialsStockInfoService.findBy("productDetBarcode",
-                mtAloneProductDet.getProductDetBarcode());
-        return ResultGenerator.genSuccessResult();
-    }
+    //@OperateLog(description = "删除物料", type = "删除")
+    //@ApiOperation(value = "删除物料", notes = "删除物料")
+    //@DeleteMapping("/delete/{materialsId}")
+    //public Result delete(@PathVariable Integer materialsId) {
+    //    //删除物料，顺带删除相应的库存信息
+    //    MaterialsInfo materialsInfo = materialsInfoService.findBy(materialsId);
+    //    materialsInfoService.deleteById(materialsId);
+    //    MaterialsStockInfo stock = materialsStockInfoService.findBy("materialsId",
+    //            materialsInfo.getId());
+    //    materialsStockInfoService.deleteById(stock.getId());
+    //
+    //    return ResultGenerator.genSuccessResult();
+    //}
     
     @OperateLog(description = "修改xxx", type = "更新")
     @ApiOperation(value = "修改xxx", notes = "修改xxx")

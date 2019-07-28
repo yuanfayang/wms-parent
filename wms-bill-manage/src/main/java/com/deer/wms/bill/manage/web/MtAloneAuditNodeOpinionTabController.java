@@ -81,8 +81,8 @@ public class MtAloneAuditNodeOpinionTabController {
     }
     @ApiImplicitParams({
             @ApiImplicitParam(name = "access-token", value = "token", paramType = "header", dataType = "String", required = true) })
-    @OperateLog(description = "审核意见列表", type = "获取")
-    @ApiOperation(value = "审核意见列表", notes = "审核意见列表")
+    @OperateLog(description = "根据taskId获取审核意见列表", type = "获取")
+    @ApiOperation(value = "根据taskId获取审核意见列表", notes = "根据taskId获取审核意见列表")
     @GetMapping("/list")
     public Result list(MtAloneAuditNodeOpinionTabParams params, @ApiIgnore @User CurrentUser currentUser) {
         if(currentUser==null){

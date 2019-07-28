@@ -22,4 +22,13 @@
     <result column="memo" jdbcType="VARCHAR" property="memo" />
     <result column="company_id" jdbcType="INTEGER" property="companyId" />
   </resultMap>
+
+  <select id="findList" parameterType="com.deer.wms.bill.manage.model.MtAloneAuditNodeOpinionTabParams" resultMap="BaseResultMap">
+    select * from mt_alone_audit_node_opinion_tab  tab
+    where 1=1
+    <if test="auditTaskId != null">
+      and tab.audit_task_id=#{auditTaskId}
+    </if>
+    order by tab.audit_time desc
+  </select>
 </mapper>

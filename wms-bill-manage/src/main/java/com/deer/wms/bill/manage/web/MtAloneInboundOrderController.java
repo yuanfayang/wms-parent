@@ -131,6 +131,8 @@ public class MtAloneInboundOrderController {
             mtAloneInBoundOrderProVO.getProList().get(i).setInboundOrderCode(inBoundOrderCode);
             String productBarcode = BillManagePublicMethod.creatBarCode(maxBarcode);
             mtAloneInBoundOrderProVO.getProList().get(i).setProductBarCode(productBarcode);
+            mtAloneInBoundOrderProVO.getProList().get(i).setState("normal");
+            mtAloneInBoundOrderProVO.getProList().get(i).setCompanyId(currentUser.getCompanyId());
             maxBarcode=productBarcode;
 
             MtAloneBarcode mtAloneBarcode = new MtAloneBarcode();

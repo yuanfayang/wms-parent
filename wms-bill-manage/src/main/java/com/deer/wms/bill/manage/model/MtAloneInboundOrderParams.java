@@ -9,6 +9,8 @@ public class MtAloneInboundOrderParams extends QueryParams {
 
     private Integer auditTaskId;
 
+    private String inboundOrderCode;
+
     /**
      * 开始时间
      */
@@ -35,11 +37,13 @@ public class MtAloneInboundOrderParams extends QueryParams {
         this.endDate = endDate;
     }
 
-    public Integer getAuditTaskId() {
-        return auditTaskId;
-    }
+    public Integer getAuditTaskId() { return auditTaskId; }
 
     public void setAuditTaskId(Integer auditTaskId) {
         this.auditTaskId = auditTaskId;
     }
+
+    public String getInboundOrderCode() { return inboundOrderCode; }
+
+    public void setInboundOrderCode(String inboundOrderCode) { this.inboundOrderCode = inboundOrderCode; }
 }

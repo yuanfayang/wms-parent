@@ -2,15 +2,13 @@ package com.deer.wms.produce.manage.web;
 
 import com.deer.wms.produce.manage.constant.ProduceManageConstant;
 import com.deer.wms.produce.manage.constant.ProduceManagePublicMethod;
-import com.deer.wms.produce.manage.model.MaterialsStockInfo;
+import com.deer.wms.produce.manage.model.*;
 import com.deer.wms.produce.manage.service.MaterialsStockInfoService;
 import com.deer.wms.project.seed.annotation.OperateLog;
 import com.deer.wms.project.seed.constant.SystemManageConstant;
 import com.deer.wms.project.seed.core.result.CommonCode;
 import com.deer.wms.project.seed.core.result.Result;
 import com.deer.wms.project.seed.core.result.ResultGenerator;
-import com.deer.wms.produce.manage.model.MaterialsInfo;
-import com.deer.wms.produce.manage.model.MaterialsInfoParams;
 import com.deer.wms.produce.manage.service.MaterialsInfoService;
 import com.deer.wms.intercept.annotation.User;
 import com.deer.wms.intercept.common.data.CurrentUser;
@@ -48,20 +46,21 @@ public class MaterialsInfoController {
     @OperateLog(description = "添加物料", type = "增加")
     @ApiOperation(value = "添加物料", notes = "添加物料")
     @PostMapping("/add")
-    public Result add(@RequestBody MaterialsInfo materialsInfo, @ApiIgnore @User CurrentUser currentUser) {
-        //if(currentUser==null){
-        //    return ResultGenerator.genFailResult( CommonCode.SERVICE_ERROR,"未登录错误",null );
-        //}
+    public Result add(@RequestBody MaterialsVO materialsVO, @ApiIgnore @User CurrentUser currentUser) {
+        if(currentUser==null){
+            return ResultGenerator.genFailResult( CommonCode.SERVICE_ERROR,"未登录错误",null );
+        }
         Date date = new Date();
-		materialsInfo.setCreateTime(date);
+        MaterialsInfo materialsInfo = materialsVO.getMaterialsInfo();
+        materialsInfo.setCreateTime(date);
         materialsInfo.setVersion("1.1");
         materialsInfo.setStatus(ProduceManageConstant.STATUS_AVAILABLE);
-        materialsInfo.setOperatorId(11);
-        materialsInfo.setCompanyId(1);
+        materialsInfo.setOperatorId(currentUser.getUserId());
+        materialsInfo.setCompanyId(currentUser.getCompanyId());
         materialsInfo.setCode(ProduceManagePublicMethod.creatMaterialsCode());
         materialsInfoService.save(materialsInfo);
 
-        MaterialsStockInfo stock = new MaterialsStockInfo();
+        MaterialsStockInfo stock = materialsVO.getMaterialsStockInfo();
         stock.setMaterialsId(materialsInfo.getId());
         stock.setOperatorId(materialsInfo.getOperatorId());
         stock.setStatus(ProduceManageConstant.STATUS_AVAILABLE);
@@ -71,22 +70,22 @@ public class MaterialsInfoController {
         return ResultGenerator.genSuccessResult();
     }
     
-    //@OperateLog(description = "删除物料", type = "删除")
-    //@ApiOperation(value = "删除物料", notes = "删除物料")
-    //@DeleteMapping("/delete/{materialsId}")
-    //public Result delete(@PathVariable Integer materialsId) {
-    //    //删除物料，顺带删除相应的库存信息
-    //    MaterialsInfo materialsInfo = materialsInfoService.findBy(materialsId);
-    //    materialsInfoService.deleteById(materialsId);
-    //    MaterialsStockInfo stock = materialsStockInfoService.findBy("materialsId",
-    //            materialsInfo.getId());
-    //    materialsStockInfoService.deleteById(stock.getId());
-    //
-    //    return ResultGenerator.genSuccessResult();
-    //}
+    @OperateLog(description = "删除物料", type = "删除")
+    @ApiOperation(value = "删除物料", notes = "删除物料")
+    @DeleteMapping("/delete/{materialsId}")
+    public Result delete(@PathVariable Integer materialsId) {
+        //删除物料，顺带删除相应的库存信息
+        MaterialsInfo materialsInfo = materialsInfoService.findById(materialsId);
+        materialsInfoService.deleteById(materialsId);
+        MaterialsStockInfo stock = materialsStockInfoService.findBy("materialsId",
+                materialsInfo.getId());
+        materialsStockInfoService.deleteById(stock.getId());
+
+        return ResultGenerator.genSuccessResult();
+    }
     
-    @OperateLog(description = "修改xxx", type = "更新")
-    @ApiOperation(value = "修改xxx", notes = "修改xxx")
+    @OperateLog(description = "修改物料", type = "更新")
+    @ApiOperation(value = "修改物料", notes = "修改物料")
     @PostMapping("/update")
     public Result update(@RequestBody MaterialsInfo materialsInfo) {
         materialsInfoService.update(materialsInfo);
@@ -111,7 +110,7 @@ public class MaterialsInfoController {
 
         params.setCompanyId(currentUser.getCompanyId());
         PageHelper.startPage(params.getPageNum(), params.getPageSize());
-        List<MaterialsInfo> list = materialsInfoService.findList(params);
+        List<MaterialsInfoDto> list = materialsInfoService.findList(params);
         PageInfo pageInfo = new PageInfo(list);
         return ResultGenerator.genSuccessResult(pageInfo);
     }

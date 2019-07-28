@@ -79,6 +79,7 @@ public class MtAloneAuditNodeTaskController {
         mtAloneAuditNodeTask.setOperatorId(currentUser.getUserId());
         mtAloneAuditNodeTask.setCurrentAuditNodeId(relatList.get(0).getId());
         mtAloneAuditNodeTask.setCurrentAuditNodeName(relatList.get(0).getAuditNodeName());
+        mtAloneAuditNodeTask.setAuditTaskId(params.getAuditTaskId());
         mtAloneAuditNodeTaskService.save(mtAloneAuditNodeTask);
 
         MtAloneInboundOrderParams mtAloneInboundOrderParams=new MtAloneInboundOrderParams();

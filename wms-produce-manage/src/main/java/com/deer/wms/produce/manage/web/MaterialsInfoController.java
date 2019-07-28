@@ -1,5 +1,9 @@
 package com.deer.wms.produce.manage.web;
 
+import com.deer.wms.produce.manage.constant.ProduceManageConstant;
+import com.deer.wms.produce.manage.constant.ProduceManagePublicMethod;
+import com.deer.wms.produce.manage.model.MaterialsStockInfo;
+import com.deer.wms.produce.manage.service.MaterialsStockInfoService;
 import com.deer.wms.project.seed.annotation.OperateLog;
 import com.deer.wms.project.seed.constant.SystemManageConstant;
 import com.deer.wms.project.seed.core.result.CommonCode;
@@ -29,7 +33,7 @@ import java.util.List;
 /**
 * Created by  on 2019/07/18.
 */
-@Api(description = "xxx接口")
+@Api(description = "物料接口")
 @RestController
 @RequestMapping("/materials/infos")
 public class MaterialsInfoController {
@@ -37,24 +41,45 @@ public class MaterialsInfoController {
     @Autowired
     private MaterialsInfoService materialsInfoService;
 
-    @OperateLog(description = "添加xxx", type = "增加")
-    @ApiOperation(value = "添加xxx", notes = "添加xxx")
+    @Autowired
+    private MaterialsStockInfoService materialsStockInfoService;
+
+
+    @OperateLog(description = "添加物料", type = "增加")
+    @ApiOperation(value = "添加物料", notes = "添加物料")
     @PostMapping("/add")
     public Result add(@RequestBody MaterialsInfo materialsInfo, @ApiIgnore @User CurrentUser currentUser) {
-        if(currentUser==null){
-            return ResultGenerator.genFailResult( CommonCode.SERVICE_ERROR,"未登录错误",null );
-        }
-		 materialsInfo.setCreateTime(new Date());
-		 materialsInfo.setCompanyId(currentUser.getCompanyId());
+        //if(currentUser==null){
+        //    return ResultGenerator.genFailResult( CommonCode.SERVICE_ERROR,"未登录错误",null );
+        //}
+        Date date = new Date();
+		materialsInfo.setCreateTime(date);
+        materialsInfo.setVersion("1.1");
+        materialsInfo.setStatus(ProduceManageConstant.STATUS_AVAILABLE);
+        materialsInfo.setOperatorId(11);
+        materialsInfo.setCompanyId(1);
+        materialsInfo.setCode(ProduceManagePublicMethod.creatMaterialsCode());
         materialsInfoService.save(materialsInfo);
+
+        MaterialsStockInfo stock = new MaterialsStockInfo();
+        stock.setMaterialsId(materialsInfo.getId());
+        stock.setOperatorId(materialsInfo.getOperatorId());
+        stock.setStatus(ProduceManageConstant.STATUS_AVAILABLE);
+        stock.setCompanyId(materialsInfo.getCompanyId());
+        materialsStockInfoService.save(stock);
+
         return ResultGenerator.genSuccessResult();
     }
     
-    @OperateLog(description = "删除xxx", type = "删除")
-    @ApiOperation(value = "删除xxx", notes = "删除xxx")
-    @DeleteMapping("/delete/{id}")
-    public Result delete(@PathVariable Integer id) {
-       materialsInfoService.deleteById(id);
+    @OperateLog(description = "删除物料", type = "删除")
+    @ApiOperation(value = "删除物料", notes = "删除物料")
+    @DeleteMapping("/delete/{materialsId}")
+    public Result delete(@PathVariable Integer materialsId) {
+        //删除物料，顺带删除相应的库存信息
+        MaterialsInfo materialsInfo = materialsInfoService.findBy();
+        materialsInfoService.deleteById(materialsId);
+        MaterialsStockInfo stock = materialsStockInfoService.findBy("productDetBarcode",
+                mtAloneProductDet.getProductDetBarcode());
         return ResultGenerator.genSuccessResult();
     }
     
@@ -73,44 +98,16 @@ public class MaterialsInfoController {
     }
 
 
-//    @OperateLog(description = "商品信息分页查询new", type = "查询new")
-//    @ApiOperation(value = "商品信息列表分页", notes = "商品信息列表分页")
-//    @GetMapping("/list/new")
-//    public Result productListNew(MtAloneProductParams params, @ApiIgnore @User CurrentUser currentUser) {
-//        if (currentUser == null) {
-//            return ResultGenerator.genFailResult(CommonCode.SERVICE_ERROR, "未登录错误", null);
-//        }
-//        StringUtil.trimObjectStringProperties(params);
-//
-//        if (currentUser.getCompanyType() != SystemManageConstant.COMPANY_TYPE_MT) {
-//            params.setCompanyId(currentUser.getCompanyId());
-//        } else {
-//            params.setCompanyId(null);
-//        }
-//
-//        PageHelper.startPage(params.getPageNum(), params.getPageSize());
-//        List<MtAloneProductVO> list = mtAloneProductService.findListNew(params);
-////		List<MtAloneProductVO> listNew = new ArrayList();
-//
-////		for (int i = 0; i < list.size(); i++) {
-////			if (list.get(i).getRemainLength() != 0 || list.get(i).getDeliveryLength() == 0) {
-////				listNew.add(list.get(i));
-////			}
-////		}
-//        PageInfo pageInfo = new PageInfo(list);
-//        return ResultGenerator.genSuccessResult(pageInfo);
-//    }
-
     @OperateLog(description = "物料信息分页查询", type = "查询")
     @ApiOperation(value = "物料信息列表分页", notes = "物料信息列表分页")
     @GetMapping("/list")
     public Result list(MaterialsInfoParams params, @ApiIgnore @User CurrentUser currentUser) {
-        //if(currentUser==null){
-        //    return ResultGenerator.genFailResult(CommonCode.SERVICE_ERROR,"未登录错误",null );
-        //}
-        //StringUtil.trimObjectStringProperties(params);
+        if(currentUser==null){
+            return ResultGenerator.genFailResult(CommonCode.SERVICE_ERROR,"未登录错误",null );
+        }
+        StringUtil.trimObjectStringProperties(params);
 
-        params.setCompanyId(0);
+        params.setCompanyId(currentUser.getCompanyId());
         PageHelper.startPage(params.getPageNum(), params.getPageSize());
         List<MaterialsInfo> list = materialsInfoService.findList(params);
         PageInfo pageInfo = new PageInfo(list);

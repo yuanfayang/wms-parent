@@ -43,4 +43,15 @@ public class ProduceManageConstant {
      */
     public static final String WINDING_MACHINE_TYPE = "DJJ";
 
+    /**
+     * STATUS状态：0，使用
+     */
+    public static final Integer STATUS_AVAILABLE = 0;
+
+    /**
+     * STATUS状态：1，禁用
+     */
+    public static final Integer STATUS_NOTAVAILABLE = 1;
+
+
 }

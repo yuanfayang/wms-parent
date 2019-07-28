@@ -53,5 +53,17 @@ public class ProduceManageConstant {
      */
     public static final Integer STATUS_NOTAVAILABLE = 1;
 
+    /**
+     * 物料出入库记录类型：0，入库
+     */
+    public static final Integer TYPE_IN = 0;
+
+    /**
+     * 物料出入库记录类型：1，出库
+     */
+    public static final Integer TYPE_OUT = 1;
+
+
+
 
 }

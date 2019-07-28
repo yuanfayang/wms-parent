@@ -25,7 +25,7 @@ import java.util.List;
 /**
 * Created by hy on 2019/07/19.
 */
-@Api(description = "xxx接口")
+@Api(description = "生产计划接口")
 @RestController
 @RequestMapping("/product/processs")
 public class ProductProcessController {
@@ -33,15 +33,17 @@ public class ProductProcessController {
     @Autowired
     private ProductProcessService mtAloneProductProcessService;
 
-    @OperateLog(description = "添加xxx", type = "增加")
-    @ApiOperation(value = "添加xxx", notes = "添加xxx")
+    @OperateLog(description = "添加生产计划", type = "增加")
+    @ApiOperation(value = "添加生产计划", notes = "添加生产计划")
     @PostMapping("/add")
     public Result add(@RequestBody ProductProcess mtAloneProductProcess, @ApiIgnore @User CurrentUser currentUser) {
         if(currentUser==null){
             return ResultGenerator.genFailResult( CommonCode.SERVICE_ERROR,"未登录错误",null );
         }
-		 mtAloneProductProcess.setCreateTime(new Date());
-		 mtAloneProductProcess.setCompanyId(currentUser.getCompanyId());
+
+        //生产计划单号前台自动生成，规则参照后台代码
+        mtAloneProductProcess.setCreateTime(new Date());
+        mtAloneProductProcess.setCompanyId(currentUser.getCompanyId());
         mtAloneProductProcessService.save(mtAloneProductProcess);
         return ResultGenerator.genSuccessResult();
     }

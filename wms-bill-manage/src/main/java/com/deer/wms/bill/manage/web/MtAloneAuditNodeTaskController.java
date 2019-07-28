@@ -80,6 +80,12 @@ public class MtAloneAuditNodeTaskController {
         mtAloneAuditNodeTask.setCurrentAuditNodeId(relatList.get(0).getId());
         mtAloneAuditNodeTask.setCurrentAuditNodeName(relatList.get(0).getAuditNodeName());
         mtAloneAuditNodeTaskService.save(mtAloneAuditNodeTask);
+
+        MtAloneInboundOrderParams mtAloneInboundOrderParams=new MtAloneInboundOrderParams();
+        mtAloneInboundOrderParams.setAuditTaskId(params.getAuditTaskId());
+        MtAloneInboundOrder mtAloneInboundOrder=mtAloneInboundOrderService.findOrderByAuditTaskId(mtAloneInboundOrderParams);
+        mtAloneInboundOrder.setRevieweState(0);
+        mtAloneInboundOrderService.update(mtAloneInboundOrder);
         return ResultGenerator.genSuccessResult();
     }
     @ApiImplicitParams({

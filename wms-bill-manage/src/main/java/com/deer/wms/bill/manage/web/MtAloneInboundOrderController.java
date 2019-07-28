@@ -122,6 +122,7 @@ public class MtAloneInboundOrderController {
         mtAloneInboundOrder.setCompanyId(currentUser.getCompanyId());
         mtAloneInboundOrder.setAuditTaskId(mtAloneAuditTask.getId());
         mtAloneInboundOrder.setInboundOrderCode(inBoundOrderCode);
+        mtAloneInboundOrder.setRevieweState(3);
         mtAloneInboundOrderService.save(mtAloneInboundOrder);
 
         String maxBarcode = mtAloneBarcodeService.getMaxBarcode();

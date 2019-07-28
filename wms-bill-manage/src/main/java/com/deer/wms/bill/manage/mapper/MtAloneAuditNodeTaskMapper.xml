@@ -43,4 +43,26 @@
      WHERE task.current_audit_node_id=rel.id
      ORDER BY task.is_audit
   </select>
+
+    <select id="findByTaskIdAndCurrentId" parameterType="com.deer.wms.bill.manage.model.MtAloneAuditNodeTaskParams" resultMap="BaseResultMap">
+        select * from mt_alone_audit_node_task task
+        where 1=1
+        <if test="auditTaskId != null">
+            and task.audit_task_id=#{auditTaskId}
+        </if>
+
+        <if test="currentId != null">
+            AND task.current_audit_node_id = #{currentId}
+        </if>
+    </select>
+
+    <update id="updateTem" parameterType="com.deer.wms.bill.manage.model.MtAloneAuditNodeTask">
+        update mt_alone_audit_node_task task
+        <set>
+            task.reviewer_id=#{reviewerId},
+            task.audit_time=#{auditTime},
+            task.is_audit=#{isAudit}
+        </set>
+        where task.id=#{id}
+    </update>
 </mapper>

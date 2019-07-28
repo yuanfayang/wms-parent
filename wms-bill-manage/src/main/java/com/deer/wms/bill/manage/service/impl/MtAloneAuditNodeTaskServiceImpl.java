@@ -32,4 +32,14 @@ public class MtAloneAuditNodeTaskServiceImpl extends AbstractService<MtAloneAudi
     public List<MtAloneAuditNodeTask> findBacklogByUserId(CurrentUser currentUser) {
         return mtAloneAuditNodeTaskMapper.findBacklogByUserId(currentUser);
     }
+
+    @Override
+    public MtAloneAuditNodeTask findByTaskIdAndCurrentId(MtAloneAuditNodeTaskParams params) {
+        return mtAloneAuditNodeTaskMapper.findByTaskIdAndCurrentId(params);
+    }
+
+    @Override
+    public void updateTem(MtAloneAuditNodeTask model) {
+        mtAloneAuditNodeTaskMapper.updateTem(model);
+    }
 }

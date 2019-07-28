@@ -16,4 +16,8 @@ public interface MtAloneAuditNodeTaskService extends Service<MtAloneAuditNodeTas
     List<MtAloneAuditNodeTask> findList(MtAloneAuditNodeTaskParams  params) ;
 
     List<MtAloneAuditNodeTask> findBacklogByUserId(CurrentUser currentUser);
+
+    MtAloneAuditNodeTask findByTaskIdAndCurrentId(MtAloneAuditNodeTaskParams  params);
+
+    void updateTem(MtAloneAuditNodeTask model);
 }

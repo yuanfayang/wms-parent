@@ -16,4 +16,5 @@ public interface MtAloneAuditRelatService extends Service<MtAloneAuditRelat, Int
 
     Integer findMaxId();
 
+
 }

@@ -24,7 +24,10 @@
 
   <select id="findList" parameterType="com.deer.wms.bill.manage.model.MtAloneAuditRelatParams" resultMap="BaseResultMap">
     select * from mt_alone_audit_relat  relat
-    where relat.audit_task_id=#{auditTaskId}
+    where 1=1
+    <if test="auditTaskId != null">
+      and relat.audit_task_id=#{auditTaskId}
+    </if>
     order by relat.node_order
   </select>
 

@@ -9,11 +9,10 @@ public class MtAloneAuditRelatParams extends QueryParams {
 
     private Integer auditTaskId;
 
-    public Integer getAuditTaskId() {
-        return auditTaskId;
-    }
+    public Integer getAuditTaskId() { return auditTaskId; }
 
     public void setAuditTaskId(Integer auditTaskId) {
         this.auditTaskId = auditTaskId;
     }
+
 }

@@ -30,4 +30,5 @@ public class MtAloneAuditRelatServiceImpl extends AbstractService<MtAloneAuditRe
     public Integer findMaxId(){
         return mtAloneAuditRelatMapper.findMaxId();
     }
+
 }

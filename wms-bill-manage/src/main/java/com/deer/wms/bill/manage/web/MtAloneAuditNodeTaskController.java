@@ -151,9 +151,10 @@ public class MtAloneAuditNodeTaskController {
         if (currentUser == null) {
             return ResultGenerator.genFailResult(CommonCode.SERVICE_ERROR, "未登录错误", null);
         }
-
+        PageHelper.startPage(params.getPageNum(), params.getPageSize());
         List<MtAloneAuditNodeTask> list = mtAloneAuditNodeTaskService.findBacklogByUserId(currentUser);
-        return ResultGenerator.genSuccessResult(list);
+        PageInfo pageInfo = new PageInfo(list);
+        return ResultGenerator.genSuccessResult(pageInfo);
     }
 
     @ApiImplicitParams({

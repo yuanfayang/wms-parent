@@ -138,6 +138,38 @@ public class MtAloneAuditNodeTaskController {
         return ResultGenerator.genSuccessResult(pageInfo);
     }
 
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "access-token", value = "token", paramType = "header", dataType = "String", required = true) })
+    @OperateLog(description = "根据用户ID获取待办/已办列表", type = "获取")
+    @ApiOperation(value = "根据用户ID获取待办/已办列表", notes = "根据用户ID获取待办/已办列表")
+    @GetMapping("/taskListByUserId")
+    public Result backlogByUserId(MtAloneAuditNodeTaskParams params, @ApiIgnore @User CurrentUser currentUser) {
+        if(currentUser==null){
+            return ResultGenerator.genFailResult(CommonCode.SERVICE_ERROR,"未登录错误",null );
+        }
+
+        List<MtAloneAuditNodeTask> list = mtAloneAuditNodeTaskService.findBacklogByUserId(currentUser);
+        return ResultGenerator.genSuccessResult(list);
+    }
+
+        @ApiImplicitParams({
+            @ApiImplicitParam(name = "access-token", value = "token", paramType = "header", dataType = "String", required = true) })
+    @OperateLog(description = "审核流程流转", type = "更新")
+    @ApiOperation(value = "审核流程流转", notes = "审核流程流转")
+    @PostMapping("/updateTask")
+    public Result updateTask(MtAloneAuditNodeTaskParams params, @ApiIgnore @User CurrentUser currentUser) {
+        if(currentUser==null){
+            return ResultGenerator.genFailResult(CommonCode.SERVICE_ERROR,"未登录错误",null );
+        }
+
+        if (currentUser.getCompanyType() != SystemManageConstant.COMPANY_TYPE_MT){
+            params.setCompanyId(currentUser.getCompanyId());
+        }else{
+            params.setCompanyId(null);
+        }
+        return ResultGenerator.genSuccessResult();
+    }
+
 //    @ApiImplicitParams({
 //            @ApiImplicitParam(name = "access-token", value = "token", paramType = "header", dataType = "String", required = true) })
 //    @OperateLog(description = "审核流程流转", type = "更新")

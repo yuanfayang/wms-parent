@@ -1,34 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.deer.wms.bill.manage.dao.MtAloneAuditNodeTaskMapper">
-  <resultMap id="BaseResultMap" type="com.deer.wms.bill.manage.model.MtAloneAuditNodeTask">
-    <!--
-      WARNING - @mbg.generated
-    -->
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="operator_id" jdbcType="INTEGER" property="operatorId" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="version" jdbcType="VARCHAR" property="version" />
-    <result column="status" jdbcType="INTEGER" property="status" />
-    <result column="audit_task_id" jdbcType="INTEGER" property="auditTaskId" />
-    <result column="audit_task_name" jdbcType="VARCHAR" property="auditTaskName" />
-    <result column="current_audit_node_id" jdbcType="INTEGER" property="currentAuditNodeId" />
-    <result column="current_audit_node_name" jdbcType="VARCHAR" property="currentAuditNodeName" />
-    <result column="reviewer_id" jdbcType="INTEGER" property="reviewerId" />
-    <result column="is_audit" jdbcType="INTEGER" property="isAudit" />
-    <result column="audit_time" jdbcType="TIMESTAMP" property="auditTime" />
-    <result column="audit_url" jdbcType="VARCHAR" property="auditUrl" />
-    <result column="memo" jdbcType="VARCHAR" property="memo" />
-    <result column="company_id" jdbcType="INTEGER" property="companyId" />
-  </resultMap>
+    <resultMap id="BaseResultMap" type="com.deer.wms.bill.manage.model.MtAloneAuditNodeTask">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="operator_id" jdbcType="INTEGER" property="operatorId"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="version" jdbcType="VARCHAR" property="version"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="audit_task_id" jdbcType="INTEGER" property="auditTaskId"/>
+        <result column="audit_task_name" jdbcType="VARCHAR" property="auditTaskName"/>
+        <result column="current_audit_node_id" jdbcType="INTEGER" property="currentAuditNodeId"/>
+        <result column="current_audit_node_name" jdbcType="VARCHAR" property="currentAuditNodeName"/>
+        <result column="reviewer_id" jdbcType="INTEGER" property="reviewerId"/>
+        <result column="is_audit" jdbcType="INTEGER" property="isAudit"/>
+        <result column="audit_time" jdbcType="TIMESTAMP" property="auditTime"/>
+        <result column="audit_url" jdbcType="VARCHAR" property="auditUrl"/>
+        <result column="memo" jdbcType="VARCHAR" property="memo"/>
+        <result column="company_id" jdbcType="INTEGER" property="companyId"/>
+    </resultMap>
 
-  <select id="findList" parameterType="com.deer.wms.bill.manage.model.MtAloneAuditNodeTaskParams"
-          resultMap="BaseResultMap">
-      select * from mt_alone_audit_node_task task
-      where task.audit_task_id=#{auditTaskId}
-    <if test="companyId != null">
-      AND task.company_id = #{companyId}
-    </if>
-      order by task.id
+    <select id="findList" parameterType="com.deer.wms.bill.manage.model.MtAloneAuditNodeTaskParams"
+            resultMap="BaseResultMap">
+        select * from mt_alone_audit_node_task task
+        where task.audit_task_id=#{auditTaskId}
+        <if test="companyId != null">
+            AND task.company_id = #{companyId}
+        </if>
+        order by task.id
+    </select>
+
+    <select id="findBacklogByUserId" parameterType="com.deer.wms.intercept.common.data.CurrentUser" resultMap="BaseResultMap">
+     SELECT task.* FROM mt_alone_audit_node_task task,
+           (SELECT relat.* FROM mt_alone_audit_relat relat,
+                         (SELECT group_id FROM mt_alone_group_operator WHERE
+                                     <if test="userId != null">
+                                       woker_id=#{userId}) gro
+                                     </if>
+                                WHERE relat.group_id= gro.group_id)  rel
+     WHERE task.current_audit_node_id=rel.id
+     ORDER BY task.is_audit
   </select>
 </mapper>

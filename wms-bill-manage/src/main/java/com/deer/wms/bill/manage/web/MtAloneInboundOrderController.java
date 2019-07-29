@@ -123,24 +123,29 @@ public class MtAloneInboundOrderController {
         mtAloneInboundOrder.setAuditTaskId(mtAloneAuditTask.getId());
         mtAloneInboundOrder.setInboundOrderCode(inBoundOrderCode);
         mtAloneInboundOrder.setRevieweState(3);
+        mtAloneInboundOrder.setStatus(0);
         mtAloneInboundOrderService.save(mtAloneInboundOrder);
 
         String maxBarcode = mtAloneBarcodeService.getMaxBarcode();
         List<MtAloneBarcode> barCodeList=new ArrayList<MtAloneBarcode>();
+        List<MtAloneProduct> proList=new ArrayList<MtAloneProduct>();
         for(int i=0;i<mtAloneInBoundOrderProVO.getProList().size();i++){
             mtAloneInBoundOrderProVO.getProList().get(i).setInboundOrderCode(inBoundOrderCode);
             String productBarcode = BillManagePublicMethod.creatBarCode(maxBarcode);
             mtAloneInBoundOrderProVO.getProList().get(i).setProductBarCode(productBarcode);
             mtAloneInBoundOrderProVO.getProList().get(i).setState("normal");
             mtAloneInBoundOrderProVO.getProList().get(i).setCompanyId(currentUser.getCompanyId());
-            maxBarcode=productBarcode;
+            MtAloneProduct product=new MtAloneProduct();
+            BeanUtils.copyProperties(mtAloneInBoundOrderProVO.getProList().get(i), product);
+            proList.add(product);
 
+            maxBarcode=productBarcode;
             MtAloneBarcode mtAloneBarcode = new MtAloneBarcode();
             mtAloneBarcode.setBarcode(maxBarcode);
             barCodeList.add(mtAloneBarcode);
         }
         mtAloneBarcodeService.save(barCodeList);
-        mtAloneProductService.save(mtAloneInBoundOrderProVO.getProList());
+        mtAloneProductService.save(proList);
 
         return ResultGenerator.genSuccessResult();
     }
@@ -177,8 +182,17 @@ public class MtAloneInboundOrderController {
     @OperateLog(description = "根据auditTaskId获取入库单", type = "获取")
     @ApiOperation(value = "根据auditTaskId获取入库单", notes = "根据auditTaskId获取入库单")
     @GetMapping("/detail/{auditTaskId}")
-    public Result detailByAuditTaskId(MtAloneInboundOrderParams params) {
-        MtAloneInboundOrder mtAloneInboundOrder = mtAloneInboundOrderService.findOrderByAuditTaskId(params);
+    public Result detailByAuditTaskId(MtAloneInboundOrderParams params, @ApiIgnore @User CurrentUser currentUser) {
+        if(currentUser==null){
+            return ResultGenerator.genFailResult(CommonCode.SERVICE_ERROR,"未登录错误",null );
+        }
+
+        if (currentUser.getCompanyType() != SystemManageConstant.COMPANY_TYPE_MT){
+            params.setCompanyId(currentUser.getCompanyId());
+        }else{
+            params.setCompanyId(null);
+        }
+        MtAloneInBoundOrderProVO mtAloneInboundOrder = mtAloneInboundOrderService.findOrderByAuditTaskId(params);
         return ResultGenerator.genSuccessResult(mtAloneInboundOrder);
     }
     @ApiImplicitParams({
@@ -238,10 +252,9 @@ public class MtAloneInboundOrderController {
         }else{
             params.setCompanyId(null);
         }
-        PageHelper.startPage(params.getPageNum(), params.getPageSize());
-        List<MtAloneInBoundOrderProVO> list = mtAloneInboundOrderService.findProListByOrderCode(params);
-        PageInfo pageInfo = new PageInfo(list);
-        return ResultGenerator.genSuccessResult(pageInfo);
+
+        MtAloneInBoundOrderProVO list = mtAloneInboundOrderService.findProListByOrderCode(params);
+        return ResultGenerator.genSuccessResult(list);
     }
 
 }

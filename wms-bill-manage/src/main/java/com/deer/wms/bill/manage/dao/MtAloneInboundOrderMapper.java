@@ -15,7 +15,7 @@ public interface MtAloneInboundOrderMapper extends Mapper<MtAloneInboundOrder> {
 
     List<MtAloneInboundOrderProDetVO> findOrderProDetList(MtAloneInboundOrderParams params);
 
-    MtAloneInboundOrder findOrderByAuditTaskId(MtAloneInboundOrderParams params);
+    MtAloneInBoundOrderProVO  findOrderByAuditTaskId(MtAloneInboundOrderParams params);
 
-    List<MtAloneInBoundOrderProVO> findProListByOrderCode(MtAloneInboundOrderParams params);
+    MtAloneInBoundOrderProVO findProListByOrderCode(MtAloneInboundOrderParams params);
 }

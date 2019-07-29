@@ -5,13 +5,11 @@ import java.util.List;
 
 public class MtAloneInBoundOrderProVO extends MtAloneInboundOrder{
 
-    private List<MtAloneProduct> proList=new ArrayList<MtAloneProduct>();
+    private List<MtAloneProductVO> proList=new ArrayList<MtAloneProductVO>();
 
-    public List<MtAloneProduct> getProList() {
-        return proList;
-    }
+    public List<MtAloneProductVO> getProList() { return proList; }
 
-    public void setProList(List<MtAloneProduct> proList) {
+    public void setProList(List<MtAloneProductVO> proList) {
         this.proList = proList;
     }
 }

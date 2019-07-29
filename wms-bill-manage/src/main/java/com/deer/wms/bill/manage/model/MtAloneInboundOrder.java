@@ -130,6 +130,11 @@ public class MtAloneInboundOrder {
     private Integer companyId;
 
     /**
+     * 仓库名称
+     */
+    private String wareName;
+
+    /**
      * 获取入库单id
      *
      * @return id - 入库单id
@@ -506,4 +511,18 @@ public class MtAloneInboundOrder {
     public void setCompanyId(Integer companyId) {
         this.companyId = companyId;
     }
+
+    /**
+     * 获取仓库名称
+     *
+     * @return ware_name - 仓库名称
+     */
+    public String getWareName() { return wareName; }
+
+    /**
+     * 设置仓库名称
+     *
+     * @param wareName 仓库名称
+     */
+    public void setWareName(String wareName) { this.wareName = wareName; }
 }

@@ -159,6 +159,19 @@ public class MtAloneAuditNodeTaskController {
 
     @ApiImplicitParams({
             @ApiImplicitParam(name = "access-token", value = "token", paramType = "header", dataType = "String", required = true)})
+    @OperateLog(description = "根据用户ID获取待办数量", type = "获取")
+    @ApiOperation(value = "根据用户ID获取待办数量", notes = "根据用户ID获取待办数量")
+    @GetMapping("/backlogNumByUserId")
+    public Result backlogNumByUserId(@ApiIgnore @User CurrentUser currentUser) {
+        if (currentUser == null) {
+            return ResultGenerator.genFailResult(CommonCode.SERVICE_ERROR, "未登录错误", null);
+        }
+        Integer backlogNum = mtAloneAuditNodeTaskService.findBacklogNumByUserId(currentUser);
+        return ResultGenerator.genSuccessResult(backlogNum);
+    }
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "access-token", value = "token", paramType = "header", dataType = "String", required = true)})
     @OperateLog(description = "审核流程流转", type = "更新")
     @ApiOperation(value = "审核流程流转", notes = "审核流程流转")
     @PostMapping("/updateTask")

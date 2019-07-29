@@ -15,4 +15,6 @@ public interface MtAloneAuditNodeTaskMapper extends Mapper<MtAloneAuditNodeTask>
     MtAloneAuditNodeTask findByTaskIdAndCurrentId(MtAloneAuditNodeTaskParams params);
 
     void updateTem(MtAloneAuditNodeTask model);
+
+    Integer findBacklogNumByUserId(CurrentUser currentUser);
 }

@@ -20,4 +20,6 @@ public interface MtAloneAuditNodeTaskService extends Service<MtAloneAuditNodeTas
     MtAloneAuditNodeTask findByTaskIdAndCurrentId(MtAloneAuditNodeTaskParams  params);
 
     void updateTem(MtAloneAuditNodeTask model);
+
+    Integer findBacklogNumByUserId(CurrentUser currentUser);
 }

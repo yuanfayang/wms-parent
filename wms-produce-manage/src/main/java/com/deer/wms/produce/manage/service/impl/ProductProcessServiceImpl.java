@@ -22,8 +22,8 @@ public class ProductProcessServiceImpl extends AbstractService<ProductProcess, I
     private ProductProcessMapper productProcessMapper;
 
 
-    //@Override
-    //public List<ProductProcess> findList(ProductProcessParams params) {
-    //    return productProcessMapper.findList(params);
-    //}
+    @Override
+    public List<ProductProcess> findList(ProductProcessParams params) {
+        return productProcessMapper.findList(params);
+    }
 }

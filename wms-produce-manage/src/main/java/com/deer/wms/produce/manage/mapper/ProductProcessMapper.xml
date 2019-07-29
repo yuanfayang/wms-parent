@@ -10,7 +10,7 @@
     <result column="code" jdbcType="VARCHAR" property="code" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-    <result column="version" jdbcType="INTEGER" property="version" />
+    <result column="version" jdbcType="VARCHAR" property="version" />
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="product_process_name" jdbcType="VARCHAR" property="productProcessName" />
     <result column="finish_time" jdbcType="TIMESTAMP" property="finishTime" />

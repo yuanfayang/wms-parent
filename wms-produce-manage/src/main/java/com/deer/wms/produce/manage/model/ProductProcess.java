@@ -36,7 +36,7 @@ public class ProductProcess {
     /**
      * 版本号 默认为 1.1
      */
-    private Integer version;
+    private String version;
 
     /**
      * 状态		0使用，1禁用
@@ -218,7 +218,7 @@ public class ProductProcess {
      *
      * @return version - 版本号 默认为 1.1
      */
-    public Integer getVersion() {
+    public String getVersion() {
         return version;
     }
 
@@ -227,7 +227,7 @@ public class ProductProcess {
      *
      * @param version 版本号 默认为 1.1
      */
-    public void setVersion(Integer version) {
+    public void setVersion(String version) {
         this.version = version;
     }
 

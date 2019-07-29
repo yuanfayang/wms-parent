@@ -63,7 +63,19 @@ public class ProduceManageConstant {
      */
     public static final Integer TYPE_OUT = 1;
 
+    /**
+     * 生产计划审核状态：0等待审核
+     */
+    public static final Integer REVIEW_STATUS_FORREVIEW = 0;
 
+    /**
+     * 生产计划审核状态：1审核通过
+     */
+    public static final Integer REVIEW_STATUS_SUCCESS = 1;
 
+    /**
+     * 生产计划审核状态：2审核失败
+     */
+    public static final Integer REVIEW_STATUS_FAIL = 2;
 
 }

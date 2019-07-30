@@ -793,8 +793,8 @@
             <result column="addTime" jdbcType="TIMESTAMP" property="addtime"/>
             <result column="deleteStatus" jdbcType="INTEGER" property="deletestatus"/>
             <result column="position" jdbcType="VARCHAR" property="position"/>
-            <result column="description" jdbcType="VARCHAR" property="description"/>
-            <result column="note" jdbcType="VARCHAR" property="note"/>
+            <result column="f_description" jdbcType="VARCHAR" property="description"/>
+            <result column="f_note" jdbcType="VARCHAR" property="note"/>
             <result column="fabric_id" jdbcType="INTEGER" property="fabricId"/>
         </collection>
     </resultMap>
@@ -827,7 +827,7 @@
     <select id="findDetExaminationDetails" parameterType="com.deer.wms.bill.manage.model.QueryParamsDet"
             resultMap="DetExaminationMap">
         SELECT
-        fab.*,
+        fab.id,fab.addTime,fab.deleteStatus,fab.position,fab.description f_description,fab.note f_note,fab.fabric_id,
         det.*
         FROM (
         SELECT

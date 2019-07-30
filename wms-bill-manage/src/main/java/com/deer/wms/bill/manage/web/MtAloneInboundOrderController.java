@@ -140,6 +140,7 @@ public class MtAloneInboundOrderController {
             proList.add(product);
 
             maxBarcode=productBarcode;
+
             MtAloneBarcode mtAloneBarcode = new MtAloneBarcode();
             mtAloneBarcode.setBarcode(maxBarcode);
             barCodeList.add(mtAloneBarcode);

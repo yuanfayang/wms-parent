@@ -163,6 +163,13 @@ public class MtAloneDeliveryOrder {
     @Column(name = "salesperson_id")
     private Integer salespersonId;
 
+
+    /**
+     * 绑定销售员名称
+     */
+    @Column(name = "salesperson_name")
+    private String salespersonName;
+
     /**
      * 获取出库单id
      *
@@ -609,5 +616,13 @@ public class MtAloneDeliveryOrder {
      */
     public void setSalespersonId(Integer salespersonId) {
         this.salespersonId = salespersonId;
+    }
+
+    public String getSalespersonName() {
+        return salespersonName;
+    }
+
+    public void setSalespersonName(String salespersonName) {
+        this.salespersonName = salespersonName;
     }
 }

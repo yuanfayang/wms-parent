@@ -95,8 +95,8 @@ public class MtAloneAuditNodeTaskController {
     @OperateLog(description = "删除审核流程实例", type = "删除")
     @ApiOperation(value = "删除审核流程实例", notes = "删除审核流程实例")
     @DeleteMapping("/delete/{id}")
-    public Result delete(@PathVariable Integer Id) {
-        mtAloneAuditNodeTaskService.deleteById(Id);
+    public Result delete(@PathVariable Integer id) {
+        mtAloneAuditNodeTaskService.deleteById(id);
         return ResultGenerator.genSuccessResult();
     }
 

@@ -183,7 +183,7 @@ public class MtAloneInboundOrderController {
             @ApiImplicitParam(name = "access-token", value = "token", paramType = "header", dataType = "String", required = true) })
     @OperateLog(description = "根据auditTaskId获取入库单", type = "获取")
     @ApiOperation(value = "根据auditTaskId获取入库单", notes = "根据auditTaskId获取入库单")
-    @GetMapping("/detail/{auditTaskId}")
+    @GetMapping("/detail/auditTaskId")
     public Result detailByAuditTaskId(MtAloneInboundOrderParams params, @ApiIgnore @User CurrentUser currentUser) {
         if(currentUser==null){
             return ResultGenerator.genFailResult(CommonCode.SERVICE_ERROR,"未登录错误",null );

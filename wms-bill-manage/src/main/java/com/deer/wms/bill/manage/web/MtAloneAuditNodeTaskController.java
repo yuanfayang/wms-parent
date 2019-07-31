@@ -67,6 +67,7 @@ public class MtAloneAuditNodeTaskController {
         if (currentUser == null) {
             return ResultGenerator.genFailResult(CommonCode.SERVICE_ERROR, "未登录错误", null);
         }
+        params.setCompanyId(currentUser.getCompanyId());
         MtAloneAuditRelatParams relatParams = new MtAloneAuditRelatParams();
         relatParams.setAuditTaskId(params.getAuditTaskId());
         List<MtAloneAuditRelat> relatList = mtAloneAuditRelatService.findList(relatParams);
@@ -84,7 +85,8 @@ public class MtAloneAuditNodeTaskController {
 
         MtAloneInboundOrderParams mtAloneInboundOrderParams = new MtAloneInboundOrderParams();
         mtAloneInboundOrderParams.setAuditTaskId(params.getAuditTaskId());
-        MtAloneInboundOrder mtAloneInboundOrder = mtAloneInboundOrderService.findOrderByAuditTaskId(mtAloneInboundOrderParams);
+
+        MtAloneInboundOrder mtAloneInboundOrder = mtAloneInboundOrderService.findBy("auditTaskId",params.getAuditTaskId());
         mtAloneInboundOrder.setRevieweState(0);
         mtAloneInboundOrderService.update(mtAloneInboundOrder);
         return ResultGenerator.genSuccessResult();

@@ -177,7 +177,6 @@
         </if>
     </select>
 
-
     <select id="findCountByCellCode" parameterType="java.lang.String" resultType="java.lang.Integer">
         SELECT COUNT(product_det_id)FROM mt_alone_product_det det
         WHERE det.state='normal'

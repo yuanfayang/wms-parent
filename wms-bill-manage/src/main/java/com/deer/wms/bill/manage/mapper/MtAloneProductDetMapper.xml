@@ -841,15 +841,15 @@
         det.*
         FROM
         mt_alone_product_det det
-        INNER JOIN
+        left JOIN
         cell_info cell
         ON
         cell.cell_code=det.cell_code
-        INNER JOIN
+        left JOIN
         mt_alone_product pro
         ON
         pro.product_bar_code = det.warehouse_barcode
-        INNER JOIN
+        left JOIN
         supplier_manage sup
         ON
         pro.supplier_code = sup.supplier_code

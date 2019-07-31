@@ -136,6 +136,8 @@ public class MtAloneInboundOrderController {
             mtAloneInBoundOrderProVO.getProList().get(i).setCompanyId(currentUser.getCompanyId());
             MtAloneProduct product=new MtAloneProduct();
             BeanUtils.copyProperties(mtAloneInBoundOrderProVO.getProList().get(i), product);
+            product.setCreateTime(new Date());
+            product.setModifyTime(new Date());
             proList.add(product);
 
             maxBarcode=productBarcode;

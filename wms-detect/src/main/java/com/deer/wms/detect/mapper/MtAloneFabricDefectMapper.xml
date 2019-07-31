@@ -6,20 +6,20 @@
       WARNING - @mbg.generated
     -->
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="addTime" jdbcType="TIMESTAMP" property="addtime" />
-    <result column="deleteStatus" jdbcType="INTEGER" property="deletestatus" />
+    <result column="add_time" jdbcType="TIMESTAMP" property="addTime" />
+    <result column="delete_status" jdbcType="INTEGER" property="deleteStatus" />
     <result column="defect_name" jdbcType="VARCHAR" property="defectName" />
     <result column="english_abb" jdbcType="VARCHAR" property="englishAbb" />
     <result column="defect_code" jdbcType="VARCHAR" property="defectCode" />
     <result column="description" jdbcType="VARCHAR" property="description" />
-      <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-      <result column="defect_type" jdbcType="INTEGER" property="defectType" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="defect_type" jdbcType="INTEGER" property="defectType" />
   </resultMap>
   
   <select id="findList" parameterType="com.deer.wms.detect.model.MtAloneFabricDefectCriteria" resultMap="BaseResultMap">
     select * from mt_alone_fabric_defect
     where 1=1
-    and deleteStatus!=1
+    and delete_status!=1
   </select>
 
   <select id="findListByTypeId" parameterType="com.deer.wms.detect.model.MtAloneFabricDefectCriteria" resultMap="BaseResultMap">
@@ -31,11 +31,11 @@
   </select>
   
   <select id="findDefectByName" parameterType="com.deer.wms.detect.model.MtAloneFabricDefectCriteria" resultMap="BaseResultMap">
-    select * from mt_alone_fabric_defect where 1=1 and deleteStatus!=1
+    select * from mt_alone_fabric_defect where 1=1 and delete_status!=1
    <if test="defectName != null and defectName != ''">
        AND defect_name like concat('%', #{defectName}, '%')
     </if>
-    order by addTime desc
+    order by add_time desc
   </select>
 
   

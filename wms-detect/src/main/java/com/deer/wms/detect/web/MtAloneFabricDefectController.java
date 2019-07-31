@@ -37,9 +37,9 @@ public class MtAloneFabricDefectController {
     @PostMapping("/add")
     @ApiOperation(value="添加瑕疵信息",notes="添加瑕疵信息")
     public Result add(@RequestBody MtAloneFabricDefect mtAloneFabricDefect) {
-		mtAloneFabricDefect.setAddtime(new Date());
+		mtAloneFabricDefect.setAddTime(new Date());
 		mtAloneFabricDefect.setUpdateTime(new Date());
-		mtAloneFabricDefect.setDeletestatus(0);
+		mtAloneFabricDefect.setDeleteStatus(0);
         mtAloneFabricDefectService.save(mtAloneFabricDefect);
         return ResultGenerator.genSuccessResult();
     }

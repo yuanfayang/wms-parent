@@ -12,8 +12,8 @@ public class MtAloneFabricDefect {
     /**
      * 添加时间
      */
-    @Column(name = "addTime")
-    private Date addtime;
+    @Column(name = "add_time")
+    private Date addTime;
     
     /**
      * 修改时间
@@ -24,13 +24,13 @@ public class MtAloneFabricDefect {
     /**
      * 状态
      */
-    @Column(name = "deleteStatus")
-    private Integer deletestatus;
+    @Column(name = "delete_status")
+    private Integer deleteStatus;
 
     /**
      * 状态
      */
-    @Column(name = "defectType")
+    @Column(name = "defect_type")
     private Integer defectType;
 
     /**
@@ -75,17 +75,17 @@ public class MtAloneFabricDefect {
      *
      * @return addTime - 添加时间
      */
-    public Date getAddtime() {
-        return addtime;
+    public Date getAddTime() {
+        return addTime;
     }
 
     /**
      * 设置添加时间
      *
-     * @param addtime 添加时间
+     * @param addTime 添加时间
      */
-    public void setAddtime(Date addtime) {
-        this.addtime = addtime;
+    public void setAddTime(Date addTime) {
+        this.addTime = addTime;
     }
 
     public Date getUpdateTime() {
@@ -101,17 +101,17 @@ public class MtAloneFabricDefect {
      *
      * @return deleteStatus - 状态
      */
-    public Integer getDeletestatus() {
-        return deletestatus;
+    public Integer getDeleteStatus() {
+        return deleteStatus;
     }
 
     /**
      * 设置状态
      *
-     * @param deletestatus 状态
+     * @param deleteStatus 状态
      */
-    public void setDeletestatus(Integer deletestatus) {
-        this.deletestatus = deletestatus;
+    public void setDeleteStatus(Integer deleteStatus) {
+        this.deleteStatus = deleteStatus;
     }
 
     /**

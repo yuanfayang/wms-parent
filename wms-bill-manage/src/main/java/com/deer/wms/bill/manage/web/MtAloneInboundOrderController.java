@@ -28,8 +28,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List; 
 
-
-
 /**
 * Created by gtt on 2019/07/18.
 */
@@ -185,16 +183,19 @@ public class MtAloneInboundOrderController {
     @ApiOperation(value = "根据auditTaskId获取入库单", notes = "根据auditTaskId获取入库单")
     @GetMapping("/detail/auditTaskId")
     public Result detailByAuditTaskId(MtAloneInboundOrderParams params, @ApiIgnore @User CurrentUser currentUser) {
-        if(currentUser==null){
-            return ResultGenerator.genFailResult(CommonCode.SERVICE_ERROR,"未登录错误",null );
-        }
-
-        if (currentUser.getCompanyType() != SystemManageConstant.COMPANY_TYPE_MT){
-            params.setCompanyId(currentUser.getCompanyId());
-        }else{
-            params.setCompanyId(null);
-        }
+        if (loginVerify(params, currentUser)) return ResultGenerator.genFailResult(CommonCode.NO_LOGIN);
         MtAloneInBoundOrderProVO mtAloneInboundOrder = mtAloneInboundOrderService.findOrderByAuditTaskId(params);
+        return ResultGenerator.genSuccessResult(mtAloneInboundOrder);
+    }
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "access-token", value = "token", paramType = "header", dataType = "String", required = true) })
+    @OperateLog(description = "根据auditTaskId获取入库单和打卷明细", type = "查询")
+    @ApiOperation(value = "根据auditTaskId获取入库单和打卷明细", notes = "根据auditTaskId获取入库单")
+    @GetMapping("/detail/proDet/auditTaskId")
+    public Result detailProDetByAuditTaskId(MtAloneInboundOrderParams params, @ApiIgnore @User CurrentUser currentUser) {
+        if (loginVerify(params, currentUser)) return ResultGenerator.genFailResult(CommonCode.NO_LOGIN);
+        MtAloneInboundOrderProDetVO mtAloneInboundOrder = mtAloneInboundOrderService.findOrderProDetByAuditTaskId(params);
         return ResultGenerator.genSuccessResult(mtAloneInboundOrder);
     }
     @ApiImplicitParams({
@@ -203,15 +204,8 @@ public class MtAloneInboundOrderController {
     @ApiOperation(value = "入库单及相应产品列表", notes = "入库单及相应产品列表")
     @GetMapping("/inOrderProlist")
     public Result inOrderProlist(MtAloneInboundOrderParams params, @ApiIgnore @User CurrentUser currentUser) {
-        if(currentUser==null){
-            return ResultGenerator.genFailResult(CommonCode.SERVICE_ERROR,"未登录错误",null );
-        }
+        if (loginVerify(params, currentUser)) return ResultGenerator.genFailResult(CommonCode.NO_LOGIN);
 
-    	if (currentUser.getCompanyType() != SystemManageConstant.COMPANY_TYPE_MT){
-    		params.setCompanyId(currentUser.getCompanyId());
-		}else{
-			params.setCompanyId(null);
-        }
         PageHelper.startPage(params.getPageNum(), params.getPageSize());
         List<MtAloneInBoundOrderProVO> list = mtAloneInboundOrderService.findOrderProList(params);
         PageInfo pageInfo = new PageInfo(list);
@@ -224,15 +218,8 @@ public class MtAloneInboundOrderController {
     @ApiOperation(value = "入库单及相应产品明细列表", notes = "入库单及相应产品明细列表")
     @GetMapping("/inOrderProDetlist")
     public Result inOrderProDetlist(MtAloneInboundOrderParams params, @ApiIgnore @User CurrentUser currentUser) {
-        if(currentUser==null){
-            return ResultGenerator.genFailResult(CommonCode.SERVICE_ERROR,"未登录错误",null );
-        }
+        if (loginVerify(params, currentUser)) return ResultGenerator.genFailResult(CommonCode.NO_LOGIN);
 
-        if (currentUser.getCompanyType() != SystemManageConstant.COMPANY_TYPE_MT){
-            params.setCompanyId(currentUser.getCompanyId());
-        }else{
-            params.setCompanyId(null);
-        }
         PageHelper.startPage(params.getPageNum(), params.getPageSize());
         List<MtAloneInboundOrderProDetVO> list = mtAloneInboundOrderService.findOrderProDetList(params);
         PageInfo pageInfo = new PageInfo(list);
@@ -245,18 +232,24 @@ public class MtAloneInboundOrderController {
     @ApiOperation(value = "根据入库单code获取入库单及产品", notes = "根据入库单code获取入库单及产品")
     @GetMapping("/prolistByOrderCode")
     public Result prolistByOrderCode(MtAloneInboundOrderParams params, @ApiIgnore @User CurrentUser currentUser) {
-        if(currentUser==null){
-            return ResultGenerator.genFailResult(CommonCode.SERVICE_ERROR,"未登录错误",null );
-        }
 
+        if (loginVerify(params, currentUser)) return ResultGenerator.genFailResult(CommonCode.NO_LOGIN);
+
+        MtAloneInBoundOrderProVO list = mtAloneInboundOrderService.findProListByOrderCode(params);
+        return ResultGenerator.genSuccessResult(list);
+    }
+
+    private boolean loginVerify(MtAloneInboundOrderParams params, @User @ApiIgnore CurrentUser currentUser) {
+
+        if(currentUser==null){
+            return true;
+        }
         if (currentUser.getCompanyType() != SystemManageConstant.COMPANY_TYPE_MT){
             params.setCompanyId(currentUser.getCompanyId());
         }else{
             params.setCompanyId(null);
         }
-
-        MtAloneInBoundOrderProVO list = mtAloneInboundOrderService.findProListByOrderCode(params);
-        return ResultGenerator.genSuccessResult(list);
+        return false;
     }
 
 }

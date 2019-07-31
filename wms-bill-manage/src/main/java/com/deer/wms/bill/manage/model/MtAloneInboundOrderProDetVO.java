@@ -3,9 +3,17 @@ import java.util.List;
 
 public class MtAloneInboundOrderProDetVO extends MtAloneInboundOrder{
 
+    private String departmentName;
+
     private List<MtAloneProductDetInboundOrderDto> productDetList;
 
+    public String getDepartmentName() {
+        return departmentName;
+    }
 
+    public void setDepartmentName(String departmentName) {
+        this.departmentName = departmentName;
+    }
 
     public List<MtAloneProductDetInboundOrderDto> getProductDetList() {
         return productDetList;

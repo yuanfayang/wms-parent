@@ -87,7 +87,7 @@
         </collection>
     </resultMap>
 
-       <sql id="Base_Column_List" >
+    <sql id="Base_Column_List" >
   pro.id as pro_id,pro.batch,pro.supplier_code,pro.product_code,pro.item_code ,pro.product_name,pro.product_type_code,pro.product_variety_code,
   pro.color_code,pro.shell_fabric,pro.tissue,pro.origin,pro.ware_num,pro.unit_code,pro.supplier_num,pro.price,pro.larghezza,pro.larghezza_unit_code,
   pro.grammage,pro.grammage_unit_code,pro.product_length,pro.product_remain_length,pro.density,pro.specification,pro.processing_mode,pro.product_bar_code,
@@ -169,6 +169,7 @@
     </select>
 
     <resultMap id="OrderProDetMap" type="com.deer.wms.bill.manage.model.MtAloneInboundOrderProDetVO" extends="BaseResultMap">
+        <result column="department_name" jdbcType="VARCHAR" property="departmentName"/>
         <!--一个入库单对应多个产品明细-->
         <collection property="productDetList" ofType="com.deer.wms.bill.manage.model.MtAloneProductDetInboundOrderDto">
             <id column="product_det_id" jdbcType="INTEGER" property="productDetId"/>
@@ -211,6 +212,8 @@
             <result column="product_code" jdbcType="VARCHAR" property="productCode"/>
             <result column="item_code" jdbcType="VARCHAR" property="itemCode"/>
             <result column="pro_color_name" jdbcType="VARCHAR" property="colorName"/>
+            <result column="specification" jdbcType="VARCHAR" property="specification"/>
+            <result column="processing_mode" jdbcType="VARCHAR" property="processingMode"/>
         </collection>
     </resultMap>
 
@@ -248,26 +251,21 @@
     </select>
 
     <select id="findOrderByAuditTaskId" parameterType="com.deer.wms.bill.manage.model.MtAloneInboundOrderParams" resultMap="OrderProMap">
-        select * from mt_alone_inbound_order inOrder
-        where inOrder.audit_task_id=#{auditTaskId}
         SELECT
         inOrder.*,
         <include refid="Base_Column_List" />
         FROM mt_alone_inbound_order inOrder
         left join mt_alone_product pro on pro.inbound_order_code=inOrder.inbound_order_code
-        LEFT JOIN (SELECT item.item_type_code AS type_code,item.item_type_name AS type_name FROM item_type item where item.item_type_state = 0)tmp1
+        LEFT JOIN (SELECT item.item_type_code AS type_code,item.item_type_name AS item_type_name FROM item_type item where item.item_type_state = 0)tmp1
         ON tmp1.type_code= pro.product_type_code
-        LEFT JOIN (SELECT item.item_type_code AS variety_code,item.item_type_name AS variety_name FROM item_type item where item.item_type_state = 1)tmp2
+        LEFT JOIN (SELECT item.item_type_code AS variety_code,item.item_type_name AS item_variety_name FROM item_type item where item.item_type_state = 1)tmp2
         ON tmp2.variety_code= pro.product_variety_code
-        where 1=1
+        where inOrder.audit_task_id=#{auditTaskId}
         <if test="begDate!=null and begDate!=''">
             <![CDATA[   and DATE_FORMAT(inOrder.create_time, '%Y-%m-%d')>=  DATE_FORMAT(#{begDate}, '%Y-%m-%d')   ]]>
         </if>
         <if test="endDate!=null and endDate!=''">
             <![CDATA[  and DATE_FORMAT(inOrder.create_time, '%Y-%m-%d') <= DATE_FORMAT(#{endDate}, '%Y-%m-%d')    ]]>
-        </if>
-        <if test="auditTaskId != null">
-            and inOrder.audit_task_id =#{auditTaskId}
         </if>
         <if test="companyId != null">
             and inOrder.company_id =#{companyId}
@@ -281,6 +279,32 @@
             OR inOrder.processor_name LIKE CONCAT('%', #{keywords}, '%')
             )
         </if>
+        order by inOrder.create_time desc
+    </select>
+
+
+    <select id="findOrderProDetByAuditTaskId"
+            parameterType="com.deer.wms.bill.manage.model.MtAloneInboundOrderParams"
+            resultMap="OrderProDetMap">
+        SELECT
+        inOrder.*,
+        pro.product_name,
+        pro.product_code,
+        pro.item_code,
+        pro.pro_color_name,
+        pro.specification,
+        pro.dyelotNum,
+        pro.processingMode,
+        det.product_det_index,
+        det.product_det_length,
+
+        FROM mt_alone_inbound_order inOrder
+        left join mt_alone_product pro
+        on pro.inbound_order_code=inOrder.inbound_order_code
+        LEFT JOIN mt_alone_product_det det
+        ON det.warehouse_barcode=pro.product_bar_code
+        where inOrder.audit_task_id=#{auditTaskId}
+        and inOrder.company_id =#{companyId}
         order by inOrder.create_time desc
     </select>
 </mapper>

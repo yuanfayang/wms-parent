@@ -23,4 +23,6 @@ public interface MtAloneInboundOrderService extends Service<MtAloneInboundOrder,
     MtAloneInBoundOrderProVO findOrderByAuditTaskId(MtAloneInboundOrderParams params);
 
     MtAloneInBoundOrderProVO findProListByOrderCode(MtAloneInboundOrderParams params);
+
+    MtAloneInboundOrderProDetVO findOrderProDetByAuditTaskId(MtAloneInboundOrderParams params);
 }

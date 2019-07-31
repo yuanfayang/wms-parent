@@ -8,6 +8,7 @@ package com.deer.wms.project.seed.core.result;
 public enum CommonCode implements Code {
     /** 服务器正常接收和处理请求 */
     SUCCESS(200, "操作成功")
+    , NO_LOGIN(10002,"未登录错误")
 
     /** 服务器内部错误 */
     , SERVER_INERNAL_ERROR(500, "服务器内部错误，请联系管理员")

@@ -59,6 +59,7 @@ public class AccessIntercept extends HandlerInterceptorAdapter {
 		response.setHeader("Connection", "keep-alive");
 		response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept,access-token,token");
 		Authority annotation = getAuthorityAnnotation(handler);
+
 		if (null == annotation) {
 			return true;
 		}

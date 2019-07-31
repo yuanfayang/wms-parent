@@ -10,6 +10,8 @@ public class MtAloneProductDetInboundOrderDto extends MtAloneProductDet{
 
     private String colorName;//产品颜色
 
+    private String processingMode;
+    private String specification;
 
     public String getProductCode() {
         return productCode;
@@ -41,5 +43,21 @@ public class MtAloneProductDetInboundOrderDto extends MtAloneProductDet{
 
     public void setColorName(String colorName) {
         this.colorName = colorName;
+    }
+
+    public String getProcessingMode() {
+        return processingMode;
+    }
+
+    public void setProcessingMode(String processingMode) {
+        this.processingMode = processingMode;
+    }
+
+    public String getSpecification() {
+        return specification;
+    }
+
+    public void setSpecification(String specification) {
+        this.specification = specification;
     }
 }

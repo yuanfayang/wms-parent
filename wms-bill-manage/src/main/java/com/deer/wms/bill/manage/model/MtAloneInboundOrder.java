@@ -119,6 +119,13 @@ public class MtAloneInboundOrder {
     private Integer buyerId;
 
     /**
+     * 采购员id
+     */
+    @Column(name = "buyer_name")
+    private String buyerName;
+
+
+    /**
      * 备注
      */
     private String memo;
@@ -474,6 +481,14 @@ public class MtAloneInboundOrder {
      */
     public void setBuyerId(Integer buyerId) {
         this.buyerId = buyerId;
+    }
+
+    public String getBuyerName() {
+        return buyerName;
+    }
+
+    public void setBuyerName(String buyerName) {
+        this.buyerName = buyerName;
     }
 
     /**

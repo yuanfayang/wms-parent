@@ -27,9 +27,11 @@
         <result column="memo" jdbcType="VARCHAR" property="memo"/>
         <result column="company_id" jdbcType="INTEGER" property="companyId"/>
         <result column="ware_name" jdbcType="VARCHAR" property="wareName"/>
+        <result column="buyer_name" jdbcType="VARCHAR" property="buyerName"/>
     </resultMap>
 
     <resultMap id="OrderProMap" type="com.deer.wms.bill.manage.model.MtAloneInBoundOrderProVO" extends="BaseResultMap">
+        <result column="department_name" jdbcType="VARCHAR" property="departmentName"/>
         <!--一个入库单对应多个产品-->
         <collection property="proList" ofType="com.deer.wms.bill.manage.model.MtAloneProductVO">
             <id column="pro_id" jdbcType="INTEGER" property="id"/>
@@ -91,19 +93,23 @@
   pro.grammage,pro.grammage_unit_code,pro.product_length,pro.product_remain_length,pro.density,pro.specification,pro.processing_mode,pro.product_bar_code,
   pro.specimen_bar_code,pro.greffier_id,pro.is_detection,pro.detection_man_id,pro.product_state,pro.description,pro.note,pro.create_time,pro.modify_time,
   pro.reviewe_state,pro.delivery_state,pro.return_state,pro.dyelot_num,pro.rgb_hex,pro.color_name,pro.product_detect_length,pro.images,pro.company_id,
-  pro.cell_code,pro.state,pro.purchaser_id,pro.inbound_order_code,pro.item_type_name,pro.item_variety_name
+  pro.cell_code,pro.state,pro.purchaser_id,pro.inbound_order_code,tmp1.item_type_name,tmp2.item_variety_name
       </sql>
 
 
     <select id="findOrderProList" parameterType="com.deer.wms.bill.manage.model.MtAloneInboundOrderParams" resultMap="OrderProMap">
         SELECT
+        sup.supplier_name processor_name,
         inOrder.*,
+        dep.department_name department_name,
         <include refid="Base_Column_List" />
         FROM mt_alone_inbound_order inOrder
+        left join mt_alone_department dep on inOrder.department_id = dep.id
+        left join supplier_manage sup on inOrder.processor_id = sup.supplier_id
         left join mt_alone_product pro on pro.inbound_order_code=inOrder.inbound_order_code
-        LEFT JOIN (SELECT item.item_type_code AS type_code,item.item_type_name AS type_name FROM item_type item where item.item_type_state = 0)tmp1
+        LEFT JOIN (SELECT item.item_type_code AS type_code,item.item_type_name AS item_type_name FROM item_type item where item.item_type_state = 0)tmp1
         ON tmp1.type_code= pro.product_type_code
-        LEFT JOIN (SELECT item.item_type_code AS variety_code,item.item_type_name AS variety_name FROM item_type item where item.item_type_state = 1)tmp2
+        LEFT JOIN (SELECT item.item_type_code AS variety_code,item.item_type_name AS item_variety_name FROM item_type item where item.item_type_state = 1)tmp2
         ON tmp2.variety_code= pro.product_variety_code
         where 1=1
         <if test="begDate!=null and begDate!=''">

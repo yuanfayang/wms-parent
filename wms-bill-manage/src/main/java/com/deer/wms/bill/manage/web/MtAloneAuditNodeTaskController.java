@@ -18,6 +18,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.BeanUtils;
 import springfox.documentation.annotations.ApiIgnore;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -193,16 +194,16 @@ public class MtAloneAuditNodeTaskController {
         MtAloneInboundOrder mtAloneInboundOrder = mtAloneInboundOrderService.findOrderByAuditTaskId(mtAloneInboundOrderParams);
 
         List<MtAloneAuditNodeTask> taskList = mtAloneAuditNodeTaskService.findList(params);
-
-        Integer currentId = taskList.get(taskList.size() - 1).getCurrentAuditNodeId();
+        MtAloneAuditNodeTask lastTask = taskList.get(taskList.size() - 1);
+        Integer currentId = lastTask.getCurrentAuditNodeId();
         MtAloneAuditRelat currentRelat = mtAloneAuditRelatService.findById(currentId);
         MtAloneAuditRelat nextRelat=mtAloneAuditRelatService.findById(currentRelat.getNextNodeId());
 
         if (params.getIsPass() == 1) {
-            taskList.get(taskList.size() - 1).setIsAudit(1);
-            taskList.get(taskList.size() - 1).setAuditTime(new Date());
-            taskList.get(taskList.size() - 1).setReviewerId(currentUser.getUserId());
-            mtAloneAuditNodeTaskService.update(taskList.get(taskList.size() - 1));
+            lastTask.setIsAudit(1);
+            lastTask.setAuditTime(new Date());
+            lastTask.setReviewerId(currentUser.getUserId());
+            mtAloneAuditNodeTaskService.update(lastTask);
             if (currentRelat.getNextNodeId() == 0) {
                 mtAloneInboundOrder.setIsAuditTask(2);
                 mtAloneInboundOrder.setRevieweState(1);
@@ -218,6 +219,9 @@ public class MtAloneAuditNodeTaskController {
                 mtAloneAuditNodeTask.setCreateTime(new Date());
                 mtAloneAuditNodeTask.setCompanyId(currentUser.getCompanyId());
                 mtAloneAuditNodeTask.setAuditUrl(taskList.get(0).getAuditUrl());
+                mtAloneAuditNodeTask.setOperatorName(lastTask.getOperatorName());
+                mtAloneAuditNodeTask.setOperatorId(lastTask.getOperatorId());
+
                 mtAloneAuditNodeTaskService.save(mtAloneAuditNodeTask);
             }
 

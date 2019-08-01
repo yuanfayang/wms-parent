@@ -177,20 +177,19 @@ public class MtAloneAuditNodeTaskController {
     @OperateLog(description = "审核流程流转", type = "更新")
     @ApiOperation(value = "审核流程流转", notes = "审核流程流转")
     @PostMapping("/updateTask")
-    public Result updateTask(MtAloneAuditNodeTaskParams params, @ApiIgnore @User CurrentUser currentUser) {
+    public Result updateTask(@RequestBody MtAloneAuditNodeTaskParams params, @ApiIgnore @User CurrentUser currentUser) {
         if (currentUser == null) {
             return ResultGenerator.genFailResult(CommonCode.SERVICE_ERROR, "未登录错误", null);
         }
 
-        if (currentUser.getCompanyType() != SystemManageConstant.COMPANY_TYPE_MT) {
-            params.setCompanyId(currentUser.getCompanyId());
-        } else {
-            params.setCompanyId(null);
-        }
+        params.setCompanyId(currentUser.getCompanyId());
 
+        //获取入库单
         MtAloneInboundOrderParams mtAloneInboundOrderParams = new MtAloneInboundOrderParams();
         mtAloneInboundOrderParams.setAuditTaskId(params.getAuditTaskId());
+        mtAloneInboundOrderParams.setCompanyId(currentUser.getCompanyId());
         MtAloneInboundOrder mtAloneInboundOrder = mtAloneInboundOrderService.findOrderByAuditTaskId(mtAloneInboundOrderParams);
+
         List<MtAloneAuditNodeTask> taskList = mtAloneAuditNodeTaskService.findList(params);
 
         Integer currentId = taskList.get(taskList.size() - 1).getCurrentAuditNodeId();

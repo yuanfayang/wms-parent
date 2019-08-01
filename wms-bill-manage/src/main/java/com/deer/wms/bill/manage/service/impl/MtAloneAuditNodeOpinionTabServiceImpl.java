@@ -3,6 +3,7 @@ package com.deer.wms.bill.manage.service.impl;
 import com.deer.wms.bill.manage.dao.MtAloneAuditNodeOpinionTabMapper;
 import com.deer.wms.bill.manage.model.MtAloneAuditNodeOpinionTab;
 import com.deer.wms.bill.manage.model.MtAloneAuditNodeOpinionTabParams;
+import com.deer.wms.bill.manage.model.MtAloneAuditNodeOpinionTabVo;
 import com.deer.wms.bill.manage.service.MtAloneAuditNodeOpinionTabService;
 
 import com.deer.wms.project.seed.core.service.AbstractService;
@@ -23,7 +24,7 @@ public class MtAloneAuditNodeOpinionTabServiceImpl extends AbstractService<MtAlo
 
 
     @Override
-    public List<MtAloneAuditNodeOpinionTab> findList(MtAloneAuditNodeOpinionTabParams  params) {
+    public List<MtAloneAuditNodeOpinionTabVo> findList(MtAloneAuditNodeOpinionTabParams  params) {
         return mtAloneAuditNodeOpinionTabMapper.findList(params);
     }
 }

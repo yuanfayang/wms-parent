@@ -3,6 +3,7 @@ package com.deer.wms.bill.manage.service;
 import com.deer.wms.bill.manage.model.MtAloneAuditNodeOpinionTab;
 import com.deer.wms.bill.manage.model.MtAloneAuditNodeOpinionTabParams;
 
+import com.deer.wms.bill.manage.model.MtAloneAuditNodeOpinionTabVo;
 import com.deer.wms.project.seed.core.service.Service;
 import java.util.List;
 
@@ -12,6 +13,6 @@ import java.util.List;
 public interface MtAloneAuditNodeOpinionTabService extends Service<MtAloneAuditNodeOpinionTab, Integer> {
 
 
-    List<MtAloneAuditNodeOpinionTab> findList(MtAloneAuditNodeOpinionTabParams  params) ;
+    List<MtAloneAuditNodeOpinionTabVo> findList(MtAloneAuditNodeOpinionTabParams  params) ;
 
 }

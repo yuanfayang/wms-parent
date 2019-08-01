@@ -23,8 +23,20 @@
     <result column="company_id" jdbcType="INTEGER" property="companyId" />
   </resultMap>
 
-  <select id="findList" parameterType="com.deer.wms.bill.manage.model.MtAloneAuditNodeOpinionTabParams" resultMap="BaseResultMap">
-    select * from mt_alone_audit_node_opinion_tab  tab
+  <resultMap id="auditNodeOptionMap" type="com.deer.wms.bill.manage.model.MtAloneAuditNodeOpinionTabVo" extends="BaseResultMap">
+    <result column="reviewer_name" jdbcType="VARCHAR" property="reviewerName" />
+  </resultMap>
+
+  <select id="findList" parameterType="com.deer.wms.bill.manage.model.MtAloneAuditNodeOpinionTabParams" resultMap="auditNodeOptionMap">
+    select
+      u.user_name as reviewer_name,
+      node.audit_node_name,
+      tab.*
+    from mt_alone_audit_node_opinion_tab  tab
+    left join mt_alone_audit_relat node
+      on tab.node_id = node.id
+    left join user_info u
+      on u.user_id = tab.reviewer_id
     where 1=1
     <if test="auditTaskId != null">
       and tab.audit_task_id=#{auditTaskId}

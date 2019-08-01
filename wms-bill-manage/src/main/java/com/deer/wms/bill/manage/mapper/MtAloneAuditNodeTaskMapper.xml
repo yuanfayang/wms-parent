@@ -53,6 +53,7 @@
         </if>
         WHERE relat.group_id= gro.group_id)  rel
         WHERE task.current_audit_node_id=rel.id
+        and task.is_audit = 0
     </select>
 
     <select id="findByTaskIdAndCurrentId" parameterType="com.deer.wms.bill.manage.model.MtAloneAuditNodeTaskParams" resultMap="BaseResultMap">

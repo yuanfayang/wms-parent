@@ -1,5 +1,6 @@
 package com.deer.wms.bill.manage.web;
 
+import com.deer.wms.bill.manage.model.MtAloneAuditNodeOpinionTabVo;
 import com.deer.wms.project.seed.annotation.OperateLog;
 import com.deer.wms.project.seed.constant.SystemManageConstant;
 import com.deer.wms.project.seed.core.result.CommonCode;
@@ -46,9 +47,12 @@ public class MtAloneAuditNodeOpinionTabController {
         if(currentUser==null){
             return ResultGenerator.genFailResult( CommonCode.SERVICE_ERROR,"未登录错误",null );
         }
-		 mtAloneAuditNodeOpinionTab.setCreateTime(new Date());
-		 mtAloneAuditNodeOpinionTab.setCompanyId(currentUser.getCompanyId());
+        mtAloneAuditNodeOpinionTab.setReviewerId(currentUser.getUserId());
+        mtAloneAuditNodeOpinionTab.setCreateTime(new Date());
+        mtAloneAuditNodeOpinionTab.setAuditTime(new Date());
+        mtAloneAuditNodeOpinionTab.setCompanyId(currentUser.getCompanyId());
         mtAloneAuditNodeOpinionTabService.save(mtAloneAuditNodeOpinionTab);
+
         return ResultGenerator.genSuccessResult();
     }
     @ApiImplicitParams({
@@ -56,8 +60,8 @@ public class MtAloneAuditNodeOpinionTabController {
     @OperateLog(description = "删除审核意见", type = "删除")
     @ApiOperation(value = "删除审核意见", notes = "删除审核意见")
     @DeleteMapping("/delete/{id}")
-    public Result delete(@PathVariable Integer Id) {
-        mtAloneAuditNodeOpinionTabService.deleteById(Id);
+    public Result delete(@PathVariable Integer id) {
+        mtAloneAuditNodeOpinionTabService.deleteById(id);
         return ResultGenerator.genSuccessResult();
     }
     @ApiImplicitParams({
@@ -88,14 +92,10 @@ public class MtAloneAuditNodeOpinionTabController {
         if(currentUser==null){
             return ResultGenerator.genFailResult(CommonCode.SERVICE_ERROR,"未登录错误",null );
         }
+        params.setCompanyId(currentUser.getCompanyId());
 
-    	if (currentUser.getCompanyType() != SystemManageConstant.COMPANY_TYPE_MT){
-    		params.setCompanyId(currentUser.getCompanyId());
-		}else{
-			params.setCompanyId(null);
-        }
         PageHelper.startPage(params.getPageNum(), params.getPageSize());
-        List<MtAloneAuditNodeOpinionTab> list = mtAloneAuditNodeOpinionTabService.findList(params);
+        List<MtAloneAuditNodeOpinionTabVo> list = mtAloneAuditNodeOpinionTabService.findList(params);
         PageInfo pageInfo = new PageInfo(list);
         return ResultGenerator.genSuccessResult(pageInfo);
     }

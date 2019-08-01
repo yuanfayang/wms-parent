@@ -90,7 +90,7 @@ public class MtAloneAuditRelatController {
         }
 
     	if (currentUser.getCompanyType() != SystemManageConstant.COMPANY_TYPE_MT){
-    		params.setCompanyId(currentUser.getCompanyId());
+    		currentUser.setCompanyId(params.getCompanyId());
 		}else{
 			params.setCompanyId(null);
         }

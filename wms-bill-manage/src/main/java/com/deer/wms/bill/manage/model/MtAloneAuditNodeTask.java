@@ -16,6 +16,12 @@ public class MtAloneAuditNodeTask {
     private Integer operatorId;
 
     /**
+     * 操作员name
+     */
+    @Column(name = "operator_name")
+    private String operatorName;
+
+    /**
      * 添加时间
      */
     @Column(name = "create_time")
@@ -117,6 +123,14 @@ public class MtAloneAuditNodeTask {
      */
     public void setOperatorId(Integer operatorId) {
         this.operatorId = operatorId;
+    }
+
+    public String getOperatorName() {
+        return operatorName;
+    }
+
+    public void setOperatorName(String operatorName) {
+        this.operatorName = operatorName;
     }
 
     /**

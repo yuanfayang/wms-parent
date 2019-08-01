@@ -98,6 +98,7 @@
 
     <select id="findOrderProList" parameterType="com.deer.wms.bill.manage.model.MtAloneInboundOrderParams" resultMap="OrderProMap">
         SELECT
+        u.user_name operator_name,
         sup.supplier_name processor_name,
         inOrder.*,
         dep.department_name department_name,
@@ -105,6 +106,7 @@
         FROM mt_alone_inbound_order inOrder
         left join mt_alone_department dep on inOrder.department_id = dep.id
         left join supplier_manage sup on inOrder.processor_id = sup.supplier_id
+        LEFT join user_info u on u.user_id = inOrder.operator_id
         left join mt_alone_product pro on pro.inbound_order_code=inOrder.inbound_order_code
         LEFT JOIN (SELECT item.item_type_code AS type_code,item.item_type_name AS item_type_name FROM item_type item where item.item_type_state = 0)tmp1
         ON tmp1.type_code= pro.product_type_code

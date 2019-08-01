@@ -272,6 +272,19 @@ public class MtAloneProduct {
     @Column(name = "purchaser_id")
     private Integer purchaserId;
 
+
+    /**
+     * 登记员
+     */
+    @Column(name = "greffier_name")
+    private String greffierName;
+
+    /**
+     * 采购员
+     */
+    @Column(name = "buyer_name")
+    private String buyerName;
+
     /**
      * 绑定入库单code
      */
@@ -1132,4 +1145,20 @@ public class MtAloneProduct {
      * @param inboundOrderCode 绑定入库单code
      */
     public void setInboundOrderCode(String inboundOrderCode) { this.inboundOrderCode = inboundOrderCode; }
+
+    public String getGreffierName() {
+        return greffierName;
+    }
+
+    public void setGreffierName(String greffierName) {
+        this.greffierName = greffierName;
+    }
+
+    public String getBuyerName() {
+        return buyerName;
+    }
+
+    public void setBuyerName(String buyerName) {
+        this.buyerName = buyerName;
+    }
 }

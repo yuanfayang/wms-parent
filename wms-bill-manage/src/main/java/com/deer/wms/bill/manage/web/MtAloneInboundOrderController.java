@@ -105,6 +105,7 @@ public class MtAloneInboundOrderController {
             relatList.add(relat);
         }
         mtAloneAuditRelatService.save(relatList);
+
         //-------------------生成审核业务流程实例--------------------------------
 //        MtAloneAuditNodeTask mtAloneAuditNodeTask=new MtAloneAuditNodeTask();
 //        mtAloneAuditNodeTask.setAuditTaskId(mtAloneAuditTask.getId());
@@ -138,6 +139,7 @@ public class MtAloneInboundOrderController {
             BeanUtils.copyProperties(mtAloneInBoundOrderProVO.getProList().get(i), product);
             product.setCreateTime(new Date());
             product.setModifyTime(new Date());
+            product.setGreffierName(currentUser.getUserName());
             proList.add(product);
 
             maxBarcode=productBarcode;

@@ -70,6 +70,7 @@ public class MtAloneAuditNodeTaskController {
         params.setCompanyId(currentUser.getCompanyId());
         MtAloneAuditRelatParams relatParams = new MtAloneAuditRelatParams();
         relatParams.setAuditTaskId(params.getAuditTaskId());
+        relatParams.setCompanyId(currentUser.getCompanyId());
         List<MtAloneAuditRelat> relatList = mtAloneAuditRelatService.findList(relatParams);
 
         MtAloneAuditNodeTask mtAloneAuditNodeTask = new MtAloneAuditNodeTask();
@@ -77,6 +78,7 @@ public class MtAloneAuditNodeTaskController {
         mtAloneAuditNodeTask.setCompanyId(currentUser.getCompanyId());
         mtAloneAuditNodeTask.setAuditUrl(params.getAuditUrl());
         mtAloneAuditNodeTask.setIsAudit(0);
+        mtAloneAuditNodeTask.setOperatorName(currentUser.getUserName());
         mtAloneAuditNodeTask.setOperatorId(currentUser.getUserId());
         mtAloneAuditNodeTask.setCurrentAuditNodeId(relatList.get(0).getId());
         mtAloneAuditNodeTask.setCurrentAuditNodeName(relatList.get(0).getAuditNodeName());
@@ -221,7 +223,7 @@ public class MtAloneAuditNodeTaskController {
 
         }
 
-        if (params.getIsPass() == 0) {
+        else if (params.getIsPass() == 0) {
             if(currentRelat.getPrevNodeId()==0){
                 mtAloneInboundOrder.setRevieweState(2);
                 mtAloneInboundOrderService.update(mtAloneInboundOrder);

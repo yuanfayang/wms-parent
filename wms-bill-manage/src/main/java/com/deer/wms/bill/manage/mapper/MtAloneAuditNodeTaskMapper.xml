@@ -7,6 +7,7 @@
         -->
         <id column="id" jdbcType="INTEGER" property="id"/>
         <result column="operator_id" jdbcType="INTEGER" property="operatorId"/>
+        <result column="operator_name" jdbcType="VARCHAR" property="operatorName"/>
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
         <result column="version" jdbcType="VARCHAR" property="version"/>
         <result column="status" jdbcType="INTEGER" property="status"/>
@@ -40,8 +41,8 @@
                                        woker_id=#{userId}) gro
                                      </if>
                                 WHERE relat.group_id= gro.group_id)  rel
-     WHERE task.current_audit_node_id=rel.id
-     ORDER BY task.is_audit
+    WHERE task.current_audit_node_id=rel.id
+    ORDER BY task.is_audit
   </select>
 
     <select id="findBacklogNumByUserId" parameterType="com.deer.wms.intercept.common.data.CurrentUser" resultType="java.lang.Integer">

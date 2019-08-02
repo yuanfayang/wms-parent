@@ -47,8 +47,6 @@ public class MtAloneInboundOrderController {
     @Autowired
     private MtAloneAuditTaskService mtAloneAuditTaskService;
     @Autowired
-    private MtAloneAuditNodeTaskService mtAloneAuditNodeTaskService;
-    @Autowired
     private MtAloneProductService mtAloneProductService;
     @Autowired
     private MtAloneBarcodeService mtAloneBarcodeService;
@@ -106,13 +104,6 @@ public class MtAloneInboundOrderController {
         }
         mtAloneAuditRelatService.save(relatList);
 
-        //-------------------生成审核业务流程实例--------------------------------
-//        MtAloneAuditNodeTask mtAloneAuditNodeTask=new MtAloneAuditNodeTask();
-//        mtAloneAuditNodeTask.setAuditTaskId(mtAloneAuditTask.getId());
-//        mtAloneAuditNodeTask.setAuditTaskName(mtAloneAuditTask.getAuditTaskName());
-//        mtAloneAuditNodeTask.setCompanyId(currentUser.getCompanyId());
-//        mtAloneAuditNodeTask.setCreateTime(new Date());
-//        mtAloneAuditNodeTaskService.save(mtAloneAuditNodeTask);
         //-------------------生成入库单,保存相应产品------------------------------
         MtAloneInboundOrder mtAloneInboundOrder=new MtAloneInboundOrder();
         String inBoundOrderCode=BillManagePublicMethod.creatInBoundOrderCode();
@@ -141,9 +132,7 @@ public class MtAloneInboundOrderController {
             product.setModifyTime(new Date());
             product.setGreffierName(currentUser.getUserName());
             proList.add(product);
-
             maxBarcode=productBarcode;
-
             MtAloneBarcode mtAloneBarcode = new MtAloneBarcode();
             mtAloneBarcode.setBarcode(maxBarcode);
             barCodeList.add(mtAloneBarcode);
@@ -167,11 +156,38 @@ public class MtAloneInboundOrderController {
     @OperateLog(description = "修改入库单", type = "更新")
     @ApiOperation(value = "修改入库单", notes = "修改入库单")
     @PostMapping("/update")
-    public Result update(@RequestBody MtAloneInboundOrder mtAloneInboundOrder) {
-        mtAloneInboundOrder.setUpdateTime(new Date());
-        mtAloneInboundOrderService.update(mtAloneInboundOrder);
+    public Result update(@RequestBody MtAloneInBoundOrderProVO mtAloneInBoundOrderProVO, @ApiIgnore @User CurrentUser currentUser) {
+        mtAloneInBoundOrderProVO.setUpdateTime(new Date());
+        mtAloneInboundOrderService.update(mtAloneInBoundOrderProVO);
+
+        String maxBarcode = mtAloneBarcodeService.getMaxBarcode();
+        List<MtAloneProductVO> productVOList = mtAloneInBoundOrderProVO.getProList();
+        String inboundOrder = mtAloneInBoundOrderProVO.getInboundOrderCode();
+        for(MtAloneProductVO productVO : productVOList){
+
+            if(!"".equals(productVO.getId()) && productVO.getId()!=null && !"".equals(productVO.getProductName())){
+               mtAloneProductService.update(productVO);
+               continue;
+            }
+            productVO.setInboundOrderCode(inboundOrder);
+            String productBarcode = BillManagePublicMethod.creatBarCode(maxBarcode);
+            productVO.setProductBarCode(productBarcode);
+            productVO.setState("normal");
+            productVO.setCompanyId(currentUser.getCompanyId());
+            productVO.setCreateTime(new Date());
+            productVO.setModifyTime(new Date());
+            productVO.setGreffierName(currentUser.getUserName());
+            MtAloneProduct product=new MtAloneProduct();
+            BeanUtils.copyProperties(productVO, product);
+            maxBarcode=productBarcode;
+            MtAloneBarcode mtAloneBarcode = new MtAloneBarcode();
+            mtAloneBarcode.setBarcode(maxBarcode);
+            mtAloneBarcodeService.save(mtAloneBarcode);
+            mtAloneProductService.save(product);
+        }
         return ResultGenerator.genSuccessResult();
     }
+
     @ApiImplicitParams({
             @ApiImplicitParam(name = "access-token", value = "token", paramType = "header", dataType = "String", required = true) })
     @OperateLog(description = "根据ID获取入库单", type = "获取")

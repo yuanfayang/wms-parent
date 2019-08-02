@@ -84,6 +84,7 @@
             <result column="inbound_order_code" jdbcType="VARCHAR" property="inboundOrderCode" />
             <result column="item_type_name" jdbcType="VARCHAR" property="itemTypeName" />
             <result column="item_variety_name" jdbcType="VARCHAR" property="itemVarietyName" />
+            <result column="cell_alias" jdbcType="VARCHAR" property="cellAlias"/>
         </collection>
     </resultMap>
 
@@ -252,10 +253,14 @@
 
     <select id="findOrderByAuditTaskId" parameterType="com.deer.wms.bill.manage.model.MtAloneInboundOrderParams" resultMap="OrderProMap">
         SELECT
+        sup.supplier_name processor_name,
+        c.cell_alias,
         inOrder.*,
         <include refid="Base_Column_List" />
         FROM mt_alone_inbound_order inOrder
+        LEFT JOIN supplier_manage sup ON inOrder.processor_id = sup.supplier_id
         left join mt_alone_product pro on pro.inbound_order_code=inOrder.inbound_order_code
+        left join cell_info c on c.cell_code = pro.cell_code
         LEFT JOIN (SELECT item.item_type_code AS type_code,item.item_type_name AS item_type_name FROM item_type item where item.item_type_state = 0)tmp1
         ON tmp1.type_code= pro.product_type_code
         LEFT JOIN (SELECT item.item_type_code AS variety_code,item.item_type_name AS item_variety_name FROM item_type item where item.item_type_state = 1)tmp2

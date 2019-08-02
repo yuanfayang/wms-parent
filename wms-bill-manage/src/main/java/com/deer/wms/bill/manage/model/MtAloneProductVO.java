@@ -16,6 +16,8 @@ public class MtAloneProductVO extends MtAloneProduct{
 
 	String itemVarietyName = null;
 
+	private String cellAlias;
+
     public String getItemVarietyName() {
         return itemVarietyName;
     }
@@ -81,5 +83,13 @@ public class MtAloneProductVO extends MtAloneProduct{
 
 	public void setPurchaser(String purchaser) {
 		this.purchaser = purchaser;
+	}
+
+	public String getCellAlias() {
+		return cellAlias;
+	}
+
+	public void setCellAlias(String cellAlias) {
+		this.cellAlias = cellAlias;
 	}
 }

@@ -1,5 +1,7 @@
 package com.deer.wms.bill.manage.web;
 
+import com.deer.wms.bill.manage.model.*;
+import com.deer.wms.bill.manage.service.*;
 import com.deer.wms.project.seed.annotation.OperateLog;
 import com.deer.wms.project.seed.constant.SystemManageConstant;
 import com.deer.wms.project.seed.core.result.CommonCode;
@@ -10,25 +12,6 @@ import com.deer.wms.project.seed.util.StringUtil;
 import com.deer.wms.base.system.service.CellInfoService;
 import com.deer.wms.bill.manage.constant.BillManageConstant;
 import com.deer.wms.bill.manage.constant.BillManagePublicMethod;
-import com.deer.wms.bill.manage.model.MtAloneBarcode;
-import com.deer.wms.bill.manage.model.MtAloneDeliveryDet;
-import com.deer.wms.bill.manage.model.MtAloneDeliveryDetListDto;
-import com.deer.wms.bill.manage.model.MtAloneDeliveryDetParams;
-import com.deer.wms.bill.manage.model.MtAloneDeliveryOrder;
-import com.deer.wms.bill.manage.model.MtAloneDeliveryOrderCriteria;
-import com.deer.wms.bill.manage.model.MtAloneDeliveryOrderParams;
-import com.deer.wms.bill.manage.model.MtAloneDeliveryOrderVO;
-import com.deer.wms.bill.manage.model.MtAloneFlowrecord;
-import com.deer.wms.bill.manage.model.MtAloneFlowrecordCriteria;
-import com.deer.wms.bill.manage.model.MtAloneProduct;
-import com.deer.wms.bill.manage.model.MtAloneProductDet;
-import com.deer.wms.bill.manage.model.MtAloneProductDetVO;
-import com.deer.wms.bill.manage.service.MtAloneBarcodeService;
-import com.deer.wms.bill.manage.service.MtAloneDeliveryDetService;
-import com.deer.wms.bill.manage.service.MtAloneDeliveryOrderService;
-import com.deer.wms.bill.manage.service.MtAloneFlowrecordService;
-import com.deer.wms.bill.manage.service.MtAloneProductDetService;
-import com.deer.wms.bill.manage.service.MtAloneProductService;
 import com.deer.wms.intercept.annotation.User;
 import com.deer.wms.intercept.common.data.CurrentUser;
 import com.github.pagehelper.PageHelper;
@@ -64,17 +47,17 @@ public class MtAloneDeliveryOrderController {
     @Autowired
     private MtAloneDeliveryOrderService mtAloneDeliveryOrderService;
     @Autowired
-    private MtAloneFlowrecordService mtAloneFlowrecordService;
-    @Autowired
     private MtAloneProductDetService mtAloneProductDetService;
-    @Autowired    
-    private MtAloneProductService mtAloneProductService;
-    @Autowired
-    private CellInfoService cellInfoService;
     @Autowired
     private MtAloneDeliveryDetService mtAloneDeliveryDetService;
-    @Autowired
-    private MtAloneBarcodeService mtAloneBarcodeService;
+	@Autowired
+	private MtAloneAuditRelatMbService mtAloneAuditRelatMbService;
+	@Autowired
+	private MtAloneAuditRelatService mtAloneAuditRelatService;
+	@Autowired
+	private MtAloneAuditTaskMbService mtAloneAuditTaskMbService;
+	@Autowired
+	private MtAloneAuditTaskService mtAloneAuditTaskService;
 
 	@ApiImplicitParams({
 		@ApiImplicitParam(name = "access-token", value = "token", paramType = "header", dataType = "String", required = true) })
@@ -86,9 +69,7 @@ public class MtAloneDeliveryOrderController {
     	if(currentUser==null){
             return ResultGenerator.genFailResult( CommonCode.SERVICE_ERROR,"未登录错误",null );
         }
-    	
     	MtAloneDeliveryOrder mtAloneDeliveryOrder= mtAloneDeliveryDetListDto.getMtAloneDeliveryOrder();
-
 		mtAloneDeliveryOrder.setOperatorName(currentUser.getUserName());
 
     	if (currentUser.getCompanyType() != SystemManageConstant.COMPANY_TYPE_MT){
@@ -96,6 +77,49 @@ public class MtAloneDeliveryOrderController {
 		}else{
 			mtAloneDeliveryOrder.setCompanyId(null);
         }
+
+		//---------------------生成审核业务模板实例-----------------------------
+		MtAloneAuditTaskMb mtAloneAuditTaskMb=mtAloneAuditTaskMbService.findById(BillManageConstant.OUTBOUND_TASK_MB_ID);
+		MtAloneAuditTask mtAloneAuditTask=new MtAloneAuditTask();
+		mtAloneAuditTask.setAuditTaskMbId(BillManageConstant.OUTBOUND_TASK_MB_ID);
+		mtAloneAuditTask.setAuditTaskName(mtAloneAuditTaskMb.getAuditTaskName());
+		mtAloneAuditTask.setCompanyId(currentUser.getCompanyId());
+		mtAloneAuditTask.setCreateTime(new Date());
+		mtAloneAuditTask.setIsTaskCompleted(0);
+		mtAloneAuditTaskService.save(mtAloneAuditTask);
+		//-------------------生成审核业务节点模板实例----------------------------
+		MtAloneAuditRelatMbParams params=new MtAloneAuditRelatMbParams();
+		params.setCompanyId(currentUser.getCompanyId());
+		params.setAuditTaskMBId(BillManageConstant.OUTBOUND_TASK_MB_ID);
+		List<MtAloneAuditRelatMb> relatListMb=mtAloneAuditRelatMbService.findList(params);
+		List<MtAloneAuditRelat> relatList=new ArrayList<MtAloneAuditRelat>();
+
+		Integer maxId=mtAloneAuditRelatService.findMaxId();
+		for(int i=0;i<relatListMb.size();i++){
+			maxId=maxId+1;
+			MtAloneAuditRelat relat=new MtAloneAuditRelat();
+			BeanUtils.copyProperties(relatListMb.get(i), relat);
+			if(i==0&&relatListMb.size()>1){
+				relat.setPrevNodeId(0);
+				relat.setNextNodeId(maxId+1);
+			}
+			else if(i==relatListMb.size()-1&&relatListMb.size()>1){
+				relat.setPrevNodeId(maxId-1);
+				relat.setNextNodeId(0);
+			}
+			else if(relatListMb.size()==1){
+				relat.setPrevNodeId(0);
+				relat.setNextNodeId(0);
+			}else{
+				relat.setPrevNodeId(maxId-1);
+				relat.setNextNodeId(maxId+1);
+			}
+			relat.setAuditTaskId(mtAloneAuditTask.getId());
+			relat.setId(maxId);
+			relat.setNodeOrder(i+1);
+			relatList.add(relat);
+		}
+		mtAloneAuditRelatService.save(relatList);
     	
     	//------------------------------------------------保存出库单--------------------------------------------------------------
 
@@ -103,6 +127,9 @@ public class MtAloneDeliveryOrderController {
     	mtAloneDeliveryOrder.setDeliveryOrderCode(deliveryOrderCode);     
     	mtAloneDeliveryOrder.setDeliveryTime(new Date());
     	mtAloneDeliveryOrder.setState("normal");
+		mtAloneDeliveryOrder.setRevieweState(3);
+		mtAloneDeliveryOrder.setAuditTaskId(mtAloneAuditTask.getId());
+		mtAloneDeliveryOrder.setIsAuditTask(0);
     	mtAloneDeliveryOrder.setCreateTime(new Date());
     	mtAloneDeliveryOrder.setUpdateTime(new Date());
         mtAloneDeliveryOrderService.save(mtAloneDeliveryOrder);

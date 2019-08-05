@@ -15,6 +15,8 @@ public class MtAloneAuditNodeTaskParams extends QueryParams {
 
     private Integer currentId;
 
+    private String tableName;
+
     public Integer getAuditTaskId() {
         return auditTaskId;
     }
@@ -34,4 +36,12 @@ public class MtAloneAuditNodeTaskParams extends QueryParams {
     public Integer getCurrentId() { return currentId; }
 
     public void setCurrentId(Integer currentId) { this.currentId = currentId; }
+
+    public String getTableName() {
+        return tableName;
+    }
+
+    public void setTableName(String tableName) {
+        this.tableName = tableName;
+    }
 }

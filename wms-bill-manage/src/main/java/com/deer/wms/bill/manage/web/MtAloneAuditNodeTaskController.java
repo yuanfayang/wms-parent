@@ -86,12 +86,13 @@ public class MtAloneAuditNodeTaskController {
         mtAloneAuditNodeTask.setAuditTaskId(params.getAuditTaskId());
         mtAloneAuditNodeTaskService.save(mtAloneAuditNodeTask);
 
-        MtAloneInboundOrderParams mtAloneInboundOrderParams = new MtAloneInboundOrderParams();
-        mtAloneInboundOrderParams.setAuditTaskId(params.getAuditTaskId());
-
-        MtAloneInboundOrder mtAloneInboundOrder = mtAloneInboundOrderService.findBy("auditTaskId",params.getAuditTaskId());
-        mtAloneInboundOrder.setRevieweState(0);
-        mtAloneInboundOrderService.update(mtAloneInboundOrder);
+//        MtAloneInboundOrderParams mtAloneInboundOrderParams = new MtAloneInboundOrderParams();
+//        mtAloneInboundOrderParams.setAuditTaskId(params.getAuditTaskId());
+//
+//        MtAloneInboundOrder mtAloneInboundOrder = mtAloneInboundOrderService.findBy("auditTaskId",params.getAuditTaskId());
+//        mtAloneInboundOrder.setRevieweState(0);
+//        mtAloneInboundOrderService.update(mtAloneInboundOrder);
+        mtAloneAuditNodeTaskService.updateOrder(params);
         return ResultGenerator.genSuccessResult();
     }
 

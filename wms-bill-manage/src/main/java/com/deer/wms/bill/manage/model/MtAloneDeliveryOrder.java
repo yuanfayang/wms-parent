@@ -115,6 +115,18 @@ public class MtAloneDeliveryOrder {
     private Integer revieweState;
 
     /**
+     * 关联审核表，在创建表单时后台根据模块来生成所有审核节点，然后吧所有的审核节点插入到审核关联表中
+     */
+    @Column(name = "audit_task_id")
+    private Integer auditTaskId;
+
+    /**
+     * 是否审核任务，初始为0:表示新建节点，1：已经有审核但是没有审核结束，2：审核完成
+     */
+    @Column(name = "is_audit_task")
+    private Integer isAuditTask;
+
+    /**
      * 录入人员名字
      */
     @Column(name = "operator_name")
@@ -493,6 +505,44 @@ public class MtAloneDeliveryOrder {
     public void setRevieweState(Integer revieweState) {
         this.revieweState = revieweState;
     }
+
+    /**
+     * 获取关联审核表，在创建表单时后台根据模块来生成所有审核节点，然后吧所有的审核节点插入到审核关联表中
+     *
+     * @return audit_task_id - 关联审核表，在创建表单时后台根据模块来生成所有审核节点，然后吧所有的审核节点插入到审核关联表中
+     */
+    public Integer getAuditTaskId() {
+        return auditTaskId;
+    }
+
+    /**
+     * 设置关联审核表，在创建表单时后台根据模块来生成所有审核节点，然后吧所有的审核节点插入到审核关联表中
+     *
+     * @param auditTaskId 关联审核表，在创建表单时后台根据模块来生成所有审核节点，然后吧所有的审核节点插入到审核关联表中
+     */
+    public void setAuditTaskId(Integer auditTaskId) {
+        this.auditTaskId = auditTaskId;
+    }
+
+    /**
+     * 获取是否审核任务，初始为0:表示新建节点，1：已经有审核但是没有审核结束，2：审核完成
+     *
+     * @return is_audit_task - 是否审核任务，初始为0:表示新建节点，1：已经有审核但是没有审核结束，2：审核完成
+     */
+    public Integer getIsAuditTask() {
+        return isAuditTask;
+    }
+
+    /**
+     * 设置是否审核任务，初始为0:表示新建节点，1：已经有审核但是没有审核结束，2：审核完成
+     *
+     * @param isAuditTask 是否审核任务，初始为0:表示新建节点，1：已经有审核但是没有审核结束，2：审核完成
+     */
+    public void setIsAuditTask(Integer isAuditTask) {
+        this.isAuditTask = isAuditTask;
+    }
+
+
 
     /**
      * 获取录入人员名字

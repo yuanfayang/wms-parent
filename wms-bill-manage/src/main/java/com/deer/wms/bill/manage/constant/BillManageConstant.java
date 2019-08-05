@@ -47,4 +47,9 @@ public class BillManageConstant {
      */
     public static final Integer INBOUND_TASK_MB_ID = 1;
 
+    /**
+     * 出库单审核业务模板ID
+     */
+    public static final Integer OUTBOUND_TASK_MB_ID = 2;
+
 }

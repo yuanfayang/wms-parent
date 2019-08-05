@@ -23,7 +23,8 @@
     <result column="linkman_name" jdbcType="VARCHAR" property="linkmanName" />
     <result column="linkman_phone_number" jdbcType="VARCHAR" property="linkmanPhoneNumber" />
     <result column="reviewe_state" jdbcType="INTEGER" property="revieweState" />
-    <result column="operator_name" jdbcType="VARCHAR" property="operatorName" />
+    <result column="audit_task_id" jdbcType="INTEGER" property="auditTaskId"/>
+    <result column="is_audit_task" jdbcType="INTEGER" property="isAuditTask"/>
     <result column="operator_code" jdbcType="VARCHAR" property="operatorCode" />
     <result column="delivery_state" jdbcType="INTEGER" property="deliveryState" />
     <result column="company_id" jdbcType="INTEGER" property="companyId" />
@@ -120,40 +121,40 @@
       </select> 
       
     <resultMap id="detListByOrderResultMap" type="com.deer.wms.bill.manage.model.MtAloneProductDetVO">
-    <id column="product_det_id" jdbcType="INTEGER" property="productDetId" />
-    <result column="product_det_code" jdbcType="VARCHAR" property="productDetCode" />
-    <result column="product_det_index" jdbcType="INTEGER" property="productDetIndex" />
-    <result column="product_id" jdbcType="INTEGER" property="productId" />
-    <result column="product_det_length" jdbcType="REAL" property="productDetLength" />
-    <result column="product_det_remain_length" jdbcType="REAL" property="productDetRemainLength" />
-    <result column="cell_code" jdbcType="VARCHAR" property="cellCode" />
-    <result column="cell_alias" jdbcType="VARCHAR" property="cellAlias" />
-    <result column="product_det_state" jdbcType="INTEGER" property="productDetState" />
-    <result column="volume_num" jdbcType="VARCHAR" property="volumeNum" />
-    <result column="color_code" jdbcType="VARCHAR" property="colorCode" />
-    <result column="dyelot_num" jdbcType="VARCHAR" property="dyelotNum" />
-    <result column="product_det_barcode" jdbcType="VARCHAR" property="productDetBarcode" />
-    <result column="warehouse_barcode" jdbcType="VARCHAR" property="warehouseBarcode" />
-    <result column="detection_barcode" jdbcType="VARCHAR" property="detectionBarcode" />
-    <result column="description" jdbcType="VARCHAR" property="description" />
-    <result column="note" jdbcType="VARCHAR" property="note" />
-    <result column="weight" jdbcType="REAL" property="weight" />
-    <result column="flaw_info" jdbcType="VARCHAR" property="flawInfo" />
-    <result column="product_level" jdbcType="VARCHAR" property="productLevel" />
-    <result column="salable_product_length" jdbcType="REAL" property="salableProductLength" />
-    <result column="salable_code_length" jdbcType="REAL" property="salableCodeLength" />
-    <result column="is_detection" jdbcType="INTEGER" property="isDetection" />
-    <result column="detection_man_id" jdbcType="INTEGER" property="detectionManId" />
-    <result column="detection_machine_id" jdbcType="INTEGER" property="detectionMachineId" />
-    <result column="warehouse_entry_time" jdbcType="TIMESTAMP" property="warehouseEntryTime" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
-    <result column="delivery_state" jdbcType="INTEGER" property="deliveryState" />
-    <result column="return_state" jdbcType="INTEGER" property="returnState" />
-    <result column="detection_time" jdbcType="TIMESTAMP" property="detectionTime" />
-    <result column="color_name" jdbcType="VARCHAR" property="colorName" />
-    <result column="rgb_hex" jdbcType="VARCHAR" property="rgbHex" />
-    <result column="delivery_length" jdbcType="REAL" property="deliveryLength" />
+        <id column="product_det_id" jdbcType="INTEGER" property="productDetId" />
+        <result column="product_det_code" jdbcType="VARCHAR" property="productDetCode" />
+        <result column="product_det_index" jdbcType="INTEGER" property="productDetIndex" />
+        <result column="product_id" jdbcType="INTEGER" property="productId" />
+        <result column="product_det_length" jdbcType="REAL" property="productDetLength" />
+        <result column="product_det_remain_length" jdbcType="REAL" property="productDetRemainLength" />
+        <result column="cell_code" jdbcType="VARCHAR" property="cellCode" />
+        <result column="cell_alias" jdbcType="VARCHAR" property="cellAlias" />
+        <result column="product_det_state" jdbcType="INTEGER" property="productDetState" />
+        <result column="volume_num" jdbcType="VARCHAR" property="volumeNum" />
+        <result column="color_code" jdbcType="VARCHAR" property="colorCode" />
+        <result column="dyelot_num" jdbcType="VARCHAR" property="dyelotNum" />
+        <result column="product_det_barcode" jdbcType="VARCHAR" property="productDetBarcode" />
+        <result column="warehouse_barcode" jdbcType="VARCHAR" property="warehouseBarcode" />
+        <result column="detection_barcode" jdbcType="VARCHAR" property="detectionBarcode" />
+        <result column="description" jdbcType="VARCHAR" property="description" />
+        <result column="note" jdbcType="VARCHAR" property="note" />
+        <result column="weight" jdbcType="REAL" property="weight" />
+        <result column="flaw_info" jdbcType="VARCHAR" property="flawInfo" />
+        <result column="product_level" jdbcType="VARCHAR" property="productLevel" />
+        <result column="salable_product_length" jdbcType="REAL" property="salableProductLength" />
+        <result column="salable_code_length" jdbcType="REAL" property="salableCodeLength" />
+        <result column="is_detection" jdbcType="INTEGER" property="isDetection" />
+        <result column="detection_man_id" jdbcType="INTEGER" property="detectionManId" />
+        <result column="detection_machine_id" jdbcType="INTEGER" property="detectionMachineId" />
+        <result column="warehouse_entry_time" jdbcType="TIMESTAMP" property="warehouseEntryTime" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
+        <result column="delivery_state" jdbcType="INTEGER" property="deliveryState" />
+        <result column="return_state" jdbcType="INTEGER" property="returnState" />
+        <result column="detection_time" jdbcType="TIMESTAMP" property="detectionTime" />
+        <result column="color_name" jdbcType="VARCHAR" property="colorName" />
+        <result column="rgb_hex" jdbcType="VARCHAR" property="rgbHex" />
+        <result column="delivery_length" jdbcType="REAL" property="deliveryLength" />
     </resultMap>
       
   <select id="findDetListByOrder" parameterType="com.deer.wms.bill.manage.model.MtAloneDeliveryOrderCriteria" resultMap="detListByOrderResultMap">
@@ -167,8 +168,5 @@
       AND t0.`delivery_order_code`=#{deliveryOrderCode}
       </if>  
   </select>  
-      
-      
-
       
 </mapper>

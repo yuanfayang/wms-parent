@@ -78,4 +78,13 @@
         </set>
         where task.id=#{id}
     </update>
+
+    <update id="updateOrder" parameterType="com.deer.wms.bill.manage.model.MtAloneAuditNodeTaskParams">
+        update
+             ${tableName}
+        <set>
+            reviewe_state = 0
+        </set>
+        where audit_task_id=#{auditTaskId}
+    </update>
 </mapper>

@@ -33,6 +33,9 @@
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="salesperson_id" jdbcType="INTEGER" property="salespersonId" />
     <result column="salesperson_name" jdbcType="VARCHAR" property="salespersonName" />
+    <result column="delivery_type" jdbcType="VARCHAR" property="deliveryType" />
+    <result column="ware_name" jdbcType="VARCHAR" property="wareName" />
+    <result column="department_name" jdbcType="VARCHAR" property="departmentName" />
   </resultMap>
   
    <resultMap id="DeliveryCombinationMap" type="com.deer.wms.bill.manage.model.MtAloneDeliveryOrderVO" extends="BaseResultMap">

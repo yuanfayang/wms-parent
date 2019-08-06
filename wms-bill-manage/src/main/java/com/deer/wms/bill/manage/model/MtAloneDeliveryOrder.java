@@ -182,6 +182,24 @@ public class MtAloneDeliveryOrder {
     @Column(name = "salesperson_name")
     private String salespersonName;
 
+
+    /**
+     * 绑定仓库名称
+     */
+    @Column(name = "ware_name")
+    private String wareName;
+
+    /**
+     * 绑定出库类别
+     */
+    @Column(name = "delivery_type")
+    private String deliveryType;
+
+    /**
+     * 绑定部门名称
+     */
+    @Column(name = "department_name")
+    private String departmentName;
     /**
      * 获取出库单id
      *
@@ -674,5 +692,29 @@ public class MtAloneDeliveryOrder {
 
     public void setSalespersonName(String salespersonName) {
         this.salespersonName = salespersonName;
+    }
+
+    public String getWareName() {
+        return wareName;
+    }
+
+    public void setWareName(String wareName) {
+        this.wareName = wareName;
+    }
+
+    public String getDeliveryType() {
+        return deliveryType;
+    }
+
+    public void setDeliveryType(String deliveryType) {
+        this.deliveryType = deliveryType;
+    }
+
+    public String getDepartmentName() {
+        return departmentName;
+    }
+
+    public void setDepartmentName(String departmentName) {
+        this.departmentName = departmentName;
     }
 }

@@ -9,31 +9,15 @@ public class MtAloneDeliveryDetListDto {
 		return mtAloneDeliveryOrder;
 	}
 
-	public void setMtAloneDeliveryOrder(MtAloneDeliveryOrder mtAloneDeliveryOrder) {
-		this.mtAloneDeliveryOrder = mtAloneDeliveryOrder;
-	}
-	
-	
-//	List<MtAloneDeliveryDetAndProductDto> mtAloneDeliveryDetAndProductDto;
-//
-//	public List<MtAloneDeliveryDetAndProductDto> getMtAloneDeliveryDetAndProductDto() {
-//		return mtAloneDeliveryDetAndProductDto;
-//	}
-//
-//	public void setMtAloneDeliveryDetAndProductDto(List<MtAloneDeliveryDetAndProductDto> mtAloneDeliveryDetAndProductDto) {
-//		this.mtAloneDeliveryDetAndProductDto = mtAloneDeliveryDetAndProductDto;
-//	}
+	public void setMtAloneDeliveryOrder(MtAloneDeliveryOrder mtAloneDeliveryOrder) { this.mtAloneDeliveryOrder = mtAloneDeliveryOrder; }
 
-	
+
 	List<MtAloneProductDetVO> deliveryOrderDetVOList;
-
 
 	public List<MtAloneProductDetVO> getDeliveryOrderDetVOList() {
 		return deliveryOrderDetVOList;
 	}
 
-	public void setDeliveryOrderDetVOList(List<MtAloneProductDetVO> deliveryOrderDetVOList) {
-		this.deliveryOrderDetVOList = deliveryOrderDetVOList;
-	}
+	public void setDeliveryOrderDetVOList(List<MtAloneProductDetVO> deliveryOrderDetVOList) { this.deliveryOrderDetVOList = deliveryOrderDetVOList; }
 
 }

@@ -1,11 +1,6 @@
 package com.deer.wms.bill.manage.service;
 
-import com.deer.wms.bill.manage.model.MtAloneDeliveryDetParams;
-import com.deer.wms.bill.manage.model.MtAloneDeliveryOrder;
-import com.deer.wms.bill.manage.model.MtAloneDeliveryOrderCriteria;
-import com.deer.wms.bill.manage.model.MtAloneDeliveryOrderParams;
-import com.deer.wms.bill.manage.model.MtAloneDeliveryOrderVO;
-import com.deer.wms.bill.manage.model.MtAloneProductDetVO;
+import com.deer.wms.bill.manage.model.*;
 import com.deer.wms.project.seed.core.service.Service;
 import java.util.List;
 import com.deer.wms.bill.manage.model.MtAloneDeliveryOrder;
@@ -26,4 +21,7 @@ public interface MtAloneDeliveryOrderService extends Service<MtAloneDeliveryOrde
 
 	List<MtAloneDeliveryOrderVO> findListNew(MtAloneDeliveryOrderParams params);
 
+    List<MtAloneInBoundOrderProVO> findOrderProList(MtAloneDeliveryOrderParams params);
+
+	List<MtAloneDeliveryOrderDetList> findOrderProDetList(MtAloneDeliveryOrderParams params);
 }

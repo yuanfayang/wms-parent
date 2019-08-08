@@ -9,6 +9,7 @@ public class MtAloneDeliveryParams extends QueryParams{
 	
 	private String productBarCode;
 
+
     private String begDate;
     private String endDate;
 	public String getBegDate() {
@@ -29,6 +30,8 @@ public class MtAloneDeliveryParams extends QueryParams{
 	public void setProductBarCode(String productBarCode) {
 		this.productBarCode = productBarCode;
 	}
+
+
     
 
 }

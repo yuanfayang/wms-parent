@@ -388,4 +388,45 @@ public class MtAloneDeliveryOrderController {
         PageInfo pageInfo = new PageInfo(list);
         return ResultGenerator.genSuccessResult(pageInfo);
     }
+
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "access-token", value = "token", paramType = "header", dataType = "String", required = true) })
+	@OperateLog(description = "出库单及相应产品列表", type = "获取")
+	@ApiOperation(value = "出库单及相应产品列表", notes = "出库单及相应产品列表")
+	@GetMapping("/deliveryOrderProlist")
+	public Result deliveryOrderProlist(MtAloneDeliveryOrderParams params, @ApiIgnore @User CurrentUser currentUser) {
+		if (loginVerify(params, currentUser)) return ResultGenerator.genFailResult(CommonCode.NO_LOGIN);
+
+		PageHelper.startPage(params.getPageNum(), params.getPageSize());
+		List<MtAloneInBoundOrderProVO> list = mtAloneDeliveryOrderService.findOrderProList(params);
+		PageInfo pageInfo = new PageInfo(list);
+		return ResultGenerator.genSuccessResult(pageInfo);
+	}
+
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "access-token", value = "token", paramType = "header", dataType = "String", required = true) })
+	@OperateLog(description = "出库单及相应产品明细列表", type = "获取")
+	@ApiOperation(value = "出库单及相应产品明细列表", notes = "出库单及相应产品明细列表")
+	@GetMapping("/deliveryOrderProDetlist")
+	public Result deliveryOrderProDetlist(MtAloneDeliveryOrderParams params, @ApiIgnore @User CurrentUser currentUser) {
+		if (loginVerify(params, currentUser)) return ResultGenerator.genFailResult(CommonCode.NO_LOGIN);
+
+		PageHelper.startPage(params.getPageNum(), params.getPageSize());
+		List<MtAloneDeliveryOrderDetList> list = mtAloneDeliveryOrderService.findOrderProDetList(params);
+		PageInfo pageInfo = new PageInfo(list);
+		return ResultGenerator.genSuccessResult(pageInfo);
+	}
+
+	private boolean loginVerify(MtAloneDeliveryOrderParams params, @User @ApiIgnore CurrentUser currentUser) {
+
+		if(currentUser==null){
+			return true;
+		}
+		if (currentUser.getCompanyType() != SystemManageConstant.COMPANY_TYPE_MT){
+			params.setCompanyId(currentUser.getCompanyId());
+		}else{
+			params.setCompanyId(null);
+		}
+		return false;
+	}
 }

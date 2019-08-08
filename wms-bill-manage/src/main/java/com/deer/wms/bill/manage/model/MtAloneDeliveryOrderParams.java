@@ -12,6 +12,9 @@ public class MtAloneDeliveryOrderParams extends QueryParams{
 	
 	private String deliveryOrderCode;
 
+
+	private Integer auditTaskId;
+
 	public String getProductTypeCode() {
 		return productTypeCode;
 	}
@@ -43,7 +46,11 @@ public class MtAloneDeliveryOrderParams extends QueryParams{
 	public void setDeliveryOrderCode(String deliveryOrderCode) {
 		this.deliveryOrderCode = deliveryOrderCode;
 	}
-	
-	
+
+	public Integer getAuditTaskId() { return auditTaskId; }
+
+	public void setAuditTaskId(Integer auditTaskId) {
+		this.auditTaskId = auditTaskId;
+	}
 
 }

@@ -1,12 +1,7 @@
 package com.deer.wms.bill.manage.service.impl;
 
 import com.deer.wms.bill.manage.dao.MtAloneDeliveryOrderMapper;
-import com.deer.wms.bill.manage.model.MtAloneDeliveryOrder;
-import com.deer.wms.bill.manage.model.MtAloneDeliveryOrderCriteria;
-import com.deer.wms.bill.manage.model.MtAloneDeliveryOrderParams;
-import com.deer.wms.bill.manage.model.MtAloneDeliveryOrderVO;
-import com.deer.wms.bill.manage.model.MtAloneProductDetParams;
-import com.deer.wms.bill.manage.model.MtAloneProductDetVO;
+import com.deer.wms.bill.manage.model.*;
 import com.deer.wms.bill.manage.service.MtAloneDeliveryOrderService;
 
 import com.deer.wms.project.seed.core.service.AbstractService;
@@ -54,6 +49,16 @@ public class MtAloneDeliveryOrderServiceImpl extends AbstractService<MtAloneDeli
 	@Override
 	public List<MtAloneDeliveryOrderVO> findListNew(MtAloneDeliveryOrderParams params) {
 		return mtAloneDeliveryOrderMapper.findListNew(params);
+	}
+
+	@Override
+	public List<MtAloneInBoundOrderProVO> findOrderProList(MtAloneDeliveryOrderParams params) {
+		return mtAloneDeliveryOrderMapper.findOrderProList(params);
+	}
+
+	@Override
+	public List<MtAloneDeliveryOrderDetList> findOrderProDetList(MtAloneDeliveryOrderParams params) {
+		return mtAloneDeliveryOrderMapper.findOrderProDetList(params);
 	}
 
 }

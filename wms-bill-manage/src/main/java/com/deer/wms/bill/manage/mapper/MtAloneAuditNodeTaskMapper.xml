@@ -87,4 +87,10 @@
         </set>
         where audit_task_id=#{auditTaskId}
     </update>
+
+    <select id="listByAuditTaskId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select * from mt_alone_audit_node_task task
+        where task.audit_task_id=#{auditTaskId}
+        order by task.id
+    </select>
 </mapper>

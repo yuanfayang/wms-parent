@@ -198,7 +198,7 @@ public class MtAloneAuditNodeTaskController {
         MtAloneAuditNodeTask lastTask = taskList.get(taskList.size() - 1);
         Integer currentId = lastTask.getCurrentAuditNodeId();
         MtAloneAuditRelat currentRelat = mtAloneAuditRelatService.findById(currentId);
-        MtAloneAuditRelat nextRelat=mtAloneAuditRelatService.findById(currentRelat.getNextNodeId());
+        MtAloneAuditRelat nextRelat = mtAloneAuditRelatService.findById(currentRelat.getNextNodeId());
 
         if (params.getIsPass() == 1) {
             lastTask.setIsAudit(1);
@@ -209,9 +209,9 @@ public class MtAloneAuditNodeTaskController {
                 mtAloneInboundOrder.setIsAuditTask(2);
                 mtAloneInboundOrder.setRevieweState(1);
                 mtAloneInboundOrderService.update(mtAloneInboundOrder);
-            }else{
+            } else {
                 //对当前节点进行插入一条记录
-                MtAloneAuditNodeTask mtAloneAuditNodeTask=new MtAloneAuditNodeTask();
+                MtAloneAuditNodeTask mtAloneAuditNodeTask = new MtAloneAuditNodeTask();
                 mtAloneAuditNodeTask.setIsAudit(0);
                 mtAloneAuditNodeTask.setCurrentAuditNodeName(nextRelat.getAuditNodeName());
                 mtAloneAuditNodeTask.setCurrentAuditNodeId(nextRelat.getId());
@@ -226,25 +226,37 @@ public class MtAloneAuditNodeTaskController {
                 mtAloneAuditNodeTaskService.save(mtAloneAuditNodeTask);
             }
 
-        }
-
-        else if (params.getIsPass() == 0) {
-            if(currentRelat.getPrevNodeId()==0){
+        } else if (params.getIsPass() == 0) {
+            if (currentRelat.getPrevNodeId() == 0) {
                 mtAloneInboundOrder.setRevieweState(2);
                 mtAloneInboundOrderService.update(mtAloneInboundOrder);
-            }else{
-                MtAloneAuditNodeTaskParams prevParams =new MtAloneAuditNodeTaskParams();
+            } else {
+                MtAloneAuditNodeTaskParams prevParams = new MtAloneAuditNodeTaskParams();
                 prevParams.setAuditTaskId(params.getAuditTaskId());
                 prevParams.setCurrentId(currentRelat.getPrevNodeId());
-                MtAloneAuditNodeTask preNodeTask=mtAloneAuditNodeTaskService.findByTaskIdAndCurrentId(prevParams);
+                MtAloneAuditNodeTask preNodeTask = mtAloneAuditNodeTaskService.findByTaskIdAndCurrentId(prevParams);
                 preNodeTask.setIsAudit(0);
                 preNodeTask.setAuditTime(null);
                 preNodeTask.setReviewerId(null);
                 mtAloneAuditNodeTaskService.updateTem(preNodeTask);
             }
-            mtAloneAuditNodeTaskService.deleteById(taskList.get(taskList.size()-1).getId());
+            mtAloneAuditNodeTaskService.deleteById(taskList.get(taskList.size() - 1).getId());
         }
 
         return ResultGenerator.genSuccessResult();
+    }
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "access-token", value = "token", paramType = "header", dataType = "String", required = true)})
+    @OperateLog(description = "根据实例id获取任务列表", type = "查询")
+    @ApiOperation(value = "根据实例id获取任务列表", notes = "根据实例id获取任务列表")
+    @GetMapping("/list/auditTaskId")
+    public Result listByAuditTaskId(MtAloneAuditNodeTaskParams params, @ApiIgnore @User CurrentUser currentUser) {
+        if (currentUser == null) {
+            return ResultGenerator.genFailResult(CommonCode.NO_LOGIN);
+        }
+        params.setCompanyId(currentUser.getCompanyId());
+        List<MtAloneAuditNodeTask> list = mtAloneAuditNodeTaskService.listByAuditTaskId(params.getAuditTaskId());
+        return ResultGenerator.genSuccessResult(list);
     }
 }

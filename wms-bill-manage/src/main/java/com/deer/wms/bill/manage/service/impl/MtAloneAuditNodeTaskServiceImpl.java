@@ -52,4 +52,9 @@ public class MtAloneAuditNodeTaskServiceImpl extends AbstractService<MtAloneAudi
     public void updateOrder(MtAloneAuditNodeTaskParams params) {
         mtAloneAuditNodeTaskMapper.updateOrder(params);
     }
+
+    @Override
+    public List<MtAloneAuditNodeTask> listByAuditTaskId(Integer auditTaskId) {
+        return mtAloneAuditNodeTaskMapper.listByAuditTaskId(auditTaskId);
+    }
 }

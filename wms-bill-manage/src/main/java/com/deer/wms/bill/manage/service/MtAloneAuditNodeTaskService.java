@@ -24,4 +24,6 @@ public interface MtAloneAuditNodeTaskService extends Service<MtAloneAuditNodeTas
     Integer findBacklogNumByUserId(CurrentUser currentUser);
 
     void updateOrder(MtAloneAuditNodeTaskParams params);
+
+    List<MtAloneAuditNodeTask> listByAuditTaskId(Integer auditTaskId);
 }

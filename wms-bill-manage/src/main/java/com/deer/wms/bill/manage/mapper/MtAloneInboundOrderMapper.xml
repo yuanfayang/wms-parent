@@ -265,7 +265,10 @@
         ON tmp1.type_code= pro.product_type_code
         LEFT JOIN (SELECT item.item_type_code AS variety_code,item.item_type_name AS item_variety_name FROM item_type item where item.item_type_state = 1)tmp2
         ON tmp2.variety_code= pro.product_variety_code
-        where inOrder.audit_task_id=#{auditTaskId}
+        where 1=1
+        <if test="auditTaskId != null">
+            and inOrder.audit_task_id =#{auditTaskId}
+        </if>
         <if test="begDate!=null and begDate!=''">
             <![CDATA[   and DATE_FORMAT(inOrder.create_time, '%Y-%m-%d')>=  DATE_FORMAT(#{begDate}, '%Y-%m-%d')   ]]>
         </if>

@@ -24,4 +24,6 @@ public interface MtAloneDeliveryOrderService extends Service<MtAloneDeliveryOrde
     List<MtAloneInBoundOrderProVO> findOrderProList(MtAloneDeliveryOrderParams params);
 
 	List<MtAloneDeliveryOrderDetList> findOrderProDetList(MtAloneDeliveryOrderParams params);
+
+    MtAloneDeliveryOrder findOrderByAuditTaskId(MtAloneDeliveryOrderParams mtAloneOutboundOrderParams);
 }

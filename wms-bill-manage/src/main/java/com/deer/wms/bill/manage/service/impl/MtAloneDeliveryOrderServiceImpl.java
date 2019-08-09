@@ -61,4 +61,9 @@ public class MtAloneDeliveryOrderServiceImpl extends AbstractService<MtAloneDeli
 		return mtAloneDeliveryOrderMapper.findOrderProDetList(params);
 	}
 
+	@Override
+	public MtAloneDeliveryOrder findOrderByAuditTaskId(MtAloneDeliveryOrderParams mtAloneOutboundOrderParams) {
+		return mtAloneDeliveryOrderMapper.findOrderByAuditTaskId(mtAloneOutboundOrderParams);
+	}
+
 }

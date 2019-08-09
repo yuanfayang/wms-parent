@@ -2,6 +2,7 @@ package com.deer.wms.bill.manage.web;
 
 import com.deer.wms.bill.manage.model.*;
 import com.deer.wms.bill.manage.service.MtAloneAuditRelatService;
+import com.deer.wms.bill.manage.service.MtAloneDeliveryOrderService;
 import com.deer.wms.bill.manage.service.MtAloneInboundOrderService;
 import com.deer.wms.project.seed.annotation.OperateLog;
 import com.deer.wms.project.seed.constant.SystemManageConstant;
@@ -43,6 +44,8 @@ public class MtAloneAuditNodeTaskController {
     private MtAloneAuditRelatService mtAloneAuditRelatService;
     @Autowired
     private MtAloneInboundOrderService mtAloneInboundOrderService;
+    @Autowired
+    private MtAloneDeliveryOrderService mtAloneDeliveryOrderService;
 
     @ApiImplicitParams({
             @ApiImplicitParam(name = "access-token", value = "token", paramType = "header", dataType = "String", required = true)})
@@ -230,6 +233,74 @@ public class MtAloneAuditNodeTaskController {
             if (currentRelat.getPrevNodeId() == 0) {
                 mtAloneInboundOrder.setRevieweState(2);
                 mtAloneInboundOrderService.update(mtAloneInboundOrder);
+            } else {
+                MtAloneAuditNodeTaskParams prevParams = new MtAloneAuditNodeTaskParams();
+                prevParams.setAuditTaskId(params.getAuditTaskId());
+                prevParams.setCurrentId(currentRelat.getPrevNodeId());
+                MtAloneAuditNodeTask preNodeTask = mtAloneAuditNodeTaskService.findByTaskIdAndCurrentId(prevParams);
+                preNodeTask.setIsAudit(0);
+                preNodeTask.setAuditTime(null);
+                preNodeTask.setReviewerId(null);
+                mtAloneAuditNodeTaskService.updateTem(preNodeTask);
+            }
+            mtAloneAuditNodeTaskService.deleteById(taskList.get(taskList.size() - 1).getId());
+        }
+
+        return ResultGenerator.genSuccessResult();
+    }
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "access-token", value = "token", paramType = "header", dataType = "String", required = true)})
+    @OperateLog(description = "审核流程流转(出库单)", type = "更新")
+    @ApiOperation(value = "审核流程流转(出库单)", notes = "审核流程流转(出库单)")
+    @PostMapping("/updateTask/outboundOrder")
+    public Result updateTaskOutboundOrder(@RequestBody MtAloneAuditNodeTaskParams params, @ApiIgnore @User CurrentUser currentUser) {
+        if (currentUser == null) {
+            return ResultGenerator.genFailResult(CommonCode.NO_LOGIN);
+        }
+        params.setCompanyId(currentUser.getCompanyId());
+        //获取出库单
+        MtAloneDeliveryOrderParams mtAloneOutboundOrderParams = new MtAloneDeliveryOrderParams();
+        mtAloneOutboundOrderParams.setAuditTaskId(params.getAuditTaskId());
+        mtAloneOutboundOrderParams.setCompanyId(currentUser.getCompanyId());
+        MtAloneDeliveryOrder mtAloneOutboundOrder = mtAloneDeliveryOrderService.findOrderByAuditTaskId(mtAloneOutboundOrderParams);
+
+        List<MtAloneAuditNodeTask> taskList = mtAloneAuditNodeTaskService.findList(params);
+        MtAloneAuditNodeTask lastTask = taskList.get(taskList.size() - 1);
+        Integer currentId = lastTask.getCurrentAuditNodeId();
+        MtAloneAuditRelat currentRelat = mtAloneAuditRelatService.findById(currentId);
+        MtAloneAuditRelat nextRelat = mtAloneAuditRelatService.findById(currentRelat.getNextNodeId());
+
+        if (params.getIsPass() == 1) {
+            lastTask.setIsAudit(1);
+            lastTask.setAuditTime(new Date());
+            lastTask.setReviewerId(currentUser.getUserId());
+            mtAloneAuditNodeTaskService.update(lastTask);
+            if (currentRelat.getNextNodeId() == 0) {
+                mtAloneOutboundOrder.setIsAuditTask(2);
+                mtAloneOutboundOrder.setRevieweState(1);
+                mtAloneDeliveryOrderService.update(mtAloneOutboundOrder);
+            } else {
+                //对当前节点进行插入一条记录
+                MtAloneAuditNodeTask mtAloneAuditNodeTask = new MtAloneAuditNodeTask();
+                mtAloneAuditNodeTask.setIsAudit(0);
+                mtAloneAuditNodeTask.setCurrentAuditNodeName(nextRelat.getAuditNodeName());
+                mtAloneAuditNodeTask.setCurrentAuditNodeId(nextRelat.getId());
+                mtAloneAuditNodeTask.setAuditTaskId(params.getAuditTaskId());
+                mtAloneAuditNodeTask.setAuditTaskName(taskList.get(0).getAuditTaskName());
+                mtAloneAuditNodeTask.setCreateTime(new Date());
+                mtAloneAuditNodeTask.setCompanyId(currentUser.getCompanyId());
+                mtAloneAuditNodeTask.setAuditUrl(taskList.get(0).getAuditUrl());
+                mtAloneAuditNodeTask.setOperatorName(lastTask.getOperatorName());
+                mtAloneAuditNodeTask.setOperatorId(lastTask.getOperatorId());
+
+                mtAloneAuditNodeTaskService.save(mtAloneAuditNodeTask);
+            }
+
+        } else if (params.getIsPass() == 0) {
+            if (currentRelat.getPrevNodeId() == 0) {
+                mtAloneOutboundOrder.setRevieweState(2);
+                mtAloneDeliveryOrderService.update(mtAloneOutboundOrder);
             } else {
                 MtAloneAuditNodeTaskParams prevParams = new MtAloneAuditNodeTaskParams();
                 prevParams.setAuditTaskId(params.getAuditTaskId());

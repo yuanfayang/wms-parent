@@ -208,4 +208,8 @@
         order by outOrder.create_time desc
     </select>
 
+    <select id="findOrderByAuditTaskId" parameterType="com.deer.wms.bill.manage.model.MtAloneDeliveryOrderParams" resultMap="BaseResultMap">
+        select * from mt_alone_delivery_order
+        where audit_task_id = #{auditTaskId} and company_id = #{companyId}
+    </select>
 </mapper>

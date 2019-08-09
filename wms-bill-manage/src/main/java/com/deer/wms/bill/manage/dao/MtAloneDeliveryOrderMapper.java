@@ -21,4 +21,6 @@ public interface MtAloneDeliveryOrderMapper extends Mapper<MtAloneDeliveryOrder>
     List<MtAloneInBoundOrderProVO> findOrderProList(MtAloneDeliveryOrderParams params);
 
 	List<MtAloneDeliveryOrderDetList> findOrderProDetList(MtAloneDeliveryOrderParams params);
+
+    MtAloneDeliveryOrder findOrderByAuditTaskId(MtAloneDeliveryOrderParams mtAloneOutboundOrderParams);
 }

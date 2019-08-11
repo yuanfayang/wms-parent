@@ -3,6 +3,7 @@ package com.deer.wms.bill.manage.service;
 import com.deer.wms.bill.manage.model.MtAloneAuditNodeTask;
 import com.deer.wms.bill.manage.model.MtAloneAuditNodeTaskParams;
 
+import com.deer.wms.bill.manage.model.MtAloneAuditNodeTaskRead;
 import com.deer.wms.intercept.common.data.CurrentUser;
 import com.deer.wms.project.seed.core.service.Service;
 import java.util.List;
@@ -26,4 +27,6 @@ public interface MtAloneAuditNodeTaskService extends Service<MtAloneAuditNodeTas
     void updateOrder(MtAloneAuditNodeTaskParams params);
 
     List<MtAloneAuditNodeTask> listByAuditTaskId(Integer auditTaskId);
+
+    List<MtAloneAuditNodeTaskRead> findTasksReadByUserId(CurrentUser currentUser);
 }

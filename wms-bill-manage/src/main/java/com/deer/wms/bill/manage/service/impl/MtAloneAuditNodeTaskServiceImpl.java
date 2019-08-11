@@ -3,6 +3,7 @@ package com.deer.wms.bill.manage.service.impl;
 import com.deer.wms.bill.manage.dao.MtAloneAuditNodeTaskMapper;
 import com.deer.wms.bill.manage.model.MtAloneAuditNodeTask;
 import com.deer.wms.bill.manage.model.MtAloneAuditNodeTaskParams;
+import com.deer.wms.bill.manage.model.MtAloneAuditNodeTaskRead;
 import com.deer.wms.bill.manage.service.MtAloneAuditNodeTaskService;
 
 import com.deer.wms.intercept.common.data.CurrentUser;
@@ -56,5 +57,10 @@ public class MtAloneAuditNodeTaskServiceImpl extends AbstractService<MtAloneAudi
     @Override
     public List<MtAloneAuditNodeTask> listByAuditTaskId(Integer auditTaskId) {
         return mtAloneAuditNodeTaskMapper.listByAuditTaskId(auditTaskId);
+    }
+
+    @Override
+    public List<MtAloneAuditNodeTaskRead> findTasksReadByUserId(CurrentUser currentUser) {
+        return mtAloneAuditNodeTaskMapper.findTasksReadByUserId(currentUser);
     }
 }

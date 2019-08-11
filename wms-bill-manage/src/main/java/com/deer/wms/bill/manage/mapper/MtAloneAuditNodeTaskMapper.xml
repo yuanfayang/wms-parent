@@ -36,13 +36,29 @@
     <select id="findBacklogByUserId" parameterType="com.deer.wms.intercept.common.data.CurrentUser" resultMap="BaseResultMap">
      SELECT task.* FROM mt_alone_audit_node_task task,
            (SELECT relat.* FROM mt_alone_audit_relat relat,
-                         (SELECT group_id FROM mt_alone_group_operator WHERE
-                                     <if test="userId != null">
-                                       woker_id=#{userId}) gro
-                                     </if>
+                         (SELECT group_id FROM mt_alone_group_operator WHERE  woker_id=#{userId}) gro
                                 WHERE relat.group_id= gro.group_id)  rel
     WHERE task.current_audit_node_id=rel.id
-    ORDER BY task.is_audit
+    ORDER BY task.is_audit,task.create_time desc
+  </select>
+
+    <resultMap id="TasksReadMap" type="com.deer.wms.bill.manage.model.MtAloneAuditNodeTaskRead" extends="BaseResultMap">
+        <result column="read_state" jdbcType="INTEGER" property="readState"/>
+    </resultMap>
+
+    <select id="findTasksReadByUserId" parameterType="com.deer.wms.intercept.common.data.CurrentUser" resultMap="TasksReadMap">
+    SELECT temp.* ,IF(utask.id IS NULL ,0,1)AS read_state FROM (SELECT task.* FROM mt_alone_audit_node_task task,
+           (SELECT relat.* FROM mt_alone_audit_relat relat,
+                         (SELECT group_id FROM mt_alone_group_operator WHERE  woker_id=#{userId}) gro
+                                WHERE relat.group_id= gro.group_id)  rel
+
+    WHERE task.current_audit_node_id=rel.id
+    AND task.is_audit='1')temp
+
+    LEFT JOIN mt_alone_user_task utask
+    ON temp.id=utask.node_task_id
+    AND utask.user_id=#{userId}
+    ORDER BY read_state,temp.create_time DESC
   </select>
 
     <select id="findBacklogNumByUserId" parameterType="com.deer.wms.intercept.common.data.CurrentUser" resultType="java.lang.Integer">

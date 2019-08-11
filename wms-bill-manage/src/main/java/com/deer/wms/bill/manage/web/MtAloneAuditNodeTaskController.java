@@ -168,6 +168,21 @@ public class MtAloneAuditNodeTaskController {
 
     @ApiImplicitParams({
             @ApiImplicitParam(name = "access-token", value = "token", paramType = "header", dataType = "String", required = true)})
+    @OperateLog(description = "根据用户ID获取已读/未读列表", type = "获取")
+    @ApiOperation(value = "根据用户ID获取已读/未读列表", notes = "根据用户ID获取已读/未读列表")
+    @GetMapping("/taskListReadByUserId")
+    public Result taskListReadByUserId(MtAloneAuditNodeTaskParams params, @ApiIgnore @User CurrentUser currentUser) {
+        if (currentUser == null) {
+            return ResultGenerator.genFailResult(CommonCode.SERVICE_ERROR, "未登录错误", null);
+        }
+        PageHelper.startPage(params.getPageNum(), params.getPageSize());
+        List<MtAloneAuditNodeTaskRead> list = mtAloneAuditNodeTaskService.findTasksReadByUserId(currentUser);
+        PageInfo pageInfo = new PageInfo(list);
+        return ResultGenerator.genSuccessResult(pageInfo);
+    }
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "access-token", value = "token", paramType = "header", dataType = "String", required = true)})
     @OperateLog(description = "根据用户ID获取待办数量", type = "获取")
     @ApiOperation(value = "根据用户ID获取待办数量", notes = "根据用户ID获取待办数量")
     @GetMapping("/backlogNumByUserId")

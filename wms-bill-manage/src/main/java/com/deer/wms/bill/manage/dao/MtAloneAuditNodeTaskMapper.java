@@ -24,4 +24,6 @@ public interface MtAloneAuditNodeTaskMapper extends Mapper<MtAloneAuditNodeTask>
     List<MtAloneAuditNodeTask> listByAuditTaskId(Integer auditTaskId);
 
     List<MtAloneAuditNodeTaskRead> findTasksReadByUserId(CurrentUser currentUser);
+
+    Integer findNotReadNumByUserId(CurrentUser currentUser);
 }

@@ -63,4 +63,9 @@ public class MtAloneAuditNodeTaskServiceImpl extends AbstractService<MtAloneAudi
     public List<MtAloneAuditNodeTaskRead> findTasksReadByUserId(CurrentUser currentUser) {
         return mtAloneAuditNodeTaskMapper.findTasksReadByUserId(currentUser);
     }
+
+    @Override
+    public Integer findNotReadNumByUserId(CurrentUser currentUser) {
+        return mtAloneAuditNodeTaskMapper.findNotReadNumByUserId(currentUser);
+    }
 }

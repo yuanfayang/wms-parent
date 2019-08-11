@@ -29,4 +29,6 @@ public interface MtAloneAuditNodeTaskService extends Service<MtAloneAuditNodeTas
     List<MtAloneAuditNodeTask> listByAuditTaskId(Integer auditTaskId);
 
     List<MtAloneAuditNodeTaskRead> findTasksReadByUserId(CurrentUser currentUser);
+
+    Integer findNotReadNumByUserId(CurrentUser currentUser);
 }

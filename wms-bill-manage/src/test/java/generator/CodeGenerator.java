@@ -24,7 +24,7 @@ public class CodeGenerator {
         configurer.setModuleName("/wms-bill-manage");
 
         //设置需要生成的表
-        configurer.getTables().add(new Table("mt_alone_user_task", null, "id", "Integer"));
+        configurer.getTables().add(new Table("mt_alone_product_recycle", null, "id", "Integer"));
         //configurer.getTables().add(new Table("company", null, "company_id", "Integer"));
         //configurer.getTables().add(new Table("company_attachment", null, "attachment_id", "Integer"));
         //configurer.getTables().add(new Table("system_param", null, "param_id", "Integer"));

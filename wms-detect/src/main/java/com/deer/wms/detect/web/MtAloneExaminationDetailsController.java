@@ -231,7 +231,7 @@ public class MtAloneExaminationDetailsController {
 	@OperateLog(description = "推送一条明细", type = "保存")
 	@GetMapping("/productBarcode")
     @ApiOperation(value="检测时，每调用一次该方法可获取该产品下一条未检测的明细",notes="检测时，每调用一次该方法可获取该产品下一条未检测的明细")
-    public Result findOneProductDet(String productBarcode) {
+    public Result findOneProductDet(String productBarcode,@ApiIgnore @User CurrentUser currentUser) {
     	MtAloneProductDetDto mtAloneProductDetDto=new MtAloneProductDetDto();
         MtAloneProductCellVO mtAloneProduct = mtAloneProductService.findByBarcodeNew(productBarcode);
         if(mtAloneProduct==null){
@@ -248,6 +248,7 @@ public class MtAloneExaminationDetailsController {
             }
     	}else {
             mtAloneProductDet= creatDetByProBarcode(productBarcode);
+            mtAloneProductDet.setDetectionManId(currentUser.getUserId());
             mtAloneProductDetService.save(mtAloneProductDet);
             BeanUtils.copyProperties(mtAloneProductDet,mtAloneProductDetDto);
     	}  

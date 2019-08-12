@@ -47,8 +47,8 @@ public class MtAloneObjAccessoryController {
     @OperateLog(description = "删除附件关联表", type = "删除")
     @ApiOperation(value = "删除附件关联表", notes = "删除附件关联表")
     @DeleteMapping("/delete/{id}")
-    public Result delete(@PathVariable Integer mtAloneObjAccessoryId) {
-        mtAloneObjAccessoryService.deleteById(mtAloneObjAccessoryId);
+    public Result delete(@PathVariable Integer id) {
+        mtAloneObjAccessoryService.deleteById(id);
         return ResultGenerator.genSuccessResult();
     }
     

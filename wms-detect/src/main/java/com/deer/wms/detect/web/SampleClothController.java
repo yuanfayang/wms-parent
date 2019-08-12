@@ -52,9 +52,46 @@ public class SampleClothController {
 	@PostMapping("/add")
 	public Result add(@RequestBody SampleClothDTO sampleClothDTO, @ApiIgnore @User CurrentUser currentUser) {
 		if (currentUser == null) {
-			return ResultGenerator.genFailResult(CommonCode.SERVICE_ERROR, "未登录错误", null);
+			return ResultGenerator.genFailResult(CommonCode.NO_LOGIN);
 		}
 		sampleClothDTO.setCreateTime(new Date());
+		return getResult(sampleClothDTO, currentUser);
+	}
+
+	@OperateLog(description = "删除样布", type = "删除")
+	@ApiOperation(value = "删除样布", notes = "删除样布")
+	@DeleteMapping("/delete/{id}")
+	public Result delete(@PathVariable Integer id) {
+		mtAloneSampleClothService.deleteById(id);
+		return ResultGenerator.genSuccessResult();
+	}
+
+	@OperateLog(description = "修改样布", type = "更新")
+	@ApiOperation(value = "修改样布", notes = "修改样布")
+	@PostMapping("/update")
+	public Result update(@RequestBody SampleCloth mtAloneSampleCloth,@ApiIgnore @User CurrentUser currentUser) {
+		if (currentUser == null) {
+			return ResultGenerator.genFailResult(CommonCode.NO_LOGIN);
+		}
+		mtAloneSampleCloth.setModifyTime(new Date());
+		mtAloneSampleClothService.update(mtAloneSampleCloth);
+		return ResultGenerator.genSuccessResult();
+	}
+
+	@OperateLog(description = "修改样布加附件", type = "更新")
+	@ApiOperation(value = "修改样布加附件", notes = "修改样布加附件")
+	@PostMapping("/update/accessory")
+	public Result updateAccessory(@RequestBody SampleClothDTO sampleClothDTO,@ApiIgnore @User CurrentUser currentUser) {
+		if (currentUser == null) {
+			return ResultGenerator.genFailResult(CommonCode.NO_LOGIN);
+		}
+		mtAloneSampleClothService.deleteClothAndAccessoryById(sampleClothDTO.getId());
+		sampleClothDTO.setModifyTime(new Date());
+
+		return getResult(sampleClothDTO, currentUser);
+	}
+
+	private Result getResult(@RequestBody SampleClothDTO sampleClothDTO, @User @ApiIgnore CurrentUser currentUser) {
 		sampleClothDTO.setCompanyId(currentUser.getCompanyId());
 		mtAloneSampleClothService.save(sampleClothDTO);
 		List<MtAloneAccessory> accessorys = sampleClothDTO.getAccessorys();
@@ -70,23 +107,6 @@ public class SampleClothController {
 			objAccessorys.add(objAccessory);
 		}
 		mtAloneObjAccessoryService.save(objAccessorys);
-		return ResultGenerator.genSuccessResult();
-	}
-
-	@OperateLog(description = "删除样布", type = "删除")
-	@ApiOperation(value = "删除样布", notes = "删除样布")
-	@DeleteMapping("/delete/{id}")
-	public Result delete(@PathVariable Integer id) {
-		mtAloneSampleClothService.deleteById(id);
-		return ResultGenerator.genSuccessResult();
-	}
-
-	@OperateLog(description = "修改样布", type = "更新")
-	@ApiOperation(value = "修改样布", notes = "修改样布")
-	@PostMapping("/update")
-	public Result update(@RequestBody SampleCloth mtAloneSampleCloth) {
-		mtAloneSampleCloth.setModifyTime(new Date());
-		mtAloneSampleClothService.update(mtAloneSampleCloth);
 		return ResultGenerator.genSuccessResult();
 	}
 

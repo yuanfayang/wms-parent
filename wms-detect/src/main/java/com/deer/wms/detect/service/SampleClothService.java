@@ -1,6 +1,7 @@
 package com.deer.wms.detect.service;
 
 import com.deer.wms.detect.model.SampleCloth;
+import com.deer.wms.detect.model.SampleClothDTO;
 import com.deer.wms.detect.model.SampleClothParams;
 import com.deer.wms.detect.model.SampleClothVo;
 import com.deer.wms.project.seed.core.service.Service;
@@ -17,4 +18,6 @@ public interface SampleClothService extends Service<SampleCloth, Integer> {
 	List<SampleClothVo> findAccessoryList(SampleClothParams params);
 	
 	SampleClothVo findDetailById(Integer id);//通过ID查找
+
+    void deleteClothAndAccessoryById(Integer id);
 }

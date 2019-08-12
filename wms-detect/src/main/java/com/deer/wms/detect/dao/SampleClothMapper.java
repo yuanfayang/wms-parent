@@ -14,4 +14,6 @@ public interface SampleClothMapper extends Mapper<SampleCloth> {
 	List<SampleClothVo> findAccessoryList(SampleClothParams params);
 
 	SampleClothVo findDetailById(Integer id);
+
+	void deleteClothAndAccessoryById(Integer id);
 }

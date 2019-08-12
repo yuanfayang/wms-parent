@@ -111,4 +111,8 @@
 		ON a.id = o.accessory_id
 		where c.id=#{id}
 	</select>
+	<delete id="deleteClothAndAccessoryById" parameterType="java.lang.Integer">
+          delete from mt_alone_sample_cloth where id = #{id};
+          delete from mt_alone_obj_accessory where obj_id = #{id};
+	</delete>
 </mapper>

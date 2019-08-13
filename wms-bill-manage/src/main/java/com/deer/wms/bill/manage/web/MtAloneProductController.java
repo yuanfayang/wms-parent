@@ -2,6 +2,7 @@ package com.deer.wms.bill.manage.web;
 
 import com.deer.wms.base.system.model.CellInfo;
 import com.deer.wms.bill.manage.model.*;
+import com.deer.wms.bill.manage.service.*;
 import com.deer.wms.project.seed.annotation.OperateLog;
 import com.deer.wms.project.seed.constant.SystemManageConstant;
 import com.deer.wms.project.seed.core.result.CommonCode;
@@ -10,10 +11,6 @@ import com.deer.wms.project.seed.core.result.ResultGenerator;
 import com.deer.wms.project.seed.util.*;
 import com.deer.wms.base.system.service.CellInfoService;
 import com.deer.wms.bill.manage.constant.BillManagePublicMethod;
-import com.deer.wms.bill.manage.service.MtAloneBarcodeService;
-import com.deer.wms.bill.manage.service.MtAloneFlowrecordService;
-import com.deer.wms.bill.manage.service.MtAloneProductDetService;
-import com.deer.wms.bill.manage.service.MtAloneProductService;
 import com.deer.wms.intercept.annotation.User;
 import com.deer.wms.intercept.common.data.CurrentUser;
 import com.github.pagehelper.PageHelper;
@@ -32,6 +29,7 @@ import org.apache.poi.xssf.streaming.SXSSFSheet;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFFont;
+import org.springframework.beans.BeanUtils;
 import org.springframework.util.CollectionUtils;
 import springfox.documentation.annotations.ApiIgnore;
 
@@ -67,6 +65,8 @@ public class MtAloneProductController {
 	private CellInfoService cellInfoService;
 	@Autowired
 	private MtAloneBarcodeService mtAloneBarcodeService;
+	@Autowired
+	private MtAloneProductRecycleService mtAloneProductRecycleService;
 
 	@ApiImplicitParams({
 			@ApiImplicitParam(name = "access-token", value = "token", paramType = "header", dataType = "String", required = true) })
@@ -131,10 +131,17 @@ public class MtAloneProductController {
 			return ResultGenerator.genSuccessResult(CommonCode.HAVE_CHILDREN_RECORD, "存在未出完的布卷，请先确认！", null);
 		}
 		MtAloneProduct mtAloneProduct = mtAloneProductService.findById(mtAloneProductId);
+
+		MtAloneProductRecycle mtAloneProductRecycle=new MtAloneProductRecycle();
+		BeanUtils.copyProperties(mtAloneProduct, mtAloneProductRecycle);
+		mtAloneProductRecycle.setCreateTime(new Date());
+		mtAloneProductRecycleService.save(mtAloneProductRecycle);
+
 		MtAloneProductCriteria criteria = new MtAloneProductCriteria();
 		criteria.setProductBarCode(mtAloneProduct.getProductBarCode());
 		mtAloneProductService.deleteDetByProductCode(criteria);
 		mtAloneProductService.deleteById(mtAloneProductId);
+
 		return ResultGenerator.genSuccessResult();
 
 	}

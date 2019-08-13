@@ -1,5 +1,7 @@
 package com.deer.wms.bill.manage.web;
 
+import com.deer.wms.bill.manage.model.MtAloneProduct;
+import com.deer.wms.bill.manage.service.MtAloneProductService;
 import com.deer.wms.project.seed.annotation.OperateLog;
 import com.deer.wms.project.seed.constant.SystemManageConstant;
 import com.deer.wms.project.seed.core.result.CommonCode;
@@ -14,12 +16,16 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.BeanUtils;
 import springfox.documentation.annotations.ApiIgnore;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List; 
 
@@ -35,6 +41,8 @@ public class MtAloneProductRecycleController {
 
     @Autowired
     private MtAloneProductRecycleService mtAloneProductRecycleService;
+    @Autowired
+    private MtAloneProductService mtAloneProductService;
 
     @OperateLog(description = "添加xxx", type = "增加")
     @ApiOperation(value = "添加xxx", notes = "添加xxx")
@@ -71,7 +79,10 @@ public class MtAloneProductRecycleController {
         MtAloneProductRecycle mtAloneProductRecycle = mtAloneProductRecycleService.findById(id);
         return ResultGenerator.genSuccessResult(mtAloneProductRecycle);
     }
-
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "access-token", value = "token", paramType = "header", dataType = "String", required = true) })
+    @OperateLog(description = "根据条件返回回收站内的产品", type = "查询")
+    @ApiOperation(value = "根据条件返回回收站内的产品", notes = "根据条件返回回收站内的产品")
     @GetMapping("/list")
     public Result list(MtAloneProductRecycleParams params, @ApiIgnore @User CurrentUser currentUser) {
         if(currentUser==null){
@@ -87,6 +98,35 @@ public class MtAloneProductRecycleController {
         List<MtAloneProductRecycle> list = mtAloneProductRecycleService.findList(params);
         PageInfo pageInfo = new PageInfo(list);
         return ResultGenerator.genSuccessResult(pageInfo);
+    }
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "access-token", value = "token", paramType = "header", dataType = "String", required = true) })
+    @OperateLog(description = "恢复回收站内的产品", type = "查询")
+    @ApiOperation(value = "恢复回收站内的产品", notes = "恢复回收站内的产品")
+    @PostMapping("/recycleProList")
+    public Result recycleProList(MtAloneProductRecycleParams params, @ApiIgnore @User CurrentUser currentUser) {
+        if(currentUser==null){
+            return ResultGenerator.genFailResult(CommonCode.SERVICE_ERROR,"未登录错误",null );
+        }
+
+        if (currentUser.getCompanyType() != SystemManageConstant.COMPANY_TYPE_MT){
+            params.setCompanyId(currentUser.getCompanyId());
+        }else{
+            params.setCompanyId(null);
+        }
+        List<MtAloneProduct> proList=new ArrayList<MtAloneProduct>();
+        for(int i=0;i<params.getProList().size();i++){
+            MtAloneProductRecycle mtAloneProductRecycle = mtAloneProductRecycleService.findById(params.getProList().get(i));
+            MtAloneProduct mtAloneProduct=new MtAloneProduct();
+            BeanUtils.copyProperties(mtAloneProductRecycle, mtAloneProduct);
+            mtAloneProduct.setCompanyId(null);
+            mtAloneProduct.setCreateTime(new Date());
+            proList.add(mtAloneProduct);
+            mtAloneProductRecycleService.deleteById(params.getProList().get(i));
+        }
+        mtAloneProductService.save(proList);
+        return ResultGenerator.genSuccessResult();
     }
 
 }

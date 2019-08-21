@@ -1,6 +1,7 @@
 package com.deer.wms.produce.manage.service.impl;
 
 import com.deer.wms.produce.manage.dao.MaterialsStockInfoMapper;
+import com.deer.wms.produce.manage.model.MaterialsInfoParams;
 import com.deer.wms.produce.manage.model.MaterialsStockInfo;
 import com.deer.wms.produce.manage.model.MaterialsStockInfoParams;
 import com.deer.wms.produce.manage.service.MaterialsStockInfoService;
@@ -26,4 +27,16 @@ public class MaterialsStockInfoServiceImpl extends AbstractService<MaterialsStoc
     public List<MaterialsStockInfo> findList(MaterialsStockInfoParams params) {
         return materialsStockInfoMapper.findList(params);
     }
+
+    @Override
+    public Float getStockQuantityByMaId(MaterialsInfoParams params) {
+        return materialsStockInfoMapper.getStockQuantityByMaId(params);
+    }
+
+    @Override
+    public String getStockPositionByMaId(MaterialsInfoParams params) {
+        return materialsStockInfoMapper.getStockPositionByMaId(params);
+    }
+
+
 }

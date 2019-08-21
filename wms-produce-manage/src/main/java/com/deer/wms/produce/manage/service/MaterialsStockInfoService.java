@@ -1,5 +1,6 @@
 package com.deer.wms.produce.manage.service;
 
+import com.deer.wms.produce.manage.model.MaterialsInfoParams;
 import com.deer.wms.produce.manage.model.MaterialsStockInfo;
 import com.deer.wms.produce.manage.model.MaterialsStockInfoParams;
 import com.deer.wms.project.seed.core.service.Service;
@@ -14,4 +15,7 @@ public interface MaterialsStockInfoService extends Service<MaterialsStockInfo, I
 
     List<MaterialsStockInfo> findList(MaterialsStockInfoParams params);
 
+    Float getStockQuantityByMaId(MaterialsInfoParams params);
+
+    String getStockPositionByMaId(MaterialsInfoParams params);
 }

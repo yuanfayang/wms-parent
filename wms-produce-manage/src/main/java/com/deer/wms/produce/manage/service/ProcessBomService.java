@@ -10,8 +10,6 @@ import java.util.List;
  * Created by guo on 2019/07/18.
  */
 public interface ProcessBomService extends Service<ProcessBom, Integer> {
-
-
-    //List<ProcessBom> findList(ProcessBomParams params) ;
+    List<ProcessBom> findList(ProcessBomParams params);
 
 }

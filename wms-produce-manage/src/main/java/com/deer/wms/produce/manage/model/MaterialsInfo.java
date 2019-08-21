@@ -68,6 +68,13 @@ public class MaterialsInfo {
     private Integer companyId;
 
     /**
+     * 供应商id
+     */
+    @Column(name = "supplier_id")
+    private Integer supplierId;
+
+
+    /**
      * @return id
      */
     public Integer getId() {
@@ -273,5 +280,19 @@ public class MaterialsInfo {
      */
     public void setCompanyId(Integer companyId) {
         this.companyId = companyId;
+    }
+
+    /**
+     * @return supplier_id
+     */
+    public Integer getSupplierId() {
+        return supplierId;
+    }
+
+    /**
+     * @param supplierId
+     */
+    public void setSupplierId(Integer supplierId) {
+        this.supplierId = supplierId;
     }
 }

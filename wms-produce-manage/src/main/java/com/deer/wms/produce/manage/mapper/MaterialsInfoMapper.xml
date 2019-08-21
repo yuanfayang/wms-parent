@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.deer.wms.produce.manage.dao.MaterialsInfoMapper">
-  <resultMap id="BaseResultMap" type="com.deer.wms.produce.manage.model.MaterialsInfoDto">
+  <resultMap id="BaseResultMap" type="com.deer.wms.produce.manage.model.MaterialsInfoDTO">
     <!--
       WARNING - @mbg.generated
     -->
@@ -17,6 +17,7 @@
     <result column="specification" jdbcType="VARCHAR" property="specification" />
     <result column="memo" jdbcType="VARCHAR" property="memo" />
     <result column="company_id" jdbcType="INTEGER" property="companyId" />
+    <result column="supplier_id" jdbcType="INTEGER" property="supplierId" />
     <result column="position_name" jdbcType="VARCHAR" property="positionName" />
     <result column="quantity" jdbcType="FLOAT" property="quantity" />
     <result column="company_name" jdbcType="VARCHAR" property="companyName" />
@@ -32,7 +33,7 @@
         WHERE m.id =  materials.parent_id ) parent_name,
         materials.specification,
         materials.memo,
-        stock.quantity,
+        IFNULL(stock.quantity,0),
         stock.position_name,
         unit.unit_name,
         com.company_name,

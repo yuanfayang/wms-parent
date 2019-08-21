@@ -16,6 +16,11 @@ public class MaterialsInfoParams extends QueryParams {
      */
     private String endDate;
 
+    /**
+     * 物料id
+     */
+    private Integer materialsId;
+
     public String getBegDate() {
         return begDate;
     }
@@ -30,5 +35,13 @@ public class MaterialsInfoParams extends QueryParams {
 
     public void setEndDate(String endDate) {
         this.endDate = endDate;
+    }
+
+    public Integer getmaterialsId() {
+        return materialsId;
+    }
+
+    public void setId(Integer materialsId) {
+        this.materialsId = materialsId;
     }
 }

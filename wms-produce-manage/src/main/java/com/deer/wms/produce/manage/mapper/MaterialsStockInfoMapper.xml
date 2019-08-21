@@ -17,4 +17,31 @@
     <result column="memo" jdbcType="VARCHAR" property="memo" />
     <result column="company_id" jdbcType="INTEGER" property="companyId" />
   </resultMap>
+
+    <select id="getStockQuantityByMaId" parameterType="com.deer.wms.produce.manage.model.MaterialsInfoParams"  resultType="java.lang.Float">
+        SELECT SUM(IFNULL(stock.quantity,0))
+        FROM mt_alone_materials_stock_info stock
+        <where>
+            <if test="materialsId != null">
+                stock.materials_id = #{materialsId}
+            </if>
+            <if test="companyId != null">
+                AND stock.company_id = #{companyId}
+            </if>
+        </where>
+    </select>
+
+    <select id="getStockPositionByMaId" parameterType="com.deer.wms.produce.manage.model.MaterialsInfoParams"  resultType="java.lang.String">
+        SELECT stock.position_name
+        FROM mt_alone_materials_stock_info stock
+        <where>
+            <if test="materialsId != null">
+                stock.materials_id = #{materialsId}
+            </if>
+            <if test="companyId != null">
+                AND stock.company_id = #{companyId}
+            </if>
+        </where>
+    </select>
+
 </mapper>

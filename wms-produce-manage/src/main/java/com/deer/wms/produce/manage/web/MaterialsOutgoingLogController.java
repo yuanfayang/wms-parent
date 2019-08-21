@@ -2,9 +2,11 @@ package com.deer.wms.produce.manage.web;
 
 import com.deer.wms.intercept.annotation.User;
 import com.deer.wms.intercept.common.data.CurrentUser;
-import com.deer.wms.produce.manage.model.MaterialsOutgoingLog;
-import com.deer.wms.produce.manage.model.MaterialsOutgoingLogParams;
+import com.deer.wms.produce.manage.constant.ProduceManageConstant;
+import com.deer.wms.produce.manage.model.*;
+import com.deer.wms.produce.manage.service.MaterialsOutgoingLogDTOService;
 import com.deer.wms.produce.manage.service.MaterialsOutgoingLogService;
+import com.deer.wms.produce.manage.service.MaterialsStockInfoService;
 import com.deer.wms.project.seed.annotation.OperateLog;
 import com.deer.wms.project.seed.constant.SystemManageConstant;
 import com.deer.wms.project.seed.core.result.CommonCode;
@@ -25,7 +27,7 @@ import java.util.List;
 /**
 * Created by guo on 2019/07/21.
 */
-@Api(description = "xxx接口")
+@Api(description = "物料出入库接口")
 @RestController
 @RequestMapping("/materials/outgoing/logs")
 public class MaterialsOutgoingLogController {
@@ -33,16 +35,79 @@ public class MaterialsOutgoingLogController {
     @Autowired
     private MaterialsOutgoingLogService materialsOutgoingLogService;
 
-    @OperateLog(description = "添加xxx", type = "增加")
-    @ApiOperation(value = "添加xxx", notes = "添加xxx")
+    @Autowired
+    private MaterialsStockInfoService materialsStockInfoService;
+
+    //@Autowired
+    //private MaterialsOutgoingLogDTOService materialsOutgoingLogDTOService;
+
+    @OperateLog(description = "添加一条出入库记录", type = "增加")
+    @ApiOperation(value = "添加一条出入库记录", notes = "添加一条出入库记录")
     @PostMapping("/add")
-    public Result add(@RequestBody MaterialsOutgoingLog materialsOutgoingLog, @ApiIgnore @User CurrentUser currentUser) {
-        if(currentUser==null){
-            return ResultGenerator.genFailResult( CommonCode.SERVICE_ERROR,"未登录错误",null );
-        }
-		 materialsOutgoingLog.setCreateTime(new Date());
-		 materialsOutgoingLog.setCompanyId(currentUser.getCompanyId());
+    public Result add(@RequestBody MaterialsOutgoingLogDTO materialsOutgoingLogDTO, @ApiIgnore @User CurrentUser currentUser) {
+        //if(currentUser==null){
+        //    return ResultGenerator.genFailResult( CommonCode.SERVICE_ERROR,"未登录错误",null );
+        //}
+
+        Date date = new Date();
+        MaterialsInfo materialsInfo = materialsOutgoingLogDTO.getMaterialsInfo();
+
+        MaterialsOutgoingLog materialsOutgoingLog = new MaterialsOutgoingLog();
+        materialsOutgoingLog.setOperatorId(1);
+        materialsOutgoingLog.setCreateTime(date);
+        materialsOutgoingLog.setMaterialsId(materialsInfo.getId());
+        materialsOutgoingLog.setMaterialsName(materialsInfo.getMaterialsName());
+        materialsOutgoingLog.setType(materialsOutgoingLogDTO.getType());
+        materialsOutgoingLog.setQuantity(materialsOutgoingLogDTO.getQuantity());
+        materialsOutgoingLog.setPositionName(materialsOutgoingLogDTO.getPositionName());
+        materialsOutgoingLog.setCompanyId(1);
         materialsOutgoingLogService.save(materialsOutgoingLog);
+
+        MaterialsStockInfo stock = materialsStockInfoService.findBy("materialsId", materialsInfo.getId());
+
+        if(stock==null){//如果是新的物料，库存表中没有该物料信息，则新增一条库存记录
+            stock = new MaterialsStockInfo();
+            stock.setOperatorId(1);
+            stock.setMaterialsId(materialsInfo.getId());
+            stock.setUnitId(materialsInfo.getUnitId());
+            stock.setCreateTime(date);
+            stock.setQuantity(materialsOutgoingLogDTO.getQuantity());
+            stock.setPositionName(materialsOutgoingLogDTO.getPositionName());
+            stock.setCompanyId(1);
+            materialsStockInfoService.save(stock);
+        }else{//如果库存表中有该物料信息，则更新对应的库存记录
+            stock.setCreateTime(date);//日期取最新更新的日期
+            MaterialsInfoParams params = new MaterialsInfoParams();//查询条件赋值
+            params.setId(materialsInfo.getId());
+            params.setCompanyId(1);
+
+            //设置库存数量：已有库存数量+入库数量（或已有库存数量-出库数量）
+            Float totalQuantity = materialsStockInfoService.getStockQuantityByMaId(params);
+            if(materialsOutgoingLog.getType() == ProduceManageConstant.TYPE_OUT) {
+                totalQuantity -= materialsOutgoingLog.getQuantity();
+            }else if(materialsOutgoingLog.getType() == ProduceManageConstant.TYPE_IN) {
+                totalQuantity += materialsOutgoingLog.getQuantity();
+            }
+            stock.setQuantity(totalQuantity);
+
+            //设置库存位置：已有库存仓库+，+出入库记录对应仓库
+            String inAndOutLogPosition = materialsOutgoingLog.getPositionName();
+            String stockPosition = materialsStockInfoService.getStockPositionByMaId(params);
+            if(stockPosition!=null && !stockPosition.trim().equals("")) {
+                stock.setPositionName(stockPosition + "," +inAndOutLogPosition);
+            }else{
+                stock.setPositionName(inAndOutLogPosition);
+            }
+
+            materialsStockInfoService.update(stock);
+        }
+
+        //materialsOutgoingLogDTO.setMaterialsId(materialsInfo.getId());
+        //materialsOutgoingLogDTO.setMaterialsName(materialsInfo.getMaterialsName());
+        //materialsOutgoingLogDTO.setCreateTime(new Date());
+        //materialsOutgoingLogDTO.setCompanyId(currentUser.getCompanyId());
+        //materialsOutgoingLogDTO.setOperatorId(currentUser.getUserId());
+        //materialsOutgoingLogDTOService.save(materialsOutgoingLogDTO);//业务层同时调用出入库信息和存储信息的两个save方法
         return ResultGenerator.genSuccessResult();
     }
     

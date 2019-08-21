@@ -46,16 +46,16 @@ public class MaterialsInfoController {
     @Autowired
     private MaterialsOutgoingLogService materialsOutgoingLogService;
 
-    @OperateLog(description = "添加物料", type = "增加")
-    @ApiOperation(value = "添加物料", notes = "添加物料")
+    @OperateLog(description = "添加物料信息", type = "增加")
+    @ApiOperation(value = "添加物料信息", notes = "添加物料信息")
     @PostMapping("/add")
-    public Result add(@RequestBody MaterialsVO materialsVO, @ApiIgnore @User CurrentUser currentUser) {
-        //同时增加物料信息、库存信息、入库信息
+    public Result add(@RequestBody MaterialsInfo materialsInfo, @ApiIgnore @User CurrentUser currentUser) {
+        //增加物料信息
         if(currentUser==null){
             return ResultGenerator.genFailResult( CommonCode.SERVICE_ERROR,"未登录错误",null );
         }
+
         Date date = new Date();
-        MaterialsInfo materialsInfo = materialsVO.getMaterialsInfo();
         materialsInfo.setCreateTime(date);
         materialsInfo.setVersion("1.1");
         materialsInfo.setStatus(ProduceManageConstant.STATUS_AVAILABLE);
@@ -63,24 +63,6 @@ public class MaterialsInfoController {
         materialsInfo.setCompanyId(currentUser.getCompanyId());
         materialsInfo.setCode(ProduceManagePublicMethod.creatUniqueCode("WL"));
         materialsInfoService.save(materialsInfo);
-
-        MaterialsStockInfo stock = materialsVO.getMaterialsStockInfo();
-        stock.setMaterialsId(materialsInfo.getId());
-        stock.setOperatorId(materialsInfo.getOperatorId());
-        stock.setStatus(ProduceManageConstant.STATUS_AVAILABLE);
-        stock.setCompanyId(materialsInfo.getCompanyId());
-        materialsStockInfoService.save(stock);
-
-        MaterialsOutgoingLog inLog = new MaterialsOutgoingLog();
-        inLog.setCompanyId(materialsInfo.getCompanyId());
-        inLog.setCreateTime(date);
-        inLog.setMaterialsId(materialsInfo.getId());
-        inLog.setMaterialsName(materialsInfo.getMaterialsName());
-        inLog.setOperatorId(materialsInfo.getOperatorId());
-        inLog.setPositionName(stock.getPositionName());
-        inLog.setQuantity(stock.getQuantity());
-        inLog.setType(ProduceManageConstant.TYPE_IN);
-        materialsOutgoingLogService.save(inLog);
 
         return ResultGenerator.genSuccessResult();
     }
@@ -125,7 +107,7 @@ public class MaterialsInfoController {
 
         params.setCompanyId(currentUser.getCompanyId());
         PageHelper.startPage(params.getPageNum(), params.getPageSize());
-        List<MaterialsInfoDto> list = materialsInfoService.findList(params);
+        List<MaterialsInfoDTO> list = materialsInfoService.findList(params);
         PageInfo pageInfo = new PageInfo(list);
         return ResultGenerator.genSuccessResult(pageInfo);
     }

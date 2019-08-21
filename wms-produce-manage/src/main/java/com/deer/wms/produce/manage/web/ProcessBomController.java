@@ -25,9 +25,9 @@ import java.util.List;
 /**
 * Created by guo on 2019/07/18.
 */
-@Api(description = "xxx接口")
+@Api(description = "产品生产Bom接口")
 @RestController
-@RequestMapping("/process/boms")
+@RequestMapping("/process/bom")
 public class ProcessBomController {
 
     @Autowired
@@ -69,21 +69,21 @@ public class ProcessBomController {
         return ResultGenerator.genSuccessResult(mtAloneProcessBom);
     }
 
-    //@GetMapping("/list")
-    //public Result list(ProcessBomParams params, @ApiIgnore @User CurrentUser currentUser) {
-    //    if(currentUser==null){
-    //        return ResultGenerator.genFailResult(CommonCode.SERVICE_ERROR,"未登录错误",null );
-    //    }
-    //
-    //	if (currentUser.getCompanyType() != SystemManageConstant.COMPANY_TYPE_MT){
-    //		params.setCompanyId(currentUser.getCompanyId());
-		//}else{
-		//	params.setCompanyId(null);
-    //    }
-    //    PageHelper.startPage(params.getPageNum(), params.getPageSize());
-    //    List<ProcessBom> list = processBomService.findList(params);
-    //    PageInfo pageInfo = new PageInfo(list);
-    //    return ResultGenerator.genSuccessResult(pageInfo);
-    //}
+    @GetMapping("/list")
+    public Result list(ProcessBomParams params, @ApiIgnore @User CurrentUser currentUser) {
+        if(currentUser==null){
+            return ResultGenerator.genFailResult(CommonCode.SERVICE_ERROR,"未登录错误",null );
+        }
+
+    	if (currentUser.getCompanyType() != SystemManageConstant.COMPANY_TYPE_MT){
+    		params.setCompanyId(currentUser.getCompanyId());
+		}else{
+			params.setCompanyId(null);
+        }
+        PageHelper.startPage(params.getPageNum(), params.getPageSize());
+        List<ProcessBom> list = processBomService.findList(params);
+        PageInfo pageInfo = new PageInfo(list);
+        return ResultGenerator.genSuccessResult(pageInfo);
+    }
 
 }

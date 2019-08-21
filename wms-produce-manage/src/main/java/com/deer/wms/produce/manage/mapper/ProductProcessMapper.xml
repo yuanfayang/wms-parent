@@ -13,14 +13,17 @@
     <result column="version" jdbcType="VARCHAR" property="version" />
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="product_process_name" jdbcType="VARCHAR" property="productProcessName" />
+    <result column="begin_time" jdbcType="TIMESTAMP" property="beginTime" />
     <result column="finish_time" jdbcType="TIMESTAMP" property="finishTime" />
     <result column="product_bom_id" jdbcType="INTEGER" property="productBomId" />
+    <result column="product_id" jdbcType="INTEGER" property="productId" />
     <result column="specification" jdbcType="VARCHAR" property="specification" />
     <result column="process_price" jdbcType="REAL" property="processPrice" />
     <result column="len" jdbcType="REAL" property="len" />
     <result column="pi_num" jdbcType="INTEGER" property="piNum" />
     <result column="process_content" jdbcType="VARCHAR" property="processContent" />
     <result column="merchandiser_id" jdbcType="INTEGER" property="merchandiserId" />
+    <result column="unit_id" jdbcType="INTEGER" property="unitId" />
     <result column="memo" jdbcType="VARCHAR" property="memo" />
     <result column="review_status" jdbcType="INTEGER" property="reviewStatus" />
     <result column="review_time" jdbcType="TIMESTAMP" property="reviewTime" />
@@ -28,4 +31,38 @@
     <result column="product_annex_code" jdbcType="VARCHAR" property="productAnnexCode" />
     <result column="company_id" jdbcType="INTEGER" property="companyId" />
   </resultMap>
+
+    <select id="findList" parameterType="com.deer.wms.produce.manage.model.ProductProcessParams"  resultMap="BaseResultMap">
+        SELECT
+        process.code,
+        product.product_name,
+        client.client_name,
+        unit.unit_name,
+        sale.sale_no
+        FROM mt_alone_product_process process
+        LEFT JOIN mt_alone_product product ON materials.id = stock.materials_id AND materials.company_id = stock.company_id
+        LEFT JOIN client_manage client ON materials.unit_id = unit.unit_id AND materials.company_id = unit.company_id
+        LEFT JOIN sale_master sale ON materials.operator_id = user_info.user_id AND materials.company_id = user_info.company_id
+        <where>
+            <if test="keywords != null and keywords != ''">
+                AND materials.create_time LIKE CONCAT('%', #{keywords}, '%')
+                OR materials.materials_name LIKE CONCAT('%', #{keywords}, '%')
+                OR materials.specification LIKE CONCAT('%', #{keywords}, '%')
+                OR  materials.memo LIKE CONCAT('%', #{keywords}, '%')
+                OR  stock.quantity LIKE CONCAT('%', #{keywords}, '%')
+                OR  stock.position_name LIKE CONCAT('%', #{keywords}, '%')
+                OR  unit.unit_name LIKE CONCAT('%', #{keywords}, '%')
+                OR  com.company_name LIKE CONCAT('%', #{keywords}, '%')
+            </if>
+            <if test="begDate!=null and begDate!=''">
+                <![CDATA[  AND DATE_FORMAT(materials.begin_time, '%Y-%m-%d')>=  DATE_FORMAT(#{begDate}, '%Y-%m-%d')   ]]>
+            </if>
+            <if test="endDate!=null and endDate!=''">
+                <![CDATA[  AND DATE_FORMAT(materials.finish_time, '%Y-%m-%d') <= DATE_FORMAT(#{endDate}, '%Y-%m-%d')    ]]>
+            </if>
+            <if test="companyId != null">
+                AND com.company_id = #{companyId}
+            </if>
+        </where>
+    </select>
 </mapper>

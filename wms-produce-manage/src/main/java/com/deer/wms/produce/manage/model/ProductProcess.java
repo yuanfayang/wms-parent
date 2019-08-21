@@ -49,6 +49,19 @@ public class ProductProcess {
     @Column(name = "product_process_name")
     private String productProcessName;
 
+
+    /**
+     * 产品id
+     */
+    @Column(name = "product_id")
+    private Integer productId;
+
+    /**
+     * 计划开始时间
+     */
+    @Column(name = "begin_time")
+    private Date beginTime;
+
     /**
      * 完成时间
      */
@@ -60,6 +73,12 @@ public class ProductProcess {
      */
     @Column(name = "product_bom_id")
     private Integer productBomId;
+
+    /**
+     * 计量单位关联id，关联表：unit
+     */
+    @Column(name = "unit_id")
+    private Integer unitId;
 
     /**
      * 加工规格型号
@@ -394,6 +413,24 @@ public class ProductProcess {
     }
 
     /**
+     * 获取产品id
+     *
+     * @return product_id - 产品id
+     */
+    public Integer getProductId() {
+        return productId;
+    }
+
+    /**
+     * 设置产品id
+     *
+     * @param productId 产品id
+     */
+    public void setProductId(Integer productId) {
+        this.productId = productId;
+    }
+
+    /**
      * 获取跟单员id，关联表员工表：user_info
      *
      * @return merchandiser_id - 跟单员id，关联表员工表：user_info
@@ -513,5 +550,37 @@ public class ProductProcess {
      */
     public void setCompanyId(Integer companyId) {
         this.companyId = companyId;
+    }
+
+    /**
+     * @return begin_time
+     */
+    public Date getBeginTime() {
+        return beginTime;
+    }
+
+    /**
+     * 设置开始时间
+     *
+     * @param beginTime 开始时间
+     */
+    public void setBeginTime(Date beginTime) {
+        this.beginTime = beginTime;
+    }
+
+    /**
+     * @return unit_id
+     */
+    public Integer getUnitId() {
+        return unitId;
+    }
+
+    /**
+     * 设置计量单位id
+     *
+     * @param unitId 计量单位id
+     */
+    public void setUnitId(Integer unitId) {
+        this.unitId = unitId;
     }
 }

@@ -2,7 +2,7 @@ package com.deer.wms.produce.manage.service.impl;
 
 import com.deer.wms.produce.manage.dao.MaterialsInfoMapper;
 import com.deer.wms.produce.manage.model.MaterialsInfo;
-import com.deer.wms.produce.manage.model.MaterialsInfoDto;
+import com.deer.wms.produce.manage.model.MaterialsInfoDTO;
 import com.deer.wms.produce.manage.model.MaterialsInfoParams;
 import com.deer.wms.produce.manage.service.MaterialsInfoService;
 
@@ -24,7 +24,7 @@ public class MaterialsInfoServiceImpl extends AbstractService<MaterialsInfo, Int
 
 
     @Override
-    public List<MaterialsInfoDto> findList(MaterialsInfoParams params) {
+    public List<MaterialsInfoDTO> findList(MaterialsInfoParams params) {
         return materialsInfoMapper.findList(params);
     }
 }

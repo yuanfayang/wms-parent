@@ -18,4 +18,25 @@
     <result column="memo" jdbcType="VARCHAR" property="memo" />
     <result column="company_id" jdbcType="INTEGER" property="companyId" />
   </resultMap>
+
+    <select id="findListByOneMaterial" parameterType="com.deer.wms.produce.manage.model.MaterialsOutgoingLogParams"  resultMap="BaseResultMap">
+        SELECT
+        outgoing.create_time,
+        IFNULL(outgoing.quantity,0),
+        outgoing.position_name,
+        user_info.user_name
+        FROM mt_alone_materials_outgoing_log outgoing
+        LEFT JOIN user_info ON outgoing.operator_id = user_info.user_id AND outgoing.company_id = user_info.company_id
+        <where>
+            <if test="materialsId != null">
+                AND outgoing.materials_id = #{materialsId}
+            </if>
+            <if test="type != null">
+                AND outgoing.type = #{type}
+            </if>
+            <if test="companyId != null">
+                AND outgoing.company_id = #{companyId}
+            </if>
+        </where>
+    </select>
 </mapper>

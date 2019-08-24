@@ -13,6 +13,6 @@ import java.util.List;
 public interface MaterialsOutgoingLogService extends Service<MaterialsOutgoingLog, Integer> {
 
 
-    List<MaterialsOutgoingLog> findList(MaterialsOutgoingLogParams params) ;
+    List<MaterialsOutgoingLog> findlistByOneMaterial(MaterialsOutgoingLogParams params) ;
 
 }

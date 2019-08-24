@@ -37,11 +37,11 @@ public class MaterialsInfoParams extends QueryParams {
         this.endDate = endDate;
     }
 
-    public Integer getmaterialsId() {
+    public Integer getMaterialsId() {
         return materialsId;
     }
 
-    public void setId(Integer materialsId) {
+    public void setMaterialsId(Integer materialsId) {
         this.materialsId = materialsId;
     }
 }

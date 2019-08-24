@@ -89,10 +89,18 @@ public class MaterialsInfoController {
         return ResultGenerator.genSuccessResult();
     }
 
-    @GetMapping("/detail/{id}")
-    public Result detail(@PathVariable Integer id) {
-        MaterialsInfo materialsInfo = materialsInfoService.findById(id);
-        return ResultGenerator.genSuccessResult(materialsInfo);
+    @OperateLog(description = "获取某种物料详细信息", type = "查询")
+    @ApiOperation(value = "获取某种物料详细信息", notes = "获取某种物料详细信息")
+    @GetMapping("/detail")
+    public Result detail(MaterialsInfoParams params, @ApiIgnore @User CurrentUser currentUser) {
+        //if(currentUser==null){
+        //    return ResultGenerator.genFailResult(CommonCode.SERVICE_ERROR,"未登录错误",null );
+        //}
+        StringUtil.trimObjectStringProperties(params);
+
+        params.setCompanyId(1);
+        MaterialsInfoDTO materialsInfoDTO = materialsInfoService.findDetailById(params);
+        return ResultGenerator.genSuccessResult(materialsInfoDTO);
     }
 
 
@@ -100,12 +108,12 @@ public class MaterialsInfoController {
     @ApiOperation(value = "物料信息列表分页", notes = "物料信息列表分页")
     @GetMapping("/list")
     public Result list(MaterialsInfoParams params, @ApiIgnore @User CurrentUser currentUser) {
-        if(currentUser==null){
-            return ResultGenerator.genFailResult(CommonCode.SERVICE_ERROR,"未登录错误",null );
-        }
+        //if(currentUser==null){
+        //    return ResultGenerator.genFailResult(CommonCode.SERVICE_ERROR,"未登录错误",null );
+        //}
         StringUtil.trimObjectStringProperties(params);
 
-        params.setCompanyId(currentUser.getCompanyId());
+        params.setCompanyId(1);
         PageHelper.startPage(params.getPageNum(), params.getPageSize());
         List<MaterialsInfoDTO> list = materialsInfoService.findList(params);
         PageInfo pageInfo = new PageInfo(list);

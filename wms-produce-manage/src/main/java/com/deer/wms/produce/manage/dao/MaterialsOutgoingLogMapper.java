@@ -9,6 +9,6 @@ import com.deer.wms.project.seed.core.mapper.Mapper;
 import java.util.List;
 
 public interface MaterialsOutgoingLogMapper extends Mapper<MaterialsOutgoingLog> {
-    List<MaterialsOutgoingLog> findList(MaterialsOutgoingLogParams params);
+    List<MaterialsOutgoingLog> findlistByOneMaterial(MaterialsOutgoingLogParams params);
 
 }

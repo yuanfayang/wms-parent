@@ -13,5 +13,5 @@ import java.util.List;
 public interface MaterialsInfoService extends Service<MaterialsInfo, Integer> {
     List<MaterialsInfoDTO> findList(MaterialsInfoParams params);
 
-
+    MaterialsInfoDTO findDetailById(MaterialsInfoParams params);
 }

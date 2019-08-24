@@ -23,7 +23,7 @@ public class MaterialsOutgoingLogServiceImpl extends AbstractService<MaterialsOu
 
 
     @Override
-    public List<MaterialsOutgoingLog> findList(MaterialsOutgoingLogParams params) {
-        return materialsOutgoingLogMapper.findList(params);
+    public List<MaterialsOutgoingLog> findlistByOneMaterial(MaterialsOutgoingLogParams params) {
+        return materialsOutgoingLogMapper.findlistByOneMaterial(params);
     }
 }

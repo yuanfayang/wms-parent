@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.deer.wms.produce.manage.dao.MaterialsInfoMapper">
-  <resultMap id="BaseResultMap" type="com.deer.wms.produce.manage.model.MaterialsInfoDTO">
+  <resultMap id="BaseResultMap" type="com.deer.wms.produce.manage.model.MaterialsInfo">
     <!--
       WARNING - @mbg.generated
     -->
@@ -18,31 +18,39 @@
     <result column="memo" jdbcType="VARCHAR" property="memo" />
     <result column="company_id" jdbcType="INTEGER" property="companyId" />
     <result column="supplier_id" jdbcType="INTEGER" property="supplierId" />
-    <result column="position_name" jdbcType="VARCHAR" property="positionName" />
-    <result column="quantity" jdbcType="FLOAT" property="quantity" />
-    <result column="company_name" jdbcType="VARCHAR" property="companyName" />
-    <result column="parent_name" jdbcType="VARCHAR" property="parentName" />
-
   </resultMap>
 
-    <select id="findList" parameterType="com.deer.wms.produce.manage.model.MaterialsInfoParams"  resultMap="BaseResultMap">
+   <resultMap id="MatInfoDTOResultMap" type="com.deer.wms.produce.manage.model.MaterialsInfoDTO">
+     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+     <result column="materials_name" jdbcType="VARCHAR" property="materialsName" />
+     <result column="position_name" jdbcType="VARCHAR" property="positionName" />
+     <result column="specification" jdbcType="VARCHAR" property="specification" />
+     <result column="company_name" jdbcType="VARCHAR" property="companyName" />
+     <result column="unit_name" jdbcType="VARCHAR" property="unitName" />
+     <result column="parent_name" jdbcType="VARCHAR" property="parentName" />
+     <result column="supplier_name" jdbcType="VARCHAR" property="supplierName" />
+   </resultMap>
+
+    <select id="findList" parameterType="com.deer.wms.produce.manage.model.MaterialsInfoParams"  resultMap="MatInfoDTOResultMap">
         SELECT
-        materials.create_time,
-        materials.materials_name,
+        materials.create_time create_time,
+        materials.materials_name materials_name,
         (SELECT m.materials_name FROM mt_alone_materials_info m
         WHERE m.id =  materials.parent_id ) parent_name,
         materials.specification,
         materials.memo,
-        IFNULL(stock.quantity,0),
+        IFNULL(stock.quantity,0) quantity,
         stock.position_name,
         unit.unit_name,
         com.company_name,
-        user_info.user_name
+        user_info.user_name,
+        supplier.supplier_name
         FROM mt_alone_materials_info materials
         LEFT JOIN mt_alone_materials_stock_info stock ON materials.id = stock.materials_id AND materials.company_id = stock.company_id
         LEFT JOIN unit ON materials.unit_id = unit.unit_id AND materials.company_id = unit.company_id
         LEFT JOIN company com ON materials.company_id = com.company_id
         LEFT JOIN user_info ON materials.operator_id = user_info.user_id AND materials.company_id = user_info.company_id
+        LEFT JOIN supplier_manage supplier ON materials.supplier_id = supplier.supplier_id AND materials.company_id = supplier.company_id
         <where>
             <if test="keywords != null and keywords != ''">
                 AND materials.create_time LIKE CONCAT('%', #{keywords}, '%')
@@ -53,6 +61,7 @@
                 OR  stock.position_name LIKE CONCAT('%', #{keywords}, '%')
                 OR  unit.unit_name LIKE CONCAT('%', #{keywords}, '%')
                 OR  com.company_name LIKE CONCAT('%', #{keywords}, '%')
+                OR  supplier.supplier_name LIKE CONCAT('%', #{keywords}, '%')
             </if>
             <if test="begDate!=null and begDate!=''">
                 <![CDATA[  AND DATE_FORMAT(materials.create_time, '%Y-%m-%d')>=  DATE_FORMAT(#{begDate}, '%Y-%m-%d')   ]]>
@@ -66,5 +75,34 @@
         </where>
     </select>
 
+    <select id="findDetailById" parameterType="com.deer.wms.produce.manage.model.MaterialsInfoParams"  resultMap="MatInfoDTOResultMap">
+        SELECT
+        materials.create_time,
+        materials.materials_name,
+        (SELECT m.materials_name FROM mt_alone_materials_info m
+        WHERE m.id =  materials.parent_id ) parent_name,
+        materials.specification,
+        materials.memo,
+        IFNULL(stock.quantity,0) quantity,
+        stock.position_name,
+        unit.unit_name,
+        com.company_name company_name,
+        user_info.user_name,
+        supplier.supplier_name
+        FROM mt_alone_materials_info materials
+        LEFT JOIN mt_alone_materials_stock_info stock ON materials.id = stock.materials_id AND materials.company_id = stock.company_id
+        LEFT JOIN unit ON materials.unit_id = unit.unit_id AND materials.company_id = unit.company_id
+        LEFT JOIN company com ON materials.company_id = com.company_id
+        LEFT JOIN user_info ON materials.operator_id = user_info.user_id AND materials.company_id = user_info.company_id
+        LEFT JOIN supplier_manage supplier ON materials.supplier_id = supplier.supplier_id AND materials.company_id = supplier.company_id
+        <where>
+            <if test="materialsId != null">
+                AND materials.id = #{materialsId}
+            </if>
+            <if test="companyId != null">
+                AND com.company_id = #{companyId}
+            </if>
+        </where>
+    </select>
 
 </mapper>

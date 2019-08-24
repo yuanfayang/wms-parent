@@ -45,22 +45,22 @@ public class MaterialsOutgoingLogController {
     @ApiOperation(value = "添加一条出入库记录", notes = "添加一条出入库记录")
     @PostMapping("/add")
     public Result add(@RequestBody MaterialsOutgoingLogDTO materialsOutgoingLogDTO, @ApiIgnore @User CurrentUser currentUser) {
-        //if(currentUser==null){
-        //    return ResultGenerator.genFailResult( CommonCode.SERVICE_ERROR,"未登录错误",null );
-        //}
+        if(currentUser==null){
+            return ResultGenerator.genFailResult( CommonCode.SERVICE_ERROR,"未登录错误",null );
+        }
 
         Date date = new Date();
         MaterialsInfo materialsInfo = materialsOutgoingLogDTO.getMaterialsInfo();
 
         MaterialsOutgoingLog materialsOutgoingLog = new MaterialsOutgoingLog();
-        materialsOutgoingLog.setOperatorId(1);
+        materialsOutgoingLog.setOperatorId(currentUser.getUserId());
         materialsOutgoingLog.setCreateTime(date);
         materialsOutgoingLog.setMaterialsId(materialsInfo.getId());
         materialsOutgoingLog.setMaterialsName(materialsInfo.getMaterialsName());
         materialsOutgoingLog.setType(materialsOutgoingLogDTO.getType());
         materialsOutgoingLog.setQuantity(materialsOutgoingLogDTO.getQuantity());
         materialsOutgoingLog.setPositionName(materialsOutgoingLogDTO.getPositionName());
-        materialsOutgoingLog.setCompanyId(1);
+        materialsOutgoingLog.setCompanyId(currentUser.getCompanyId());
         materialsOutgoingLogService.save(materialsOutgoingLog);
 
         MaterialsStockInfo stock = materialsStockInfoService.findBy("materialsId", materialsInfo.getId());
@@ -78,7 +78,7 @@ public class MaterialsOutgoingLogController {
         }else{//如果库存表中有该物料信息，则更新对应的库存记录
             stock.setCreateTime(date);//日期取最新更新的日期
             MaterialsInfoParams params = new MaterialsInfoParams();//查询条件赋值
-            params.setId(materialsInfo.getId());
+            params.setMaterialsId(materialsInfo.getId());
             params.setCompanyId(1);
 
             //设置库存数量：已有库存数量+入库数量（或已有库存数量-出库数量）
@@ -134,19 +134,18 @@ public class MaterialsOutgoingLogController {
         return ResultGenerator.genSuccessResult(materialsOutgoingLog);
     }
 
-    @GetMapping("/list")
-    public Result list(MaterialsOutgoingLogParams params, @ApiIgnore @User CurrentUser currentUser) {
+
+    @OperateLog(description = "获取某种物料的所有出入库记录", type = "查询")
+    @ApiOperation(value = "获取某种物料的所有出入库记录", notes = "获取某种物料的所有出入库记录")
+    @GetMapping("/listByOneMaterial")
+    public Result listByOneMaterial(MaterialsOutgoingLogParams params, @ApiIgnore @User CurrentUser currentUser) {
         if(currentUser==null){
             return ResultGenerator.genFailResult(CommonCode.SERVICE_ERROR,"未登录错误",null );
         }
 
-    	if (currentUser.getCompanyType() != SystemManageConstant.COMPANY_TYPE_MT){
-    		params.setCompanyId(currentUser.getCompanyId());
-		}else{
-			params.setCompanyId(null);
-        }
+        params.setCompanyId(currentUser.getCompanyId());
         PageHelper.startPage(params.getPageNum(), params.getPageSize());
-        List<MaterialsOutgoingLog> list = materialsOutgoingLogService.findList(params);
+        List<MaterialsOutgoingLog> list = materialsOutgoingLogService.findlistByOneMaterial(params);
         PageInfo pageInfo = new PageInfo(list);
         return ResultGenerator.genSuccessResult(pageInfo);
     }

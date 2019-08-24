@@ -27,4 +27,11 @@ public class MaterialsInfoServiceImpl extends AbstractService<MaterialsInfo, Int
     public List<MaterialsInfoDTO> findList(MaterialsInfoParams params) {
         return materialsInfoMapper.findList(params);
     }
+
+    @Override
+    public MaterialsInfoDTO findDetailById(MaterialsInfoParams params) {
+        return materialsInfoMapper.findDetailById(params);
+    }
+
+
 }

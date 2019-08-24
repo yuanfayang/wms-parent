@@ -67,19 +67,19 @@ public class MaterialsOutgoingLogController {
 
         if(stock==null){//如果是新的物料，库存表中没有该物料信息，则新增一条库存记录
             stock = new MaterialsStockInfo();
-            stock.setOperatorId(1);
+            stock.setOperatorId(currentUser.getUserId());
             stock.setMaterialsId(materialsInfo.getId());
             stock.setUnitId(materialsInfo.getUnitId());
             stock.setCreateTime(date);
             stock.setQuantity(materialsOutgoingLogDTO.getQuantity());
             stock.setPositionName(materialsOutgoingLogDTO.getPositionName());
-            stock.setCompanyId(1);
+            stock.setCompanyId(currentUser.getCompanyId());
             materialsStockInfoService.save(stock);
         }else{//如果库存表中有该物料信息，则更新对应的库存记录
             stock.setCreateTime(date);//日期取最新更新的日期
             MaterialsInfoParams params = new MaterialsInfoParams();//查询条件赋值
             params.setMaterialsId(materialsInfo.getId());
-            params.setCompanyId(1);
+            params.setCompanyId(currentUser.getCompanyId());
 
             //设置库存数量：已有库存数量+入库数量（或已有库存数量-出库数量）
             Float totalQuantity = materialsStockInfoService.getStockQuantityByMaId(params);
@@ -102,12 +102,6 @@ public class MaterialsOutgoingLogController {
             materialsStockInfoService.update(stock);
         }
 
-        //materialsOutgoingLogDTO.setMaterialsId(materialsInfo.getId());
-        //materialsOutgoingLogDTO.setMaterialsName(materialsInfo.getMaterialsName());
-        //materialsOutgoingLogDTO.setCreateTime(new Date());
-        //materialsOutgoingLogDTO.setCompanyId(currentUser.getCompanyId());
-        //materialsOutgoingLogDTO.setOperatorId(currentUser.getUserId());
-        //materialsOutgoingLogDTOService.save(materialsOutgoingLogDTO);//业务层同时调用出入库信息和存储信息的两个save方法
         return ResultGenerator.genSuccessResult();
     }
     
@@ -145,7 +139,7 @@ public class MaterialsOutgoingLogController {
 
         params.setCompanyId(currentUser.getCompanyId());
         PageHelper.startPage(params.getPageNum(), params.getPageSize());
-        List<MaterialsOutgoingLog> list = materialsOutgoingLogService.findlistByOneMaterial(params);
+        List<MaterialsOutgoingLogVO> list = materialsOutgoingLogService.findListByOneMaterial(params);
         PageInfo pageInfo = new PageInfo(list);
         return ResultGenerator.genSuccessResult(pageInfo);
     }

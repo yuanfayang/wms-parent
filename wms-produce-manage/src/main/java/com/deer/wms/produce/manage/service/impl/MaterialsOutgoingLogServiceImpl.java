@@ -3,6 +3,7 @@ package com.deer.wms.produce.manage.service.impl;
 import com.deer.wms.produce.manage.dao.MaterialsOutgoingLogMapper;
 import com.deer.wms.produce.manage.model.MaterialsOutgoingLog;
 import com.deer.wms.produce.manage.model.MaterialsOutgoingLogParams;
+import com.deer.wms.produce.manage.model.MaterialsOutgoingLogVO;
 import com.deer.wms.produce.manage.service.MaterialsOutgoingLogService;
 import com.deer.wms.project.seed.core.service.AbstractService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,7 @@ public class MaterialsOutgoingLogServiceImpl extends AbstractService<MaterialsOu
 
 
     @Override
-    public List<MaterialsOutgoingLog> findlistByOneMaterial(MaterialsOutgoingLogParams params) {
-        return materialsOutgoingLogMapper.findlistByOneMaterial(params);
+    public List<MaterialsOutgoingLogVO> findListByOneMaterial(MaterialsOutgoingLogParams params) {
+        return materialsOutgoingLogMapper.findListByOneMaterial(params);
     }
 }

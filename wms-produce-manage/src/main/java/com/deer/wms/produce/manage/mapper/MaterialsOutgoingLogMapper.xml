@@ -19,10 +19,17 @@
     <result column="company_id" jdbcType="INTEGER" property="companyId" />
   </resultMap>
 
-    <select id="findListByOneMaterial" parameterType="com.deer.wms.produce.manage.model.MaterialsOutgoingLogParams"  resultMap="BaseResultMap">
+    <resultMap id="MatOutVOResultMap" type="com.deer.wms.produce.manage.model.MaterialsOutgoingLogVO">
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="materials_name" jdbcType="VARCHAR" property="materialsName" />
+        <result column="position_name" jdbcType="VARCHAR" property="positionName" />
+        <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    </resultMap>
+
+    <select id="findListByOneMaterial" parameterType="com.deer.wms.produce.manage.model.MaterialsOutgoingLogParams"  resultMap="MatOutVOResultMap">
         SELECT
         outgoing.create_time,
-        IFNULL(outgoing.quantity,0),
+        IFNULL(outgoing.quantity,0) quantity,
         outgoing.position_name,
         user_info.user_name
         FROM mt_alone_materials_outgoing_log outgoing

@@ -69,21 +69,21 @@ public class ProductProcessBomController {
         return ResultGenerator.genSuccessResult(productProcessBom);
     }
 
-    //@GetMapping("/list")
-    //public Result list(ProductProcessBomParams params, @ApiIgnore @User CurrentUser currentUser) {
-    //    if(currentUser==null){
-    //        return ResultGenerator.genFailResult(CommonCode.SERVICE_ERROR,"未登录错误",null );
-    //    }
-    //
-    //	if (currentUser.getCompanyType() != SystemManageConstant.COMPANY_TYPE_MT){
-    //		params.setCompanyId(currentUser.getCompanyId());
-		//}else{
-		//	params.setCompanyId(null);
-    //    }
-    //    PageHelper.startPage(params.getPageNum(), params.getPageSize());
-    //    List<ProductProcessBom> list = productProcessBomService.findList(params);
-    //    PageInfo pageInfo = new PageInfo(list);
-    //    return ResultGenerator.genSuccessResult(pageInfo);
-    //}
+    @GetMapping("/list")
+    public Result list(ProductProcessBomParams params, @ApiIgnore @User CurrentUser currentUser) {
+        if(currentUser==null){
+            return ResultGenerator.genFailResult(CommonCode.SERVICE_ERROR,"未登录错误",null );
+        }
+
+    	if (currentUser.getCompanyType() != SystemManageConstant.COMPANY_TYPE_MT){
+    		params.setCompanyId(currentUser.getCompanyId());
+		}else{
+			params.setCompanyId(null);
+        }
+        PageHelper.startPage(params.getPageNum(), params.getPageSize());
+        List<ProductProcessBom> list = productProcessBomService.findList(params);
+        PageInfo pageInfo = new PageInfo(list);
+        return ResultGenerator.genSuccessResult(pageInfo);
+    }
 
 }

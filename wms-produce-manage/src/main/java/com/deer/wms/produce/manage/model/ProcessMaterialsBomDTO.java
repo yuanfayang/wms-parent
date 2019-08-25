@@ -15,6 +15,8 @@ public class ProcessMaterialsBomDTO extends ProcessMaterialsBom {
 
     private String processName;
 
+    private String materialsName;
+
     private String companyName;
 
     public Integer getProductProcessId() {
@@ -55,5 +57,13 @@ public class ProcessMaterialsBomDTO extends ProcessMaterialsBom {
 
     public void setCompanyName(String companyName) {
         this.companyName = companyName;
+    }
+
+    public String getMaterialsName() {
+        return materialsName;
+    }
+
+    public void setMaterialsName(String materialsName) {
+        this.materialsName = materialsName;
     }
 }

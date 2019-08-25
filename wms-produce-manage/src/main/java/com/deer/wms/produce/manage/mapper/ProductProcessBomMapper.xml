@@ -20,4 +20,58 @@
     <result column="product_annex_code" jdbcType="VARCHAR" property="productAnnexCode" />
     <result column="company_id" jdbcType="INTEGER" property="companyId" />
   </resultMap>
+
+    <resultMap id="ProPrcessBomDTOResultMap" type="com.deer.wms.produce.manage.model.ProductProcessBomDTO">
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+        <result column="product_process_name" jdbcType="VARCHAR" property="productProcessName" />
+        <result column="finish_time" jdbcType="TIMESTAMP" property="finishTime" />
+        <result column="process_content" jdbcType="VARCHAR" property="processContent" />
+        <result column="product_annex_code" jdbcType="VARCHAR" property="productAnnexCode" />
+        <result column="company_name" jdbcType="VARCHAR" property="companyName" />
+    </resultMap>
+
+    <select id="findList" parameterType="com.deer.wms.produce.manage.model.MaterialsInfoParams"  resultMap="MatInfoDTOResultMap">
+        SELECT
+        materials.create_time create_time,
+        materials.materials_name materials_name,
+        (SELECT m.materials_name FROM mt_alone_materials_info m
+        WHERE m.id =  materials.parent_id ) parent_name,
+        materials.specification,
+        materials.memo,
+        IFNULL(stock.quantity,0) quantity,
+        stock.position_name,
+        unit.unit_name,
+        com.company_name,
+        user_info.user_name,
+        supplier.supplier_name
+        FROM mt_alone_materials_info materials
+        LEFT JOIN mt_alone_materials_stock_info stock ON materials.id = stock.materials_id AND materials.company_id = stock.company_id
+        LEFT JOIN unit ON materials.unit_id = unit.unit_id AND materials.company_id = unit.company_id
+        LEFT JOIN company com ON materials.company_id = com.company_id
+        LEFT JOIN user_info ON materials.operator_id = user_info.user_id AND materials.company_id = user_info.company_id
+        LEFT JOIN supplier_manage supplier ON materials.supplier_id = supplier.supplier_id AND materials.company_id = supplier.company_id
+        <where>
+            <if test="keywords != null and keywords != ''">
+                AND materials.create_time LIKE CONCAT('%', #{keywords}, '%')
+                OR materials.materials_name LIKE CONCAT('%', #{keywords}, '%')
+                OR materials.specification LIKE CONCAT('%', #{keywords}, '%')
+                OR  materials.memo LIKE CONCAT('%', #{keywords}, '%')
+                OR  stock.quantity LIKE CONCAT('%', #{keywords}, '%')
+                OR  stock.position_name LIKE CONCAT('%', #{keywords}, '%')
+                OR  unit.unit_name LIKE CONCAT('%', #{keywords}, '%')
+                OR  com.company_name LIKE CONCAT('%', #{keywords}, '%')
+                OR  supplier.supplier_name LIKE CONCAT('%', #{keywords}, '%')
+            </if>
+            <if test="begDate!=null and begDate!=''">
+                <![CDATA[  AND DATE_FORMAT(materials.create_time, '%Y-%m-%d')>=  DATE_FORMAT(#{begDate}, '%Y-%m-%d')   ]]>
+            </if>
+            <if test="endDate!=null and endDate!=''">
+                <![CDATA[  AND DATE_FORMAT(materials.create_time, '%Y-%m-%d') <= DATE_FORMAT(#{endDate}, '%Y-%m-%d')    ]]>
+            </if>
+            <if test="companyId != null">
+                AND com.company_id = #{companyId}
+            </if>
+        </where>
+    </select>
 </mapper>

@@ -20,4 +20,15 @@
     <result column="memo" jdbcType="VARCHAR" property="memo" />
     <result column="company_id" jdbcType="INTEGER" property="companyId" />
   </resultMap>
+
+    <resultMap id="ProcessBomDTOResultMap" type="com.deer.wms.produce.manage.model.ProcessBomDTO">
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+        <result column="process_name" jdbcType="VARCHAR" property="processName" />
+        <result column="process_content" jdbcType="VARCHAR" property="processContent" />
+        <result column="process_step" jdbcType="INTEGER" property="processStep" />
+        <result column="product_annex_code" jdbcType="VARCHAR" property="productAnnexCode" />
+        <result column="company_name" jdbcType="VARCHAR" property="companyName" />
+        <result column="product_process_name" jdbcType="VARCHAR" property="productProcessName" />
+    </resultMap>
 </mapper>

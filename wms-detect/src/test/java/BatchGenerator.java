@@ -11,7 +11,7 @@ public class BatchGenerator {
         //设置数据库连接信息
         configurer.setUrl("jdbc:mysql://47.96.183.77:3306/mt_erp?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false");
         configurer.setUserName("root");
-        configurer.setPassword("123456");
+        configurer.setPassword("mt_%wms#_CS_20190430");
         configurer.setDiverClassName("com.mysql.jdbc.Driver");
 
         //设置需要生成代码的基础路径，生成的代码都会在该路径下面
@@ -22,15 +22,18 @@ public class BatchGenerator {
         configurer.setModuleName("/wms-detect");
 
         //设置需要生成的表
-       // configurer.getTables().add(new Table("bill_master", null, "id", "Integer"));
+        //configurer.getTables().add(new Table("bill_master", null, "id", "Integer"));
         //configurer.getTables().add(new Table("bill_detail",null,"id","Integer"));
         //configurer.getTables().add(new Table("Shelf_info", null, "ShelfIdInt", "Integer"));
         //configurer.getTables().add(new Table("help_content", null, "content_id", "Integer"));
         //configurer.getTables().add(new Table("validate_record", null, "record_id", "Long"));
-//         configurer.getTables().add(new Table("mt_alone_craft",null,"craft_id","Integer"));
-//         configurer.getTables().add(new Table("mt_alone_sample_cloth",null,"id","Integer"));
-         configurer.getTables().add(new Table("mt_alone_obj_accessory",null,"id","Integer"));
-        //生成代码
+        //configurer.getTables().add(new Table("mt_alone_craft",null,"craft_id","Integer"));
+        //configurer.getTables().add(new Table("mt_alone_sample_cloth",null,"id","Integer"));
+        //configurer.getTables().add(new Table("mt_alone_obj_accessory",null,"id","Integer"));
+        configurer.getTables().add(new Table("mt_alone_sample_cloth_det",null,"id","Integer"));
+        configurer.getTables().add(new Table("mt_alone_sample_cloth_out",null,"id","Integer"));
+        configurer.getTables().add(new Table("mt_alone_sample_cloth_out_det",null,"id","Integer"));
+         //生成代码
         Generator.genCode(configurer);
     }
 }

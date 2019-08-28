@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deer.wms.detect.dao.MtAloneSampleClothDetMapper">
+  <resultMap id="BaseResultMap" type="com.deer.wms.detect.model.MtAloneSampleClothDet">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="operator_id" jdbcType="INTEGER" property="operatorId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="creator_id" jdbcType="INTEGER" property="creatorId" />
+    <result column="updater_id" jdbcType="INTEGER" property="updaterId" />
+    <result column="version" jdbcType="VARCHAR" property="version" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="company_id" jdbcType="INTEGER" property="companyId" />
+    <result column="sample_cloth_id" jdbcType="INTEGER" property="sampleClothId" />
+    <result column="annex_code" jdbcType="VARCHAR" property="annexCode" />
+    <result column="sample_cloth_price" jdbcType="REAL" property="sampleClothPrice" />
+    <result column="sample_cloth_length" jdbcType="REAL" property="sampleClothLength" />
+    <result column="ware_info_id" jdbcType="INTEGER" property="wareInfoId" />
+    <result column="area_name" jdbcType="VARCHAR" property="areaName" />
+    <result column="location_name" jdbcType="VARCHAR" property="locationName" />
+    <result column="remark1" jdbcType="VARCHAR" property="remark1" />
+    <result column="remark2" jdbcType="VARCHAR" property="remark2" />
+  </resultMap>
+  <resultMap id="sampleClothDetMap" type="com.deer.wms.detect.model.MtAloneSampleClothDetDto" extends="BaseResultMap">
+    <result column="ware_name" jdbcType="VARCHAR" property="wareName" />
+    <result column="sample_name" jdbcType="VARCHAR" property="sampleClothName" />
+  </resultMap>
+
+  <select id="findList" parameterType="com.deer.wms.detect.model.MtAloneSampleClothDetParams" resultMap="sampleClothDetMap">
+    select t.*, w.ware_name,c.sample_name
+    from mt_alone_sample_cloth_det t
+    left join ware_info w on t.ware_info_id = w.ware_id
+    left join mt_alone_sample_cloth c on c.id = t.sample_cloth_id
+    where t.company_id = #{companyId} and t.status = 0
+    <if test="keywords != null and keywords != ''">
+      AND c.sample_name LIKE CONCAT('%', #{keywords}, '%')
+    </if>
+    ORDER BY t.create_time desc
+  </select>
+</mapper>

@@ -97,20 +97,20 @@ public class AccessIntercept extends HandlerInterceptorAdapter {
 	 */
 	private Authority getAuthorityAnnotation(Object handler) {
 		// 获取当前访问目标类的权限控制注解
-//		HandlerMethod handlerMethod = null;
-//		if (handler instanceof HandlerMethod) {
-//			handlerMethod = (HandlerMethod) handler;
-//		} else {
+		HandlerMethod handlerMethod = null;
+		if (handler instanceof HandlerMethod) {
+			handlerMethod = (HandlerMethod) handler;
+		} else {
 			return null;
-//		}
-//		Class<?> tClass = handlerMethod.getBeanType();
-//		Authority annotation = tClass.getAnnotation(Authority.class);
-//
-//		// 如果目标类没有权限控制注解，则获取当前访问方法的权限控制注解，如果都没有说明访问目标则不需要权限控制
-//		if (null == annotation) {
-//			Method method = handlerMethod.getMethod();
-//			annotation = method.getAnnotation(Authority.class);
-//		}
-//		return annotation;
+		}
+		Class<?> tClass = handlerMethod.getBeanType();
+		Authority annotation = tClass.getAnnotation(Authority.class);
+
+		// 如果目标类没有权限控制注解，则获取当前访问方法的权限控制注解，如果都没有说明访问目标则不需要权限控制
+		if (null == annotation) {
+			Method method = handlerMethod.getMethod();
+			annotation = method.getAnnotation(Authority.class);
+		}
+		return annotation;
 	}
 }

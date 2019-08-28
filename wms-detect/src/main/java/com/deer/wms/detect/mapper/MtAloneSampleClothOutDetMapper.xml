@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deer.wms.detect.dao.MtAloneSampleClothOutDetMapper">
+  <resultMap id="BaseResultMap" type="com.deer.wms.detect.model.MtAloneSampleClothOutDet">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="operator_id" jdbcType="INTEGER" property="operatorId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="creator_id" jdbcType="INTEGER" property="creatorId" />
+    <result column="updater_id" jdbcType="INTEGER" property="updaterId" />
+    <result column="version" jdbcType="VARCHAR" property="version" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="company_id" jdbcType="INTEGER" property="companyId" />
+    <result column="sample_cloth_out_id" jdbcType="INTEGER" property="sampleClothOutId" />
+    <result column="is_free" jdbcType="INTEGER" property="isFree" />
+    <result column="customer_purchase_cost" jdbcType="REAL" property="customerPurchaseCost" />
+    <result column="is_stock" jdbcType="INTEGER" property="isStock" />
+    <result column="sample_cloth_det_id" jdbcType="INTEGER" property="sampleClothDetId" />
+    <result column="annex_code" jdbcType="VARCHAR" property="annexCode" />
+    <result column="sample_cloth_price" jdbcType="REAL" property="sampleClothPrice" />
+    <result column="sample_cloth_length" jdbcType="REAL" property="sampleClothLength" />
+    <result column="remark1" jdbcType="VARCHAR" property="remark1" />
+    <result column="remark2" jdbcType="VARCHAR" property="remark2" />
+  </resultMap>
+</mapper>

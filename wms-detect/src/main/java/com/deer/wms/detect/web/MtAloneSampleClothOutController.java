@@ -1,13 +1,12 @@
 package com.deer.wms.detect.web;
 
+import com.deer.wms.detect.model.*;
 import com.deer.wms.intercept.annotation.Authority;
 import com.deer.wms.project.seed.annotation.OperateLog;
 import com.deer.wms.project.seed.constant.SystemManageConstant;
 import com.deer.wms.project.seed.core.result.CommonCode;
 import com.deer.wms.project.seed.core.result.Result;
 import com.deer.wms.project.seed.core.result.ResultGenerator;
-import com.deer.wms.detect.model.MtAloneSampleClothOut;
-import com.deer.wms.detect.model.MtAloneSampleClothOutParams;
 import com.deer.wms.detect.service.MtAloneSampleClothOutService;
 import com.deer.wms.intercept.annotation.User;
 import com.deer.wms.intercept.common.data.CurrentUser;
@@ -30,7 +29,7 @@ import java.util.List;
  */
 @Api(description = "样布出库接口")
 @RestController
-@Authority
+//@Authority
 @RequestMapping("/mt/alone/sample/cloth/outs")
 public class MtAloneSampleClothOutController {
 
@@ -44,6 +43,18 @@ public class MtAloneSampleClothOutController {
         mtAloneSampleClothOut.setCreateTime(new Date());
         mtAloneSampleClothOut.setCompanyId(currentUser.getCompanyId());
         mtAloneSampleClothOutService.save(mtAloneSampleClothOut);
+        return ResultGenerator.genSuccessResult();
+    }
+
+    @OperateLog(description = "添加样布出库all", type = "增加")
+    @ApiOperation(value = "添加样布出库all", notes = "添加样布出库")
+    @PostMapping("/save/dets")
+    public Result saveDetails(@RequestBody MtAloneSampleClothOutVO mtAloneSampleClothOutVO, @ApiIgnore @User CurrentUser currentUser) {
+        MtAloneSampleClothOut mtAloneSampleClothOut = mtAloneSampleClothOutVO.getMtAloneSampleClothOut();
+        mtAloneSampleClothOut.setCreatorId(currentUser.getUserId());
+        mtAloneSampleClothOut.setCreateTime(new Date());
+        mtAloneSampleClothOut.setCompanyId(currentUser.getCompanyId());
+        mtAloneSampleClothOutService.saveDetails(mtAloneSampleClothOutVO, currentUser);
         return ResultGenerator.genSuccessResult();
     }
 
@@ -70,11 +81,17 @@ public class MtAloneSampleClothOutController {
         return ResultGenerator.genSuccessResult(mtAloneSampleClothOut);
     }
 
+    @GetMapping("/detail/det/{id}")
+    public Result detailDet(@PathVariable Integer id) {
+        MtAloneSampleClothOutDetVO mtAloneSampleClothOutDetVO = mtAloneSampleClothOutService.findOutDetById(id);
+        return ResultGenerator.genSuccessResult(mtAloneSampleClothOutDetVO);
+    }
+
     @GetMapping("/list")
     public Result list(MtAloneSampleClothOutParams params, @ApiIgnore @User CurrentUser currentUser) {
         params.setCompanyId(currentUser.getCompanyId());
         PageHelper.startPage(params.getPageNum(), params.getPageSize());
-        List<MtAloneSampleClothOut> list = mtAloneSampleClothOutService.findList(params);
+        List<MtAloneSampleClothOutDto> list = mtAloneSampleClothOutService.findList(params);
         PageInfo pageInfo = new PageInfo(list);
         return ResultGenerator.genSuccessResult(pageInfo);
     }

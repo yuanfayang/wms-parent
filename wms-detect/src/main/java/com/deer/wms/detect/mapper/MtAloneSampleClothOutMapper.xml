@@ -1,27 +1,80 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.deer.wms.detect.dao.MtAloneSampleClothOutMapper">
-  <resultMap id="BaseResultMap" type="com.deer.wms.detect.model.MtAloneSampleClothOut">
-    <!--
-      WARNING - @mbg.generated
-    -->
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="operator_id" jdbcType="INTEGER" property="operatorId" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-    <result column="creator_id" jdbcType="INTEGER" property="creatorId" />
-    <result column="updater_id" jdbcType="INTEGER" property="updaterId" />
-    <result column="version" jdbcType="VARCHAR" property="version" />
-    <result column="status" jdbcType="INTEGER" property="status" />
-    <result column="company_id" jdbcType="INTEGER" property="companyId" />
-    <result column="customer_id" jdbcType="INTEGER" property="customerId" />
-    <result column="is_pay" jdbcType="INTEGER" property="isPay" />
-    <result column="cumulative_fee" jdbcType="REAL" property="cumulativeFee" />
-    <result column="customer_postage_fees" jdbcType="REAL" property="customerPostageFees" />
-    <result column="customer_purchase_cost" jdbcType="REAL" property="customerPurchaseCost" />
-    <result column="postage_fees" jdbcType="REAL" property="postageFees" />
-    <result column="annex_code" jdbcType="VARCHAR" property="annexCode" />
-    <result column="remark1" jdbcType="VARCHAR" property="remark1" />
-    <result column="remark2" jdbcType="VARCHAR" property="remark2" />
-  </resultMap>
+    <resultMap id="BaseResultMap" type="com.deer.wms.detect.model.MtAloneSampleClothOut">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="operator_id" jdbcType="INTEGER" property="operatorId"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="creator_id" jdbcType="INTEGER" property="creatorId"/>
+        <result column="updater_id" jdbcType="INTEGER" property="updaterId"/>
+        <result column="version" jdbcType="VARCHAR" property="version"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="company_id" jdbcType="INTEGER" property="companyId"/>
+        <result column="customer_id" jdbcType="INTEGER" property="customerId"/>
+        <result column="is_pay" jdbcType="INTEGER" property="isPay"/>
+        <result column="cumulative_fee" jdbcType="REAL" property="cumulativeFee"/>
+        <result column="customer_postage_fees" jdbcType="REAL" property="customerPostageFees"/>
+        <result column="customer_purchase_cost" jdbcType="REAL" property="customerPurchaseCost"/>
+        <result column="postage_fees" jdbcType="REAL" property="postageFees"/>
+        <result column="annex_code" jdbcType="VARCHAR" property="annexCode"/>
+        <result column="remark1" jdbcType="VARCHAR" property="remark1"/>
+        <result column="remark2" jdbcType="VARCHAR" property="remark2"/>
+    </resultMap>
+    <resultMap id="sampleClothOutMap" type="com.deer.wms.detect.model.MtAloneSampleClothOutDto" extends="BaseResultMap">
+        <result column="client_name" jdbcType="VARCHAR" property="clientName"/>
+    </resultMap>
+    <resultMap id="OutDetListMap" type="com.deer.wms.detect.model.MtAloneSampleClothOutDetVO" extends="sampleClothOutMap">
+        <collection property="mtAloneSampleClothOutDetList" ofType="com.deer.wms.detect.model.MtAloneSampleClothOutDetDto">
+            <id column="out_det_id" jdbcType="INTEGER" property="id" />
+            <result column="sample_cloth_out_id" jdbcType="INTEGER" property="sampleClothOutId" />
+            <result column="is_free" jdbcType="INTEGER" property="isFree" />
+            <result column="customer_purchase_cost_det" jdbcType="REAL" property="customerPurchaseCost" />
+            <result column="sample_cloth_det_id" jdbcType="INTEGER" property="sampleClothDetId" />
+            <result column="sample_cloth_price" jdbcType="REAL" property="sampleClothPrice" />
+            <result column="sample_cloth_length" jdbcType="REAL" property="sampleClothLength" />
+            <result column="remark1_det" jdbcType="VARCHAR" property="remark1" />
+            <result column="create_time_det" jdbcType="TIMESTAMP" property="createTime"/>
+            <result column="sample_name" jdbcType="VARCHAR" property="sampleClothName" />
+            <result column="ware_name" jdbcType="VARCHAR" property="wareName" />
+            <result column="location_name" jdbcType="VARCHAR" property="locationName" />
+        </collection>
+    </resultMap>
+
+    <select id="findList" parameterType="com.deer.wms.detect.model.MtAloneSampleClothOutParams"
+            resultMap="sampleClothOutMap">
+        select t.*,c.client_name
+        from mt_alone_sample_cloth_out t
+        left join client_manage c on c.client_id = t.customer_id
+        where t.company_id = #{companyId} and t.status = 0
+        <if test="keywords != null and keywords != ''">
+            and c.client_name like CONCAT('%',#{keywords},'%')
+        </if>
+        ORDER BY t.create_time desc
+    </select>
+
+    <select id="findOutDetById" parameterType="java.lang.Integer" resultMap="OutDetListMap">
+        select t.*,
+        c.client_name,
+        d.id out_det_id,
+        d.sample_cloth_out_id,
+        d.customer_purchase_cost customer_purchase_cost_det,
+        d.sample_cloth_price,
+        d.sample_cloth_length,
+        d.remark1 remark1_det,
+        d.create_time create_time_det,
+        cloth.sample_name,
+        det.location_name,
+        w.ware_name
+        from mt_alone_sample_cloth_out t
+        left join client_manage c on c.client_id = t.customer_id
+        left join mt_alone_sample_cloth_out_det d on d.sample_cloth_out_id = t.id
+        left join mt_alone_sample_cloth_det det on d.sample_cloth_det_id = det.id
+        left join ware_info w on w.ware_id = det.ware_info_id
+        left join mt_alone_sample_cloth cloth on cloth.id = det.sample_cloth_id
+        where t.id = #{id}
+    </select>
 </mapper>

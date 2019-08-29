@@ -1,8 +1,8 @@
 package com.deer.wms.detect.service;
 
-import com.deer.wms.detect.model.MtAloneSampleClothOut;
-import com.deer.wms.detect.model.MtAloneSampleClothOutParams;
+import com.deer.wms.detect.model.*;
 
+import com.deer.wms.intercept.common.data.CurrentUser;
 import com.deer.wms.project.seed.core.service.Service;
 import java.util.List;
 
@@ -12,6 +12,9 @@ import java.util.List;
 public interface MtAloneSampleClothOutService extends Service<MtAloneSampleClothOut, Integer> {
 
 
-    List<MtAloneSampleClothOut> findList(MtAloneSampleClothOutParams  params) ;
+    List<MtAloneSampleClothOutDto> findList(MtAloneSampleClothOutParams  params) ;
 
+    void saveDetails(MtAloneSampleClothOutVO mtAloneSampleClothOutVO, CurrentUser currentUser);
+
+    MtAloneSampleClothOutDetVO findOutDetById(Integer id);
 }

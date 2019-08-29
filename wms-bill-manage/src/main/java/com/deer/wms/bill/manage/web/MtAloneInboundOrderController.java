@@ -179,7 +179,7 @@ public class MtAloneInboundOrderController {
             productVO.setGreffierName(currentUser.getUserName());
             MtAloneProduct product=new MtAloneProduct();
             BeanUtils.copyProperties(productVO, product);
-            maxBarcode=productBarcode;
+            maxBarcode = productBarcode;
             MtAloneBarcode mtAloneBarcode = new MtAloneBarcode();
             mtAloneBarcode.setBarcode(maxBarcode);
             mtAloneBarcodeService.save(mtAloneBarcode);

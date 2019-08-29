@@ -36,7 +36,18 @@
     left join mt_alone_sample_cloth c on c.id = t.sample_cloth_id
     where t.company_id = #{companyId} and t.status = 0
     <if test="keywords != null and keywords != ''">
-      AND c.sample_name LIKE CONCAT('%', #{keywords}, '%')
+      AND
+      (
+      c.sample_name LIKE CONCAT('%', #{keywords}, '%')
+      OR w.ware_name LIKE CONCAT('%', #{keywords}, '%')
+      OR t.location_name LIKE CONCAT('%', #{keywords}, '%')
+      )
+    </if>
+    <if test="begDate != null and begDate != ''">
+      and DATE_FORMAT(t.create_time,'%Y-%m-%d') <![CDATA[>=]]> DATE_FORMAT(#{begDate}, '%Y-%m-%d')
+    </if>
+    <if test="endDate != null and endDate != ''">
+      and DATE_FORMAT(t.create_time,'%Y-%m-%d') <![CDATA[<=]]> DATE_FORMAT(#{endDate}, '%Y-%m-%d')
     </if>
     ORDER BY t.create_time desc
   </select>

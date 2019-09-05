@@ -5,7 +5,7 @@ package com.deer.wms.produce.manage.model;
  * @Date: 2019/8/24 16:30
  * @Version 1.0
  */
-public class MaterialsOutgoingLogVO extends MaterialsOutgoingLog {
+public class MaterialsOutgoingLogVo extends MaterialsOutgoingLog {
 
     private String userName;
 

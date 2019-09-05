@@ -10,7 +10,7 @@ package com.deer.wms.produce.manage.model;
  */
 
 
-public class MaterialsInfoDTO extends MaterialsInfo{
+public class MaterialsInfoDto extends MaterialsInfo{
     private String positionName;
     private Float quantity;
     private String companyName;

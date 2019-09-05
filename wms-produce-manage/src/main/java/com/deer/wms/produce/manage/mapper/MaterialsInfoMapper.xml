@@ -20,7 +20,7 @@
     <result column="supplier_id" jdbcType="INTEGER" property="supplierId" />
   </resultMap>
 
-   <resultMap id="MatInfoDTOResultMap" type="com.deer.wms.produce.manage.model.MaterialsInfoDTO">
+   <resultMap id="MatInfoDTOResultMap" type="com.deer.wms.produce.manage.model.MaterialsInfoDto">
      <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
      <result column="materials_name" jdbcType="VARCHAR" property="materialsName" />
      <result column="position_name" jdbcType="VARCHAR" property="positionName" />

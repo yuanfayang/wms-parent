@@ -2,7 +2,7 @@ package com.deer.wms.produce.manage.service;
 
 import com.deer.wms.produce.manage.model.MaterialsOutgoingLog;
 import com.deer.wms.produce.manage.model.MaterialsOutgoingLogParams;
-import com.deer.wms.produce.manage.model.MaterialsOutgoingLogVO;
+import com.deer.wms.produce.manage.model.MaterialsOutgoingLogVo;
 import com.deer.wms.project.seed.core.service.Service;
 
 
@@ -14,6 +14,6 @@ import java.util.List;
 public interface MaterialsOutgoingLogService extends Service<MaterialsOutgoingLog, Integer> {
 
 
-    List<MaterialsOutgoingLogVO> findListByOneMaterial(MaterialsOutgoingLogParams params) ;
+    List<MaterialsOutgoingLogVo> findListByOneMaterial(MaterialsOutgoingLogParams params) ;
 
 }

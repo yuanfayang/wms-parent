@@ -6,7 +6,6 @@ import com.deer.wms.produce.manage.model.*;
 import com.deer.wms.produce.manage.service.MaterialsOutgoingLogService;
 import com.deer.wms.produce.manage.service.MaterialsStockInfoService;
 import com.deer.wms.project.seed.annotation.OperateLog;
-import com.deer.wms.project.seed.constant.SystemManageConstant;
 import com.deer.wms.project.seed.core.result.CommonCode;
 import com.deer.wms.project.seed.core.result.Result;
 import com.deer.wms.project.seed.core.result.ResultGenerator;
@@ -99,8 +98,8 @@ public class MaterialsInfoController {
         StringUtil.trimObjectStringProperties(params);
 
         params.setCompanyId(currentUser.getCompanyId());
-        MaterialsInfoDTO materialsInfoDTO = materialsInfoService.findDetailById(params);
-        return ResultGenerator.genSuccessResult(materialsInfoDTO);
+        MaterialsInfoDto materialsInfoDto = materialsInfoService.findDetailById(params);
+        return ResultGenerator.genSuccessResult(materialsInfoDto);
     }
 
 
@@ -115,7 +114,7 @@ public class MaterialsInfoController {
 
         params.setCompanyId(1);
         PageHelper.startPage(params.getPageNum(), params.getPageSize());
-        List<MaterialsInfoDTO> list = materialsInfoService.findList(params);
+        List<MaterialsInfoDto> list = materialsInfoService.findList(params);
         PageInfo pageInfo = new PageInfo(list);
         return ResultGenerator.genSuccessResult(pageInfo);
     }

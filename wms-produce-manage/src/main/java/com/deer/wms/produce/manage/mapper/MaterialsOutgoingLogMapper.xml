@@ -19,7 +19,7 @@
     <result column="company_id" jdbcType="INTEGER" property="companyId" />
   </resultMap>
 
-    <resultMap id="MatOutVOResultMap" type="com.deer.wms.produce.manage.model.MaterialsOutgoingLogVO">
+    <resultMap id="MatOutVOResultMap" type="com.deer.wms.produce.manage.model.MaterialsOutgoingLogVo">
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
         <result column="materials_name" jdbcType="VARCHAR" property="materialsName" />
         <result column="position_name" jdbcType="VARCHAR" property="positionName" />

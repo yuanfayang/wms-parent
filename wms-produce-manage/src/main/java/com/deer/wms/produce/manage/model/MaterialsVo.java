@@ -7,7 +7,7 @@ package com.deer.wms.produce.manage.model;
  *
  * 包含物料信息和库存信息共同属性的类，用于在一个界面上获取两个对象所有字段信息并存入数据库
  */
-public class MaterialsVO {
+public class MaterialsVo {
     private MaterialsInfo materialsInfo;
 
     private MaterialsStockInfo materialsStockInfo;

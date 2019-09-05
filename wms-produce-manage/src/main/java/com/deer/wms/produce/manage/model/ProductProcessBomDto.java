@@ -5,7 +5,7 @@ package com.deer.wms.produce.manage.model;
  * @Date: 2019/8/25 13:00
  * @Version 1.0
  */
-public class ProductProcessBomDTO extends ProductProcessBom{
+public class ProductProcessBomDto extends ProductProcessBom{
 
     private String companyName;
 

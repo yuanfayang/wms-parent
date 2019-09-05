@@ -21,7 +21,7 @@
     <result column="company_id" jdbcType="INTEGER" property="companyId" />
   </resultMap>
 
-    <resultMap id="ProcessBomDTOResultMap" type="com.deer.wms.produce.manage.model.ProcessBomDTO">
+    <resultMap id="ProcessBomDTOResultMap" type="com.deer.wms.produce.manage.model.ProcessBomDto">
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
         <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
         <result column="process_name" jdbcType="VARCHAR" property="processName" />

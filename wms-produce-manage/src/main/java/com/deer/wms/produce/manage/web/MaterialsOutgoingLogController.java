@@ -4,11 +4,9 @@ import com.deer.wms.intercept.annotation.User;
 import com.deer.wms.intercept.common.data.CurrentUser;
 import com.deer.wms.produce.manage.constant.ProduceManageConstant;
 import com.deer.wms.produce.manage.model.*;
-import com.deer.wms.produce.manage.service.MaterialsOutgoingLogDTOService;
 import com.deer.wms.produce.manage.service.MaterialsOutgoingLogService;
 import com.deer.wms.produce.manage.service.MaterialsStockInfoService;
 import com.deer.wms.project.seed.annotation.OperateLog;
-import com.deer.wms.project.seed.constant.SystemManageConstant;
 import com.deer.wms.project.seed.core.result.CommonCode;
 import com.deer.wms.project.seed.core.result.Result;
 import com.deer.wms.project.seed.core.result.ResultGenerator;
@@ -19,7 +17,6 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
-
 import java.util.Date;
 import java.util.List;
 
@@ -44,22 +41,22 @@ public class MaterialsOutgoingLogController {
     @OperateLog(description = "添加一条出入库记录", type = "增加")
     @ApiOperation(value = "添加一条出入库记录", notes = "添加一条出入库记录")
     @PostMapping("/add")
-    public Result add(@RequestBody MaterialsOutgoingLogDTO materialsOutgoingLogDTO, @ApiIgnore @User CurrentUser currentUser) {
+    public Result add(@RequestBody MaterialsOutgoingLogDto materialsOutgoingLogDto, @ApiIgnore @User CurrentUser currentUser) {
         if(currentUser==null){
             return ResultGenerator.genFailResult( CommonCode.SERVICE_ERROR,"未登录错误",null );
         }
 
         Date date = new Date();
-        MaterialsInfo materialsInfo = materialsOutgoingLogDTO.getMaterialsInfo();
+        MaterialsInfo materialsInfo = materialsOutgoingLogDto.getMaterialsInfo();
 
         MaterialsOutgoingLog materialsOutgoingLog = new MaterialsOutgoingLog();
         materialsOutgoingLog.setOperatorId(currentUser.getUserId());
         materialsOutgoingLog.setCreateTime(date);
         materialsOutgoingLog.setMaterialsId(materialsInfo.getId());
         materialsOutgoingLog.setMaterialsName(materialsInfo.getMaterialsName());
-        materialsOutgoingLog.setType(materialsOutgoingLogDTO.getType());
-        materialsOutgoingLog.setQuantity(materialsOutgoingLogDTO.getQuantity());
-        materialsOutgoingLog.setPositionName(materialsOutgoingLogDTO.getPositionName());
+        materialsOutgoingLog.setType(materialsOutgoingLogDto.getType());
+        materialsOutgoingLog.setQuantity(materialsOutgoingLogDto.getQuantity());
+        materialsOutgoingLog.setPositionName(materialsOutgoingLogDto.getPositionName());
         materialsOutgoingLog.setCompanyId(currentUser.getCompanyId());
         materialsOutgoingLogService.save(materialsOutgoingLog);
 
@@ -71,8 +68,8 @@ public class MaterialsOutgoingLogController {
             stock.setMaterialsId(materialsInfo.getId());
             stock.setUnitId(materialsInfo.getUnitId());
             stock.setCreateTime(date);
-            stock.setQuantity(materialsOutgoingLogDTO.getQuantity());
-            stock.setPositionName(materialsOutgoingLogDTO.getPositionName());
+            stock.setQuantity(materialsOutgoingLogDto.getQuantity());
+            stock.setPositionName(materialsOutgoingLogDto.getPositionName());
             stock.setCompanyId(currentUser.getCompanyId());
             materialsStockInfoService.save(stock);
         }else{//如果库存表中有该物料信息，则更新对应的库存记录
@@ -139,7 +136,7 @@ public class MaterialsOutgoingLogController {
 
         params.setCompanyId(currentUser.getCompanyId());
         PageHelper.startPage(params.getPageNum(), params.getPageSize());
-        List<MaterialsOutgoingLogVO> list = materialsOutgoingLogService.findListByOneMaterial(params);
+        List<MaterialsOutgoingLogVo> list = materialsOutgoingLogService.findListByOneMaterial(params);
         PageInfo pageInfo = new PageInfo(list);
         return ResultGenerator.genSuccessResult(pageInfo);
     }

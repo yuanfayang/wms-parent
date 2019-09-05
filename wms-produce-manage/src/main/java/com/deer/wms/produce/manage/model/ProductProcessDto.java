@@ -9,7 +9,7 @@ package com.deer.wms.produce.manage.model;
  *
  */
 
-public class ProductProcessDTO extends ProductProcess {
+public class ProductProcessDto extends ProductProcess {
     private String productBarCode;//产品条形码
 
     private String productName;//产品名称

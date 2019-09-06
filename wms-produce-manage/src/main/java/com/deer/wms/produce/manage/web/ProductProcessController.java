@@ -8,6 +8,7 @@ import com.deer.wms.produce.manage.model.ProcessBom;
 import com.deer.wms.produce.manage.model.ProductProcess;
 import com.deer.wms.produce.manage.model.ProductProcessParams;
 import com.deer.wms.produce.manage.service.ProcessBomService;
+import com.deer.wms.produce.manage.service.ProductProcessBomService;
 import com.deer.wms.produce.manage.service.ProductProcessService;
 import com.deer.wms.project.seed.annotation.OperateLog;
 import com.deer.wms.project.seed.constant.SystemManageConstant;
@@ -64,6 +65,7 @@ public class ProductProcessController {
         productProcess.setStatus(ProduceManageConstant.STATUS_AVAILABLE);
         productProcess.setCompanyId(currentUser.getCompanyId());
         productProcess.setReviewStatus(ProduceManageConstant.REVIEW_STATUS_FORREVIEW);
+        productProcess.setProductBomId(ProductProcessBomService.getProductBomIdByProductId());//该方法待完善···
         productProcessService.save(productProcess);
 
         //判断bom表中是否有同种产品的生产bom，如果没有生产相应产品的生产bom

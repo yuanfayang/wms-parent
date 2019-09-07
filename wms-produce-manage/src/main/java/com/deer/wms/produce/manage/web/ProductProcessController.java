@@ -65,7 +65,7 @@ public class ProductProcessController {
         productProcess.setStatus(ProduceManageConstant.STATUS_AVAILABLE);
         productProcess.setCompanyId(currentUser.getCompanyId());
         productProcess.setReviewStatus(ProduceManageConstant.REVIEW_STATUS_FORREVIEW);
-        productProcess.setProductBomId(ProductProcessBomService.getProductBomIdByProductId());//该方法待完善···
+        //productProcess.setProductBomId(ProductProcessBomService.getProductBomIdByProductId());//该方法待完善···
         productProcessService.save(productProcess);
 
         //判断bom表中是否有同种产品的生产bom，如果没有生产相应产品的生产bom
@@ -102,7 +102,6 @@ public class ProductProcessController {
         if(currentUser==null){
             return ResultGenerator.genFailResult(CommonCode.SERVICE_ERROR,"未登录错误",null );
         }
-
 
         params.setCompanyId(currentUser.getCompanyId());
 

@@ -11,6 +11,6 @@ import java.util.List;
 public interface ProductProcessBomService extends Service<ProductProcessBom, Integer> {
     List<ProductProcessBom> findList(ProductProcessBomParams params);
 
-    static Integer getProductBomIdByProductId() {
-    }
+    //static Integer getProductBomIdByProductId() {
+    //}
 }

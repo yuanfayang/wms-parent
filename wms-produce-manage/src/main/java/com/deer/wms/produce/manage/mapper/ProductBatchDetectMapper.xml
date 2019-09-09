@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deer.wms.produce.manage.dao.ProductBatchDetectMapper">
+  <resultMap id="BaseResultMap" type="com.deer.wms.produce.manage.model.ProductBatchDetect">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="operator_id" jdbcType="INTEGER" property="operatorId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="version" jdbcType="VARCHAR" property="version" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="process_id" jdbcType="INTEGER" property="processId" />
+    <result column="batch_det_code" jdbcType="VARCHAR" property="batchDetCode" />
+    <result column="product_det_barcode" jdbcType="VARCHAR" property="productDetBarcode" />
+    <result column="grade" jdbcType="INTEGER" property="grade" />
+    <result column="winding_machine_id" jdbcType="INTEGER" property="windingMachineId" />
+    <result column="company_id" jdbcType="INTEGER" property="companyId" />
+  </resultMap>
+</mapper>

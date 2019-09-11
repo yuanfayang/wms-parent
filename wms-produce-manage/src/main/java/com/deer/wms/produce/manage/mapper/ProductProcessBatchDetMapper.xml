@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deer.wms.produce.manage.dao.ProductProcessBatchDetMapper">
+  <resultMap id="BaseResultMap" type="com.deer.wms.produce.manage.model.ProductProcessBatchDet">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="operator_id" jdbcType="INTEGER" property="operatorId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="version" jdbcType="VARCHAR" property="version" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="batch_code" jdbcType="VARCHAR" property="batchCode" />
+    <result column="delivery_code" jdbcType="VARCHAR" property="deliveryCode" />
+    <result column="product_process_code" jdbcType="VARCHAR" property="productProcessCode" />
+    <result column="volume_num" jdbcType="VARCHAR" property="volumeNum" />
+    <result column="batch_det_code" jdbcType="VARCHAR" property="batchDetCode" />
+    <result column="len" jdbcType="REAL" property="len" />
+    <result column="delivery_len" jdbcType="REAL" property="deliveryLen" />
+    <result column="detection_len" jdbcType="REAL" property="detectionLen" />
+    <result column="shrinkage" jdbcType="VARCHAR" property="shrinkage" />
+    <result column="dyelot_num" jdbcType="VARCHAR" property="dyelotNum" />
+    <result column="dyelot_order" jdbcType="VARCHAR" property="dyelotOrder" />
+    <result column="product_annex_code" jdbcType="VARCHAR" property="productAnnexCode" />
+    <result column="company_id" jdbcType="INTEGER" property="companyId" />
+  </resultMap>
+</mapper>

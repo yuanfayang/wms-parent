@@ -2,6 +2,7 @@ package com.deer.wms.detect.web;
 
 import com.deer.wms.detect.model.MtAloneFabricDefect;
 import com.deer.wms.detect.model.MtAloneFabricDefectCriteria;
+import com.deer.wms.detect.model.MtAloneFabricGroup;
 import com.deer.wms.detect.service.MtAloneFabricDefectService;
 import com.deer.wms.project.seed.annotation.OperateLog;
 import com.deer.wms.project.seed.core.result.Result;
@@ -102,6 +103,17 @@ public class MtAloneFabricDefectController {
     public Result fabricListByTypeId(MtAloneFabricDefectCriteria criteria) {
         PageHelper.startPage(criteria.getPageNum(), criteria.getPageSize());
         List<MtAloneFabricDefect> list = mtAloneFabricDefectService.findListByTypeId(criteria);
+        PageInfo pageInfo = new PageInfo(list);
+        return ResultGenerator.genSuccessResult(pageInfo);
+    }
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "access-token", value = "token", paramType = "header", dataType = "String", required = true) })
+    @GetMapping("/group/list")
+    @ApiOperation(value="根据瑕疵种类ID获取瑕疵信息",notes="根据瑕疵种类ID获取瑕疵信息")
+    public Result groupList(MtAloneFabricDefectCriteria criteria) {
+        PageHelper.startPage(criteria.getPageNum(), criteria.getPageSize());
+        List<MtAloneFabricGroup> list = mtAloneFabricDefectService.groupList(criteria);
         PageInfo pageInfo = new PageInfo(list);
         return ResultGenerator.genSuccessResult(pageInfo);
     }

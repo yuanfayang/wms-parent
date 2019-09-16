@@ -4,6 +4,7 @@ import com.deer.wms.bill.manage.model.MtAloneProductDet;
 import com.deer.wms.detect.dao.MtAloneFabricDefectMapper;
 import com.deer.wms.detect.model.MtAloneFabricDefect;
 import com.deer.wms.detect.model.MtAloneFabricDefectCriteria;
+import com.deer.wms.detect.model.MtAloneFabricGroup;
 import com.deer.wms.detect.service.MtAloneFabricDefectService;
 import com.deer.wms.project.seed.core.service.AbstractService;
 
@@ -45,5 +46,10 @@ public class MtAloneFabricDefectServiceImpl extends AbstractService<MtAloneFabri
 	@Override
 	public List<MtAloneFabricDefect> findListByTypeId(MtAloneFabricDefectCriteria criteria) {
 		return mtAloneFabricDefectMapper.findListByTypeId(criteria);
+	}
+
+	@Override
+	public List<MtAloneFabricGroup> groupList(MtAloneFabricDefectCriteria criteria) {
+		return mtAloneFabricDefectMapper.groupList(criteria);
 	}
 }

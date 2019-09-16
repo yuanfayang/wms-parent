@@ -1,13 +1,11 @@
 package com.deer.wms.produce.manage.model;
 
-import lombok.Data;
 
 /**
  * @Author: weihongyang
  * @Date: 2019/9/9 15:22
  * @Version 1.0
  */
-@Data
 public class MtAloneStockProductVo extends MtAloneStockProduct{
     /**
      * 物料类型名称
@@ -33,4 +31,48 @@ public class MtAloneStockProductVo extends MtAloneStockProduct{
      * 供应商代号
      */
     private String supplierCodeName;
+
+    public String getItemTypeName() {
+        return itemTypeName;
+    }
+
+    public void setItemTypeName(String itemTypeName) {
+        this.itemTypeName = itemTypeName;
+    }
+
+    public String getItemVarietyName() {
+        return itemVarietyName;
+    }
+
+    public void setItemVarietyName(String itemVarietyName) {
+        this.itemVarietyName = itemVarietyName;
+    }
+
+    @Override
+    public String getPurchaserName() {
+        return purchaserName;
+    }
+
+    @Override
+    public void setPurchaserName(String purchaserName) {
+        this.purchaserName = purchaserName;
+    }
+
+    @Override
+    public String getSellerName() {
+        return sellerName;
+    }
+
+    @Override
+    public void setSellerName(String sellerName) {
+        this.sellerName = sellerName;
+    }
+
+    public String getSupplierCodeName() {
+        return supplierCodeName;
+    }
+
+    public void setSupplierCodeName(String supplierCodeName) {
+        this.supplierCodeName = supplierCodeName;
+    }
 }

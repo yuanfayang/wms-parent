@@ -33,4 +33,6 @@ public interface MtAloneProductMapper extends Mapper<MtAloneProduct> {
 	MtAloneProductCellVO findByBarcodeNew(@Param("productBarcode")String productBarcode);
 
     MtAloneProductCellVO findById(Integer id);
+
+    List<MtAloneProduct> rollList(MtAloneProductParams params);
 }

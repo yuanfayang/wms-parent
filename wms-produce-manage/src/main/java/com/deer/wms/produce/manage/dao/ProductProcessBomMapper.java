@@ -1,4 +1,4 @@
-package com.deer.wms.ware.task.dao;
+package com.deer.wms.produce.manage.dao;
 
 
 import com.deer.wms.produce.manage.model.ProductProcessBom;

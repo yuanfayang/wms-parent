@@ -2,6 +2,7 @@ package com.deer.wms.detect.dao;
 
 import java.util.List;
 
+import com.deer.wms.detect.model.MtAloneFabricGroup;
 import org.apache.ibatis.annotations.Param;
 
 import com.deer.wms.bill.manage.model.MtAloneProductDet;
@@ -18,4 +19,6 @@ public interface MtAloneFabricDefectMapper extends Mapper<MtAloneFabricDefect> {
 	List<MtAloneFabricDefect> findListByTypeId(MtAloneFabricDefectCriteria criteria);
 
 	MtAloneProductDet findProductDetByBarCode(@Param("productDetBarCode")String productDetBarCode);
+
+    List<MtAloneFabricGroup> groupList(MtAloneFabricDefectCriteria criteria);
 }

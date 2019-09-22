@@ -22,4 +22,5 @@ public interface SupplierManageService extends Service<SupplierManage, Integer> 
     Integer countRelProducts(SupplierManageParams params);
 
     Integer listExcelImport(String fileName, MultipartFile file) throws Exception;
+
 }

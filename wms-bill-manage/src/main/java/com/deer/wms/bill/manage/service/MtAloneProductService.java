@@ -38,4 +38,6 @@ public interface MtAloneProductService extends Service<MtAloneProduct, Integer> 
 	MtAloneProductCellVO findByBarcodeNew(@Param("productBarcode")String productBarcode);
 
 	MtAloneProductCellVO findById(Integer id);
+
+	List<MtAloneProduct> rollList(MtAloneProductParams params);
 }

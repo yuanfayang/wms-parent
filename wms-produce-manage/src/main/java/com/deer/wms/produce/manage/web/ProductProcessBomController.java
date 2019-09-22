@@ -40,8 +40,8 @@ public class ProductProcessBomController {
         if(currentUser==null){
             return ResultGenerator.genFailResult( CommonCode.SERVICE_ERROR,"未登录错误",null );
         }
-		 mtAloneProductProcessBom.setCreateTime(new Date());
-		 mtAloneProductProcessBom.setCompanyId(currentUser.getCompanyId());
+        mtAloneProductProcessBom.setCreateTime(new Date());
+        mtAloneProductProcessBom.setCompanyId(currentUser.getCompanyId());
         productProcessBomService.save(mtAloneProductProcessBom);
         return ResultGenerator.genSuccessResult();
     }

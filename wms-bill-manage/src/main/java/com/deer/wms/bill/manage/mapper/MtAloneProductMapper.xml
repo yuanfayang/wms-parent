@@ -55,6 +55,7 @@
       <result column="inbound_order_code" jdbcType="VARCHAR" property="inboundOrderCode" />
       <result column="greffier_name" jdbcType="VARCHAR" property="greffierName" />
       <result column="buyer_name" jdbcType="VARCHAR" property="buyerName" />
+      <result column="is_roll_order" jdbcType="INTEGER" property="isRollOrder" />
   </resultMap>
    
     <resultMap id="ProductCombinationMap" type="com.deer.wms.bill.manage.model.MtAloneProductVO" extends="BaseResultMap">
@@ -80,7 +81,12 @@
       select   *
       from mt_alone_product
      </select>
-     
+     <select id="rollList" parameterType="com.deer.wms.bill.manage.model.MtAloneProductParams" resultMap="BaseResultMap">
+      select  *
+      from mt_alone_product
+      where company_id = #{companyId}
+      and is_roll_order = 1
+     </select>
      <select id="findListNew" parameterType="com.deer.wms.bill.manage.model.MtAloneProductParams" resultMap="ProductCombinationMap">
 		SELECT
 		pro.*,u.user_name AS purchaser,IFNULL(tmp0.num,0) AS roll_num,IFNULL(tmp1.deliverylength,0) AS delivery_length,IFNULL(tmp2.detectlength,0) AS detect_length,IFNULL(tmp2.detectlength,0)-IFNULL(tmp1.deliverylength,0) AS remain_length,tmp3.sup_name AS supplier_name,tmp4.type_name AS item_type_name,tmp5.variety_name AS item_variety_name

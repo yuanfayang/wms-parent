@@ -1,42 +1,70 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.deer.wms.detect.dao.MtAloneFabricDefectMapper">
-  <resultMap id="BaseResultMap" type="com.deer.wms.detect.model.MtAloneFabricDefect">
-    <!--
-      WARNING - @mbg.generated
-    -->
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="add_time" jdbcType="TIMESTAMP" property="addTime" />
-    <result column="delete_status" jdbcType="INTEGER" property="deleteStatus" />
-    <result column="defect_name" jdbcType="VARCHAR" property="defectName" />
-    <result column="english_abb" jdbcType="VARCHAR" property="englishAbb" />
-    <result column="defect_code" jdbcType="VARCHAR" property="defectCode" />
-    <result column="description" jdbcType="VARCHAR" property="description" />
-    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-    <result column="defect_type" jdbcType="INTEGER" property="defectType" />
-  </resultMap>
-  
-  <select id="findList" parameterType="com.deer.wms.detect.model.MtAloneFabricDefectCriteria" resultMap="BaseResultMap">
+    <resultMap id="BaseResultMap" type="com.deer.wms.detect.model.MtAloneFabricDefect">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="add_time" jdbcType="TIMESTAMP" property="addTime"/>
+        <result column="delete_status" jdbcType="INTEGER" property="deleteStatus"/>
+        <result column="defect_name" jdbcType="VARCHAR" property="defectName"/>
+        <result column="english_abb" jdbcType="VARCHAR" property="englishAbb"/>
+        <result column="defect_code" jdbcType="VARCHAR" property="defectCode"/>
+        <result column="description" jdbcType="VARCHAR" property="description"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="defect_type" jdbcType="INTEGER" property="defectType"/>
+    </resultMap>
+    <resultMap id="groupListMap" type="com.deer.wms.detect.model.MtAloneFabricGroup" extends="BaseResultMap">
+        <result column="color" jdbcType="VARCHAR" property="color"/>
+        <result column="background_color" jdbcType="VARCHAR" property="backgroundColor"/>
+        <result column="border_color" jdbcType="VARCHAR" property="borderColor"/>
+    </resultMap>
+
+    <select id="findList" parameterType="com.deer.wms.detect.model.MtAloneFabricDefectCriteria"
+            resultMap="BaseResultMap">
     select * from mt_alone_fabric_defect
     where 1=1
     and delete_status!=1
   </select>
 
-  <select id="findListByTypeId" parameterType="com.deer.wms.detect.model.MtAloneFabricDefectCriteria" resultMap="BaseResultMap">
-    select * from mt_alone_fabric_defect def
-    where 1=1
-    <if test="fabricTypeId != null">
-      AND def.defect_type = #{fabricTypeId}
-    </if>
-  </select>
-  
-  <select id="findDefectByName" parameterType="com.deer.wms.detect.model.MtAloneFabricDefectCriteria" resultMap="BaseResultMap">
-    select * from mt_alone_fabric_defect where 1=1 and delete_status!=1
-   <if test="defectName != null and defectName != ''">
-       AND defect_name like concat('%', #{defectName}, '%')
-    </if>
-    order by add_time desc
+    <select id="findListByTypeId" parameterType="com.deer.wms.detect.model.MtAloneFabricDefectCriteria"
+            resultMap="BaseResultMap">
+        select * from mt_alone_fabric_defect def
+        where 1=1
+        <if test="fabricTypeId != null">
+            AND def.defect_type = #{fabricTypeId}
+        </if>
+    </select>
+
+    <select id="findDefectByName" parameterType="com.deer.wms.detect.model.MtAloneFabricDefectCriteria"
+            resultMap="BaseResultMap">
+        select * from mt_alone_fabric_defect where 1=1 and delete_status!=1
+        <if test="defectName != null and defectName != ''">
+            AND defect_name like concat('%', #{defectName}, '%')
+        </if>
+        order by add_time desc
+    </select>
+
+    <select id="groupList" parameterType="com.deer.wms.detect.model.MtAloneFabricDefectCriteria"
+            resultMap="groupListMap">
+    SELECT
+	g.color,
+	g.background_color,
+	g.border_color,
+	f.*
+   FROM
+	mt_alone_fabric_type t,
+	mt_alone_fabric_group g,
+	mt_alone_fabric_defect f,
+	mt_alone_fabric_group_relate r
+   WHERE
+	t.id = g.fabric_type_id
+	AND g.id = r.fabric_group_id
+	AND f.id = r.fabric_id
+	AND t.id = #{fabricTypeId}
+   ORDER BY
+	g.sort
   </select>
 
-  
 </mapper>

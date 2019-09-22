@@ -453,4 +453,17 @@ public class MtAloneProductController {
 
 	}
 
+
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "access-token", value = "token", paramType = "header", dataType = "String", required = true) })
+	@OperateLog(description = "打卷指示单列表", type = "查询")
+	@GetMapping("/roll/list")
+	public Result rollList(MtAloneProductParams params, @User CurrentUser currentUser) {
+		params.setCompanyId(currentUser.getCompanyId());
+		PageHelper.startPage(params.getPageNum(), params.getPageSize());
+		List<MtAloneProduct> list = mtAloneProductService.rollList(params);;
+		PageInfo pageInfo = new PageInfo(list);
+		return ResultGenerator.genSuccessResult(pageInfo);
+
+	}
 }

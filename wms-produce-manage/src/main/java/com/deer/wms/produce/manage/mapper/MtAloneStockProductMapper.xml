@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deer.wms.produce.manage.dao.MtAloneStockProductMapper">
+  <resultMap id="BaseResultMap" type="com.deer.wms.produce.manage.model.MtAloneStockProduct">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="operator_id" jdbcType="INTEGER" property="operatorId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="creator_id" jdbcType="INTEGER" property="creatorId" />
+    <result column="updater_id" jdbcType="INTEGER" property="updaterId" />
+    <result column="version" jdbcType="VARCHAR" property="version" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="company_id" jdbcType="INTEGER" property="companyId" />
+    <result column="supplier_id" jdbcType="INTEGER" property="supplierId" />
+    <result column="supplier_codename" jdbcType="VARCHAR" property="supplierCodename" />
+    <result column="supplier_name" jdbcType="VARCHAR" property="supplierName" />
+    <result column="supplier_phone" jdbcType="VARCHAR" property="supplierPhone" />
+    <result column="supplier_contacts" jdbcType="VARCHAR" property="supplierContacts" />
+    <result column="product_code" jdbcType="VARCHAR" property="productCode" />
+    <result column="item_code" jdbcType="VARCHAR" property="itemCode" />
+    <result column="product_name" jdbcType="VARCHAR" property="productName" />
+    <result column="product_cha_name" jdbcType="VARCHAR" property="productChaName" />
+    <result column="product_type_id" jdbcType="INTEGER" property="productTypeId" />
+    <result column="product_variety_id" jdbcType="INTEGER" property="productVarietyId" />
+    <result column="color_code" jdbcType="VARCHAR" property="colorCode" />
+    <result column="shell_fabric" jdbcType="VARCHAR" property="shellFabric" />
+    <result column="tissue" jdbcType="VARCHAR" property="tissue" />
+    <result column="ware_num" jdbcType="REAL" property="wareNum" />
+    <result column="unit_code" jdbcType="VARCHAR" property="unitCode" />
+    <result column="supplier_num" jdbcType="REAL" property="supplierNum" />
+    <result column="price" jdbcType="REAL" property="price" />
+    <result column="sales_price" jdbcType="REAL" property="salesPrice" />
+    <result column="larghezza" jdbcType="REAL" property="larghezza" />
+    <result column="grammage" jdbcType="REAL" property="grammage" />
+    <result column="density" jdbcType="VARCHAR" property="density" />
+    <result column="specification" jdbcType="VARCHAR" property="specification" />
+    <result column="processing_mode" jdbcType="VARCHAR" property="processingMode" />
+    <result column="developer" jdbcType="VARCHAR" property="developer" />
+    <result column="purchaser_id" jdbcType="INTEGER" property="purchaserId" />
+    <result column="purchaser_name" jdbcType="VARCHAR" property="purchaserName" />
+    <result column="seller_id" jdbcType="INTEGER" property="sellerId" />
+    <result column="seller_name" jdbcType="VARCHAR" property="sellerName" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <select id="findList" parameterType="com.deer.wms.produce.manage.model.MtAloneStockProductParams" resultMap="BaseResultMap">
+    SELECT *
+    FROM mt_alone_stock_product masp
+    LEFT JOIN item_type it ON masp.product_type_id = it.item_type_id
+    <where>
+      <if test="keywords != null and keywords != ''">
+        AND masp.product_code LIKE CONCAT('%', #{keywords}, '%')
+        OR masp.product_name LIKE CONCAT('%', #{keywords}, '%')
+        OR masp.supplier_name LIKE CONCAT('%', #{keywords}, '%')
+      </if>
+      <if test="productTypeId != null and productTypeId != ''">
+        AND masp.product_type_id = #{productTypeId}
+      </if>
+      <if test="productVarietyId != null and productVarietyId !=''">
+        AND masp.product_variety_id= #{productVarietyId}
+      </if>
+      <if test="begDate!=null and begDate!=''">
+        <![CDATA[  AND DATE_FORMAT(masp.create_time, '%Y-%m-%d')>=  DATE_FORMAT(#{begDate}, '%Y-%m-%d')   ]]>
+      </if>
+      <if test="endDate!=null and endDate!=''">
+        <![CDATA[  AND DATE_FORMAT(masp.create_time, '%Y-%m-%d') <= DATE_FORMAT(#{endDate}, '%Y-%m-%d')    ]]>
+      </if>
+      <if test="companyId != null">
+        AND masp.company_id = #{companyId}
+      </if>
+    </where>
+    ORDER BY masp.create_time desc
+  </select>
+
+  <select id="findListPart" parameterType="com.deer.wms.produce.manage.model.MtAloneStockProductParams" resultMap="BaseResultMap">
+    SELECT
+    masp.id,masp.operator_id,masp.create_time,masp.update_time,masp.creator_id,masp.updater_id,masp.version,masp.status,masp.color_code,masp.shell_fabric,masp.tissue,masp.origin,masp.ware_num
+    FROM mt_alone_stock_product masp
+    LEFT JOIN item_type it ON masp.product_type_id = it.item_type_id
+    <where>
+      <if test="keywords != null and keywords != ''">
+        AND masp.product_code LIKE CONCAT('%', #{keywords}, '%')
+        OR masp.product_name LIKE CONCAT('%', #{keywords}, '%')
+        OR masp.supplier_name LIKE CONCAT('%', #{keywords}, '%')
+      </if>
+      <if test="productTypeId != null and productTypeId != ''">
+        AND masp.product_type_id = #{productTypeId}
+      </if>
+      <if test="productVarietyCode != null and productVarietyCode !=''">
+        AND masp.product_variety_code= #{productVarietyCode}
+      </if>
+      <if test="begDate!=null and begDate!=''">
+        <![CDATA[  AND DATE_FORMAT(masp.createTime, '%Y-%m-%d')>=  DATE_FORMAT(#{begDate}, '%Y-%m-%d')   ]]>
+      </if>
+      <if test="endDate!=null and endDate!=''">
+        <![CDATA[  AND DATE_FORMAT(masp.createTime, '%Y-%m-%d') <= DATE_FORMAT(#{endDate}, '%Y-%m-%d')    ]]>
+      </if>
+      <if test="companyId != null">
+        AND masp.company_id = #{companyId}
+      </if>
+    </where>
+    ORDER BY masp.create_time desc
+  </select>
+
+
+</mapper>

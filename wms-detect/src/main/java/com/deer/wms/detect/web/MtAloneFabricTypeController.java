@@ -1,5 +1,6 @@
 package com.deer.wms.detect.web;
 
+import com.deer.wms.detect.model.MtAloneFabricTypeVO;
 import com.deer.wms.project.seed.annotation.OperateLog;
 import com.deer.wms.project.seed.constant.SystemManageConstant;
 import com.deer.wms.project.seed.core.result.CommonCode;
@@ -95,6 +96,22 @@ public class MtAloneFabricTypeController {
         params.setCompanyId(currentUser.getCompanyId());
         PageHelper.startPage(params.getPageNum(), params.getPageSize());
         List<MtAloneFabricType> list = mtAloneFabricTypeService.findList(params);
+        PageInfo pageInfo = new PageInfo(list);
+        return ResultGenerator.genSuccessResult(pageInfo);
+    }
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "access-token", value = "token", paramType = "header", dataType = "String", required = true)})
+    @GetMapping("/fabricTypeList/group")
+    @OperateLog(description = "获取瑕疵分类集成瑕疵", type = "查询")
+    @ApiOperation(value = "获取瑕疵分类集成瑕疵", notes = "获取瑕疵分类集成瑕疵")
+    public Result fabricTypeList(MtAloneFabricTypeParams params, @ApiIgnore @User CurrentUser currentUser) {
+        if (currentUser == null) {
+            return ResultGenerator.genFailResult(CommonCode.NO_LOGIN);
+        }
+        params.setCompanyId(currentUser.getCompanyId());
+        PageHelper.startPage(params.getPageNum(), params.getPageSize());
+        List<MtAloneFabricTypeVO> list = mtAloneFabricTypeService.fabricTypeList(params);
         PageInfo pageInfo = new PageInfo(list);
         return ResultGenerator.genSuccessResult(pageInfo);
     }

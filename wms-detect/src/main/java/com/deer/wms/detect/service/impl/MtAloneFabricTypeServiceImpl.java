@@ -3,6 +3,7 @@ package com.deer.wms.detect.service.impl;
 import com.deer.wms.detect.dao.MtAloneFabricTypeMapper;
 import com.deer.wms.detect.model.MtAloneFabricType;
 import com.deer.wms.detect.model.MtAloneFabricTypeParams;
+import com.deer.wms.detect.model.MtAloneFabricTypeVO;
 import com.deer.wms.detect.service.MtAloneFabricTypeService;
 
 import com.deer.wms.project.seed.core.service.AbstractService;
@@ -25,5 +26,10 @@ public class MtAloneFabricTypeServiceImpl extends AbstractService<MtAloneFabricT
     @Override
     public List<MtAloneFabricType> findList(MtAloneFabricTypeParams  params) {
         return mtAloneFabricTypeMapper.findList(params);
+    }
+
+    @Override
+    public List<MtAloneFabricTypeVO> fabricTypeList(MtAloneFabricTypeParams params) {
+        return mtAloneFabricTypeMapper.fabricTypeList(params);
     }
 }

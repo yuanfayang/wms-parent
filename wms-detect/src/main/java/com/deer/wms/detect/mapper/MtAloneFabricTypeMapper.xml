@@ -13,11 +13,46 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
   </resultMap>
 
+  <resultMap id="fabricTypeListResultMap" type="com.deer.wms.detect.model.MtAloneFabricTypeVO">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="fabricTypeId" />
+    <result column="fabric_type_name" jdbcType="VARCHAR" property="fabricTypeName" />
+   <collection property="fabricDefectVOList" ofType="com.deer.wms.detect.model.MtAloneFabricDefectVO">
+     <id column="fabric_id" jdbcType="INTEGER" property="fabricId" />
+     <result column="defect_name" jdbcType="VARCHAR" property="defectName" />
+     <result column="color" jdbcType="VARCHAR" property="color" />
+     <result column="border_color" jdbcType="VARCHAR" property="borderColor" />
+     <result column="background_color" jdbcType="VARCHAR" property="backgroundColor" />
+   </collection>
+  </resultMap>
+
   <select id="findList" parameterType="com.deer.wms.detect.model.MtAloneFabricTypeParams" resultMap="BaseResultMap">
     select * from mt_alone_fabric_type ty
     where 1=1
     <if test="companyId != null">
       AND ty.company_id = #{companyId}
     </if>
+  </select>
+  <select id="fabricTypeList" parameterType="com.deer.wms.detect.model.MtAloneFabricTypeParams" resultMap="fabricTypeListResultMap">
+      SELECT
+          f.id,
+          f.fabric_type_name,
+          fg.color,
+          fg.border_color,
+          fg.background_color,
+          d.id fabric_id,
+          d.defect_name
+      FROM
+          mt_alone_fabric_type f
+          LEFT JOIN mt_alone_fabric_group fg ON fg.fabric_type_id = f.id
+          LEFT JOIN mt_alone_fabric_group_relate g ON g.fabric_group_id = fg.id
+          INNER JOIN mt_alone_fabric_defect d ON d.id = g.fabric_id
+      WHERE
+          f.company_id = #{companyId}
+      ORDER BY
+          f.id,
+          fg.sort
   </select>
 </mapper>

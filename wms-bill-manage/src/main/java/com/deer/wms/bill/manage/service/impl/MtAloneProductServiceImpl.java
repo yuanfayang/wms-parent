@@ -88,5 +88,10 @@ public class MtAloneProductServiceImpl extends AbstractService<MtAloneProduct, I
 		return mtAloneProductMapper.findById(id);
 	}
 
+	@Override
+	public List<MtAloneProduct> rollList(MtAloneProductParams params) {
+		return mtAloneProductMapper.rollList(params);
+	}
+
 
 }

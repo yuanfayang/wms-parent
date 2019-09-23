@@ -7,13 +7,36 @@ package com.deer.wms.produce.manage.model;
  */
 public class MaterialsOutgoingLogDto extends MaterialsOutgoingLog {
 
-    private MaterialsInfo materialsInfo;
+    private Integer materialsId;
 
-    public MaterialsInfo getMaterialsInfo() {
-        return materialsInfo;
+    private String materialsName;
+
+    private Integer unitId;
+
+    @Override
+    public Integer getMaterialsId() {
+        return materialsId;
     }
 
-    public void setMaterialsInfo(MaterialsInfo materialsInfo) {
-        this.materialsInfo = materialsInfo;
+    public void setMaterialsId(Integer materialsId) {
+        this.materialsId = materialsId;
+    }
+
+    @Override
+    public String getMaterialsName() {
+        return materialsName;
+    }
+
+    @Override
+    public void setMaterialsName(String materialsName) {
+        this.materialsName = materialsName;
+    }
+
+    public Integer getUnitId() {
+        return unitId;
+    }
+
+    public void setUnitId(Integer unitId) {
+        this.unitId = unitId;
     }
 }

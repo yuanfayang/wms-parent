@@ -28,6 +28,7 @@
 
     <select id="findListByOneMaterial" parameterType="com.deer.wms.produce.manage.model.MaterialsOutgoingLogParams"  resultMap="MatOutVOResultMap">
         SELECT
+        outgoing.id,
         outgoing.create_time,
         IFNULL(outgoing.quantity,0) quantity,
         outgoing.position_name,
@@ -44,6 +45,6 @@
             <if test="companyId != null">
                 AND outgoing.company_id = #{companyId}
             </if>
-        </where>
+        </where> ORDER BY outgoing.id
     </select>
 </mapper>

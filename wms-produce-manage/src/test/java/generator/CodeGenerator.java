@@ -10,23 +10,25 @@ import com.deer.wms.project.seed.generator.configurer.Table;
 public class CodeGenerator {
     public static void main(String[] args) {
         DatasourceConfigurer configurer = new DatasourceConfigurer();
-        //设置数据库连接信息
+        //璁剧疆鏁版嵁搴撹繛鎺ヤ俊鎭
         configurer.setUrl("jdbc:mysql://47.96.183.77:3306/mt_erp?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false");
         configurer.setUserName("root");
         configurer.setPassword("mt_%wms#_CS_20190430");
         configurer.setDiverClassName("com.mysql.jdbc.Driver");
 
-        //设置需要生成代码的基础路径，生成的代码都会在该路径下面
+        //璁剧疆闇€瑕佺敓鎴愪唬鐮佺殑鍩虹璺緞锛岀敓鎴愮殑浠ｇ爜閮戒細鍦ㄨ璺緞涓嬮潰
         configurer.setBasePackage("com.deer.wms.produce.manage");
         configurer.setAuthor("");
 
-        //设置子模块名称(如果要生成子模块的代码，一定要设置该值，否则代码将会生成到父项目中了)
+        //璁剧疆瀛愭ā鍧楀悕绉濡傛灉瑕佺敓鎴愬瓙妯″潡鐨勪唬鐮侊紝涓€瀹氳璁剧疆璇ュ€硷紝鍚﹀垯浠ｇ爜灏嗕細鐢熸垚鍒扮埗椤圭洰涓簡)
         configurer.setModuleName("/wms-produce-manage");
 
-        //设置需要生成的表
-        configurer.getTables().add(new Table("mt_alone_stock_product", null, "id", "Integer"));
+        //璁剧疆闇€瑕佺敓鎴愮殑琛
+        configurer.getTables().add(new Table("mt_alone_process_batch_relat", null, "id", "Integer"));
+        configurer.getTables().add(new Table("mt_alone_product_batch_detect", null, "id", "Integer"));
+        configurer.getTables().add(new Table("mt_alone_product_batch_detect_det", null, "id", "Integer"));
 
-        //生成代码
+        //鐢熸垚浠ｇ爜
         Generator.genCode(configurer);
     }
 }

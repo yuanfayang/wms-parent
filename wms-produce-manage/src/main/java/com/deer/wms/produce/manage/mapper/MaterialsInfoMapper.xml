@@ -32,6 +32,7 @@
 
     <select id="findList" parameterType="com.deer.wms.produce.manage.model.MaterialsInfoParams"  resultMap="MatInfoDTOResultMap">
         SELECT
+        materials.id,
         materials.create_time,
         materials.materials_name,
         (SELECT m.materials_name FROM mt_alone_materials_info m
@@ -71,7 +72,7 @@
             <if test="companyId != null">
                 AND com.company_id = #{companyId}
             </if>
-        </where>
+        </where> order by materials.id
     </select>
 
     <select id="findDetailById" parameterType="com.deer.wms.produce.manage.model.MaterialsInfoParams"  resultMap="MatInfoDTOResultMap">

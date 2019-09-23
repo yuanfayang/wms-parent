@@ -291,6 +291,21 @@ public class MtAloneProduct {
     @Column(name = "inbound_order_code")
     private String inboundOrderCode;
 
+
+    /**
+     * 是否打卷指示单
+     */
+    @Column(name = "is_roll_order")
+    private Integer isRollOrder;
+
+    public Integer getIsRollOrder() {
+        return isRollOrder;
+    }
+
+    public void setIsRollOrder(Integer isRollOrder) {
+        this.isRollOrder = isRollOrder;
+    }
+
     /**
      * @return id
      */

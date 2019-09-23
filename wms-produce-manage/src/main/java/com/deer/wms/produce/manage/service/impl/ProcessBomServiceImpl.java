@@ -1,9 +1,9 @@
 package com.deer.wms.produce.manage.service.impl;
 
+import com.deer.wms.produce.manage.dao.ProcessBomMapper;
 import com.deer.wms.produce.manage.model.ProcessBom;
 import com.deer.wms.produce.manage.model.ProcessBomParams;
 import com.deer.wms.produce.manage.service.ProcessBomService;
-import com.deer.wms.ware.task.dao.ProcessBomMapper;
 
 import com.deer.wms.project.seed.core.service.AbstractService;
 import org.springframework.beans.factory.annotation.Autowired;

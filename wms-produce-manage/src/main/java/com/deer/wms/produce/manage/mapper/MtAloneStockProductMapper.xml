@@ -77,7 +77,7 @@
 
   <select id="findListPart" parameterType="com.deer.wms.produce.manage.model.MtAloneStockProductParams" resultMap="BaseResultMap">
     SELECT
-    masp.id,masp.operator_id,masp.create_time,masp.update_time,masp.creator_id,masp.updater_id,masp.version,masp.status,masp.color_code,masp.shell_fabric,masp.tissue,masp.origin,masp.ware_num
+    masp.id,masp.operator_id,masp.create_time,masp.update_time,masp.creator_id,masp.updater_id,masp.version,masp.status,masp.supplier_codename,masp.product_code,masp.item_code,masp.product_name,masp.product_cha_name,masp.product_type_id,masp.product_variety_id,masp.color_code,masp.shell_fabric,masp.tissue,masp.ware_num,masp.unit_code,masp.supplier_num,masp.price,masp.sales_price,masp.larghezza,masp.grammage,masp.density,masp.specification,masp.processing_mode,masp.developer,masp.purchaser_id,masp.purchaser_name,masp.seller_id,masp.seller_name,masp.description,masp.remark
     FROM mt_alone_stock_product masp
     LEFT JOIN item_type it ON masp.product_type_id = it.item_type_id
     <where>

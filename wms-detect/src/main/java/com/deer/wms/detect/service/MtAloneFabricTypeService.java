@@ -3,6 +3,7 @@ package com.deer.wms.detect.service;
 import com.deer.wms.detect.model.MtAloneFabricType;
 import com.deer.wms.detect.model.MtAloneFabricTypeParams;
 
+import com.deer.wms.detect.model.MtAloneFabricTypeVO;
 import com.deer.wms.project.seed.core.service.Service;
 import java.util.List;
 
@@ -14,4 +15,5 @@ public interface MtAloneFabricTypeService extends Service<MtAloneFabricType, Int
 
     List<MtAloneFabricType> findList(MtAloneFabricTypeParams params) ;
 
+    List<MtAloneFabricTypeVO> fabricTypeList(MtAloneFabricTypeParams params);
 }

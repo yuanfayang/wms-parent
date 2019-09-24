@@ -89,8 +89,8 @@
       <if test="productTypeId != null and productTypeId != ''">
         AND masp.product_type_id = #{productTypeId}
       </if>
-      <if test="productVarietyCode != null and productVarietyCode !=''">
-        AND masp.product_variety_code= #{productVarietyCode}
+      <if test="productVarietyId != null and productVarietyId !=''">
+        AND masp.product_variety_id= #{productVarietyId}
       </if>
       <if test="begDate!=null and begDate!=''">
         <![CDATA[  AND DATE_FORMAT(masp.createTime, '%Y-%m-%d')>=  DATE_FORMAT(#{begDate}, '%Y-%m-%d')   ]]>

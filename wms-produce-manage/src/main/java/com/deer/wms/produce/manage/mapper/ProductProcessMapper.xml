@@ -7,23 +7,35 @@
     -->
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="operator_id" jdbcType="INTEGER" property="operatorId" />
-    <result column="code" jdbcType="VARCHAR" property="code" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="version" jdbcType="VARCHAR" property="version" />
     <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="work_order_code" jdbcType="VARCHAR" property="workOrderCode" />
+    <result column="work_order_name" jdbcType="VARCHAR" property="workOrderName" />
+    <result column="delivery_code" jdbcType="VARCHAR" property="deliveryCode" />
+    <result column="plan_finish_time" jdbcType="TIMESTAMP" property="planFinishTime" />
+    <result column="plan_begin_time" jdbcType="TIMESTAMP" property="planBeginTime" />
+    <result column="actual_finish_time" jdbcType="TIMESTAMP" property="actualFinishTime" />
+    <result column="actual_begin_time" jdbcType="TIMESTAMP" property="actualBeginTime" />
+    <result column="client_id" jdbcType="INTEGER" property="clientId" />
+    <result column="client_name" jdbcType="VARCHAR" property="clientName" />
+    <result column="contract_code" jdbcType="VARCHAR" property="contractCode" />
+    <result column="contract_name" jdbcType="VARCHAR" property="contractName" />
+    <result column="product_process_code" jdbcType="VARCHAR" property="productProcessCode" />
     <result column="product_process_name" jdbcType="VARCHAR" property="productProcessName" />
-    <result column="begin_time" jdbcType="TIMESTAMP" property="beginTime" />
     <result column="finish_time" jdbcType="TIMESTAMP" property="finishTime" />
     <result column="product_bom_id" jdbcType="INTEGER" property="productBomId" />
-    <result column="product_id" jdbcType="INTEGER" property="productId" />
     <result column="specification" jdbcType="VARCHAR" property="specification" />
     <result column="process_price" jdbcType="REAL" property="processPrice" />
     <result column="len" jdbcType="REAL" property="len" />
+    <result column="delivery_len" jdbcType="REAL" property="deliveryLen" />
+    <result column="detection_len" jdbcType="REAL" property="detectionLen" />
+    <result column="batch_code" jdbcType="VARCHAR" property="batchCode" />
+    <result column="shrinkage" jdbcType="VARCHAR" property="shrinkage" />
     <result column="pi_num" jdbcType="INTEGER" property="piNum" />
     <result column="process_content" jdbcType="VARCHAR" property="processContent" />
     <result column="merchandiser_id" jdbcType="INTEGER" property="merchandiserId" />
-    <result column="unit_id" jdbcType="INTEGER" property="unitId" />
     <result column="memo" jdbcType="VARCHAR" property="memo" />
     <result column="review_status" jdbcType="INTEGER" property="reviewStatus" />
     <result column="review_time" jdbcType="TIMESTAMP" property="reviewTime" />
@@ -31,30 +43,4 @@
     <result column="product_annex_code" jdbcType="VARCHAR" property="productAnnexCode" />
     <result column="company_id" jdbcType="INTEGER" property="companyId" />
   </resultMap>
-
-    <select id="findList" parameterType="com.deer.wms.produce.manage.model.ProductProcessParams"  resultMap="BaseResultMap">
-        SELECT
-        process.code,
-        process.review_status,
-        process.pi_num,
-        process.review_time,
-        process.begin_time,
-        process.finish_time
-        FROM mt_alone_product_process process
-        <where>
-            <if test="keywords != null and keywords != ''">
-                AND process.code LIKE CONCAT('%', #{keywords}, '%')
-                OR process.pi_num LIKE CONCAT('%', #{keywords}, '%')
-            </if>
-            <if test="begDate!=null and begDate!=''">
-                <![CDATA[  AND DATE_FORMAT(process.begin_time, '%Y-%m-%d')>=  DATE_FORMAT(#{begDate}, '%Y-%m-%d')   ]]>
-            </if>
-            <if test="endDate!=null and endDate!=''">
-                <![CDATA[  AND DATE_FORMAT(process.finish_time, '%Y-%m-%d') <= DATE_FORMAT(#{endDate}, '%Y-%m-%d')    ]]>
-            </if>
-            <if test="companyId != null">
-                AND com.company_id = #{companyId}
-            </if>
-        </where>
-    </select>
 </mapper>

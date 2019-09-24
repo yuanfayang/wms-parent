@@ -8,10 +8,8 @@ import com.deer.wms.produce.manage.model.ProcessBom;
 import com.deer.wms.produce.manage.model.ProductProcess;
 import com.deer.wms.produce.manage.model.ProductProcessParams;
 import com.deer.wms.produce.manage.service.ProcessBomService;
-import com.deer.wms.produce.manage.service.ProductProcessBomService;
 import com.deer.wms.produce.manage.service.ProductProcessService;
 import com.deer.wms.project.seed.annotation.OperateLog;
-import com.deer.wms.project.seed.constant.SystemManageConstant;
 import com.deer.wms.project.seed.core.result.CommonCode;
 import com.deer.wms.project.seed.core.result.Result;
 import com.deer.wms.project.seed.core.result.ResultGenerator;
@@ -57,7 +55,7 @@ public class ProductProcessController {
         }
 
         Date date = new Date();
-        productProcess.setCode(ProduceManagePublicMethod.creatUniqueCode("SCJH"));
+        productProcess.setProductProcessCode(ProduceManagePublicMethod.creatUniqueCode("SCJH"));
         productProcess.setCreateTime(date);
         productProcess.setOperatorId(currentUser.getUserId());
         productProcess.setUpdateTime(date);
@@ -69,7 +67,7 @@ public class ProductProcessController {
         productProcessService.save(productProcess);
 
         //判断bom表中是否有同种产品的生产bom，如果没有生产相应产品的生产bom
-        ProcessBom processBom = processBomService.findBy("productId", productProcess.getProductId());
+        ProcessBom processBom = processBomService.findBy("productId", productProcess.getProductBomId());
         return ResultGenerator.genSuccessResult();
     }
     

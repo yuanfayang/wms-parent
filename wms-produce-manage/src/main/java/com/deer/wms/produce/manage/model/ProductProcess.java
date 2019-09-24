@@ -1,19 +1,13 @@
 package com.deer.wms.produce.manage.model;
 
-import javax.persistence.*;
 import java.util.Date;
+import javax.persistence.*;
 
-@Table(name = "mt_alone_product_process")
+@Table(name = "product_process")
 public class ProductProcess {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
-    /**
-     * 生产计划单号
-     */
-    @Column(name = "code")
-    private String code;
 
     /**
      * 操作员id
@@ -44,23 +38,82 @@ public class ProductProcess {
     private Integer status;
 
     /**
-     * 产品加工总名称
+     * 工单号
      */
-    @Column(name = "product_process_name")
-    private String productProcessName;
-
+    @Column(name = "work_order_code")
+    private String workOrderCode;
 
     /**
-     * 产品id
+     * 工单名称
      */
-    @Column(name = "product_id")
-    private Integer productId;
+    @Column(name = "work_order_name")
+    private String workOrderName;
+
+    /**
+     * 单据编号
+     */
+    @Column(name = "delivery_code")
+    private String deliveryCode;
+
+    /**
+     * 计划完成时间
+     */
+    @Column(name = "plan_finish_time")
+    private Date planFinishTime;
 
     /**
      * 计划开始时间
      */
-    @Column(name = "begin_time")
-    private Date beginTime;
+    @Column(name = "plan_begin_time")
+    private Date planBeginTime;
+
+    /**
+     * 实际完成时间
+     */
+    @Column(name = "actual_finish_time")
+    private Date actualFinishTime;
+
+    /**
+     * 实际开始时间
+     */
+    @Column(name = "actual_begin_time")
+    private Date actualBeginTime;
+
+    /**
+     * 客户id，关联客户表
+     */
+    @Column(name = "client_id")
+    private Integer clientId;
+
+    /**
+     * 客户名称，如果是自己生产，客户为自营
+     */
+    @Column(name = "client_name")
+    private String clientName;
+
+    /**
+     * 合同编码
+     */
+    @Column(name = "contract_code")
+    private String contractCode;
+
+    /**
+     * 合同名称，合同可以作为附件添加到附件列表中
+     */
+    @Column(name = "contract_name")
+    private String contractName;
+
+    /**
+     * 产品加工编码
+     */
+    @Column(name = "product_process_code")
+    private String productProcessCode;
+
+    /**
+     * 产品加工名称
+     */
+    @Column(name = "product_process_name")
+    private String productProcessName;
 
     /**
      * 完成时间
@@ -73,12 +126,6 @@ public class ProductProcess {
      */
     @Column(name = "product_bom_id")
     private Integer productBomId;
-
-    /**
-     * 计量单位关联id，关联表：unit
-     */
-    @Column(name = "unit_id")
-    private Integer unitId;
 
     /**
      * 加工规格型号
@@ -95,6 +142,29 @@ public class ProductProcess {
      * 原先长度，单位米
      */
     private Float len;
+
+    /**
+     * 加工后长度，单位米
+     */
+    @Column(name = "delivery_len")
+    private Float deliveryLen;
+
+    /**
+     * 现有检测长度
+     */
+    @Column(name = "detection_len")
+    private Float detectionLen;
+
+    /**
+     * 批次号，可以作为扫描生成编码
+     */
+    @Column(name = "batch_code")
+    private String batchCode;
+
+    /**
+     * 缩率%，现有检测长度/原先长度
+     */
+    private String shrinkage;
 
     /**
      * 总匹数
@@ -158,24 +228,6 @@ public class ProductProcess {
      */
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    /**code
-     * 获取生产计划单号
-     *
-     * @return  - 生产计划单号
-     */
-    public String getCode() {
-        return code;
-    }
-
-    /**
-     * 设置生产计划单号
-     *
-     * @param code 生产计划单号
-     */
-    public void setCode(String code) {
-        this.code = code;
     }
 
     /**
@@ -269,18 +321,234 @@ public class ProductProcess {
     }
 
     /**
-     * 获取产品加工总名称
+     * 获取工单号
      *
-     * @return product_process_name - 产品加工总名称
+     * @return work_order_code - 工单号
+     */
+    public String getWorkOrderCode() {
+        return workOrderCode;
+    }
+
+    /**
+     * 设置工单号
+     *
+     * @param workOrderCode 工单号
+     */
+    public void setWorkOrderCode(String workOrderCode) {
+        this.workOrderCode = workOrderCode;
+    }
+
+    /**
+     * 获取工单名称
+     *
+     * @return work_order_name - 工单名称
+     */
+    public String getWorkOrderName() {
+        return workOrderName;
+    }
+
+    /**
+     * 设置工单名称
+     *
+     * @param workOrderName 工单名称
+     */
+    public void setWorkOrderName(String workOrderName) {
+        this.workOrderName = workOrderName;
+    }
+
+    /**
+     * 获取单据编号
+     *
+     * @return delivery_code - 单据编号
+     */
+    public String getDeliveryCode() {
+        return deliveryCode;
+    }
+
+    /**
+     * 设置单据编号
+     *
+     * @param deliveryCode 单据编号
+     */
+    public void setDeliveryCode(String deliveryCode) {
+        this.deliveryCode = deliveryCode;
+    }
+
+    /**
+     * 获取计划完成时间
+     *
+     * @return plan_finish_time - 计划完成时间
+     */
+    public Date getPlanFinishTime() {
+        return planFinishTime;
+    }
+
+    /**
+     * 设置计划完成时间
+     *
+     * @param planFinishTime 计划完成时间
+     */
+    public void setPlanFinishTime(Date planFinishTime) {
+        this.planFinishTime = planFinishTime;
+    }
+
+    /**
+     * 获取计划开始时间
+     *
+     * @return plan_begin_time - 计划开始时间
+     */
+    public Date getPlanBeginTime() {
+        return planBeginTime;
+    }
+
+    /**
+     * 设置计划开始时间
+     *
+     * @param planBeginTime 计划开始时间
+     */
+    public void setPlanBeginTime(Date planBeginTime) {
+        this.planBeginTime = planBeginTime;
+    }
+
+    /**
+     * 获取实际完成时间
+     *
+     * @return actual_finish_time - 实际完成时间
+     */
+    public Date getActualFinishTime() {
+        return actualFinishTime;
+    }
+
+    /**
+     * 设置实际完成时间
+     *
+     * @param actualFinishTime 实际完成时间
+     */
+    public void setActualFinishTime(Date actualFinishTime) {
+        this.actualFinishTime = actualFinishTime;
+    }
+
+    /**
+     * 获取实际开始时间
+     *
+     * @return actual_begin_time - 实际开始时间
+     */
+    public Date getActualBeginTime() {
+        return actualBeginTime;
+    }
+
+    /**
+     * 设置实际开始时间
+     *
+     * @param actualBeginTime 实际开始时间
+     */
+    public void setActualBeginTime(Date actualBeginTime) {
+        this.actualBeginTime = actualBeginTime;
+    }
+
+    /**
+     * 获取客户id，关联客户表
+     *
+     * @return client_id - 客户id，关联客户表
+     */
+    public Integer getClientId() {
+        return clientId;
+    }
+
+    /**
+     * 设置客户id，关联客户表
+     *
+     * @param clientId 客户id，关联客户表
+     */
+    public void setClientId(Integer clientId) {
+        this.clientId = clientId;
+    }
+
+    /**
+     * 获取客户名称，如果是自己生产，客户为自营
+     *
+     * @return client_name - 客户名称，如果是自己生产，客户为自营
+     */
+    public String getClientName() {
+        return clientName;
+    }
+
+    /**
+     * 设置客户名称，如果是自己生产，客户为自营
+     *
+     * @param clientName 客户名称，如果是自己生产，客户为自营
+     */
+    public void setClientName(String clientName) {
+        this.clientName = clientName;
+    }
+
+    /**
+     * 获取合同编码
+     *
+     * @return contract_code - 合同编码
+     */
+    public String getContractCode() {
+        return contractCode;
+    }
+
+    /**
+     * 设置合同编码
+     *
+     * @param contractCode 合同编码
+     */
+    public void setContractCode(String contractCode) {
+        this.contractCode = contractCode;
+    }
+
+    /**
+     * 获取合同名称，合同可以作为附件添加到附件列表中
+     *
+     * @return contract_name - 合同名称，合同可以作为附件添加到附件列表中
+     */
+    public String getContractName() {
+        return contractName;
+    }
+
+    /**
+     * 设置合同名称，合同可以作为附件添加到附件列表中
+     *
+     * @param contractName 合同名称，合同可以作为附件添加到附件列表中
+     */
+    public void setContractName(String contractName) {
+        this.contractName = contractName;
+    }
+
+    /**
+     * 获取产品加工编码
+     *
+     * @return product_process_code - 产品加工编码
+     */
+    public String getProductProcessCode() {
+        return productProcessCode;
+    }
+
+    /**
+     * 设置产品加工编码
+     *
+     * @param productProcessCode 产品加工编码
+     */
+    public void setProductProcessCode(String productProcessCode) {
+        this.productProcessCode = productProcessCode;
+    }
+
+    /**
+     * 获取产品加工名称
+     *
+     * @return product_process_name - 产品加工名称
      */
     public String getProductProcessName() {
         return productProcessName;
     }
 
     /**
-     * 设置产品加工总名称
+     * 设置产品加工名称
      *
-     * @param productProcessName 产品加工总名称
+     * @param productProcessName 产品加工名称
      */
     public void setProductProcessName(String productProcessName) {
         this.productProcessName = productProcessName;
@@ -377,6 +645,78 @@ public class ProductProcess {
     }
 
     /**
+     * 获取加工后长度，单位米
+     *
+     * @return delivery_len - 加工后长度，单位米
+     */
+    public Float getDeliveryLen() {
+        return deliveryLen;
+    }
+
+    /**
+     * 设置加工后长度，单位米
+     *
+     * @param deliveryLen 加工后长度，单位米
+     */
+    public void setDeliveryLen(Float deliveryLen) {
+        this.deliveryLen = deliveryLen;
+    }
+
+    /**
+     * 获取现有检测长度
+     *
+     * @return detection_len - 现有检测长度
+     */
+    public Float getDetectionLen() {
+        return detectionLen;
+    }
+
+    /**
+     * 设置现有检测长度
+     *
+     * @param detectionLen 现有检测长度
+     */
+    public void setDetectionLen(Float detectionLen) {
+        this.detectionLen = detectionLen;
+    }
+
+    /**
+     * 获取批次号，可以作为扫描生成编码
+     *
+     * @return batch_code - 批次号，可以作为扫描生成编码
+     */
+    public String getBatchCode() {
+        return batchCode;
+    }
+
+    /**
+     * 设置批次号，可以作为扫描生成编码
+     *
+     * @param batchCode 批次号，可以作为扫描生成编码
+     */
+    public void setBatchCode(String batchCode) {
+        this.batchCode = batchCode;
+    }
+
+    /**
+     * 获取缩率%，现有检测长度/原先长度
+     *
+     * @return shrinkage - 缩率%，现有检测长度/原先长度
+     */
+    public String getShrinkage() {
+        return shrinkage;
+    }
+
+    /**
+     * 设置缩率%，现有检测长度/原先长度
+     *
+     * @param shrinkage 缩率%，现有检测长度/原先长度
+     */
+    public void setShrinkage(String shrinkage) {
+        this.shrinkage = shrinkage;
+    }
+
+    /**
      * 获取总匹数
      *
      * @return pi_num - 总匹数
@@ -410,24 +750,6 @@ public class ProductProcess {
      */
     public void setProcessContent(String processContent) {
         this.processContent = processContent;
-    }
-
-    /**
-     * 获取产品id
-     *
-     * @return product_id - 产品id
-     */
-    public Integer getProductId() {
-        return productId;
-    }
-
-    /**
-     * 设置产品id
-     *
-     * @param productId 产品id
-     */
-    public void setProductId(Integer productId) {
-        this.productId = productId;
     }
 
     /**
@@ -550,37 +872,5 @@ public class ProductProcess {
      */
     public void setCompanyId(Integer companyId) {
         this.companyId = companyId;
-    }
-
-    /**
-     * @return begin_time
-     */
-    public Date getBeginTime() {
-        return beginTime;
-    }
-
-    /**
-     * 设置开始时间
-     *
-     * @param beginTime 开始时间
-     */
-    public void setBeginTime(Date beginTime) {
-        this.beginTime = beginTime;
-    }
-
-    /**
-     * @return unit_id
-     */
-    public Integer getUnitId() {
-        return unitId;
-    }
-
-    /**
-     * 设置计量单位id
-     *
-     * @param unitId 计量单位id
-     */
-    public void setUnitId(Integer unitId) {
-        this.unitId = unitId;
     }
 }

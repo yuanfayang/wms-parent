@@ -16,19 +16,19 @@
         <dependency>
             <groupId>com.deer</groupId>
             <artifactId>wms-project-seed</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
+            <version>${project.version}</version>
             <!--<scope>compile</scope>-->
         </dependency>
         <dependency>
             <groupId>com.deer</groupId>
             <artifactId>wms-intercept</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
+            <version>${project.version}</version>
             <!--<scope>compile</scope>-->
         </dependency>
         <dependency>
             <groupId>com.deer</groupId>
             <artifactId>wms-report</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
+            <version>${project.version}</version>
             <!--<scope>compile</scope>-->
         </dependency>
 

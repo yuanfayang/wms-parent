@@ -31,4 +31,13 @@
         <result column="company_name" jdbcType="VARCHAR" property="companyName" />
         <result column="product_process_name" jdbcType="VARCHAR" property="productProcessName" />
     </resultMap>
+
+    <select id="findListById" resultMap="BaseResultMap">
+        SELECT id,process_name,specification
+        FROM mt_alone_process_bom
+        WHERE product_process_id = #{productProcessId}
+        ORDER BY process_step
+    </select>
+
+
 </mapper>

@@ -47,7 +47,7 @@ public class MtAloneStockProduct {
     /**
      * 状态		0处理中，1处理完成
      */
-    private Integer status;
+    private String status;
 
     /**
      * 绑定公司id
@@ -142,7 +142,7 @@ public class MtAloneStockProduct {
      * 库存数量
      */
     @Column(name = "ware_num")
-    private Float wareNum;
+    private String wareNum;
 
     /**
      * 计量单位
@@ -154,28 +154,28 @@ public class MtAloneStockProduct {
      * 供应商库存数量
      */
     @Column(name = "supplier_num")
-    private Float supplierNum;
+    private String supplierNum;
 
     /**
      * 进货单价(每米/元)
      */
-    private Float price;
+    private String price;
 
     /**
      * 销售单价(每米/元)
      */
     @Column(name = "sales_price")
-    private Float salesPrice;
+    private String salesPrice;
 
     /**
      * 门幅
      */
-    private Float larghezza;
+    private String larghezza;
 
     /**
      * 克重
      */
-    private Float grammage;
+    private String grammage;
 
     /**
      * 密度
@@ -231,6 +231,41 @@ public class MtAloneStockProduct {
      * 备注
      */
     private String remark;
+
+    /**
+     * 一阶大类
+     */
+    private String firstLargeClass;
+
+    /**
+     * 原料
+     */
+    private String stockProduct;
+
+    /**
+     * 分类
+     */
+    private String sort;
+
+    /**
+     * 厂商库存
+     */
+    private String factureInventory;
+
+    /**
+     * 市场报价
+     */
+    private String marketPrice;
+
+    /**
+     * 优势等级
+     */
+    private String dominant;
+
+    /**
+     * 材料成本价
+     */
+    private String costPrice;
 
     /**
      * @return id
@@ -359,7 +394,7 @@ public class MtAloneStockProduct {
      *
      * @return status - 状态		0处理中，1处理完成
      */
-    public Integer getStatus() {
+    public String getStatus() {
         return status;
     }
 
@@ -368,7 +403,7 @@ public class MtAloneStockProduct {
      *
      * @param status 状态		0处理中，1处理完成
      */
-    public void setStatus(Integer status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
@@ -647,7 +682,7 @@ public class MtAloneStockProduct {
      *
      * @return ware_num - 库存数量
      */
-    public Float getWareNum() {
+    public String getWareNum() {
         return wareNum;
     }
 
@@ -656,7 +691,7 @@ public class MtAloneStockProduct {
      *
      * @param wareNum 库存数量
      */
-    public void setWareNum(Float wareNum) {
+    public void setWareNum(String wareNum) {
         this.wareNum = wareNum;
     }
 
@@ -683,7 +718,7 @@ public class MtAloneStockProduct {
      *
      * @return supplier_num - 供应商库存数量
      */
-    public Float getSupplierNum() {
+    public String getSupplierNum() {
         return supplierNum;
     }
 
@@ -692,7 +727,7 @@ public class MtAloneStockProduct {
      *
      * @param supplierNum 供应商库存数量
      */
-    public void setSupplierNum(Float supplierNum) {
+    public void setSupplierNum(String supplierNum) {
         this.supplierNum = supplierNum;
     }
 
@@ -701,7 +736,7 @@ public class MtAloneStockProduct {
      *
      * @return price - 进货单价(每米/元)
      */
-    public Float getPrice() {
+    public String getPrice() {
         return price;
     }
 
@@ -710,7 +745,7 @@ public class MtAloneStockProduct {
      *
      * @param price 进货单价(每米/元)
      */
-    public void setPrice(Float price) {
+    public void setPrice(String price) {
         this.price = price;
     }
 
@@ -719,7 +754,7 @@ public class MtAloneStockProduct {
      *
      * @return sales_price - 销售单价(每米/元)
      */
-    public Float getSalesPrice() {
+    public String getSalesPrice() {
         return salesPrice;
     }
 
@@ -728,7 +763,7 @@ public class MtAloneStockProduct {
      *
      * @param salesPrice 销售单价(每米/元)
      */
-    public void setSalesPrice(Float salesPrice) {
+    public void setSalesPrice(String salesPrice) {
         this.salesPrice = salesPrice;
     }
 
@@ -737,7 +772,7 @@ public class MtAloneStockProduct {
      *
      * @return larghezza - 门幅
      */
-    public Float getLarghezza() {
+    public String getLarghezza() {
         return larghezza;
     }
 
@@ -746,7 +781,7 @@ public class MtAloneStockProduct {
      *
      * @param larghezza 门幅
      */
-    public void setLarghezza(Float larghezza) {
+    public void setLarghezza(String larghezza) {
         this.larghezza = larghezza;
     }
 
@@ -755,7 +790,7 @@ public class MtAloneStockProduct {
      *
      * @return grammage - 克重
      */
-    public Float getGrammage() {
+    public String getGrammage() {
         return grammage;
     }
 
@@ -764,7 +799,7 @@ public class MtAloneStockProduct {
      *
      * @param grammage 克重
      */
-    public void setGrammage(Float grammage) {
+    public void setGrammage(String grammage) {
         this.grammage = grammage;
     }
 
@@ -946,5 +981,61 @@ public class MtAloneStockProduct {
      */
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public String getFirstLargeClass() {
+        return firstLargeClass;
+    }
+
+    public void setFirstLargeClass(String firstLargeClass) {
+        this.firstLargeClass = firstLargeClass;
+    }
+
+    public String getStockProduct() {
+        return stockProduct;
+    }
+
+    public void setStockProduct(String stockProduct) {
+        this.stockProduct = stockProduct;
+    }
+
+    public String getSort() {
+        return sort;
+    }
+
+    public void setSort(String sort) {
+        this.sort = sort;
+    }
+
+    public String getFactureInventory() {
+        return factureInventory;
+    }
+
+    public void setFactureInventory(String factureInventory) {
+        this.factureInventory = factureInventory;
+    }
+
+    public String getMarketPrice() {
+        return marketPrice;
+    }
+
+    public void setMarketPrice(String marketPrice) {
+        this.marketPrice = marketPrice;
+    }
+
+    public String getDominant() {
+        return dominant;
+    }
+
+    public void setDominant(String dominant) {
+        this.dominant = dominant;
+    }
+
+    public String getCostPrice() {
+        return costPrice;
+    }
+
+    public void setCostPrice(String costPrice) {
+        this.costPrice = costPrice;
     }
 }

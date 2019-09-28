@@ -86,4 +86,21 @@ public class ProcessBomController {
         return ResultGenerator.genSuccessResult(pageInfo);
     }
 
+    @GetMapping("/list/by/id")
+    public Result listById(ProcessBomParams params, @ApiIgnore @User CurrentUser currentUser) {
+        if(currentUser==null){
+            return ResultGenerator.genFailResult(CommonCode.SERVICE_ERROR,"未登录错误",null );
+        }
+
+        if (currentUser.getCompanyType() != SystemManageConstant.COMPANY_TYPE_MT){
+            params.setCompanyId(currentUser.getCompanyId());
+        }else{
+            params.setCompanyId(null);
+        }
+        PageHelper.startPage(params.getPageNum(), params.getPageSize());
+        List<ProcessBom> list = processBomService.findListById(params);
+        PageInfo pageInfo = new PageInfo(list);
+        return ResultGenerator.genSuccessResult(pageInfo);
+    }
+
 }

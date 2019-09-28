@@ -12,4 +12,6 @@ import java.util.List;
 public interface ProcessBomService extends Service<ProcessBom, Integer> {
     List<ProcessBom> findList(ProcessBomParams params);
 
+    List<ProcessBom> findListById(ProcessBomParams params);
+
 }

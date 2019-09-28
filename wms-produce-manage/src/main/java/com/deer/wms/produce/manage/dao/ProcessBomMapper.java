@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface ProcessBomMapper extends Mapper<ProcessBom> {
     List<ProcessBom> findList(ProcessBomParams params);
+
+    List<ProcessBom> findListById(ProcessBomParams params);
 }

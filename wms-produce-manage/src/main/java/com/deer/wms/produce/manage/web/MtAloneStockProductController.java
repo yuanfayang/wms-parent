@@ -189,69 +189,60 @@ public class MtAloneStockProductController {
             int lastCellNum = row.getLastCellNum();
             MtAloneStockProductVo mtAloneStockProductVo = new MtAloneStockProductVo();
             mtAloneStockProductVo.setCompanyId(currentUser.getCompanyId());
-            mtAloneStockProductVo.setColorCode(RandomUtil.generateString(6));
             for (int j=0 ; j<lastCellNum; j++) {
                 Cell cell = row.getCell(j);
                 cell.setCellType(Cell.CELL_TYPE_STRING);
                 if (j == 0 && cell.getStringCellValue() != null && !cell.getStringCellValue().equals("")) {
-                    mtAloneStockProductVo.setSupplierName(cell.getStringCellValue());
+                    mtAloneStockProductVo.setFirstLargeClass(cell.getStringCellValue());
                 }else if (j == 1 && cell.getStringCellValue() != null && !cell.getStringCellValue().equals("")) {
-                    mtAloneStockProductVo.setSupplierPhone(cell.getStringCellValue());
-                }else if (j == 2 && cell.getStringCellValue() != null && !cell.getStringCellValue().equals("")) {
-                    mtAloneStockProductVo.setSupplierContacts(cell.getStringCellValue());
-                }else if (j == 3 && cell.getStringCellValue() != null && !cell.getStringCellValue().equals("")) {
-                    mtAloneStockProductVo.setProductCode(cell.getStringCellValue());
-                }else if (j == 4 && cell.getStringCellValue() != null && !cell.getStringCellValue().equals("")) {
                     mtAloneStockProductVo.setItemCode(cell.getStringCellValue());
-                }else if (j == 5 && cell.getStringCellValue() != null && !cell.getStringCellValue().equals("")) {
-                    mtAloneStockProductVo.setProductName(cell.getStringCellValue());
-                }else if (j == 6 && cell.getStringCellValue() != null && !cell.getStringCellValue().equals("")) {
+                }else if (j == 2 && cell.getStringCellValue() != null && !cell.getStringCellValue().equals("")) {
+                    mtAloneStockProductVo.setProductCode(cell.getStringCellValue());
+                }else if (j == 3 && cell.getStringCellValue() != null && !cell.getStringCellValue().equals("")) {
+                    mtAloneStockProductVo.setStockProduct(cell.getStringCellValue());
+                }else if (j == 4 && cell.getStringCellValue() != null && !cell.getStringCellValue().equals("")) {
                     mtAloneStockProductVo.setProductChaName(cell.getStringCellValue());
+                }else if (j == 5 && cell.getStringCellValue() != null && !cell.getStringCellValue().equals("")) {
+                    mtAloneStockProductVo.setSort(cell.getStringCellValue());
+                }else if (j == 6 && cell.getStringCellValue() != null && !cell.getStringCellValue().equals("")) {
+                    mtAloneStockProductVo.setWareNum(cell.getStringCellValue());
                 }else if (j == 7 && cell.getStringCellValue() != null && !cell.getStringCellValue().equals("")) {
-                    mtAloneStockProductVo.setItemTypeName(cell.getStringCellValue());
+                    mtAloneStockProductVo.setFactureInventory(cell.getStringCellValue());
                 }else if (j == 8 && cell.getStringCellValue() != null && !cell.getStringCellValue().equals("")) {
-                    mtAloneStockProductVo.setItemVarietyName(cell.getStringCellValue());
+                    mtAloneStockProductVo.setLarghezza(cell.getStringCellValue());
                 }else if (j == 9 && cell.getStringCellValue() != null && !cell.getStringCellValue().equals("")) {
-                    mtAloneStockProductVo.setColorCode(cell.getStringCellValue());
+                    mtAloneStockProductVo.setCostPrice(cell.getStringCellValue());
                 }else if (j == 10 && cell.getStringCellValue() != null && !cell.getStringCellValue().equals("")) {
-                    mtAloneStockProductVo.setShellFabric(cell.getStringCellValue());
+                    mtAloneStockProductVo.setMarketPrice(cell.getStringCellValue());
                 }else if (j == 11 && cell.getStringCellValue() != null && !cell.getStringCellValue().equals("")) {
-                    mtAloneStockProductVo.setTissue(cell.getStringCellValue());
+                    mtAloneStockProductVo.setDominant(cell.getStringCellValue());
                 }else if (j == 12 && cell.getStringCellValue() != null && !cell.getStringCellValue().equals("")) {
-                    mtAloneStockProductVo.setWareNum(Float.parseFloat(cell.getStringCellValue()));
-                }else if (j == 13 && cell.getStringCellValue() != null && !cell.getStringCellValue().equals("")) {
-                    mtAloneStockProductVo.setUnitCode(cell.getStringCellValue());
-                }else if (j == 14 && cell.getStringCellValue() != null && !cell.getStringCellValue().equals("")) {
-                    mtAloneStockProductVo.setSupplierNum(Float.parseFloat(cell.getStringCellValue()));
-                }else if (j == 15 && cell.getStringCellValue() != null && !cell.getStringCellValue().equals("")) {
-                    mtAloneStockProductVo.setPrice(Float.parseFloat(cell.getStringCellValue()));
-                }else if (j == 16 && cell.getStringCellValue() != null && !cell.getStringCellValue().equals("")) {
-                    mtAloneStockProductVo.setSalesPrice(Float.parseFloat(cell.getStringCellValue()));
-                }else if (j == 17 && cell.getStringCellValue() != null && !cell.getStringCellValue().equals("")) {
-                    mtAloneStockProductVo.setLarghezza(Float.parseFloat(cell.getStringCellValue()));
-                }else if (j == 18 && cell.getStringCellValue() != null && !cell.getStringCellValue().equals("")) {
-                    mtAloneStockProductVo.setGrammage(Float.parseFloat(cell.getStringCellValue()));
-                }else if (j == 19 && cell.getStringCellValue() != null && !cell.getStringCellValue().equals("")) {
                     mtAloneStockProductVo.setDensity(cell.getStringCellValue());
-                }else if (j == 20 && cell.getStringCellValue() != null && !cell.getStringCellValue().equals("")) {
+                }else if (j == 13 && cell.getStringCellValue() != null && !cell.getStringCellValue().equals("")) {
                     mtAloneStockProductVo.setSpecification(cell.getStringCellValue());
-                }else if (j == 21 && cell.getStringCellValue() != null && !cell.getStringCellValue().equals("")) {
+                }else if (j == 14 && cell.getStringCellValue() != null && !cell.getStringCellValue().equals("")) {
+                    mtAloneStockProductVo.setTissue(cell.getStringCellValue());
+                }else if (j == 15 && cell.getStringCellValue() != null && !cell.getStringCellValue().equals("")) {
                     mtAloneStockProductVo.setProcessingMode(cell.getStringCellValue());
-                }else if (j == 22 && cell.getStringCellValue() != null && !cell.getStringCellValue().equals("")) {
-                    mtAloneStockProductVo.setDeveloper(cell.getStringCellValue());
-                }else if (j == 23 && cell.getStringCellValue() != null && !cell.getStringCellValue().equals("")) {
-                    mtAloneStockProductVo.setPurchaserName(cell.getStringCellValue());
-                }else if (j == 24 && cell.getStringCellValue() != null && !cell.getStringCellValue().equals("")) {
-                    mtAloneStockProductVo.setSellerName(cell.getStringCellValue());
-                }else if (j == 25 && cell.getStringCellValue() != null && !cell.getStringCellValue().equals("")) {
-                    mtAloneStockProductVo.setRemark(cell.getStringCellValue());
-                }else if (j == 26 && cell.getStringCellValue() != null && !cell.getStringCellValue().equals("")) {
+                }else if (j == 16 && cell.getStringCellValue() != null && !cell.getStringCellValue().equals("")) {
+                    mtAloneStockProductVo.setColorCode(cell.getStringCellValue());
+                }else if (j == 17 && cell.getStringCellValue() != null && !cell.getStringCellValue().equals("")) {
                     mtAloneStockProductVo.setSupplierCodename(cell.getStringCellValue());
+                }else if (j == 18 && cell.getStringCellValue() != null && !cell.getStringCellValue().equals("")) {
+                    mtAloneStockProductVo.setSupplierName(cell.getStringCellValue());
+                }else if (j == 19 && cell.getStringCellValue() != null && !cell.getStringCellValue().equals("")) {
+                    mtAloneStockProductVo.setSupplierContacts(cell.getStringCellValue());
+                }else if (j == 20 && cell.getStringCellValue() != null && !cell.getStringCellValue().equals("")) {
+                    mtAloneStockProductVo.setSupplierPhone(cell.getStringCellValue());
+                }else if (j == 21 && cell.getStringCellValue() != null && !cell.getStringCellValue().equals("")) {
+                    mtAloneStockProductVo.setDeveloper(cell.getStringCellValue());
+                }else if (j == 22 && cell.getStringCellValue() != null && !cell.getStringCellValue().equals("")) {
+                    mtAloneStockProductVo.setRemark(cell.getStringCellValue());
                 }
             }
             stockProductVoList.add(mtAloneStockProductVo);
         }
-        List<SupplierManage> supplierManageList = supplierManageService.findAll();
+        /*List<SupplierManage> supplierManageList = supplierManageService.findAll();
         for (MtAloneStockProductVo mtAloneStockProductVo:stockProductVoList) {
             boolean b = false;
             for (SupplierManage supplierManage:supplierManageList) {
@@ -296,7 +287,7 @@ public class MtAloneStockProductController {
                 mtAloneStockProductVo.setProductVarietyId(itemType1.getItemTypeId());
             }
         }
-
+*/
         List<MtAloneStockProduct> aloneStockProductList = new ArrayList<>();
         aloneStockProductList.addAll(stockProductVoList);
         mtAloneStockProductService.save(aloneStockProductList);
@@ -363,78 +354,79 @@ public class MtAloneStockProductController {
         for (MtAloneStockProduct mtAloneStockProduct:list){
             List<String> stringList = new ArrayList<>();
             for (int i = 0 ; i < params.getHeadersName().size() ; i++){
-                if (params.getHeadersName().get(i).equals("id")){
-                    stringList.add(mtAloneStockProduct.getId().toString());
-                }else if (params.getHeadersName().get(i).equals("操作员")) {
-                    stringList.add(mtAloneStockProduct.getOperatorId().toString());
-                }else if (params.getHeadersName().get(i).equals("添加时间")) {
+                //第一个序号ok
+                if (params.getHeadersName().get(i).equals("序号")){
+                    stringList.add(String.valueOf(i+1));
+                //第二个日期ok
+                }else if (params.getHeadersName().get(i).equals("日期")) {
                     stringList.add(mtAloneStockProduct.getCreateTime().toString());
-                }else if (params.getHeadersName().get(i).equals("创建人")) {
-                    stringList.add(mtAloneStockProduct.getCreatorId().toString());
-                }else if (params.getHeadersName().get(i).equals("状态")) {
-                    stringList.add(mtAloneStockProduct.getStatus().toString());
-                }else if (params.getHeadersName().get(i).equals("公司id")) {
-                    stringList.add(mtAloneStockProduct.getCompanyId().toString());
-                }else if (params.getHeadersName().get(i).equals("供应商id")) {
-                    stringList.add(mtAloneStockProduct.getSupplierId().toString());
-                }else if (params.getHeadersName().get(i).equals("供应商")) {
-                    stringList.add(mtAloneStockProduct.getSupplierName());
-                }else if (params.getHeadersName().get(i).equals("供应商代号")) {
-                    stringList.add(mtAloneStockProduct.getSupplierCodename());
-                }else if (params.getHeadersName().get(i).equals("供应商电话")) {
-                    stringList.add(mtAloneStockProduct.getSupplierPhone());
-                }else if (params.getHeadersName().get(i).equals("供应商联系人")) {
-                    stringList.add(mtAloneStockProduct.getSupplierContacts());
-                }else if (params.getHeadersName().get(i).equals("品号")) {
-                    stringList.add(mtAloneStockProduct.getProductCode());
+                //第三个一阶大类
+                }else if (params.getHeadersName().get(i).equals("一阶大类")) {
+                    stringList.add(mtAloneStockProduct.getFirstLargeClass());
+                //第四个料号ok
                 }else if (params.getHeadersName().get(i).equals("料号")) {
                     stringList.add(mtAloneStockProduct.getItemCode());
-                }else if (params.getHeadersName().get(i).equals("品名")) {
-                    stringList.add(mtAloneStockProduct.getProductName());
-                }else if (params.getHeadersName().get(i).equals("品名(中)")) {
+                //第五个品号ok
+                }else if (params.getHeadersName().get(i).equals("品号")) {
+                    stringList.add(mtAloneStockProduct.getProductCode());
+                //第六个原料
+                }else if (params.getHeadersName().get(i).equals("原料")) {
+                    stringList.add(mtAloneStockProduct.getStockProduct());
+                //第七个中文品名ok
+                }else if (params.getHeadersName().get(i).equals("中文品名")) {
                     stringList.add(mtAloneStockProduct.getProductChaName());
-                }else if (params.getHeadersName().get(i).equals("产品类型id")) {
-                    stringList.add(mtAloneStockProduct.getProductTypeId().toString());
-                }else if (params.getHeadersName().get(i).equals("产品品种id")) {
-                    stringList.add(mtAloneStockProduct.getProductVarietyId().toString());
-                }else if (params.getHeadersName().get(i).equals("颜色")) {
-                    stringList.add(mtAloneStockProduct.getColorCode());
-                }else if (params.getHeadersName().get(i).equals("面料")) {
-                    stringList.add(mtAloneStockProduct.getShellFabric());
-                }else if (params.getHeadersName().get(i).equals("组织")) {
-                    stringList.add(mtAloneStockProduct.getTissue());
-                }else if (params.getHeadersName().get(i).equals("库存")) {
-                    stringList.add(mtAloneStockProduct.getWareNum().toString());
-                }else if (params.getHeadersName().get(i).equals("计量单位")) {
-                    stringList.add(mtAloneStockProduct.getUnitCode());
-                }else if (params.getHeadersName().get(i).equals("供应商库存")) {
-                    stringList.add(mtAloneStockProduct.getSupplierNum().toString());
-                }else if (params.getHeadersName().get(i).equals("进货单价")) {
-                    stringList.add(mtAloneStockProduct.getPrice().toString());
-                }else if (params.getHeadersName().get(i).equals("销售单价")) {
-                    stringList.add(mtAloneStockProduct.getSalesPrice().toString());
-                }else if (params.getHeadersName().get(i).equals("门幅")) {
-                    stringList.add(mtAloneStockProduct.getLarghezza().toString());
-                }else if (params.getHeadersName().get(i).equals("克重")) {
-                    stringList.add(mtAloneStockProduct.getGrammage().toString());
+                //第八个分类
+                }else if (params.getHeadersName().get(i).equals("分类")) {
+                    stringList.add(mtAloneStockProduct.getSort());
+                //第九个仓库数量ok
+                }else if (params.getHeadersName().get(i).equals("仓库数量")) {
+                    stringList.add(mtAloneStockProduct.getWareNum());
+                //第十个厂商库存
+                }else if (params.getHeadersName().get(i).equals("厂商库存")) {
+                    stringList.add(mtAloneStockProduct.getFactureInventory());
+                //第十一个门幅ok
+                }else if (params.getHeadersName().get(i).equals("门幅/克重")) {
+                    stringList.add(mtAloneStockProduct.getLarghezza());
+                //第十二个材料成本价
+                }else if (params.getHeadersName().get(i).equals("材料成本价")) {
+                    stringList.add(mtAloneStockProduct.getCostPrice());
+                //第十三个市场报价
+                }else if (params.getHeadersName().get(i).equals("市场报价")) {
+                    stringList.add(mtAloneStockProduct.getMarketPrice());
+                //第十四个优势等级
+                }else if (params.getHeadersName().get(i).equals("优势等级")) {
+                    stringList.add(mtAloneStockProduct.getDominant());
+                //第十五个密度ok
                 }else if (params.getHeadersName().get(i).equals("密度")) {
                     stringList.add(mtAloneStockProduct.getDensity());
+                //第十六个规格ok
                 }else if (params.getHeadersName().get(i).equals("规格")) {
                     stringList.add(mtAloneStockProduct.getSpecification());
+                //第十七个组织ok
+                }else if (params.getHeadersName().get(i).equals("组织")) {
+                    stringList.add(mtAloneStockProduct.getTissue());
+                //第十八个加工方式ok
                 }else if (params.getHeadersName().get(i).equals("加工方式")) {
                     stringList.add(mtAloneStockProduct.getProcessingMode());
+                //第十九个颜色ok
+                }else if (params.getHeadersName().get(i).equals("颜色")) {
+                    stringList.add(mtAloneStockProduct.getColorCode());
+                //第二十个厂商编码ok
+                }else if (params.getHeadersName().get(i).equals("厂商编码")) {
+                    stringList.add(mtAloneStockProduct.getSupplierCodename());
+                //第二十一个厂商ok
+                }else if (params.getHeadersName().get(i).equals("厂商")) {
+                    stringList.add(mtAloneStockProduct.getSupplierName());
+                //第二十二个联系人ok
+                }else if (params.getHeadersName().get(i).equals("联系人")) {
+                    stringList.add(mtAloneStockProduct.getSupplierContacts());
+                //第二十三个联系电话ok
+                }else if (params.getHeadersName().get(i).equals("联系电话")) {
+                    stringList.add(mtAloneStockProduct.getSupplierPhone());
+                //第二十四个开发人ok
                 }else if (params.getHeadersName().get(i).equals("开发人")) {
                     stringList.add(mtAloneStockProduct.getDeveloper());
-                }else if (params.getHeadersName().get(i).equals("采购员id")) {
-                    stringList.add(mtAloneStockProduct.getPurchaserId().toString());
-                }else if (params.getHeadersName().get(i).equals("采购员")) {
-                    stringList.add(mtAloneStockProduct.getPurchaserName());
-                }else if (params.getHeadersName().get(i).equals("销售员id")) {
-                    stringList.add(mtAloneStockProduct.getSellerId().toString());
-                }else if (params.getHeadersName().get(i).equals("销售员")) {
-                    stringList.add(mtAloneStockProduct.getSellerName());
-                }else if (params.getHeadersName().get(i).equals("描述信息")) {
-                    stringList.add(mtAloneStockProduct.getDescription());
+                //第二十五个备注ok
                 }else if (params.getHeadersName().get(i).equals("备注")) {
                     stringList.add(mtAloneStockProduct.getRemark());
                 }else {
@@ -508,33 +500,28 @@ public class MtAloneStockProductController {
         }
 
         List<String> titles = new ArrayList<>();
-        titles.add("供应商名称");
-        titles.add("供应商手机");
-        titles.add("供应商联系人");
-        titles.add("品号");
+        titles.add("一阶大类");
         titles.add("料号");
-        titles.add("品名");
+        titles.add("品号");
+        titles.add("原料");
         titles.add("中文品名");
-        titles.add("产品类型名");
-        titles.add("产品品种名");
-        titles.add("颜色");
-        titles.add("面料");
-        titles.add("组织");
-        titles.add("库存数量");
-        titles.add("计量单位");
-        titles.add("供应商库存数量");
-        titles.add("进货单价(每米/元)");
-        titles.add("销售单价(每米/元)");
-        titles.add("门幅");
-        titles.add("克重");
+        titles.add("分类");
+        titles.add("仓库数量");
+        titles.add("厂商库存");
+        titles.add("门幅/克重");
+        titles.add("材料成本");
+        titles.add("市场报价");
+        titles.add("优势等级");
         titles.add("密度");
         titles.add("规格");
+        titles.add("组织");
         titles.add("加工方式");
+        titles.add("颜色");
+        titles.add("厂商编码");
+        titles.add("厂商");
+        titles.add("联系人");
+        titles.add("联系电话");
         titles.add("开发人");
-        titles.add("采购员名字");
-        titles.add("销售员名字");
-        titles.add("备注");
-        titles.add("供应商代号");
         //创建poi导出数据对象
         SXSSFWorkbook sxssfWorkbook = new SXSSFWorkbook();
 

@@ -26,4 +26,9 @@ public class ProcessBomServiceImpl extends AbstractService<ProcessBom, Integer> 
     public List<ProcessBom> findList(ProcessBomParams params) {
         return processBomMapper.findList(params);
     }
+
+    @Override
+    public List<ProcessBom> findListById(ProcessBomParams params) {
+        return processBomMapper.findListById(params);
+    }
 }

@@ -7,6 +7,13 @@
     -->
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="operator_id" jdbcType="INTEGER" property="operatorId" />
+    <result column="first_large_class" jdbcType="VARCHAR" property="firstLargeClass" />
+    <result column="stock_product" jdbcType="VARCHAR" property="stockProduct" />
+    <result column="sort" jdbcType="VARCHAR" property="sort" />
+    <result column="manufacturer_inventory" jdbcType="VARCHAR" property="manufacturerInventory" />
+    <result column="cost_price" jdbcType="VARCHAR" property="costPrice" />
+    <result column="market_price" jdbcType="VARCHAR" property="marketPrice" />
+    <result column="dominant" jdbcType="VARCHAR" property="dominant" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="creator_id" jdbcType="INTEGER" property="creatorId" />
@@ -77,7 +84,7 @@
 
   <select id="findListPart" parameterType="com.deer.wms.produce.manage.model.MtAloneStockProductParams" resultMap="BaseResultMap">
     SELECT
-    masp.id,masp.operator_id,masp.create_time,masp.update_time,masp.creator_id,masp.updater_id,masp.version,masp.status,masp.supplier_codename,masp.product_code,masp.item_code,masp.product_name,masp.product_cha_name,masp.product_type_id,masp.product_variety_id,masp.color_code,masp.shell_fabric,masp.tissue,masp.ware_num,masp.unit_code,masp.supplier_num,masp.price,masp.sales_price,masp.larghezza,masp.grammage,masp.density,masp.specification,masp.processing_mode,masp.developer,masp.purchaser_id,masp.purchaser_name,masp.seller_id,masp.seller_name,masp.description,masp.remark
+    masp.id,masp.create_time,masp.first_large_class,masp.stock_product,masp.sort,masp.manufacturer_inventory,masp.cost_price,masp.market_price,masp.dominant,masp.update_time,masp.version,masp.status,masp.supplier_codename,masp.product_code,masp.item_code,masp.product_name,masp.product_cha_name,masp.product_type_id,masp.product_variety_id,masp.color_code,masp.shell_fabric,masp.tissue,masp.ware_num,masp.unit_code,masp.supplier_num,masp.price,masp.sales_price,masp.larghezza,masp.grammage,masp.density,masp.specification,masp.processing_mode,masp.description,masp.remark
     FROM mt_alone_stock_product masp
     LEFT JOIN item_type it ON masp.product_type_id = it.item_type_id
     <where>
@@ -93,7 +100,7 @@
         AND masp.product_variety_id= #{productVarietyId}
       </if>
       <if test="begDate!=null and begDate!=''">
-        <![CDATA[  AND DATE_FORMAT(masp.createTime, '%Y-%m-%d')>=  DATE_FORMAT(#{begDate}, '%Y-%m-%d')   ]]>
+        <![CDATA[  AND DATE_FORMAT(masp.createTime, '%Y-%m-%d') >= DATE_FORMAT(#{begDate}, '%Y-%m-%d')   ]]>
       </if>
       <if test="endDate!=null and endDate!=''">
         <![CDATA[  AND DATE_FORMAT(masp.createTime, '%Y-%m-%d') <= DATE_FORMAT(#{endDate}, '%Y-%m-%d')    ]]>

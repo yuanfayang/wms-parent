@@ -305,6 +305,7 @@ public class MtAloneStockProductController {
             return ResultGenerator.genFailResult( CommonCode.SERVICE_ERROR,"未登录错误",null );
         }
 
+
         List<String> titles = params.getHeadersName();
 
         //创建poi导出数据对象
@@ -340,6 +341,8 @@ public class MtAloneStockProductController {
         //创建表头
         SXSSFRow headRow = sheet.createRow(0);
 
+        System.out.println(titles.size());
+        System.out.println(titles);
         for (int i=0;i<titles.size();i++){
             Cell cell = headRow.createCell(i);
             cell.setCellValue(titles.get(i));
@@ -354,83 +357,54 @@ public class MtAloneStockProductController {
         for (MtAloneStockProduct mtAloneStockProduct:list){
             List<String> stringList = new ArrayList<>();
             for (int i = 0 ; i < params.getHeadersName().size() ; i++){
-                //第一个序号ok
-                if (params.getHeadersName().get(i).equals("序号")){
-                    stringList.add(String.valueOf(i+1));
-                //第二个日期ok
-                }else if (params.getHeadersName().get(i).equals("日期")) {
+                if (params.getHeadersName().get(i).equals("日期")) {
                     stringList.add(mtAloneStockProduct.getCreateTime().toString());
-                //第三个一阶大类
                 }else if (params.getHeadersName().get(i).equals("一阶大类")) {
                     stringList.add(mtAloneStockProduct.getFirstLargeClass());
-                //第四个料号ok
                 }else if (params.getHeadersName().get(i).equals("料号")) {
                     stringList.add(mtAloneStockProduct.getItemCode());
-                //第五个品号ok
                 }else if (params.getHeadersName().get(i).equals("品号")) {
                     stringList.add(mtAloneStockProduct.getProductCode());
-                //第六个原料
                 }else if (params.getHeadersName().get(i).equals("原料")) {
                     stringList.add(mtAloneStockProduct.getStockProduct());
-                //第七个中文品名ok
                 }else if (params.getHeadersName().get(i).equals("中文品名")) {
                     stringList.add(mtAloneStockProduct.getProductChaName());
-                //第八个分类
                 }else if (params.getHeadersName().get(i).equals("分类")) {
                     stringList.add(mtAloneStockProduct.getSort());
-                //第九个仓库数量ok
                 }else if (params.getHeadersName().get(i).equals("仓库数量")) {
                     stringList.add(mtAloneStockProduct.getWareNum());
-                //第十个厂商库存
                 }else if (params.getHeadersName().get(i).equals("厂商库存")) {
                     stringList.add(mtAloneStockProduct.getFactureInventory());
-                //第十一个门幅ok
                 }else if (params.getHeadersName().get(i).equals("门幅/克重")) {
                     stringList.add(mtAloneStockProduct.getLarghezza());
-                //第十二个材料成本价
                 }else if (params.getHeadersName().get(i).equals("材料成本价")) {
                     stringList.add(mtAloneStockProduct.getCostPrice());
-                //第十三个市场报价
                 }else if (params.getHeadersName().get(i).equals("市场报价")) {
                     stringList.add(mtAloneStockProduct.getMarketPrice());
-                //第十四个优势等级
                 }else if (params.getHeadersName().get(i).equals("优势等级")) {
                     stringList.add(mtAloneStockProduct.getDominant());
-                //第十五个密度ok
                 }else if (params.getHeadersName().get(i).equals("密度")) {
                     stringList.add(mtAloneStockProduct.getDensity());
-                //第十六个规格ok
                 }else if (params.getHeadersName().get(i).equals("规格")) {
                     stringList.add(mtAloneStockProduct.getSpecification());
-                //第十七个组织ok
                 }else if (params.getHeadersName().get(i).equals("组织")) {
                     stringList.add(mtAloneStockProduct.getTissue());
-                //第十八个加工方式ok
                 }else if (params.getHeadersName().get(i).equals("加工方式")) {
                     stringList.add(mtAloneStockProduct.getProcessingMode());
-                //第十九个颜色ok
                 }else if (params.getHeadersName().get(i).equals("颜色")) {
                     stringList.add(mtAloneStockProduct.getColorCode());
-                //第二十个厂商编码ok
                 }else if (params.getHeadersName().get(i).equals("厂商编码")) {
                     stringList.add(mtAloneStockProduct.getSupplierCodename());
-                //第二十一个厂商ok
                 }else if (params.getHeadersName().get(i).equals("厂商")) {
                     stringList.add(mtAloneStockProduct.getSupplierName());
-                //第二十二个联系人ok
                 }else if (params.getHeadersName().get(i).equals("联系人")) {
                     stringList.add(mtAloneStockProduct.getSupplierContacts());
-                //第二十三个联系电话ok
                 }else if (params.getHeadersName().get(i).equals("联系电话")) {
                     stringList.add(mtAloneStockProduct.getSupplierPhone());
-                //第二十四个开发人ok
                 }else if (params.getHeadersName().get(i).equals("开发人")) {
                     stringList.add(mtAloneStockProduct.getDeveloper());
-                //第二十五个备注ok
                 }else if (params.getHeadersName().get(i).equals("备注")) {
                     stringList.add(mtAloneStockProduct.getRemark());
-                }else {
-
                 }
             }
             data.add(stringList);

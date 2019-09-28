@@ -337,8 +337,6 @@ public class MtAloneProductController {
 					stringList.add(mtAloneProductVO.getNote());
 				}else if (params.getHeadersName().get(i).equals("创建时间")){
 					stringList.add(DateUtils.dateToStr(mtAloneProductVO.getCreateTime(),DateUtils.DEFAULT_DATE_FORMAT));
-				}else {
-
 				}
 			}
 			data.add(stringList);

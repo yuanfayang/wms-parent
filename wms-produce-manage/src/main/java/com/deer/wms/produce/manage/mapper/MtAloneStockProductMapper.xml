@@ -10,7 +10,7 @@
     <result column="first_large_class" jdbcType="VARCHAR" property="firstLargeClass" />
     <result column="stock_product" jdbcType="VARCHAR" property="stockProduct" />
     <result column="sort" jdbcType="VARCHAR" property="sort" />
-    <result column="manufacturer_inventory" jdbcType="VARCHAR" property="manufacturerInventory" />
+    <result column="facture_inventory" jdbcType="VARCHAR" property="factureInventory" />
     <result column="cost_price" jdbcType="VARCHAR" property="costPrice" />
     <result column="market_price" jdbcType="VARCHAR" property="marketPrice" />
     <result column="dominant" jdbcType="VARCHAR" property="dominant" />
@@ -19,7 +19,7 @@
     <result column="creator_id" jdbcType="INTEGER" property="creatorId" />
     <result column="updater_id" jdbcType="INTEGER" property="updaterId" />
     <result column="version" jdbcType="VARCHAR" property="version" />
-    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
     <result column="company_id" jdbcType="INTEGER" property="companyId" />
     <result column="supplier_id" jdbcType="INTEGER" property="supplierId" />
     <result column="supplier_codename" jdbcType="VARCHAR" property="supplierCodename" />
@@ -35,13 +35,13 @@
     <result column="color_code" jdbcType="VARCHAR" property="colorCode" />
     <result column="shell_fabric" jdbcType="VARCHAR" property="shellFabric" />
     <result column="tissue" jdbcType="VARCHAR" property="tissue" />
-    <result column="ware_num" jdbcType="REAL" property="wareNum" />
+    <result column="ware_num" jdbcType="VARCHAR" property="wareNum" />
     <result column="unit_code" jdbcType="VARCHAR" property="unitCode" />
-    <result column="supplier_num" jdbcType="REAL" property="supplierNum" />
-    <result column="price" jdbcType="REAL" property="price" />
-    <result column="sales_price" jdbcType="REAL" property="salesPrice" />
-    <result column="larghezza" jdbcType="REAL" property="larghezza" />
-    <result column="grammage" jdbcType="REAL" property="grammage" />
+    <result column="supplier_num" jdbcType="VARCHAR" property="supplierNum" />
+    <result column="price" jdbcType="VARCHAR" property="price" />
+    <result column="sales_price" jdbcType="VARCHAR" property="salesPrice" />
+    <result column="larghezza" jdbcType="VARCHAR" property="larghezza" />
+    <result column="grammage" jdbcType="VARCHAR" property="grammage" />
     <result column="density" jdbcType="VARCHAR" property="density" />
     <result column="specification" jdbcType="VARCHAR" property="specification" />
     <result column="processing_mode" jdbcType="VARCHAR" property="processingMode" />
@@ -84,7 +84,7 @@
 
   <select id="findListPart" parameterType="com.deer.wms.produce.manage.model.MtAloneStockProductParams" resultMap="BaseResultMap">
     SELECT
-    masp.id,masp.create_time,masp.first_large_class,masp.stock_product,masp.sort,masp.manufacturer_inventory,masp.cost_price,masp.market_price,masp.dominant,masp.update_time,masp.version,masp.status,masp.supplier_codename,masp.product_code,masp.item_code,masp.product_name,masp.product_cha_name,masp.product_type_id,masp.product_variety_id,masp.color_code,masp.shell_fabric,masp.tissue,masp.ware_num,masp.unit_code,masp.supplier_num,masp.price,masp.sales_price,masp.larghezza,masp.grammage,masp.density,masp.specification,masp.processing_mode,masp.description,masp.remark
+    masp.id,masp.create_time,masp.first_large_class,masp.stock_product,masp.sort,masp.facture_inventory,masp.cost_price,masp.market_price,masp.dominant,masp.update_time,masp.version,masp.status,masp.supplier_codename,masp.product_code,masp.item_code,masp.product_name,masp.product_cha_name,masp.product_type_id,masp.product_variety_id,masp.color_code,masp.shell_fabric,masp.tissue,masp.ware_num,masp.unit_code,masp.supplier_num,masp.price,masp.sales_price,masp.larghezza,masp.grammage,masp.density,masp.specification,masp.processing_mode,masp.description,masp.remark
     FROM mt_alone_stock_product masp
     LEFT JOIN item_type it ON masp.product_type_id = it.item_type_id
     <where>

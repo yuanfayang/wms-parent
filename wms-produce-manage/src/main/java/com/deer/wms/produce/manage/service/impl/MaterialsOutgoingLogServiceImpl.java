@@ -38,14 +38,14 @@ public class MaterialsOutgoingLogServiceImpl extends AbstractService<MaterialsOu
         Date date = new Date();
 
         MaterialsOutgoingLog materialsOutgoingLog = new MaterialsOutgoingLog();
-        materialsOutgoingLog.setOperatorId(1);
+        materialsOutgoingLog.setOperatorId(currentUser.getUserId());
         materialsOutgoingLog.setCreateTime(date);
         materialsOutgoingLog.setMaterialsId(materialsOutgoingLogDto.getMaterialsId());
         materialsOutgoingLog.setMaterialsName(materialsOutgoingLogDto.getMaterialsName());
         materialsOutgoingLog.setType(materialsOutgoingLogDto.getType());
         materialsOutgoingLog.setQuantity(materialsOutgoingLogDto.getQuantity());
         materialsOutgoingLog.setPositionName(materialsOutgoingLogDto.getPositionName());
-        materialsOutgoingLog.setCompanyId(1);
+        materialsOutgoingLog.setCompanyId(currentUser.getCompanyId());
         materialsOutgoingLogMapper.insert(materialsOutgoingLog);
 
         /**使用物料id（非stock主键）查询的写法**/
@@ -55,7 +55,7 @@ public class MaterialsOutgoingLogServiceImpl extends AbstractService<MaterialsOu
 
         if(stock==null){//如果是新的物料，库存表中没有该物料信息，则新增一条库存记录
             stock = new MaterialsStockInfo();
-            stock.setOperatorId(1);
+            stock.setOperatorId(currentUser.getUserId());
             stock.setMaterialsId(materialsOutgoingLogDto.getMaterialsId());
             stock.setUnitId(materialsOutgoingLogDto.getUnitId());
             stock.setCreateTime(date);
@@ -66,14 +66,14 @@ public class MaterialsOutgoingLogServiceImpl extends AbstractService<MaterialsOu
             }
 
             stock.setPositionName(materialsOutgoingLogDto.getPositionName());
-            stock.setCompanyId(1);
+            stock.setCompanyId(currentUser.getCompanyId());
 
             materialsStockInfoMapper.insert(stock);
         }else{//如果库存表中有该物料信息，则更新对应的库存记录
             stock.setCreateTime(date);//日期取最新更新的日期
             MaterialsInfoParams params = new MaterialsInfoParams();//查询条件赋值
             params.setMaterialsId(materialsOutgoingLogDto.getMaterialsId());
-            params.setCompanyId(1);
+            params.setCompanyId(currentUser.getCompanyId());
 
             //设置库存数量：已有库存数量+入库数量（或已有库存数量-出库数量）
             Float totalQuantity = materialsStockInfoMapper.getStockQuantityByMaId(params);

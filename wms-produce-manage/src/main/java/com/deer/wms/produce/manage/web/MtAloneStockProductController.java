@@ -189,6 +189,7 @@ public class MtAloneStockProductController {
             int lastCellNum = row.getLastCellNum();
             MtAloneStockProductVo mtAloneStockProductVo = new MtAloneStockProductVo();
             mtAloneStockProductVo.setCompanyId(currentUser.getCompanyId());
+            mtAloneStockProductVo.setCreateTime(new Date());
             for (int j=0 ; j<lastCellNum; j++) {
                 Cell cell = row.getCell(j);
                 cell.setCellType(Cell.CELL_TYPE_STRING);

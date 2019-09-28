@@ -100,10 +100,10 @@
         AND masp.product_variety_id= #{productVarietyId}
       </if>
       <if test="begDate!=null and begDate!=''">
-        <![CDATA[  AND DATE_FORMAT(masp.createTime, '%Y-%m-%d') >= DATE_FORMAT(#{begDate}, '%Y-%m-%d')   ]]>
+        <![CDATA[  AND DATE_FORMAT(masp.create_time, '%Y-%m-%d') >= DATE_FORMAT(#{begDate}, '%Y-%m-%d')   ]]>
       </if>
       <if test="endDate!=null and endDate!=''">
-        <![CDATA[  AND DATE_FORMAT(masp.createTime, '%Y-%m-%d') <= DATE_FORMAT(#{endDate}, '%Y-%m-%d')    ]]>
+        <![CDATA[  AND DATE_FORMAT(masp.create_time, '%Y-%m-%d') <= DATE_FORMAT(#{endDate}, '%Y-%m-%d')    ]]>
       </if>
       <if test="companyId != null">
         AND masp.company_id = #{companyId}

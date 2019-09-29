@@ -335,7 +335,11 @@
             </resource>
         </resources>
 
+<<<<<<< HEAD
     </build> 
+=======
+    </build>
+>>>>>>> resources插件复原
 
     <repositories>
         <repository>

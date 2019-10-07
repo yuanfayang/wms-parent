@@ -87,4 +87,6 @@ public interface MtAloneProductDetMapper extends Mapper<MtAloneProductDet> {
     List<MtAloneDetFabsListVO> findDetsWithoutFabs(QueryParamsDet params);
 
     Long findDetsWithoutFabsCount(QueryParamsDet detParams);
+
+    void rollFinish(MtAloneProductDetCriteria params);
 }

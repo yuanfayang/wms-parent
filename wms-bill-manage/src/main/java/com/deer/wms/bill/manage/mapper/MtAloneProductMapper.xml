@@ -82,6 +82,7 @@
     from mt_alone_product
     where company_id = #{companyId}
     and is_roll_order = 1
+    order by create_time desc
     </select>
     <select id="findListNew" parameterType="com.deer.wms.bill.manage.model.MtAloneProductParams" resultMap="ProductCombinationMap">
     SELECT

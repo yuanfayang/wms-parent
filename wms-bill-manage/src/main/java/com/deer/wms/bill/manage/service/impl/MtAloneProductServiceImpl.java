@@ -92,6 +92,4 @@ public class MtAloneProductServiceImpl extends AbstractService<MtAloneProduct, I
 	public List<MtAloneProduct> rollList(MtAloneProductParams params) {
 		return mtAloneProductMapper.rollList(params);
 	}
-
-
 }

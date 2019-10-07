@@ -625,4 +625,15 @@ public class MtAloneProductDetController {
 		return ResultGenerator.genSuccessResult(utilization);
 	}
 
+
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "access-token", value = "token", paramType = "header", dataType = "String", required = true) })
+	@OperateLog(description = "结束打卷删除新增的明细", type = "删除")
+	@GetMapping("/roll/finish")
+	public Result rollFinish(MtAloneProductDetCriteria params) {
+		mtAloneProductDetService.rollFinish(params);;
+		return ResultGenerator.genSuccessResult();
+
+	}
+
 }

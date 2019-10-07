@@ -933,5 +933,7 @@
         </where>
 
     </select>
-
+    <delete id="rollFinish" parameterType="com.deer.wms.bill.manage.model.MtAloneProductDetCriteria">
+      delete from mt_alone_product_det where warehouse_barcode = #{productBarcode} and is_detection = 0
+    </delete>
 </mapper>

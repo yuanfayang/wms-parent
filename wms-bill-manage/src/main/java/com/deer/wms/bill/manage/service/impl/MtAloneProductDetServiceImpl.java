@@ -174,6 +174,11 @@ public class MtAloneProductDetServiceImpl extends AbstractService<MtAloneProduct
          return mtAloneProductDetMapper.findDetsWithoutFabsCount(detParams);
      }
 
+     @Override
+     public void rollFinish(MtAloneProductDetCriteria params) {
+         mtAloneProductDetMapper.rollFinish(params);
+     }
+
 
      @Override
 	public MtAloneProductDet findOneDetByProCode(@Param("productBarCode")String productBarCode) {

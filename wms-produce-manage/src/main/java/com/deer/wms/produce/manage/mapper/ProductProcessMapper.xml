@@ -11,6 +11,7 @@
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="version" jdbcType="VARCHAR" property="version" />
     <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="sales_number" jdbcType="VARCHAR" property="salesNumber" />
     <result column="work_order_code" jdbcType="VARCHAR" property="workOrderCode" />
     <result column="work_order_name" jdbcType="VARCHAR" property="workOrderName" />
     <result column="delivery_code" jdbcType="VARCHAR" property="deliveryCode" />

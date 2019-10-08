@@ -28,4 +28,34 @@
         <result column="product_process_name" jdbcType="VARCHAR" property="productProcessName" />
         <result column="process_name" jdbcType="VARCHAR" property="processName" />
     </resultMap>
+
+    <resultMap id="ProcessMatBomVoResultMap" type="com.deer.wms.produce.manage.model.ProcessMaterialsBomVo">
+        <result column="materials_name" jdbcType="VARCHAR" property="materialsName" />
+        <result column="unit_name" jdbcType="VARCHAR" property="unitName" />
+        <result column="process_step" jdbcType="INTEGER" property="processStep" />
+        <result column="process_name" jdbcType="VARCHAR" property="processName" />
+    </resultMap>
+
+
+    <select id="findProcMatBomVoListByProId" parameterType="com.deer.wms.produce.manage.model.ProcessMaterialsBomParams" resultMap="ProcessMatBomVoResultMap">
+        SELECT materials.code, materials.materials_name,
+        unit.unit_name, matbom.specification, procbom.process_name,
+        procbom.process_step, matbom.dosage, stock.quantity, (stock.quantity-matbom.dosage) AS remain,
+        probom.product_process_name, product.product_name
+        FROM mt_alone_machining_product product
+        LEFT JOIN mt_alone_product_process_bom probom ON probom.product_id = product.id AND probom.company_id = product.company_id
+        LEFT JOIN mt_alone_process_bom procbom ON procbom.product_process_id = probom.id AND procbom.company_id = probom.company_id
+        LEFT JOIN mt_alone_process_materials_bom matbom ON matbom.process_bom_id = procbom.id AND matbom.company_id = procbom.company_id
+        LEFT JOIN mt_alone_materials_info materials ON matbom.materials_id = materials.id AND matbom.company_id = materials.company_id
+        LEFT JOIN mt_alone_materials_stock_info stock ON materials.id = stock.materials_id AND stock.company_id = materials.company_id
+        LEFT JOIN unit ON matbom.unit_id = unit.unit_id AND matbom.company_id = unit.company_id
+        <where>
+            <if test="companyId != null">
+                AND product.company_id = #{companyId}
+            </if>
+            <if test="productId != null">
+                AND product.id = #{productId}
+            </if>
+        </where>
+    </select>
 </mapper>

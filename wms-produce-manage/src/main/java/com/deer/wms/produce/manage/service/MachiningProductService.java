@@ -14,4 +14,7 @@ public interface MachiningProductService extends Service<MachiningProduct, Integ
 
     List<MachiningProduct> findList(MachiningProductParams  params) ;
 
+    List<MachiningProduct> findProductList(MachiningProductParams params);
+
+    List<MachiningProduct> findProductHaveBomList(MachiningProductParams params);
 }

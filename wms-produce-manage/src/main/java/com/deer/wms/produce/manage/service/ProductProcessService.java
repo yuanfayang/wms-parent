@@ -1,6 +1,8 @@
 package com.deer.wms.produce.manage.service;
 
+import com.deer.wms.intercept.common.data.CurrentUser;
 import com.deer.wms.produce.manage.model.ProductProcess;
+import com.deer.wms.produce.manage.model.ProductProcessDto;
 import com.deer.wms.produce.manage.model.ProductProcessParams;
 import com.deer.wms.project.seed.core.service.Service;
 
@@ -12,5 +14,5 @@ import java.util.List;
 public interface ProductProcessService extends Service<ProductProcess, Integer> {
     List<ProductProcess> findList(ProductProcessParams params);
 
-
+    void save(ProductProcessDto productProcessDto, CurrentUser currentUser);
 }

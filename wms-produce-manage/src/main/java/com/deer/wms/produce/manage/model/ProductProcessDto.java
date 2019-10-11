@@ -5,48 +5,68 @@ package com.deer.wms.produce.manage.model;
  * @Date: 2019/9/5 21:22
  * @Version 1.0
  *
- * 新建生产计划页面对应的结构，集成生产计划表、生产产品表等信息
+ * 新建生产加工页面对应的结构，集成生产加工单、生产工序、生产物料等信息
  *
  */
 
 public class ProductProcessDto extends ProductProcess {
-    private String productBarCode;//产品条形码
+    private String product_name;//产品名称
 
-    private String productName;//产品名称
+    private MtAloneProcess[] mtAloneProcess;//产品工序
 
-    private String unitName;//单位名称
+    private ProcessMaterials[] processMaterials;//工序所用物料
 
-    private String clientName;//客户名称
+    private ProductProcessBom productProcessBom;
 
-    public String getProductBarCode() {
-        return productBarCode;
+    private ProcessBom[] processBom;
+
+    private ProcessMaterialsBom[] processMaterialsBom;
+
+    public String getProduct_name() {
+        return product_name;
     }
 
-    public void setProductBarCode(String productBarCode) {
-        this.productBarCode = productBarCode;
+    public void setProduct_name(String product_name) {
+        this.product_name = product_name;
     }
 
-    public String getProductName() {
-        return productName;
+    public MtAloneProcess[] getMtAloneProcess() {
+        return mtAloneProcess;
     }
 
-    public void setProductName(String productName) {
-        this.productName = productName;
+    public void setMtAloneProcess(MtAloneProcess[] mtAloneProcess) {
+        this.mtAloneProcess = mtAloneProcess;
     }
 
-    public String getUnitName() {
-        return unitName;
+    public ProcessMaterials[] getProcessMaterials() {
+        return processMaterials;
     }
 
-    public void setUnitName(String unitName) {
-        this.unitName = unitName;
+    public void setProcessMaterials(ProcessMaterials[] processMaterials) {
+        this.processMaterials = processMaterials;
     }
 
-    public String getClientName() {
-        return clientName;
+    public ProductProcessBom getProductProcessBom() {
+        return productProcessBom;
     }
 
-    public void setClientName(String clientName) {
-        this.clientName = clientName;
+    public void setProductProcessBom(ProductProcessBom productProcessBom) {
+        this.productProcessBom = productProcessBom;
+    }
+
+    public ProcessBom[] getProcessBom() {
+        return processBom;
+    }
+
+    public void setProcessBom(ProcessBom[] processBom) {
+        this.processBom = processBom;
+    }
+
+    public ProcessMaterialsBom[] getProcessMaterialsBom() {
+        return processMaterialsBom;
+    }
+
+    public void setProcessMaterialsBom(ProcessMaterialsBom[] processMaterialsBom) {
+        this.processMaterialsBom = processMaterialsBom;
     }
 }

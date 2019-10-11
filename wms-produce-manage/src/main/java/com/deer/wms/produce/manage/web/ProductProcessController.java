@@ -6,6 +6,7 @@ import com.deer.wms.produce.manage.constant.ProduceManageConstant;
 import com.deer.wms.produce.manage.constant.ProduceManagePublicMethod;
 import com.deer.wms.produce.manage.model.ProcessBom;
 import com.deer.wms.produce.manage.model.ProductProcess;
+import com.deer.wms.produce.manage.model.ProductProcessDto;
 import com.deer.wms.produce.manage.model.ProductProcessParams;
 import com.deer.wms.produce.manage.service.ProcessBomService;
 import com.deer.wms.produce.manage.service.ProductProcessService;
@@ -28,7 +29,7 @@ import java.util.List;
 /**
 * Created by hy on 2019/07/19.
 */
-@Api(description = "生产计划接口")
+@Api(description = "生产加工接口")
 @RestController
 @RequestMapping("/product/processs")
 public class ProductProcessController {
@@ -40,34 +41,21 @@ public class ProductProcessController {
     private ProcessBomService processBomService;
 
     /**
-     * 生成某种产品的生产计划,产品由产品表而来
-     * 需要生成对应的生产bom
-     * @param productProcess
+     * 生成某种产品某一批次的生产加工单
+     * 需要调用对应产品的生产bom
+     * @param productProcessDto
      * @param currentUser
      * @return
      */
-    @OperateLog(description = "添加生产计划", type = "增加")
-    @ApiOperation(value = "添加生产计划", notes = "添加生产计划")
+    @OperateLog(description = "添加生产加工单", type = "增加")
+    @ApiOperation(value = "添加生产加工单", notes = "添加生产加工单")
     @PostMapping("/add")
-    public Result add(@RequestBody ProductProcess productProcess, @ApiIgnore @User CurrentUser currentUser) {
+    public Result add(@RequestBody ProductProcessDto productProcessDto, @ApiIgnore @User CurrentUser currentUser) {
         if(currentUser==null){
             return ResultGenerator.genFailResult( CommonCode.SERVICE_ERROR,"未登录错误",null );
         }
 
-        Date date = new Date();
-        productProcess.setProductProcessCode(ProduceManagePublicMethod.creatUniqueCode("SCJH"));
-        productProcess.setCreateTime(date);
-        productProcess.setOperatorId(currentUser.getUserId());
-        productProcess.setUpdateTime(date);
-        productProcess.setVersion("1.1");
-        productProcess.setStatus(ProduceManageConstant.STATUS_AVAILABLE);
-        productProcess.setCompanyId(currentUser.getCompanyId());
-        productProcess.setReviewStatus(ProduceManageConstant.REVIEW_STATUS_FORREVIEW);
-        //productProcess.setProductBomId(ProductProcessBomService.getProductBomIdByProductId());//该方法待完善···
-        productProcessService.save(productProcess);
-
-        //判断bom表中是否有同种产品的生产bom，如果没有生产相应产品的生产bom
-        ProcessBom processBom = processBomService.findBy("productId", productProcess.getProductBomId());
+        productProcessService.save(productProcessDto, currentUser);
         return ResultGenerator.genSuccessResult();
     }
     
@@ -102,7 +90,6 @@ public class ProductProcessController {
         }
 
         params.setCompanyId(currentUser.getCompanyId());
-
         PageHelper.startPage(params.getPageNum(), params.getPageSize());
         List<ProductProcess> list = productProcessService.findList(params);
         PageInfo pageInfo = new PageInfo(list);

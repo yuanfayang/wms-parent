@@ -6,6 +6,7 @@ package com.deer.wms.produce.manage.model;
  * @Version 1.0
  */
 public class ProductProcessBomDto extends ProductProcessBom{
+    private String productName;//产品表里的产品名称
 
     /**
      * 产品编号
@@ -66,6 +67,16 @@ public class ProductProcessBomDto extends ProductProcessBom{
         this.processStep = processStep;
     }
 
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public String getCompanyName() {
+        return companyName;
     public String getWorkSpecification() {
         return workSpecification;
     }

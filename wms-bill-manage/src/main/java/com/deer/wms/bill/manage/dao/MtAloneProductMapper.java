@@ -35,4 +35,5 @@ public interface MtAloneProductMapper extends Mapper<MtAloneProduct> {
     MtAloneProductCellVO findById(Integer id);
 
     List<MtAloneProduct> rollList(MtAloneProductParams params);
+
 }

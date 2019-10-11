@@ -43,13 +43,13 @@
             <groupId>com.deer</groupId>
             <artifactId>wms-base-system</artifactId>
             <version>1.0.0-SNAPSHOT</version>
-            <scope>compile</scope>
+            <!--<scope>compile</scope>-->
         </dependency>
         <dependency>
             <groupId>com.deer</groupId>
             <artifactId>wms-bill-manage</artifactId>
             <version>1.0.0-SNAPSHOT</version>
-            <scope>compile</scope>
+            <!--<scope>compile</scope>-->
         </dependency>
 		<!-- 获取浏览器操作系统等信息 -->
 		<!-- https://mvnrepository.com/artifact/eu.bitwalker/UserAgentUtils -->

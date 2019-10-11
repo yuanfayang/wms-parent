@@ -26,7 +26,7 @@ import java.util.List;
 /**
 * Created by guo on 2019/07/18.
 */
-@Api(description = "xxx接口")
+@Api(description = "产品bom接口")
 @RestController
 @RequestMapping("/product/process/boms")
 public class ProductProcessBomController {
@@ -70,19 +70,16 @@ public class ProductProcessBomController {
         return ResultGenerator.genSuccessResult(productProcessBom);
     }
 
-    @GetMapping("/list")
-    public Result list(ProductProcessBomParams params, @ApiIgnore @User CurrentUser currentUser) {
+    //仅获取所有产品Bom名称、产品名称、公司名称，用于新建加工单页面产品下拉框，该下拉框中的产品是已有bom的产品
+    @GetMapping("/proBomAndProList")
+    public Result proBomAndProList(ProductProcessBomParams params, @ApiIgnore @User CurrentUser currentUser) {
         if(currentUser==null){
             return ResultGenerator.genFailResult(CommonCode.SERVICE_ERROR,"未登录错误",null );
         }
 
-    	if (currentUser.getCompanyType() != SystemManageConstant.COMPANY_TYPE_MT){
-    		params.setCompanyId(currentUser.getCompanyId());
-		}else{
-			params.setCompanyId(null);
-        }
+        params.setCompanyId(currentUser.getCompanyId());
         PageHelper.startPage(params.getPageNum(), params.getPageSize());
-        List<ProductProcessBom> list = productProcessBomService.findList(params);
+        List<ProductProcessBomDto> list = productProcessBomService.findProBomAndProList(params);
         PageInfo pageInfo = new PageInfo(list);
         return ResultGenerator.genSuccessResult(pageInfo);
     }

@@ -24,7 +24,7 @@ import java.util.List;
 /**
 * Created by guo on 2019/07/18.
 */
-@Api(description = "产品生产Bom接口")
+@Api(description = "工序Bom接口")
 @RestController
 @RequestMapping("/process/bom")
 public class ProcessBomController {

@@ -25,8 +25,8 @@ public class ProductProcessBomServiceImpl extends AbstractService<ProductProcess
 
 
     @Override
-    public List<ProductProcessBom> findList(ProductProcessBomParams params) {
-        return productProcessBomMapper.findList(params);
+    public List<ProductProcessBomDto> findProBomAndProList(ProductProcessBomParams params) {
+        return productProcessBomMapper.findProBomAndProList(params);
     }
 
     @Override

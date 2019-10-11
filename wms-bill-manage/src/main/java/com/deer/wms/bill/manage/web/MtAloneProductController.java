@@ -176,6 +176,18 @@ public class MtAloneProductController {
 		return ResultGenerator.genSuccessResult(mtAloneProduct);
 	}
 
+
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "access-token", value = "token", paramType = "header", dataType = "String", required = true) })
+	@OperateLog(description = "根据barcode查询单个商品信息new", type = "查询")
+	@ApiOperation(value = "barcode查询单个商品信息new", notes = "barcode查询单个商品信息new")
+	@GetMapping("/barcode/new")
+	public Result findByBarcodeNew(String barcode) {
+		MtAloneProductCellVO mtAloneProduct = mtAloneProductService.findByBarcodeNew(barcode);
+		return ResultGenerator.genSuccessResult(mtAloneProduct);
+	}
+
+
 	@ApiImplicitParams({
 			@ApiImplicitParam(name = "access-token", value = "token", paramType = "header", dataType = "String", required = true) })
 	@OperateLog(description = "商品信息分页查询", type = "查询")

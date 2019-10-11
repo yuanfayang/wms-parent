@@ -4,6 +4,7 @@ import com.deer.wms.intercept.annotation.User;
 import com.deer.wms.intercept.common.data.CurrentUser;
 import com.deer.wms.produce.manage.model.ProcessMaterialsBom;
 import com.deer.wms.produce.manage.model.ProcessMaterialsBomParams;
+import com.deer.wms.produce.manage.model.ProcessMaterialsBomVo;
 import com.deer.wms.produce.manage.service.ProcessMaterialsBomService;
 import com.deer.wms.project.seed.annotation.OperateLog;
 import com.deer.wms.project.seed.constant.SystemManageConstant;
@@ -67,6 +68,20 @@ public class ProcessMaterialsBomController {
     public Result detail(@PathVariable Integer id) {
         ProcessMaterialsBom processMaterialsBom = processMaterialsBomService.findById(id);
         return ResultGenerator.genSuccessResult(processMaterialsBom);
+    }
+
+    //通过产品id获取产品、工序、物料bom的信息，对应新建加工单时下方展示的材料信息
+    @GetMapping("/procMatBomVoListByProId")
+    public Result procMatBomVoListByProId(ProcessMaterialsBomParams params, @ApiIgnore @User CurrentUser currentUser) {
+        if(currentUser==null){
+            return ResultGenerator.genFailResult(CommonCode.SERVICE_ERROR,"未登录错误",null );
+        }
+
+        params.setCompanyId(currentUser.getCompanyId());
+        PageHelper.startPage(params.getPageNum(), params.getPageSize());
+        List<ProcessMaterialsBomVo> list = processMaterialsBomService.findProcMatBomVoListByProId(params);
+        PageInfo pageInfo = new PageInfo(list);
+        return ResultGenerator.genSuccessResult(pageInfo);
     }
 
     //@GetMapping("/list")

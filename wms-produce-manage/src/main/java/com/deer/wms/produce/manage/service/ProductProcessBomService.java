@@ -10,7 +10,7 @@ import java.util.List;
  * Created by guo on 2019/07/18.
  */
 public interface ProductProcessBomService extends Service<ProductProcessBom, Integer> {
-    List<ProductProcessBom> findList(ProductProcessBomParams params);
+    List<ProductProcessBomDto> findProBomAndProList(ProductProcessBomParams params);
 
     List<ProductProcessBomDto> findListByTerm(ProductProcessBomParams params);
 

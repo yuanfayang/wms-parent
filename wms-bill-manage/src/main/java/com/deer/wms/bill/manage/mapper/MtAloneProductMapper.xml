@@ -71,7 +71,7 @@
      <result column="delivery_length" jdbcType="REAL" property="deliveryLength" />
     </resultMap>
     <resultMap id="ProductCellMap" type="com.deer.wms.bill.manage.model.MtAloneProductCellVO" extends="BaseResultMap">
-     <result column="cell_name" jdbcType="VARCHAR" property="cellName" />
+        <result column="cell_name" jdbcType="VARCHAR" property="cellName" />
     </resultMap>
     <select id="findList" parameterType="com.deer.wms.bill.manage.model.MtAloneProductCriteria" resultMap="BaseResultMap">
     select   *
@@ -82,6 +82,7 @@
     from mt_alone_product
     where company_id = #{companyId}
     and is_roll_order = 1
+    order by create_time desc
     </select>
     <select id="findListNew" parameterType="com.deer.wms.bill.manage.model.MtAloneProductParams" resultMap="ProductCombinationMap">
     SELECT
@@ -215,14 +216,14 @@
     WHERE p.product_bar_code =  #{productBarcode};
     </select>
     <select id="findByBarcodeNew" parameterType="java.lang.String" resultMap="ProductCellMap">
-    select   pro.*,cell.cell_alias as cell_name
+    select
+        (SELECT SUM(d.detect_length)  FROM mt_alone_detect_det d
+        WHERE d.product_barcode = #{productBarcode})  AS product_detect_length,
+    pro.*,cell.cell_alias as cell_name
     from mt_alone_product pro
     left join cell_info cell
     on pro.cell_code=cell.cell_code
-    where 1=1
-    <if test="productBarcode!=null and productBarcode!=''">
-    and product_bar_code = #{productBarcode}
-    </if>
+    where 1=1    and product_bar_code = #{productBarcode}
     </select>
     <select id="findById" parameterType="java.lang.Integer" resultMap="ProductCellMap">
     select   pro.*,cell.cell_alias as cell_name

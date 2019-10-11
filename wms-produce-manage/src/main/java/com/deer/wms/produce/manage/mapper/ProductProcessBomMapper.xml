@@ -28,8 +28,22 @@
         <result column="process_step" jdbcType="VARCHAR" property="processStep" />
         <result column="work_specification" jdbcType="VARCHAR" property="workSpecification" />
         <result column="process_content" jdbcType="VARCHAR" property="processContent" />
+        <result column="product_annex_code" jdbcType="VARCHAR" property="productAnnexCode" />
+        <result column="product_name" jdbcType="VARCHAR" property="productName" />
+        <result column="company_name" jdbcType="VARCHAR" property="companyName" />
     </resultMap>
 
+    <select id="findList" parameterType="com.deer.wms.produce.manage.model.ProductProcessBomParams" resultMap="ProPrcessBomDTOResultMap">
+        SELECT product.product_name, productBom.product_process_name, com.company_name
+        FROM  mt_alone_product_process_bom productBom
+        LEFT JOIN mt_alone_machining_product product ON product.id = productBom.product_id AND product.company_id = productBom.company_id
+        LEFT JOIN company com ON productBom.company_id = com.company_id
+        <where>
+            <if test="companyId != null">
+                AND productBom.company_id = #{companyId}
+            </if>
+        </where>
+    </select>
     <select id="findList" resultMap="ProPrcessBomDTOResultMap">
         SELECT mappb.*,mamp.*,COUNT(mapb.process_step) process_step
         FROM mt_alone_product_process_bom mappb

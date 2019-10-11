@@ -36,37 +36,37 @@
             <groupId>com.deer</groupId>
             <artifactId>wms-bill-manage</artifactId>
             <version>1.0.0-SNAPSHOT</version>
-            <scope>compile</scope>
+            <!--<scope>compile</scope>-->
         </dependency>
         <dependency>
             <groupId>com.deer</groupId>
             <artifactId>wms-report</artifactId>
             <version>1.0.0-SNAPSHOT</version>
-            <scope>compile</scope>
+            <!--<scope>compile</scope>-->
         </dependency>
         <dependency>
             <groupId>com.deer</groupId>
             <artifactId>wms-finance</artifactId>
             <version>1.0.0-SNAPSHOT</version>
-            <scope>compile</scope>
+            <!--<scope>compile</scope>-->
         </dependency>
         <dependency>
             <groupId>com.deer</groupId>
             <artifactId>wms-operation</artifactId>
             <version>1.0.0-SNAPSHOT</version>
-            <scope>compile</scope>
+            <!--<scope>compile</scope>-->
         </dependency>
         <dependency>
             <groupId>com.deer</groupId>
             <artifactId>wms-ware-task</artifactId>
             <version>1.0.0-SNAPSHOT</version>
-            <scope>compile</scope>
+            <!--<scope>compile</scope>-->
         </dependency>
         <dependency>
             <groupId>com.deer</groupId>
             <artifactId>wms-device-manage</artifactId>
             <version>1.0.0-SNAPSHOT</version>
-            <scope>compile</scope>
+            <!--<scope>compile</scope>-->
         </dependency>
         <dependency>
             <groupId>com.deer</groupId>
@@ -82,13 +82,13 @@
             <groupId>com.deer</groupId>
             <artifactId>wms-workflow</artifactId>
             <version>1.0.0-SNAPSHOT</version>
-            <scope>compile</scope>
+            <!--<scope>compile</scope>-->
         </dependency>
         <dependency>
             <groupId>com.deer</groupId>
             <artifactId>wms-produce-manage</artifactId>
             <version>1.0.0-SNAPSHOT</version>
-            <scope>compile</scope>
+            <!--<scope>compile</scope>-->
         </dependency>
          <!--devtools-->
         <dependency>
@@ -153,4 +153,12 @@
             <!--</plugin>-->
         <!--</plugins>-->
     <!--</build>-->
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 </project>

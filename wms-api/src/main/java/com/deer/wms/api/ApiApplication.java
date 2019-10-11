@@ -1,31 +1,30 @@
 package com.deer.wms.api;
 
 import com.deer.wms.file.configurer.FileSetting;
-import org.flowable.ui.common.rest.idm.remote.RemoteAccountResource;
-import org.flowable.ui.modeler.conf.ApplicationConfiguration;
-import org.flowable.ui.modeler.servlet.AppDispatcherServletConfiguration;
+//import org.flowable.ui.common.rest.idm.remote.RemoteAccountResource;
+//import org.flowable.ui.modeler.conf.ApplicationConfiguration;
+//import org.flowable.ui.modeler.servlet.AppDispatcherServletConfiguration;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Import;
+//import org.springframework.context.annotation.Import;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
- * 共享托盘项目后台API入口
+ * 后台API入口
  * <p>
  * Created by Floki on 2017/9/30.
- * sss
  */
 
-@Import({
-        ApplicationConfiguration.class,
-        AppDispatcherServletConfiguration.class
-})
-@SpringBootApplication(exclude = {RabbitAutoConfiguration.class,
-        org.springframework.boot.autoconfigure.security.SecurityAutoConfiguration.class,
-        org.flowable.spring.boot.FlowableSecurityAutoConfiguration.class
+//@Import({
+//        ApplicationConfiguration.class,
+//        AppDispatcherServletConfiguration.class
+//})
+@SpringBootApplication(exclude = {RabbitAutoConfiguration.class
+//        org.springframework.boot.autoconfigure.security.SecurityAutoConfiguration.class
+//        org.flowable.spring.boot.FlowableSecurityAutoConfiguration.class
 })//排除MQ消息队列
 @EnableScheduling   //支持定时任务
 @EnableConfigurationProperties({FileSetting.class})
@@ -45,12 +44,14 @@ import org.springframework.scheduling.annotation.EnableScheduling;
         , "com.deer.wms.device.manage"
         , "com.deer.wms.detect"
         , "com.deer.wms.ware.task"
-        , "com.deer.wms.workflow"
+//        , "com.deer.wms.workflow"
 })
 
 public class ApiApplication {
     public static void main(String[] args) {
+        System.out.println("start");
         SpringApplication.run(ApiApplication.class, args);
+        System.out.println("end");
     }
 
 }

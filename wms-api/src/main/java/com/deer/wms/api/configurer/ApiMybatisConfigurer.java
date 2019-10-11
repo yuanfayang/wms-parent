@@ -13,7 +13,7 @@ import com.deer.wms.project.seed.configurer.AbstractMybatisConfigurer;
 import com.deer.wms.report.constant.ReportConstant;
 import com.deer.wms.system.manage.constant.SystemManageConstant;
 import com.deer.wms.ware.task.constant.WareTaskConstant;
-import com.deer.wms.workflow.constant.WorkFlowConstant;
+//import com.deer.wms.workflow.constant.WorkFlowConstant;
 import org.springframework.context.annotation.Configuration;
 
 /**
@@ -46,7 +46,7 @@ public class ApiMybatisConfigurer extends AbstractMybatisConfigurer {
                 + ", " + ProduceManageConstant.DAO_PACKAGE
                 + ", " + DeviceManageConstant.DAO_PACKAGE
                 + ", " + DetectConstant.DAO_PACKAGE
-                + ", " + WorkFlowConstant.DAO_PACKAGE
+//                + ", " + WorkFlowConstant.DAO_PACKAGE
                 ;
     }
 }

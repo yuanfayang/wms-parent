@@ -125,25 +125,25 @@ public class ApiSwaggerConfigurer extends WebMvcConfigurerAdapter {
                 .build();
     }
 
-    @Bean
-    public Docket createWorkflowRestApi() {
-        return new Docket(DocumentationType.SWAGGER_2).groupName("工作流运行")
-                .apiInfo(apiInfo("设备管理服务提供的 RestFul APIs"))
-                .select()
-                .apis(RequestHandlerSelectors.basePackage("com.deer.wms.workflow.web"))
-                .paths(PathSelectors.any())
-                .build();
-    }
+//    @Bean
+//    public Docket createWorkflowRestApi() {
+//        return new Docket(DocumentationType.SWAGGER_2).groupName("工作流运行")
+//                .apiInfo(apiInfo("设备管理服务提供的 RestFul APIs"))
+//                .select()
+//                .apis(RequestHandlerSelectors.basePackage("com.deer.wms.workflow.web"))
+//                .paths(PathSelectors.any())
+//                .build();
+//    }
 
-    @Bean
-    public Docket createWorkflowModelRestApi() {
-        return new Docket(DocumentationType.SWAGGER_2).groupName("工作流定义")
-                .apiInfo(apiInfo("设备管理服务提供的 RestFul APIs"))
-                .select()
-                .apis(RequestHandlerSelectors.basePackage("org.flowable.ui.modeler.rest.app"))
-                .paths(PathSelectors.any())
-                .build();
-    }
+//    @Bean
+//    public Docket createWorkflowModelRestApi() {
+//        return new Docket(DocumentationType.SWAGGER_2).groupName("工作流定义")
+//                .apiInfo(apiInfo("设备管理服务提供的 RestFul APIs"))
+//                .select()
+//                .apis(RequestHandlerSelectors.basePackage("org.flowable.ui.modeler.rest.app"))
+//                .paths(PathSelectors.any())
+//                .build();
+//    }
 
     @Bean
     public Docket createProduceManageRestApi() {

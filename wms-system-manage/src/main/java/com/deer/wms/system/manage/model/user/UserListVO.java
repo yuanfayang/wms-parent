@@ -1,7 +1,5 @@
 package com.deer.wms.system.manage.model.user;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
-
 /**
  * 账户管理信息列表视图类
  *

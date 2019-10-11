@@ -51,4 +51,26 @@
     </where>
   </select>
 
+  <select id="findProductList" parameterType="com.deer.wms.produce.manage.model.MachiningProductParams" resultMap="BaseResultMap">
+      SELECT product.*
+      FROM  mt_alone_machining_product product
+      <where>
+          <if test="companyId != null">
+              AND product.company_id = #{companyId}
+          </if>
+      </where>
+  </select>
+
+    <select id="findProductHaveBomList" parameterType="com.deer.wms.produce.manage.model.MachiningProductParams" resultMap="BaseResultMap">
+        SELECT product.*
+        FROM  mt_alone_machining_product product
+        RIGHT JOIN mt_alone_product_process_bom probom ON product.id = probom.product_id
+        <where>
+            <if test="companyId != null">
+                AND product.company_id = #{companyId}
+            </if>
+        </where>
+    </select>
+
+
 </mapper>

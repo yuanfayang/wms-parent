@@ -28,7 +28,7 @@ import java.util.List;
 /**
 * Created by  on 2019/09/09.
 */
-@Api(description = "xxx接口")
+@Api(description = "产品和坯布接口")
 @RestController
 @RequestMapping("/machining/products")
 public class MachiningProductController {
@@ -85,6 +85,34 @@ public class MachiningProductController {
         }
         PageHelper.startPage(params.getPageNum(), params.getPageSize());
         List<MachiningProduct> list = machiningProductService.findList(params);
+        PageInfo pageInfo = new PageInfo(list);
+        return ResultGenerator.genSuccessResult(pageInfo);
+    }
+
+    //获取所有产品
+    @GetMapping("/productList")
+    public Result productList(MachiningProductParams params, @ApiIgnore @User CurrentUser currentUser) {
+        if(currentUser==null){
+            return ResultGenerator.genFailResult(CommonCode.SERVICE_ERROR,"未登录错误",null );
+        }
+
+        params.setCompanyId(currentUser.getCompanyId());
+        PageHelper.startPage(params.getPageNum(), params.getPageSize());
+        List<MachiningProduct> list = machiningProductService.findProductList(params);
+        PageInfo pageInfo = new PageInfo(list);
+        return ResultGenerator.genSuccessResult(pageInfo);
+    }
+
+    //获取已生成bom的所有产品
+    @GetMapping("/productHaveBomList")
+    public Result productHaveBomList(MachiningProductParams params, @ApiIgnore @User CurrentUser currentUser) {
+        if(currentUser==null){
+            return ResultGenerator.genFailResult(CommonCode.SERVICE_ERROR,"未登录错误",null );
+        }
+
+        params.setCompanyId(currentUser.getUserId());
+        PageHelper.startPage(params.getPageNum(), params.getPageSize());
+        List<MachiningProduct> list = machiningProductService.findProductHaveBomList(params);
         PageInfo pageInfo = new PageInfo(list);
         return ResultGenerator.genSuccessResult(pageInfo);
     }

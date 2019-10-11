@@ -26,4 +26,14 @@ public class MachiningProductServiceImpl extends AbstractService<MachiningProduc
     public List<MachiningProduct> findList(MachiningProductParams  params) {
         return machiningProductMapper.findList(params);
     }
+
+    @Override
+    public List<MachiningProduct> findProductList(MachiningProductParams params) {
+        return machiningProductMapper.findProductList(params);
+    }
+
+    @Override
+    public List<MachiningProduct> findProductHaveBomList(MachiningProductParams params) {
+        return machiningProductMapper.findProductHaveBomList(params);
+    }
 }

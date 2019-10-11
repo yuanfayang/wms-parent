@@ -38,7 +38,13 @@ public class ProductProcess {
     private Integer status;
 
     /**
-     * 工单号
+     * 销售单号
+     */
+    @Column(name = "sales_number")
+    private String salesNumber;
+
+    /**
+     * 加工单号
      */
     @Column(name = "work_order_code")
     private String workOrderCode;
@@ -104,13 +110,13 @@ public class ProductProcess {
     private String contractName;
 
     /**
-     * 产品加工编码
+     * 产品编码
      */
     @Column(name = "product_process_code")
     private String productProcessCode;
 
     /**
-     * 产品加工名称
+     * 产品别名
      */
     @Column(name = "product_process_name")
     private String productProcessName;
@@ -318,6 +324,24 @@ public class ProductProcess {
      */
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    /**
+     * 获取销售单号
+     *
+     * @return sales_number - 销售单号
+     */
+    public String getSalesNumber() {
+        return salesNumber;
+    }
+
+    /**
+     * 设置销售单号
+     *
+     * @param salesNumber 销售单号
+     */
+    public void setSalesNumber(String salesNumber) {
+        this.salesNumber = salesNumber;
     }
 
     /**

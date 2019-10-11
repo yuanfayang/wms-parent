@@ -3,6 +3,7 @@ package com.deer.wms.produce.manage.service.impl;
 import com.deer.wms.produce.manage.dao.ProcessMaterialsBomMapper;
 import com.deer.wms.produce.manage.model.ProcessMaterialsBom;
 import com.deer.wms.produce.manage.model.ProcessMaterialsBomParams;
+import com.deer.wms.produce.manage.model.ProcessMaterialsBomVo;
 import com.deer.wms.produce.manage.service.ProcessMaterialsBomService;
 import com.deer.wms.project.seed.core.service.AbstractService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,11 @@ public class ProcessMaterialsBomServiceImpl extends AbstractService<ProcessMater
 
     @Autowired
     private ProcessMaterialsBomMapper processMaterialsBomMapper;
+
+    @Override
+    public List<ProcessMaterialsBomVo> findProcMatBomVoListByProId(ProcessMaterialsBomParams params) {
+        return processMaterialsBomMapper.findProcMatBomVoListByProId(params);
+    }
 
 
     //@Override

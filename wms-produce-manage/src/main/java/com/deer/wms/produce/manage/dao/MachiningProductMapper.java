@@ -8,4 +8,8 @@ import java.util.List;
 
 public interface MachiningProductMapper extends Mapper<MachiningProduct> {
     List<MachiningProduct> findList(MachiningProductParams params);
+
+    List<MachiningProduct> findProductList(MachiningProductParams params);
+
+    List<MachiningProduct> findProductHaveBomList(MachiningProductParams params);
 }

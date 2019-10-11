@@ -19,6 +19,86 @@ public class MtAloneStockProductParams extends QueryParams {
 
     private String endDate;
 
+    private String sort;
+
+    private String firstLargeClass;
+
+    private String specification;
+
+    private String density;
+
+    private String grammage;
+
+    private String salesPrice;
+
+    private String productCode;
+
+    private String productName;
+
+    public String getProductCode() {
+        return productCode;
+    }
+
+    public void setProductCode(String productCode) {
+        this.productCode = productCode;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public String getSort() {
+        return sort;
+    }
+
+    public void setSort(String sort) {
+        this.sort = sort;
+    }
+
+    public String getFirstLargeClass() {
+        return firstLargeClass;
+    }
+
+    public void setFirstLargeClass(String firstLargeClass) {
+        this.firstLargeClass = firstLargeClass;
+    }
+
+    public String getSpecification() {
+        return specification;
+    }
+
+    public void setSpecification(String specification) {
+        this.specification = specification;
+    }
+
+    public String getDensity() {
+        return density;
+    }
+
+    public void setDensity(String density) {
+        this.density = density;
+    }
+
+    public String getGrammage() {
+        return grammage;
+    }
+
+    public void setGrammage(String grammage) {
+        this.grammage = grammage;
+    }
+
+    public String getSalesPrice() {
+        return salesPrice;
+    }
+
+    public void setSalesPrice(String salesPrice) {
+        this.salesPrice = salesPrice;
+    }
+
     private List<String> headersName;
 
     public Integer getProductTypeId() {

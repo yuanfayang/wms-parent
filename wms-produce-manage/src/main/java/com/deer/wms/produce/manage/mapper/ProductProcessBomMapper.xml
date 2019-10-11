@@ -22,13 +22,57 @@
   </resultMap>
 
     <resultMap id="ProPrcessBomDTOResultMap" type="com.deer.wms.produce.manage.model.ProductProcessBomDto">
-        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-        <result column="product_process_name" jdbcType="VARCHAR" property="productProcessName" />
-        <result column="finish_time" jdbcType="TIMESTAMP" property="finishTime" />
+        <result column="product_code" jdbcType="VARCHAR" property="productCode" />
+        <result column="product_name" jdbcType="VARCHAR" property="productName" />
+        <result column="specification" jdbcType="VARCHAR" property="specification" />
+        <result column="process_step" jdbcType="VARCHAR" property="processStep" />
+        <result column="work_specification" jdbcType="VARCHAR" property="workSpecification" />
         <result column="process_content" jdbcType="VARCHAR" property="processContent" />
-        <result column="product_annex_code" jdbcType="VARCHAR" property="productAnnexCode" />
-        <result column="company_name" jdbcType="VARCHAR" property="companyName" />
     </resultMap>
+
+    <select id="findList" resultMap="ProPrcessBomDTOResultMap">
+        SELECT mappb.*,mamp.*,COUNT(mapb.process_step) process_step
+        FROM mt_alone_product_process_bom mappb
+        LEFT JOIN mt_alone_machining_product mamp ON mappb.product_id = mamp.id
+        LEFT JOIN mt_alone_process_bom mapb ON mapb.product_process_id = mappb.id
+        <where>
+            <if test="productCode != null and productCode != ''">
+                AND mamp.product_code = #{productCode}
+            </if>
+            <if test="productName != null and productName != ''">
+                AND mamp.product_name = #{productName}
+            </if>
+            <if test="specification != null and specification != ''">
+                AND mamp.specification = #{specification}
+            </if>
+            <if test="companyId != null">
+                AND mapb.company_id = #{companyId}
+            </if>
+        </where>
+        GROUP BY mapb.product_process_id
+    </select>
+
+    <select id="findListByTerm" resultMap="ProPrcessBomDTOResultMap">
+        SELECT mappb.*,mamp.*,COUNT(mapb.process_step) process_step
+        FROM mt_alone_product_process_bom mappb
+        LEFT JOIN mt_alone_machining_product mamp ON mappb.product_id = mamp.id
+        LEFT JOIN mt_alone_process_bom mapb ON mapb.product_process_id = mappb.id
+        <where>
+            <if test="productCode != null and productCode != ''">
+                AND mamp.product_code = #{productCode}
+            </if>
+            <if test="productName != null and productName != ''">
+                AND mamp.product_name = #{productName}
+            </if>
+            <if test="specification != null and specification != ''">
+                AND mamp.specification = #{specification}
+            </if>
+            <if test="companyId != null">
+                AND mapb.company_id = #{companyId}
+            </if>
+        </where>
+        GROUP BY mapb.product_process_id
+    </select>
+
 
 </mapper>

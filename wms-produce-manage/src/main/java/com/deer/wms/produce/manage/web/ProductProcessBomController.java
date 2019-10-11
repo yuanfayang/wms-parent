@@ -3,6 +3,7 @@ package com.deer.wms.produce.manage.web;
 import com.deer.wms.intercept.annotation.User;
 import com.deer.wms.intercept.common.data.CurrentUser;
 import com.deer.wms.produce.manage.model.ProductProcessBom;
+import com.deer.wms.produce.manage.model.ProductProcessBomDto;
 import com.deer.wms.produce.manage.model.ProductProcessBomParams;
 import com.deer.wms.produce.manage.service.ProductProcessBomService;
 import com.deer.wms.project.seed.annotation.OperateLog;
@@ -82,6 +83,23 @@ public class ProductProcessBomController {
         }
         PageHelper.startPage(params.getPageNum(), params.getPageSize());
         List<ProductProcessBom> list = productProcessBomService.findList(params);
+        PageInfo pageInfo = new PageInfo(list);
+        return ResultGenerator.genSuccessResult(pageInfo);
+    }
+
+    @GetMapping("/list/by/term")
+    public Result listByTerm(ProductProcessBomParams params, @ApiIgnore @User CurrentUser currentUser) {
+        if(currentUser==null){
+            return ResultGenerator.genFailResult(CommonCode.SERVICE_ERROR,"未登录错误",null );
+        }
+
+        if (currentUser.getCompanyType() != SystemManageConstant.COMPANY_TYPE_MT){
+            params.setCompanyId(currentUser.getCompanyId());
+        }else{
+            params.setCompanyId(null);
+        }
+        PageHelper.startPage(params.getPageNum(), params.getPageSize());
+        List<ProductProcessBomDto> list = productProcessBomService.findListByTerm(params);
         PageInfo pageInfo = new PageInfo(list);
         return ResultGenerator.genSuccessResult(pageInfo);
     }

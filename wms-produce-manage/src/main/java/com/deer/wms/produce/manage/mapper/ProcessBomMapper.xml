@@ -32,12 +32,68 @@
         <result column="product_process_name" jdbcType="VARCHAR" property="productProcessName" />
     </resultMap>
 
+    <select id="findList" resultMap="BaseResultMap">
+        SELECT *
+        FROM mt_alone_process_bom
+        <where>
+            <if test="companyId != null">
+                AND company_id = #{companyId}
+            </if>
+        </where>
+        GROUP BY process_name
+    </select>
+
     <select id="findListById" resultMap="BaseResultMap">
         SELECT id,process_name,specification
         FROM mt_alone_process_bom
         WHERE product_process_id = #{productProcessId}
         ORDER BY process_step
     </select>
+
+    <insert id="insertProductProcessBom">
+        INSERT INTO mt_alone_product_process_bom
+        (create_time,version,product_process_name,product_id,specification,process_content,memo,company_id)
+        VALUE(#{createTime},#{version},#{productProcessName},#{productId},#{specification},#{processContent},#{memo},#{companyId})
+        <selectKey keyColumn="id" resultType="Integer" keyProperty="id" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <insert id="insertProcessBom" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="Id">
+        INSERT INTO
+        mt_alone_process_bom(create_time,process_name,product_process_id,specification,process_content,process_step,memo,company_id,process_apartment)
+        VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+                #{item.createTime},
+                #{item.processName},
+                #{item.productProcessId},
+                #{item.specification},
+                #{item.processContent},
+                #{item.memo},
+                #{item.companyId},
+                #{item.processApartment}
+            )
+        </foreach>
+    </insert>
+
+    <insert id="insertProcessMaterialsBom" parameterType="java.util.List">
+        INSERT INTO
+        mt_alone_process_materials_bom(create_time,process_bom_id,materials_id,code,specification,dosage,memo,company_id)
+        VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+                #{item.createTime},
+                #{item.processBomId},
+                #{item.materialsId},
+                #{item.code},
+                #{item.specification},
+                #{item.dosage},
+                #{item.memo},
+                #{item.company_id}
+            )
+        </foreach>
+    </insert>
 
 
 </mapper>

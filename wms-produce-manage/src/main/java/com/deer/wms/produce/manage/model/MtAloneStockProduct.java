@@ -268,6 +268,19 @@ public class MtAloneStockProduct {
     private String costPrice;
 
     /**
+     * 品质
+     */
+    private String quality;
+
+    public String getQuality() {
+        return quality;
+    }
+
+    public void setQuality(String quality) {
+        this.quality = quality;
+    }
+
+    /**
      * @return id
      */
     public Integer getId() {

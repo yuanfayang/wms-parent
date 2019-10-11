@@ -2,6 +2,7 @@ package com.deer.wms.produce.manage.service.impl;
 
 import com.deer.wms.produce.manage.dao.ProductProcessBomMapper;
 import com.deer.wms.produce.manage.model.ProductProcessBom;
+import com.deer.wms.produce.manage.model.ProductProcessBomDto;
 import com.deer.wms.produce.manage.model.ProductProcessBomParams;
 import com.deer.wms.produce.manage.service.ProductProcessBomService;
 
@@ -26,5 +27,10 @@ public class ProductProcessBomServiceImpl extends AbstractService<ProductProcess
     @Override
     public List<ProductProcessBom> findList(ProductProcessBomParams params) {
         return productProcessBomMapper.findList(params);
+    }
+
+    @Override
+    public List<ProductProcessBomDto> findListByTerm(ProductProcessBomParams params) {
+        return productProcessBomMapper.findListByTerm(params);
     }
 }

@@ -2,8 +2,7 @@ package com.deer.wms.produce.manage.web;
 
 import com.deer.wms.intercept.annotation.User;
 import com.deer.wms.intercept.common.data.CurrentUser;
-import com.deer.wms.produce.manage.model.ProcessBom;
-import com.deer.wms.produce.manage.model.ProcessBomParams;
+import com.deer.wms.produce.manage.model.*;
 import com.deer.wms.produce.manage.service.ProcessBomService;
 import com.deer.wms.project.seed.annotation.OperateLog;
 import com.deer.wms.project.seed.constant.SystemManageConstant;
@@ -40,9 +39,31 @@ public class ProcessBomController {
         if(currentUser==null){
             return ResultGenerator.genFailResult( CommonCode.SERVICE_ERROR,"未登录错误",null );
         }
-		 mtAloneProcessBom.setCreateTime(new Date());
-		 mtAloneProcessBom.setCompanyId(currentUser.getCompanyId());
+        mtAloneProcessBom.setCreateTime(new Date());
+        mtAloneProcessBom.setCompanyId(currentUser.getCompanyId());
         processBomService.save(mtAloneProcessBom);
+        return ResultGenerator.genSuccessResult();
+    }
+
+    @OperateLog(description = "添加产品工艺", type = "增加")
+    @ApiOperation(value = "添加产品工艺", notes = "添加产品工艺")
+    @PostMapping("/add/process/to/product")
+    public Result addProcessToProduct(@RequestBody ProcessBomParams params, @ApiIgnore @User CurrentUser currentUser){
+        if(currentUser==null){
+            return ResultGenerator.genFailResult( CommonCode.SERVICE_ERROR,"未登录错误",null );
+        }
+        params.setCreateTime(new Date());
+        params.setCompanyId(currentUser.getCompanyId());
+        List<ProcessBomVo> list = params.getProcessBomVoList();
+        for (ProcessBomVo processBomVo:list) {
+            processBomVo.setCreateTime(new Date());
+            processBomVo.setCompanyId(currentUser.getCompanyId());
+            for (ProcessMaterialsBom processMaterialsBom:processBomVo.getList()) {
+                processMaterialsBom.setCreateTime(new Date());
+                processMaterialsBom.setCompanyId(currentUser.getCompanyId());
+            }
+        }
+        processBomService.addProcessToProduct(params);
         return ResultGenerator.genSuccessResult();
     }
     

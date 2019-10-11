@@ -14,4 +14,6 @@ public interface ProcessBomService extends Service<ProcessBom, Integer> {
 
     List<ProcessBom> findListById(ProcessBomParams params);
 
+    void addProcessToProduct(ProcessBomParams params);
+
 }

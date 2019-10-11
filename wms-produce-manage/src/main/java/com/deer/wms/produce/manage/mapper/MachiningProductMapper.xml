@@ -31,10 +31,10 @@
   </resultMap>
 
   <select id="findList" parameterType="com.deer.wms.produce.manage.model.MachiningProductParams" resultMap="BaseResultMap">
-    SELECT mappb.*,mamp.*,MAX(process_step)
-    FROM mt_alone_process_bom mapb
-    LEFT JOIN mt_alone_product_process_bom mappb ON mapb.product_process_id = mappb.id
-    LEFT JOIN mt_alone_machining_product mamp ON mappb.product_id = mamp.id
+    SELECT mappb.*,mamp.*,COUNT(mapb.process_step) process_step
+    FROM mt_alone_machining_product mamp
+    LEFT JOIN mt_alone_product_process_bom mappb ON mappb.product_id = mamp.id
+    LEFT JOIN mt_alone_process_bom mapb ON mapb.product_process_id = mappb.id
     <where>
       <if test="productCode != null and productCode != ''">
         AND mamp.product_code = #{productCode}
@@ -49,6 +49,7 @@
         AND mapb.company_id = #{companyId}
       </if>
     </where>
+    GROUP BY mapb.product_process_id
   </select>
 
 </mapper>

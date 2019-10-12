@@ -52,7 +52,7 @@ public class ${modelNameUpperCamel}Controller {
     @ApiOperation(value = "删除xxx", notes = "删除xxx")
     @DeleteMapping("/delete/{id}")
     public Result delete(@PathVariable ${type} id, @ApiIgnore @User CurrentUser currentUser) {
-        ${modelNameLowerCamel}Service.deleteById(${modelNameLowerCamel}id);
+        ${modelNameLowerCamel}Service.deleteById(id);
         return ResultGenerator.genSuccessResult();
     }
 

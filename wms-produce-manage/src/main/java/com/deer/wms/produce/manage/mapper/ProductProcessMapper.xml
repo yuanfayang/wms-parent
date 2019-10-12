@@ -9,6 +9,7 @@
     <result column="operator_id" jdbcType="INTEGER" property="operatorId" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="sales_number" jdbcType="VARCHAR" property="salesNumber" />
     <result column="version" jdbcType="VARCHAR" property="version" />
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="sales_number" jdbcType="VARCHAR" property="salesNumber" />
@@ -46,4 +47,6 @@
     <result column="product_annex_code" jdbcType="VARCHAR" property="productAnnexCode" />
     <result column="company_id" jdbcType="INTEGER" property="companyId" />
   </resultMap>
+
+
 </mapper>

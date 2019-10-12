@@ -10,6 +10,7 @@ import java.util.List;
 
 public interface ProductProcessBomMapper extends Mapper<ProductProcessBom> {
     List<ProductProcessBomDto> findProBomAndProList(ProductProcessBomParams params);
+
     List<ProductProcessBom> findList(ProductProcessBomParams params);
 
     List<ProductProcessBomDto> findListByTerm(ProductProcessBomParams params);

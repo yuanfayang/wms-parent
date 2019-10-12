@@ -26,6 +26,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFRichTextString;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.streaming.SXSSFRow;
@@ -47,6 +49,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.net.URLEncoder;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -182,68 +185,76 @@ public class MtAloneStockProductController {
 
         int lastRowNum = sheet.getLastRowNum();
 
-        List<MtAloneStockProductVo> stockProductVoList = new ArrayList<>();
+//        List<MtAloneStockProductVo> stockProductVoList = new ArrayList<>();
+        List<MtAloneStockProduct> mtAloneStockProductList = new ArrayList<>();
         for (int i=firstRowNum ; i<lastRowNum +1; i++) {
             Row row = sheet.getRow(i);
             //获取当前最后单元格列号
             int lastCellNum = row.getLastCellNum();
-            MtAloneStockProductVo mtAloneStockProductVo = new MtAloneStockProductVo();
-            mtAloneStockProductVo.setCompanyId(currentUser.getCompanyId());
-            mtAloneStockProductVo.setCreateTime(new Date());
+//            MtAloneStockProductVo mtAloneStockProductVo = new MtAloneStockProductVo();
+//            mtAloneStockProductVo.setCompanyId(currentUser.getCompanyId());
+//            mtAloneStockProductVo.setCreateTime(new Date());
+
+            MtAloneStockProduct mtAloneStockProduct = new MtAloneStockProduct();
+            mtAloneStockProduct.setCompanyId(currentUser.getCompanyId());
+            mtAloneStockProduct.setCreateTime(new Date());
             for (int j=0 ; j<lastCellNum; j++) {
                 Cell cell = row.getCell(j);
-                cell.setCellType(Cell.CELL_TYPE_STRING);
-                if (j == 0 && cell.getStringCellValue() != null && !cell.getStringCellValue().equals("")) {
-                    mtAloneStockProductVo.setFirstLargeClass(cell.getStringCellValue());
-                }else if (j == 1 && cell.getStringCellValue() != null && !cell.getStringCellValue().equals("")) {
-                    mtAloneStockProductVo.setItemCode(cell.getStringCellValue());
-                }else if (j == 2 && cell.getStringCellValue() != null && !cell.getStringCellValue().equals("")) {
-                    mtAloneStockProductVo.setProductCode(cell.getStringCellValue());
-                }else if (j == 3 && cell.getStringCellValue() != null && !cell.getStringCellValue().equals("")) {
-                    mtAloneStockProductVo.setStockProduct(cell.getStringCellValue());
-                }else if (j == 4 && cell.getStringCellValue() != null && !cell.getStringCellValue().equals("")) {
-                    mtAloneStockProductVo.setProductChaName(cell.getStringCellValue());
-                }else if (j == 5 && cell.getStringCellValue() != null && !cell.getStringCellValue().equals("")) {
-                    mtAloneStockProductVo.setSort(cell.getStringCellValue());
-                }else if (j == 6 && cell.getStringCellValue() != null && !cell.getStringCellValue().equals("")) {
-                    mtAloneStockProductVo.setWareNum(cell.getStringCellValue());
-                }else if (j == 7 && cell.getStringCellValue() != null && !cell.getStringCellValue().equals("")) {
-                    mtAloneStockProductVo.setFactureInventory(cell.getStringCellValue());
-                }else if (j == 8 && cell.getStringCellValue() != null && !cell.getStringCellValue().equals("")) {
-                    mtAloneStockProductVo.setLarghezza(cell.getStringCellValue());
-                }else if (j == 9 && cell.getStringCellValue() != null && !cell.getStringCellValue().equals("")) {
-                    mtAloneStockProductVo.setCostPrice(cell.getStringCellValue());
-                }else if (j == 10 && cell.getStringCellValue() != null && !cell.getStringCellValue().equals("")) {
-                    mtAloneStockProductVo.setMarketPrice(cell.getStringCellValue());
-                }else if (j == 11 && cell.getStringCellValue() != null && !cell.getStringCellValue().equals("")) {
-                    mtAloneStockProductVo.setDominant(cell.getStringCellValue());
-                }else if (j == 12 && cell.getStringCellValue() != null && !cell.getStringCellValue().equals("")) {
-                    mtAloneStockProductVo.setDensity(cell.getStringCellValue());
-                }else if (j == 13 && cell.getStringCellValue() != null && !cell.getStringCellValue().equals("")) {
-                    mtAloneStockProductVo.setSpecification(cell.getStringCellValue());
-                }else if (j == 14 && cell.getStringCellValue() != null && !cell.getStringCellValue().equals("")) {
-                    mtAloneStockProductVo.setTissue(cell.getStringCellValue());
-                }else if (j == 15 && cell.getStringCellValue() != null && !cell.getStringCellValue().equals("")) {
-                    mtAloneStockProductVo.setProcessingMode(cell.getStringCellValue());
-                }else if (j == 16 && cell.getStringCellValue() != null && !cell.getStringCellValue().equals("")) {
-                    mtAloneStockProductVo.setColorCode(cell.getStringCellValue());
-                }else if (j == 17 && cell.getStringCellValue() != null && !cell.getStringCellValue().equals("")) {
-                    mtAloneStockProductVo.setSupplierCodename(cell.getStringCellValue());
-                }else if (j == 18 && cell.getStringCellValue() != null && !cell.getStringCellValue().equals("")) {
-                    mtAloneStockProductVo.setSupplierName(cell.getStringCellValue());
-                }else if (j == 19 && cell.getStringCellValue() != null && !cell.getStringCellValue().equals("")) {
-                    mtAloneStockProductVo.setSupplierContacts(cell.getStringCellValue());
-                }else if (j == 20 && cell.getStringCellValue() != null && !cell.getStringCellValue().equals("")) {
-                    mtAloneStockProductVo.setSupplierPhone(cell.getStringCellValue());
-                }else if (j == 21 && cell.getStringCellValue() != null && !cell.getStringCellValue().equals("")) {
-                    mtAloneStockProductVo.setDeveloper(cell.getStringCellValue());
-                }else if (j == 22 && cell.getStringCellValue() != null && !cell.getStringCellValue().equals("")) {
-                    mtAloneStockProductVo.setQuality(cell.getStringCellValue());
-                }else if (j == 23 && cell.getStringCellValue() != null && !cell.getStringCellValue().equals("")) {
-                    mtAloneStockProductVo.setRemark(cell.getStringCellValue());
+                if(cell == null){
+
+                }else if (j == 0 && getCellValue(cell) != null && !getCellValue(cell).equals("")) {
+                    mtAloneStockProduct.setFirstLargeClass(getCellValue(cell));
+                }else if (j == 1 && getCellValue(cell) != null && !getCellValue(cell).equals("")) {
+                    mtAloneStockProduct.setItemCode(getCellValue(cell));
+                }else if (j == 2 && getCellValue(cell) != null && !getCellValue(cell).equals("")) {
+                    mtAloneStockProduct.setProductCode(getCellValue(cell));
+                }else if (j == 3 && getCellValue(cell) != null && !getCellValue(cell).equals("")) {
+                    mtAloneStockProduct.setStockProduct(getCellValue(cell));
+                }else if (j == 4 && getCellValue(cell) != null && !getCellValue(cell).equals("")) {
+                    mtAloneStockProduct.setProductChaName(getCellValue(cell));
+                }else if (j == 5 && getCellValue(cell) != null && !getCellValue(cell).equals("")) {
+                    mtAloneStockProduct.setSort(getCellValue(cell));
+                }else if (j == 6 && getCellValue(cell) != null && !getCellValue(cell).equals("")) {
+                    mtAloneStockProduct.setWareNum(getCellValue(cell));
+                }else if (j == 7 && getCellValue(cell) != null && !getCellValue(cell).equals("")) {
+                    mtAloneStockProduct.setFactureInventory(getCellValue(cell));
+                }else if (j == 8 && getCellValue(cell) != null && !getCellValue(cell).equals("")) {
+                    mtAloneStockProduct.setLarghezza(getCellValue(cell));
+                }else if (j == 9 && getCellValue(cell) != null && !getCellValue(cell).equals("")) {
+                    mtAloneStockProduct.setCostPrice(getCellValue(cell));
+                }else if (j == 10 && getCellValue(cell) != null && !getCellValue(cell).equals("")) {
+                    mtAloneStockProduct.setMarketPrice(getCellValue(cell));
+                }else if (j == 11 && getCellValue(cell) != null && !getCellValue(cell).equals("")) {
+                    mtAloneStockProduct.setDominant(getCellValue(cell));
+                }else if (j == 12 && getCellValue(cell) != null && !getCellValue(cell).equals("")) {
+                    mtAloneStockProduct.setDensity(getCellValue(cell));
+                }else if (j == 13 && getCellValue(cell) != null && !getCellValue(cell).equals("")) {
+                    mtAloneStockProduct.setSpecification(getCellValue(cell));
+                }else if (j == 14 && getCellValue(cell) != null && !getCellValue(cell).equals("")) {
+                    mtAloneStockProduct.setTissue(getCellValue(cell));
+                }else if (j == 15 && getCellValue(cell) != null && !getCellValue(cell).equals("")) {
+                    mtAloneStockProduct.setProcessingMode(getCellValue(cell));
+                }else if (j == 16 && getCellValue(cell) != null && !getCellValue(cell).equals("")) {
+                    mtAloneStockProduct.setColorCode(getCellValue(cell));
+                }else if (j == 17 && getCellValue(cell) != null && !getCellValue(cell).equals("")) {
+                    mtAloneStockProduct.setSupplierCodename(getCellValue(cell));
+                }else if (j == 18 && getCellValue(cell) != null && !getCellValue(cell).equals("")) {
+                    mtAloneStockProduct.setSupplierName(getCellValue(cell));
+                }else if (j == 19 && getCellValue(cell) != null && !getCellValue(cell).equals("")) {
+                    mtAloneStockProduct.setSupplierContacts(getCellValue(cell));
+                }else if (j == 20 && getCellValue(cell) != null && !getCellValue(cell).equals("")) {
+                    mtAloneStockProduct.setSupplierPhone(getCellValue(cell));
+                }else if (j == 21 && getCellValue(cell) != null && !getCellValue(cell).equals("")) {
+                    mtAloneStockProduct.setDeveloper(getCellValue(cell));
+                }else if (j == 22 && getCellValue(cell) != null && !getCellValue(cell).equals("")) {
+                    mtAloneStockProduct.setQuality(getCellValue(cell));
+                }else if (j == 23 && getCellValue(cell) != null && !getCellValue(cell).equals("")) {
+                    mtAloneStockProduct.setRemark(getCellValue(cell));
+                }else{
+
                 }
             }
-            stockProductVoList.add(mtAloneStockProductVo);
+            mtAloneStockProductList.add(mtAloneStockProduct);
         }
         /*List<SupplierManage> supplierManageList = supplierManageService.findAll();
         for (MtAloneStockProductVo mtAloneStockProductVo:stockProductVoList) {
@@ -291,11 +302,37 @@ public class MtAloneStockProductController {
             }
         }
 */
-        List<MtAloneStockProduct> aloneStockProductList = new ArrayList<>();
-        aloneStockProductList.addAll(stockProductVoList);
-        mtAloneStockProductService.save(aloneStockProductList);
+//        List<MtAloneStockProduct> aloneStockProductList = new ArrayList<>();
+//        aloneStockProductList.addAll(stockProductVoList);
+        mtAloneStockProductService.save(mtAloneStockProductList);
         return ResultGenerator.genSuccessResult();
     }
+
+    /**
+     * 对Excel的各个单元格的格式进行判断并转换
+     */
+    private String getCellValue(Cell cell) {
+        String cellValue = "";
+        DecimalFormat df = new DecimalFormat("#");
+        switch (cell.getCellType()) {
+            case Cell.CELL_TYPE_STRING:
+                cellValue =cell.getRichStringCellValue().getString().trim();
+                break;
+            case Cell.CELL_TYPE_NUMERIC:
+                cellValue =df.format(cell.getNumericCellValue()).toString();
+                break;
+            case Cell.CELL_TYPE_BOOLEAN:
+                cellValue =String.valueOf(cell.getBooleanCellValue()).trim();
+                break;
+            case Cell.CELL_TYPE_FORMULA:
+                cellValue =cell.getCellFormula();
+                break;
+            default:
+                cellValue = "";
+        }
+        return cellValue;
+    }
+
 
     @ApiImplicitParams({
             @ApiImplicitParam(name = "access-token", value = "token", paramType="header", dataType="String", required = true)

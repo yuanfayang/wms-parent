@@ -33,10 +33,12 @@
     <result column="delivery_len" jdbcType="REAL" property="deliveryLen" />
     <result column="detection_len" jdbcType="REAL" property="detectionLen" />
     <result column="batch_code" jdbcType="VARCHAR" property="batchCode" />
+    <result column="batch_order_code" jdbcType="VARCHAR" property="batchOrderCode" />
     <result column="shrinkage" jdbcType="VARCHAR" property="shrinkage" />
     <result column="pi_num" jdbcType="INTEGER" property="piNum" />
     <result column="process_content" jdbcType="VARCHAR" property="processContent" />
     <result column="merchandiser_id" jdbcType="INTEGER" property="merchandiserId" />
+    <result column="merchandiser_name" jdbcType="VARCHAR" property="merchandiserName" />
     <result column="memo" jdbcType="VARCHAR" property="memo" />
     <result column="review_status" jdbcType="INTEGER" property="reviewStatus" />
     <result column="review_time" jdbcType="TIMESTAMP" property="reviewTime" />

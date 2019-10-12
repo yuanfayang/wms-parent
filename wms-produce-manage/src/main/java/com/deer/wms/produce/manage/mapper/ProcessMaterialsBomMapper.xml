@@ -36,7 +36,6 @@
         <result column="process_name" jdbcType="VARCHAR" property="processName" />
     </resultMap>
 
-
     <select id="findProcMatBomVoListByProId" parameterType="com.deer.wms.produce.manage.model.ProcessMaterialsBomParams" resultMap="ProcessMatBomVoResultMap">
         SELECT materials.code, materials.materials_name,
         unit.unit_name, matbom.specification, procbom.process_name,

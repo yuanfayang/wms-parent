@@ -3,16 +3,14 @@ package com.deer.wms.produce.manage.service.impl;
 import com.deer.wms.intercept.common.data.CurrentUser;
 import com.deer.wms.produce.manage.constant.ProduceManageConstant;
 import com.deer.wms.produce.manage.dao.ProductProcessMapper;
-import com.deer.wms.produce.manage.model.ProductProcess;
-import com.deer.wms.produce.manage.model.ProductProcessBom;
-import com.deer.wms.produce.manage.model.ProductProcessDto;
-import com.deer.wms.produce.manage.model.ProductProcessParams;
+import com.deer.wms.produce.manage.model.*;
 import com.deer.wms.produce.manage.service.ProductProcessService;
 import com.deer.wms.project.seed.core.service.AbstractService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Date;
 import java.util.List;
@@ -35,14 +33,18 @@ public class ProductProcessServiceImpl extends AbstractService<ProductProcess, I
 
     @Override
     public void save(ProductProcessDto productProcessDto, CurrentUser currentUser) {
-        ProductProcess productProcess = new ProductProcess();
-        productProcess.setOperatorId(currentUser.getUserId());
+        ProcessMaterialsBomVo processMaterialsBomVo = productProcessDto.getProcessMaterialsBomVo();
 
         Date date = new Date();
+
+        /**生产加工单赋值**/
+        ProductProcess productProcess = new ProductProcess();
+        productProcess.setOperatorId(currentUser.getUserId());
         productProcess.setCreateTime(date);
         productProcess.setUpdateTime(date);
         productProcess.setVersion("1.1");
         productProcess.setStatus(ProduceManageConstant.STATUS_AVAILABLE);
+        productProcess.setSalesNumber(productProcessDto.getSalesNumber());
         productProcess.setWorkOrderCode(productProcessDto.getWorkOrderCode());
         productProcess.setWorkOrderName(productProcessDto.getWorkOrderName());
         productProcess.setDeliveryCode(productProcessDto.getDeliveryCode());
@@ -54,28 +56,27 @@ public class ProductProcessServiceImpl extends AbstractService<ProductProcess, I
         productProcess.setContractName(productProcessDto.getContractName());
         productProcess.setProductProcessCode(productProcessDto.getProductProcessCode());
         productProcess.setProductProcessName(productProcessDto.getProductProcessName());
+        //productProcess.setProductBomId();要在processMaterialsBomVo中加入产品Bom的id
         productProcess.setSpecification(productProcessDto.getSpecification());
         productProcess.setProcessPrice(productProcessDto.getProcessPrice());
         productProcess.setLen(productProcessDto.getLen());
-        productProcess.setDeliveryLen(productProcessDto.getDeliveryLen());
-        productProcess.setDetectionLen(productProcessDto.getDetectionLen());
         productProcess.setBatchCode(productProcessDto.getBatchCode());
-
-        NumberFormat nt = NumberFormat.getPercentInstance();//百分数转换,保留两位小数
-        nt.setMinimumFractionDigits(2);
-        Float shrinkage = productProcess.getDeliveryLen()/productProcessDto.getLen();
-        productProcess.setShrinkage(nt.format(shrinkage));
-
+        productProcess.setBatchOrderCode(productProcessDto.getBatchOrderCode());
+        productProcess.setShrinkage("100%");
         productProcess.setPiNum(productProcessDto.getPiNum());
         productProcess.setProcessContent(productProcessDto.getProcessContent());
         productProcess.setMerchandiserId(productProcessDto.getMerchandiserId());
+        productProcess.setMerchandiserName(productProcessDto.getMerchandiserName());
         productProcess.setMemo(productProcessDto.getMemo());
         productProcess.setReviewStatus(ProduceManageConstant.REVIEW_STATUS_FORREVIEW);
+        productProcess.setProductAnnexCode(productProcessDto.getProductAnnexCode());
         productProcess.setCompanyId(currentUser.getCompanyId());
+        productProcessMapper.insert(productProcess);
+
 
         //ProductProcessBom productProcessBom =
         //productProcess.setProductBomId(ProductProcessBomService.getProductBomIdByProductId());//该方法待完善···
-        productProcessMapper.insert(productProcess);
+
 
 
     }

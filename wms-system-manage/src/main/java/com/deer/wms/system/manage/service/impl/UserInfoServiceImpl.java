@@ -322,7 +322,7 @@ public class UserInfoServiceImpl extends AbstractService<UserInfo, Integer> impl
 		if (users != null && !users.isEmpty()) {
 			for (UserInfo user : users) {
 				if (null != user && !user.getState().equals("deleted")) {
-					throw new ServiceException(CommonCode.SERVICE_ERROR, "手机号码已经被注册");
+					throw new ServiceException(CommonCode.HAVE_MOBILE_RECORD, "手机号码已经被注册");
 				}
 			}
 		}
@@ -333,7 +333,7 @@ public class UserInfoServiceImpl extends AbstractService<UserInfo, Integer> impl
 		if (users != null && !users.isEmpty()) {
 			for (UserInfo user : users) {
 				if (null != user && !user.getState().equals("deleted")) {
-					throw new ServiceException(CommonCode.SERVICE_ERROR, "邮箱已经被注册");
+					throw new ServiceException(CommonCode.HAVE_EMAIL_RECORD, "邮箱已经被注册");
 				}
 			}
 		}

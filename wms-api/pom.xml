@@ -78,12 +78,12 @@
             <artifactId>wms-project-seed</artifactId>
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
-        <dependency>
-            <groupId>com.deer</groupId>
-            <artifactId>wms-workflow</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
+        <!--<dependency>-->
+            <!--<groupId>com.deer</groupId>-->
+            <!--<artifactId>wms-workflow</artifactId>-->
+            <!--<version>1.0.0-SNAPSHOT</version>-->
             <!--<scope>compile</scope>-->
-        </dependency>
+        <!--</dependency>-->
         <dependency>
             <groupId>com.deer</groupId>
             <artifactId>wms-produce-manage</artifactId>

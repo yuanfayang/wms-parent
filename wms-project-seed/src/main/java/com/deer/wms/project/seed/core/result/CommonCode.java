@@ -52,8 +52,10 @@ public enum CommonCode implements Code {
     ,BIll_NOT_CONTAIN(100003,"不存在该物料的订单")
 
     ,INBOUND_QUANTITY_TOO_MUCH(100004,"该物料入库数量太多")
-    
+
     ,HAVE_CHILDREN_RECORD(100005,"该记录下面有子记录，无法删除")
+    ,HAVE_MOBILE_RECORD(100006,"手机号码已经被注册")
+    ,HAVE_EMAIL_RECORD(100007,"邮箱已经被注册")
     ;
 
     /**

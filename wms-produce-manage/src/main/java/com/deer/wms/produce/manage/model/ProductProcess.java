@@ -168,6 +168,12 @@ public class ProductProcess {
     private String batchCode;
 
     /**
+     * 批次单据号，用户手动填写
+     */
+    @Column(name = "batch_order_code")
+    private String batchOrderCode;
+
+    /**
      * 缩率%，现有检测长度/原先长度
      */
     private String shrinkage;
@@ -189,6 +195,12 @@ public class ProductProcess {
      */
     @Column(name = "merchandiser_id")
     private Integer merchandiserId;
+
+    /**
+     * 跟单员名称，关联表员工表：user_info
+     */
+    @Column(name = "merchandiser_name")
+    private String merchandiserName;
 
     /**
      * 备注
@@ -723,6 +735,24 @@ public class ProductProcess {
     }
 
     /**
+     * 获取批次单据号
+     *
+     * @return batch_order_code - 批次单据号
+     */
+    public String getBatchOrderCode() {
+        return batchOrderCode;
+    }
+
+    /**
+     * 设置批次单据号
+     *
+     * @param batchOrderCode 批次单据号
+     */
+    public void setBatchOrderCode(String batchOrderCode) {
+        this.batchOrderCode = batchOrderCode;
+    }
+
+    /**
      * 获取缩率%，现有检测长度/原先长度
      *
      * @return shrinkage - 缩率%，现有检测长度/原先长度
@@ -792,6 +822,24 @@ public class ProductProcess {
      */
     public void setMerchandiserId(Integer merchandiserId) {
         this.merchandiserId = merchandiserId;
+    }
+
+    /**
+     * 获取跟单员名称，关联表员工表：user_info
+     *
+     * @return merchandiser_name - 跟单员名称
+     */
+    public String getMerchandiserName() {
+        return merchandiserName;
+    }
+
+    /**
+     * 设置跟单员名称，关联表员工表：user_info
+     *
+     * @param merchandiserName 跟单员名称
+     */
+    public void setMerchandiserName(String merchandiserName) {
+        this.merchandiserName = merchandiserName;
     }
 
     /**

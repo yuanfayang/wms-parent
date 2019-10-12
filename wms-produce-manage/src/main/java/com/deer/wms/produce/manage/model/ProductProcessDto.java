@@ -10,7 +10,7 @@ package com.deer.wms.produce.manage.model;
  */
 
 public class ProductProcessDto extends ProductProcess {
-    private String product_name;//产品名称
+    private ProcessMaterialsBomVo processMaterialsBomVo;//所有bom信息
 
     private MtAloneProcess[] mtAloneProcess;//产品工序
 
@@ -22,13 +22,7 @@ public class ProductProcessDto extends ProductProcess {
 
     private ProcessMaterialsBom[] processMaterialsBom;
 
-    public String getProduct_name() {
-        return product_name;
-    }
 
-    public void setProduct_name(String product_name) {
-        this.product_name = product_name;
-    }
 
     public MtAloneProcess[] getMtAloneProcess() {
         return mtAloneProcess;
@@ -62,11 +56,11 @@ public class ProductProcessDto extends ProductProcess {
         this.processBom = processBom;
     }
 
-    public ProcessMaterialsBom[] getProcessMaterialsBom() {
-        return processMaterialsBom;
+    public ProcessMaterialsBomVo getProcessMaterialsBomVo() {
+        return processMaterialsBomVo;
     }
 
-    public void setProcessMaterialsBom(ProcessMaterialsBom[] processMaterialsBom) {
-        this.processMaterialsBom = processMaterialsBom;
+    public void setProcessMaterialsBomVo(ProcessMaterialsBomVo processMaterialsBomVo) {
+        this.processMaterialsBomVo = processMaterialsBomVo;
     }
 }

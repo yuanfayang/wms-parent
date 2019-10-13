@@ -27,6 +27,11 @@ public class ProcessMaterialsBomServiceImpl extends AbstractService<ProcessMater
         return processMaterialsBomMapper.findProcMatBomVoListByProId(params);
     }
 
+    @Override
+    public List<ProcessMaterialsBom> findListByProcessBomId(ProcessMaterialsBomParams params) {
+        return processMaterialsBomMapper.findListByProcessBomId(params);
+    }
+
 
     //@Override
     //public List<ProcessMaterialsBom> findList(ProcessMaterialsBomParams params) {

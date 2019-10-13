@@ -70,16 +70,30 @@ public class ProcessMaterialsBomController {
         return ResultGenerator.genSuccessResult(processMaterialsBom);
     }
 
-    //通过产品id获取产品、工序、物料bom的信息，对应新建加工单时下方展示的材料信息
+    /**通过某产品id获取该产品、工序、物料bom的信息，对应新建加工单时下方展示的材料信息，一条sql语句返回所有信息**/
     @GetMapping("/procMatBomVoListByProId")
     public Result procMatBomVoListByProId(ProcessMaterialsBomParams params, @ApiIgnore @User CurrentUser currentUser) {
+        //if(currentUser==null){
+        //    return ResultGenerator.genFailResult(CommonCode.SERVICE_ERROR,"未登录错误",null );
+        //}
+
+        params.setCompanyId(1);
+        PageHelper.startPage(params.getPageNum(), params.getPageSize());
+        List<ProcessMaterialsBomVo> list = processMaterialsBomService.findProcMatBomVoListByProId(params);
+        PageInfo pageInfo = new PageInfo(list);
+        return ResultGenerator.genSuccessResult(pageInfo);
+    }
+
+    /**根据工序bom的id获取物料bom**/
+    @GetMapping("/listByProcessBomId")
+    public Result listByProcessBomId(ProcessMaterialsBomParams params, @ApiIgnore @User CurrentUser currentUser) {
         if(currentUser==null){
             return ResultGenerator.genFailResult(CommonCode.SERVICE_ERROR,"未登录错误",null );
         }
 
         params.setCompanyId(currentUser.getCompanyId());
         PageHelper.startPage(params.getPageNum(), params.getPageSize());
-        List<ProcessMaterialsBomVo> list = processMaterialsBomService.findProcMatBomVoListByProId(params);
+        List<ProcessMaterialsBom> list = processMaterialsBomService.findListByProcessBomId(params);
         PageInfo pageInfo = new PageInfo(list);
         return ResultGenerator.genSuccessResult(pageInfo);
     }

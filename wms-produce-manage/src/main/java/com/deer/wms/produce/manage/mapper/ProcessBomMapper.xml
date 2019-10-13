@@ -95,5 +95,16 @@
         </foreach>
     </insert>
 
-
+    <select id="findListByProductBomId" parameterType="com.deer.wms.produce.manage.model.ProcessBomParams" resultMap="BaseResultMap">
+        SELECT procbom.*
+        FROM mt_alone_process_bom procbom
+        <where>
+            <if test="productProcessId != null and productProcessId != ''">
+                AND procbom.product_process_id = #{productProcessId}
+            </if>
+            <if test="companyId != null">
+                AND procbom.company_id = #{companyId}
+            </if>
+        </where>
+    </select>
 </mapper>

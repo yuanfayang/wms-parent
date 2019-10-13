@@ -124,4 +124,17 @@ public class ProcessBomController {
         return ResultGenerator.genSuccessResult(pageInfo);
     }
 
+    /**根据产品bom的id获取工序bom**/
+    @GetMapping("/listByProductBomId")
+    public Result listByProductBomId(ProcessBomParams params, @ApiIgnore @User CurrentUser currentUser) {
+        if(currentUser==null){
+            return ResultGenerator.genFailResult(CommonCode.SERVICE_ERROR,"未登录错误",null );
+        }
+
+        params.setCompanyId(currentUser.getCompanyId());
+        PageHelper.startPage(params.getPageNum(), params.getPageSize());
+        List<ProcessBom> list = processBomService.findListByProductBomId(params);
+        PageInfo pageInfo = new PageInfo(list);
+        return ResultGenerator.genSuccessResult(pageInfo);
+    }
 }

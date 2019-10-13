@@ -2,6 +2,7 @@ package com.deer.wms.produce.manage.service.impl;
 
 import com.deer.wms.produce.manage.dao.MachiningProductMapper;
 import com.deer.wms.produce.manage.model.MachiningProduct;
+import com.deer.wms.produce.manage.model.MachiningProductHaveBom;
 import com.deer.wms.produce.manage.model.MachiningProductParams;
 import com.deer.wms.produce.manage.service.MachiningProductService;
 
@@ -33,7 +34,7 @@ public class MachiningProductServiceImpl extends AbstractService<MachiningProduc
     }
 
     @Override
-    public List<MachiningProduct> findProductHaveBomList(MachiningProductParams params) {
+    public List<MachiningProductHaveBom> findProductHaveBomList(MachiningProductParams params) {
         return machiningProductMapper.findProductHaveBomList(params);
     }
 }

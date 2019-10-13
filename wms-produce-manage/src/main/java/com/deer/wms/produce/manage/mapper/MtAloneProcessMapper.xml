@@ -21,10 +21,14 @@
     <result column="original_len" jdbcType="REAL" property="originalLen" />
     <result column="loss" jdbcType="REAL" property="loss" />
     <result column="after_len" jdbcType="REAL" property="afterLen" />
+    <result column="shrinkage" jdbcType="VARCHAR" property="shrinkage" />
     <result column="process_content" jdbcType="VARCHAR" property="processContent" />
     <result column="supplier_id" jdbcType="INTEGER" property="supplierId" />
     <result column="process_step" jdbcType="INTEGER" property="processStep" />
     <result column="merchandiser_id" jdbcType="INTEGER" property="merchandiserId" />
+    <result column="product_bar_code" jdbcType="VARCHAR" property="productBarCode" />
+    <result column="process_bom_id" jdbcType="INTEGER" property="processBomId" />
+    <result column="process_bom_name" jdbcType="VARCHAR" property="processBomName" />
     <result column="product_annex_code" jdbcType="VARCHAR" property="productAnnexCode" />
     <result column="memo" jdbcType="VARCHAR" property="memo" />
     <result column="company_id" jdbcType="INTEGER" property="companyId" />

@@ -1,6 +1,7 @@
 package com.deer.wms.produce.manage.dao;
 
 import com.deer.wms.produce.manage.model.MachiningProduct;
+import com.deer.wms.produce.manage.model.MachiningProductHaveBom;
 import com.deer.wms.produce.manage.model.MachiningProductParams;
 import com.deer.wms.project.seed.core.mapper.Mapper;
 
@@ -11,5 +12,5 @@ public interface MachiningProductMapper extends Mapper<MachiningProduct> {
 
     List<MachiningProduct> findProductList(MachiningProductParams params);
 
-    List<MachiningProduct> findProductHaveBomList(MachiningProductParams params);
+    List<MachiningProductHaveBom> findProductHaveBomList(MachiningProductParams params);
 }

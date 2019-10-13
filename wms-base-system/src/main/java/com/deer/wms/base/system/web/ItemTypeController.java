@@ -50,27 +50,6 @@ public class ItemTypeController {
         return ResultGenerator.genSuccessResult();
     }
 
-    //@ApiImplicitParams({
-    //        @ApiImplicitParam(name = "access-token", value = "token", paramType="header", dataType="String", required = true)
-    //})
-    //@GetMapping("/delete")
-    //@ApiOperation(value="删除物料类型信息",notes="删除物料类型信息")
-    //public Result delete( String itemTypeCode,@ApiIgnore @User CurrentUser currentUser) {
-    //    if(currentUser == null){
-    //        return ResultGenerator.genFailResult(CommonCode.SERVICE_ERROR,"未登录！",null);
-    //    }
-    //    Integer companyId ;
-    //    ItemTypeCriteria criteria = new ItemTypeCriteria();
-    //    criteria.setItemTypeCode(itemTypeCode);
-    //    if(currentUser.getCompanyType() != -1){
-    //        companyId    = currentUser.getCompanyId();
-    //        criteria.setCompanyId(companyId);
-    //    }
-    //
-    //    itemTypeService.deleteByCodeAndCom(criteria);
-    //    return ResultGenerator.genSuccessResult();
-    //}
-
     /**
      * 如果有子类型，不允许删除
      * @param itemTypeId
@@ -145,25 +124,6 @@ public class ItemTypeController {
         ItemType itemType = itemTypeService.findById(id);
         return ResultGenerator.genSuccessResult(itemType);
     }
-
-    //@ApiImplicitParams({
-    //        @ApiImplicitParam(name = "access-token", value = "token", paramType="header", dataType="String", required = true)
-    //})
-    //@GetMapping("/list")
-    //@ApiOperation(value="物料类型查询列表",notes="物料类型查询列表")
-    //public Result list(ItemTypeCriteria criteria, @ApiIgnore @User CurrentUser currentUser) {
-    //    if(currentUser == null){
-    //        return ResultGenerator.genFailResult(CommonCode.SERVICE_ERROR,"未登录！",null);
-    //    }
-    //    if(currentUser.getCompanyType() != -1){
-    //        Integer companyId    = currentUser.getCompanyId();
-    //        criteria.setCompanyId(companyId);
-    //    }
-    //    PageHelper.startPage(criteria.getPageNum(), criteria.getPageSize());
-    //    List<ItemType> list = itemTypeService.findList(criteria);
-    //    PageInfo pageInfo = new PageInfo(list);
-    //    return ResultGenerator.genSuccessResult(pageInfo);
-    //}
 
     @ApiImplicitParams({
             @ApiImplicitParam(name = "access-token", value = "token", paramType="header", dataType="String", required = true)

@@ -22,10 +22,10 @@
         where
         1=1
         <if test="isParent = true">
-            AND  d.parent_id = -1
+            and d.dict_status = 0
         </if>
         <if test="isParent = false">
-            AND  d.parent_id != -1
+            and d.dict_status = 1
         </if>
 
         <if test="keywords != null and keywords != ''">
@@ -37,16 +37,18 @@
         <if test="dictCodes != null and dictCodes != ''">
             AND d.dict_code in (#{dictCodes})
         </if>
-        AND com.company_id = #{companyId}
+        AND company_id = #{companyId}
+        order by d.dict_sort
     </select>
 
     <select id="findTypeList" parameterType="com.deer.wms.base.system.model.MtDictParams" resultMap="BaseResultMap">
         select *
         from mt_dict d
-        where d.parent_id = -1
+        where d.parent_id = -1 and d.dict_status = 0
         <if test="keywords != null and keywords != ''">
             AND d.dict_name LIKE CONCAT('%', #{keywords}, '%')
         </if>
-        AND com.company_id = #{companyId}
+        AND company_id = #{companyId}
+        order by d.dict_sort
     </select>
 </mapper>

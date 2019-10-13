@@ -26,7 +26,7 @@ import java.util.List;
 /**
  * Created by guotuanting on 2019/10/12.
  */
-@Api(description = "xxx接口")
+@Api(description = "字典管理接口")
 @RestController
 @RequestMapping("/mt/dicts")
 public class MtDictController {
@@ -34,26 +34,29 @@ public class MtDictController {
     @Autowired
     private MtDictService mtDictService;
 
-    @OperateLog(description = "添加xxx", type = "增加")
-    @ApiOperation(value = "添加xxx", notes = "添加xxx")
+    @OperateLog(description = "添加字典管理", type = "增加")
+    @ApiOperation(value = "添加字典管理", notes = "添加字典管理")
     @PostMapping("/add")
     public Result add(@RequestBody MtDict mtDict, @ApiIgnore @User CurrentUser currentUser) {
         mtDict.setCreateTime(new Date());
         mtDict.setCompanyId(currentUser.getCompanyId());
+        mtDict.setCreatorId(currentUser.getUserId());
+        mtDict.setCreatorName(currentUser.getUserName());
+        mtDict.setUpdateTime(new Date());
         mtDictService.save(mtDict);
         return ResultGenerator.genSuccessResult();
     }
 
-    @OperateLog(description = "删除xxx", type = "删除")
-    @ApiOperation(value = "删除xxx", notes = "删除xxx")
+    @OperateLog(description = "删除字典管理", type = "删除")
+    @ApiOperation(value = "删除字典管理", notes = "删除字典管理")
     @DeleteMapping("/delete/{id}")
     public Result delete(@PathVariable Integer id) {
         mtDictService.deleteById(id);
         return ResultGenerator.genSuccessResult();
     }
 
-    @OperateLog(description = "修改xxx", type = "更新")
-    @ApiOperation(value = "修改xxx", notes = "修改xxx")
+    @OperateLog(description = "修改字典管理", type = "更新")
+    @ApiOperation(value = "修改字典管理", notes = "修改字典管理")
     @PostMapping("/update")
     public Result update(@RequestBody MtDict mtDict) {
         mtDict.setUpdateTime(new Date());

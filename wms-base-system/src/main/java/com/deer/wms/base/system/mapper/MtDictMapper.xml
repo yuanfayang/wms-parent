@@ -35,7 +35,7 @@
             AND d.dict_code in (#{dictCodes})
         </if>
         AND company_id = #{companyId}
-        order by d.dict_sort
+        order by d.dict_status,d.dict_sort
     </select>
 
     <select id="findTypeList" parameterType="com.deer.wms.base.system.model.MtDictParams" resultMap="BaseResultMap">

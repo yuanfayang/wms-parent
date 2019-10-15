@@ -1,5 +1,7 @@
 package com.deer.wms.base.system.web;
 
+import com.deer.wms.base.system.model.MtDictModel;
+import com.deer.wms.intercept.annotation.Authority;
 import com.deer.wms.project.seed.annotation.OperateLog;
 import com.deer.wms.project.seed.constant.SystemManageConstant;
 import com.deer.wms.project.seed.core.result.CommonCode;
@@ -28,6 +30,7 @@ import java.util.List;
  */
 @Api(description = "字典管理接口")
 @RestController
+@Authority
 @RequestMapping("/mt/dicts")
 public class MtDictController {
 
@@ -64,6 +67,14 @@ public class MtDictController {
         return ResultGenerator.genSuccessResult();
     }
 
+    @OperateLog(description = "修改字典管理", type = "更新")
+    @ApiOperation(value = "修改字典管理", notes = "修改字典管理")
+    @PostMapping("/update/list")
+    public Result updateList(@RequestBody MtDictModel mtDictModel) {
+        mtDictService.updateList(mtDictModel);
+        return ResultGenerator.genSuccessResult();
+    }
+
     @GetMapping("/detail/{id}")
     public Result detail(@PathVariable Integer id) {
         MtDict mtDict = mtDictService.detail(id);
@@ -79,7 +90,6 @@ public class MtDictController {
         return ResultGenerator.genSuccessResult(pageInfo);
     }
 
-
     @GetMapping("/list/type")
     public Result findTypeList(MtDictParams params, @ApiIgnore @User CurrentUser currentUser) {
         params.setCompanyId(currentUser.getCompanyId());
@@ -87,6 +97,12 @@ public class MtDictController {
         List<MtDict> list = mtDictService.findTypeList(params);
         PageInfo pageInfo = new PageInfo(list);
         return ResultGenerator.genSuccessResult(pageInfo);
+    }
+
+    @GetMapping("/list/dict")
+    public Result findDictList(MtDictParams params, @ApiIgnore @User CurrentUser currentUser) {
+        params.setDictStatus(1);
+        return list(params, currentUser);
     }
 
 }

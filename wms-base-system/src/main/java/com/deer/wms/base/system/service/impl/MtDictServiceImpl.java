@@ -2,6 +2,7 @@ package com.deer.wms.base.system.service.impl;
 
 import com.deer.wms.base.system.dao.MtDictMapper;
 import com.deer.wms.base.system.model.MtDict;
+import com.deer.wms.base.system.model.MtDictModel;
 import com.deer.wms.base.system.model.MtDictParams;
 import com.deer.wms.base.system.service.MtDictService;
 
@@ -9,6 +10,8 @@ import com.deer.wms.project.seed.core.service.AbstractService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -23,7 +26,7 @@ public class MtDictServiceImpl extends AbstractService<MtDict, Integer> implemen
 
 
     @Override
-    public List<MtDict> findList(MtDictParams  params) {
+    public List<MtDict> findList(MtDictParams params) {
         return mtDictMapper.findList(params);
     }
 
@@ -35,5 +38,13 @@ public class MtDictServiceImpl extends AbstractService<MtDict, Integer> implemen
     @Override
     public MtDict detail(Integer id) {
         return mtDictMapper.detail(id);
+    }
+
+    @Override
+    public void updateList(MtDictModel mtDictModel) {
+        for (MtDict dict : mtDictModel.getMtDictList()) {
+            dict.setUpdateTime(new Date());
+            mtDictMapper.updateByPrimaryKeySelective(dict);
+        }
     }
 }

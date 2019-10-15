@@ -31,4 +31,9 @@ public class MtDictServiceImpl extends AbstractService<MtDict, Integer> implemen
     public List<MtDict> findTypeList(MtDictParams params) {
         return mtDictMapper.findTypeList(params);
     }
+
+    @Override
+    public MtDict detail(Integer id) {
+        return mtDictMapper.detail(id);
+    }
 }

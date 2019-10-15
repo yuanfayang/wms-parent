@@ -66,7 +66,7 @@ public class MtDictController {
 
     @GetMapping("/detail/{id}")
     public Result detail(@PathVariable Integer id) {
-        MtDict mtDict = mtDictService.findById(id);
+        MtDict mtDict = mtDictService.detail(id);
         return ResultGenerator.genSuccessResult(mtDict);
     }
 

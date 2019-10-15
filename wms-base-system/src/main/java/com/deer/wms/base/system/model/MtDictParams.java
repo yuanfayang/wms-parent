@@ -9,14 +9,14 @@ public class MtDictParams extends QueryParams {
 
     private String dictCodes;
 
-    private Boolean isParent;
+    private Integer dictStatus;
 
-    public Boolean getParent() {
-        return isParent;
+    public Integer getDictStatus() {
+        return dictStatus;
     }
 
-    public void setParent(Boolean parent) {
-        isParent = parent;
+    public void setDictStatus(Integer dictStatus) {
+        this.dictStatus = dictStatus;
     }
 
     public String getDictCodes() {

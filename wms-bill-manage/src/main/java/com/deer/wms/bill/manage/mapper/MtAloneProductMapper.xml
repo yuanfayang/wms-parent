@@ -69,6 +69,7 @@
     </resultMap>
     <resultMap id="ProductDeliveryMap" type="com.deer.wms.bill.manage.model.MtAloneProductDeliveryVO" extends="BaseResultMap">
      <result column="delivery_length" jdbcType="REAL" property="deliveryLength" />
+        <result column="del_time" jdbcType="TIMESTAMP" property="delTime" />
     </resultMap>
     <resultMap id="ProductCellMap" type="com.deer.wms.bill.manage.model.MtAloneProductCellVO" extends="BaseResultMap">
         <result column="cell_name" jdbcType="VARCHAR" property="cellName" />
@@ -179,7 +180,7 @@
     ORDER BY pro.create_time desc
     </select>
     <select id="findDeliveryProForms" parameterType="com.deer.wms.bill.manage.model.MtAloneDeliveryParams" resultMap="ProductDeliveryMap">
-    SELECT pro.*,IFNULL(tmp.delLength,0) AS delivery_length
+    SELECT pro.*,IFNULL(tmp.delLength,0) AS delivery_length,delOrder.create_time AS del_time
     FROM
     (SELECT det.product_barcode AS proBarcode,SUM(det.delivery_length)AS delLength,det.delivery_order_code  AS delCode FROM mt_alone_delivery_det det WHERE 1=1
           <if test="begDate!=null and begDate!=''">

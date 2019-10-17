@@ -188,7 +188,7 @@
           <if test="endDate!=null and endDate!=''">
           <![CDATA[  and DATE_FORMAT(det.create_time, '%Y-%m-%d') <= DATE_FORMAT(#{endDate}, '%Y-%m-%d')    ]]>
           </if>
-    GROUP BY det.`product_barcode`)tmp
+    GROUP BY proBarcode,delCode)tmp
     LEFT JOIN mt_alone_product pro ON tmp.proBarcode=pro.product_bar_code
     LEFT JOIN supplier_manage sup  ON pro.supplier_code = sup.supplier_code
     LEFT JOIN mt_alone_delivery_order delOrder ON tmp.delCode=delOrder.delivery_order_code

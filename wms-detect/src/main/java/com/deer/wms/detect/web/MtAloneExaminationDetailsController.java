@@ -248,7 +248,6 @@ public class MtAloneExaminationDetailsController {
             }
     	}else {
             mtAloneProductDet= creatDetByProBarcode(productBarcode);
-            mtAloneProductDet.setDetectionManId(currentUser.getUserId());
             mtAloneProductDetService.save(mtAloneProductDet);
             BeanUtils.copyProperties(mtAloneProductDet,mtAloneProductDetDto);
     	}  
@@ -289,9 +288,9 @@ public class MtAloneExaminationDetailsController {
         mtAloneProductDet.setProductLevel(mtAloneDetectDetDto.getProductLevel());
         mtAloneProductDet.setDetectionTime(date);
         mtAloneProductDet.setCellCode(mtAloneProduct.getCellCode());
-        /*
-         * 检测人员id和姓名，待录入
-         */
+        mtAloneProductDet.setDetectionManName(mtAloneDetectDetDto.getDetectMachineName());
+        mtAloneProductDet.setDetectionManName(currentUser.getUserName());
+        mtAloneProductDet.setDetectionManId(currentUser.getUserId());
         mtAloneProductDetService.update(mtAloneProductDet);
         
         mtAloneDetectDet.setCreateManId(currentUser.getUserId());

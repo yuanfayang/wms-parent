@@ -131,6 +131,9 @@ public class MtAloneProductDetController {
 		mtAloneProductDet.setIsDetection(1);
 		mtAloneProductDet.setState("normal");
 		mtAloneProductDet.setCellCode(mtAloneProduct.getCellCode());
+		mtAloneProductDet.setDetectionManId(currentUser.getUserId());
+		mtAloneProductDet.setDetectionManName(currentUser.getUserName());
+		mtAloneProductDet.setNote("未经打卷机检测，单独添加的明细");
 		mtAloneProductDetService.save(mtAloneProductDet);
         //检测表中也增加相应记录
 		MtAloneDetectDet mtAloneDetectDet = new MtAloneDetectDet();

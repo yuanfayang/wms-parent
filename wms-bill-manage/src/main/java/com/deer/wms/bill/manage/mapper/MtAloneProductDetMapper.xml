@@ -28,7 +28,8 @@
         <result column="salable_code_length" jdbcType="REAL" property="salableCodeLength"/>
         <result column="is_detection" jdbcType="INTEGER" property="isDetection"/>
         <result column="detection_man_id" jdbcType="INTEGER" property="detectionManId"/>
-        <result column="detection_machine_id" jdbcType="INTEGER" property="detectionMachineId"/>
+        <result column="detection_man_name" jdbcType="VARCHAR" property="detectionManName"/>
+        <result column="detection_machine_name" jdbcType="VARCHAR" property="detectionMachineName"/>
         <result column="warehouse_entry_time" jdbcType="TIMESTAMP" property="warehouseEntryTime"/>
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
         <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime"/>
@@ -770,7 +771,8 @@
         <result column="salable_code_length" jdbcType="REAL" property="salableCodeLength"/>
         <result column="is_detection" jdbcType="INTEGER" property="isDetection"/>
         <result column="detection_man_id" jdbcType="INTEGER" property="detectionManId"/>
-        <result column="detection_machine_id" jdbcType="INTEGER" property="detectionMachineId"/>
+        <result column="detection_man_name" jdbcType="VARCHAR" property="detectionManName"/>
+        <result column="detection_machine_name" jdbcType="VARCHAR" property="detectionMachineName"/>
         <result column="warehouse_entry_time" jdbcType="TIMESTAMP" property="warehouseEntryTime"/>
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
         <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime"/>

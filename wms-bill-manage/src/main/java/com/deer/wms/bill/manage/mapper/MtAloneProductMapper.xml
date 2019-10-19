@@ -136,7 +136,7 @@
     SELECT
     COUNT(1)
     FROM mt_alone_product pro
-    LEFT JOIN (SELECT det.`warehouse_barcode` AS barcode0,COUNT(*) AS num FROM mt_alone_product_det det WHERE det.is_complete_out=0 GROUP BY det.`warehouse_barcode`)tmp0
+    LEFT JOIN (SELECT det.`warehouse_barcode` AS barcode0,COUNT(*) AS num FROM mt_alone_product_det det WHERE det.is_complete_out=0  GROUP BY det.`warehouse_barcode`)tmp0
     ON tmp0.barcode0=pro.`product_bar_code`
     LEFT JOIN (SELECT delivery_det.`product_barcode` AS barcode1,SUM(delivery_det.`delivery_length`)AS deliverylength FROM mt_alone_delivery_det delivery_det GROUP BY delivery_det.`product_barcode`) tmp1
     ON tmp1.barcode1=pro.`product_bar_code`

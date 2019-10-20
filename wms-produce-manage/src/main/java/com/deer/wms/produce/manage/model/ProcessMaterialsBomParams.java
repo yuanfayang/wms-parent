@@ -7,9 +7,20 @@ import com.deer.wms.project.seed.core.service.QueryParams;
 * Created by hy on 2019/07/19.
 */
 public class ProcessMaterialsBomParams extends QueryParams {
+
+    private Integer processBomId;
+
     private Integer productId;
 
     private Integer productBomId;
+
+    public Integer getProcessBomId() {
+        return processBomId;
+    }
+
+    public void setProcessBomId(Integer processBomId) {
+        this.processBomId = processBomId;
+    }
 
     public Integer getProductId() {
         return productId;

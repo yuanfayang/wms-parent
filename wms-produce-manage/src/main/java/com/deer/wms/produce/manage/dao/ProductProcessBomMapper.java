@@ -14,4 +14,6 @@ public interface ProductProcessBomMapper extends Mapper<ProductProcessBom> {
     List<ProductProcessBom> findList(ProductProcessBomParams params);
 
     List<ProductProcessBomDto> findListByTerm(ProductProcessBomParams params);
+
+    List<ProductProcessBom> findListByProductId(ProductProcessBomParams params);
 }

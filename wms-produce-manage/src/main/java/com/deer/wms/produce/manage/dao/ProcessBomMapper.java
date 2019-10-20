@@ -18,4 +18,6 @@ public interface ProcessBomMapper extends Mapper<ProcessBom> {
     void insertProcessBom(List<ProcessBomVo> list);
 
     void insertProcessMaterialsBom(List<ProcessMaterialsBom> list);
+
+    List<ProcessBom> findListByProductBomId(ProcessBomParams params);
 }

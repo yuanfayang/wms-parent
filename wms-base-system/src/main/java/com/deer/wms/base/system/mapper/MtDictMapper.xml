@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deer.wms.base.system.dao.MtDictMapper">
+    <resultMap id="BaseResultMap" type="com.deer.wms.base.system.model.MtDict">
+        <result column="id" jdbcType="INTEGER" property="id"/>
+        <result column="parent_id" jdbcType="INTEGER" property="parentId"/>
+        <result column="dict_code" jdbcType="VARCHAR" property="dictCode"/>
+        <result column="dict_name" jdbcType="VARCHAR" property="dictName"/>
+        <result column="dict_status" jdbcType="INTEGER" property="dictStatus"/>
+        <result column="dict_level" jdbcType="INTEGER" property="dictLevel"/>
+        <result column="dict_sort" jdbcType="INTEGER" property="dictSort"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="creator_id" jdbcType="INTEGER" property="creatorId"/>
+        <result column="creator_name" jdbcType="VARCHAR" property="creatorName"/>
+        <result column="memo" jdbcType="VARCHAR" property="memo"/>
+        <result column="company_id" jdbcType="INTEGER" property="companyId"/>
+    </resultMap>
+    <select id="findList" parameterType="com.deer.wms.base.system.model.MtDictParams" resultMap="BaseResultMap">
+        select *
+        from mt_dict d
+        where
+        1=1
+        <if test="dictStatus != null and dictStatus != ''">
+            AND d.dict_status = #{dictStatus}
+        </if>
+
+        <if test="keywords != null and keywords != ''">
+            AND (
+            d.dict_name LIKE CONCAT('%', #{keywords}, '%') or
+            d.dict_code LIKE CONCAT('%', #{keywords}, '%')
+            )
+        </if>
+        <if test="dictCodes != null and dictCodes != ''">
+            AND d.dict_code in (#{dictCodes})
+        </if>
+        AND company_id = #{companyId}
+        order by d.dict_status,d.dict_sort
+    </select>
+
+    <select id="findTypeList" parameterType="com.deer.wms.base.system.model.MtDictParams" resultMap="BaseResultMap">
+        select *
+        from mt_dict d
+        where d.parent_id = -1 and d.dict_status = 0
+        <if test="keywords != null and keywords != ''">
+            AND d.dict_name LIKE CONCAT('%', #{keywords}, '%')
+        </if>
+        AND company_id = #{companyId}
+        order by d.dict_sort
+    </select>
+
+    <select id="detail" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select *
+        from mt_dict d
+        where d.id = #{id}
+    </select>
+</mapper>

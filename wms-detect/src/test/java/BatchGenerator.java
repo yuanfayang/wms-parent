@@ -15,11 +15,11 @@ public class BatchGenerator {
         configurer.setDiverClassName("com.mysql.jdbc.Driver");
 
         //设置需要生成代码的基础路径，生成的代码都会在该路径下面
-        configurer.setBasePackage("com.deer.wms.detect");
+        configurer.setBasePackage("com.deer.wms.base.system");
         configurer.setAuthor("guotuanting");
 
         //设置子模块名称(如果要生成子模块的代码，一定要设置该值，否则代码将会生成到父项目中了)
-        configurer.setModuleName("/wms-detect");
+        configurer.setModuleName("/wms-base-system");
 
         //设置需要生成的表
         //configurer.getTables().add(new Table("bill_master", null, "id", "Integer"));
@@ -30,10 +30,12 @@ public class BatchGenerator {
         //configurer.getTables().add(new Table("mt_alone_craft",null,"craft_id","Integer"));
         //configurer.getTables().add(new Table("mt_alone_sample_cloth",null,"id","Integer"));
         //configurer.getTables().add(new Table("mt_alone_obj_accessory",null,"id","Integer"));
-        configurer.getTables().add(new Table("mt_alone_sample_cloth_det",null,"id","Integer"));
-        configurer.getTables().add(new Table("mt_alone_sample_cloth_out",null,"id","Integer"));
-        configurer.getTables().add(new Table("mt_alone_sample_cloth_out_det",null,"id","Integer"));
-         //生成代码
+//        configurer.getTables().add(new Table("mt_alone_sample_cloth_det",null,"id","Integer"));
+//        configurer.getTables().add(new Table("mt_alone_sample_cloth_out",null,"id","Integer"));
+//        configurer.getTables().add(new Table("mt_alone_sample_cloth_out_det",null,"id","Integer"));
+        configurer.getTables().add(new Table("mt_dict",null,"id","Integer"));
+
+        //生成代码
         Generator.genCode(configurer);
     }
 }

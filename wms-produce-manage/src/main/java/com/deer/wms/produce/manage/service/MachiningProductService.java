@@ -1,6 +1,7 @@
 package com.deer.wms.produce.manage.service;
 
 import com.deer.wms.produce.manage.model.MachiningProduct;
+import com.deer.wms.produce.manage.model.MachiningProductHaveBom;
 import com.deer.wms.produce.manage.model.MachiningProductParams;
 
 import com.deer.wms.project.seed.core.service.Service;
@@ -16,5 +17,5 @@ public interface MachiningProductService extends Service<MachiningProduct, Integ
 
     List<MachiningProduct> findProductList(MachiningProductParams params);
 
-    List<MachiningProduct> findProductHaveBomList(MachiningProductParams params);
+    List<MachiningProductHaveBom> findProductHaveBomList(MachiningProductParams params);
 }

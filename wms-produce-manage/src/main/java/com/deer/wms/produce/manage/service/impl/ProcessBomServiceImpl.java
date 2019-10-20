@@ -54,4 +54,9 @@ public class ProcessBomServiceImpl extends AbstractService<ProcessBom, Integer> 
         }
         processBomMapper.insertProcessMaterialsBom(processMaterialsBomList);
     }
+
+    @Override
+    public List<ProcessBom> findListByProductBomId(ProcessBomParams params) {
+        return processBomMapper.findListByProductBomId(params);
+    }
 }

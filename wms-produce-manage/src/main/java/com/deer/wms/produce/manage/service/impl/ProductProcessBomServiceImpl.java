@@ -33,4 +33,9 @@ public class ProductProcessBomServiceImpl extends AbstractService<ProductProcess
     public List<ProductProcessBomDto> findListByTerm(ProductProcessBomParams params) {
         return productProcessBomMapper.findListByTerm(params);
     }
+
+    @Override
+    public List<ProductProcessBom> findListByProductId(ProductProcessBomParams params) {
+        return productProcessBomMapper.findListByProductId(params);
+    }
 }

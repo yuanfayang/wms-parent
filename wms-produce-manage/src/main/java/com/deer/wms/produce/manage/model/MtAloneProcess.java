@@ -95,6 +95,12 @@ public class MtAloneProcess {
     private Float afterLen;
 
     /**
+     * 缩率%，现有检测长度/原先长度
+     */
+    private Float shrinkage;
+
+
+    /**
      * 加工描述内容
      */
     @Column(name = "process_content")
@@ -117,6 +123,24 @@ public class MtAloneProcess {
      */
     @Column(name = "merchandiser_id")
     private Integer merchandiserId;
+
+    /**
+     * 产品条形码
+     */
+    @Column(name = "product_bar_code")
+    private String productBarCode;
+
+    /**
+     * 工序bom关联id，关联工序bom表：mt_alone_process_bom
+     */
+    @Column(name = "process_bom_id")
+    private Integer processBomId;
+
+    /**
+     * 工序bom名称
+     */
+    @Column(name = "process_bom_name")
+    private String processBomName;
 
     /**
      * 附件code，关联附件表：mt_alone_accessory
@@ -416,6 +440,25 @@ public class MtAloneProcess {
         this.afterLen = afterLen;
     }
 
+
+    /**
+     * 获取缩率%，现有检测长度/原先长度
+     *
+     * @return shrinkage - 缩率%，现有检测长度/原先长度
+     */
+    public Float getShrinkage() {
+        return shrinkage;
+    }
+
+    /**
+     * 设置缩率%，现有检测长度/原先长度
+     *
+     * @param shrinkage 缩率%，现有检测长度/原先长度
+     */
+    public void setShrinkage(Float shrinkage) {
+        this.shrinkage = shrinkage;
+    }
+
     /**
      * 获取加工描述内容
      *
@@ -536,5 +579,59 @@ public class MtAloneProcess {
      */
     public void setCompanyId(Integer companyId) {
         this.companyId = companyId;
+    }
+
+    /**
+     * 获取产品条形码
+     *
+     * @return product_bar_code - 产品条形码
+     */
+    public String getProductBarCode() {
+        return productBarCode;
+    }
+
+    /**
+     * 设置产品条形码
+     *
+     * @param productBarCode 产品条形码
+     */
+    public void setProductBarCode(String productBarCode) {
+        this.productBarCode = productBarCode;
+    }
+
+    /**
+     * 获取工序bom关联id，关联工序bom表：mt_alone_process_bom
+     *
+     * @return process_bom_id - 工序bom关联id，关联工序bom表：mt_alone_process_bom
+     */
+    public Integer getProcessBomId() {
+        return processBomId;
+    }
+
+    /**
+     * 设置工序bom关联id，关联工序bom表：mt_alone_process_bom
+     *
+     * @param processBomId 工序bom关联id，关联工序bom表：mt_alone_process_bom
+     */
+    public void setProcessBomId(Integer processBomId) {
+        this.processBomId = processBomId;
+    }
+
+    /**
+     * 获取工序bom名称
+     *
+     * @return process_bom_name - 工序bom名称
+     */
+    public String getProcessBomName() {
+        return processBomName;
+    }
+
+    /**
+     * 设置工序bom名称
+     *
+     * @param processBomName 工序bom名称
+     */
+    public void setProcessBomName(String processBomName) {
+        this.processBomName = processBomName;
     }
 }

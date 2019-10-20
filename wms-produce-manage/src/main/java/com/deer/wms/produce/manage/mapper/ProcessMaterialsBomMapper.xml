@@ -57,4 +57,18 @@
             </if>
         </where>
     </select>
+
+    <select id="findListByProcessBomId" parameterType="com.deer.wms.produce.manage.model.ProcessMaterialsBomParams" resultMap="BaseResultMap">
+        SELECT matbom.*
+        FROM mt_alone_process_materials_bom matbom
+        <where>
+            <if test="companyId != null">
+                AND matbom.company_id = #{companyId}
+            </if>
+            <if test="processBomId != null">
+                AND matbom.process_bom_id = #{processBomId}
+            </if>
+        </where>
+    </select>
+
 </mapper>

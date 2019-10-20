@@ -30,6 +30,34 @@
     <result column="company_id" jdbcType="INTEGER" property="companyId" />
   </resultMap>
 
+    <resultMap id="ProductHaveBomResultMap" type="com.deer.wms.produce.manage.model.MachiningProductHaveBom">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="operator_id" jdbcType="INTEGER" property="operatorId" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+        <result column="version" jdbcType="VARCHAR" property="version" />
+        <result column="status" jdbcType="INTEGER" property="status" />
+        <result column="product_code" jdbcType="VARCHAR" property="productCode" />
+        <result column="product_name" jdbcType="VARCHAR" property="productName" />
+        <result column="product_type_code" jdbcType="VARCHAR" property="productTypeCode" />
+        <result column="product_variety_code" jdbcType="VARCHAR" property="productVarietyCode" />
+        <result column="shell_fabric" jdbcType="VARCHAR" property="shellFabric" />
+        <result column="tissue" jdbcType="VARCHAR" property="tissue" />
+        <result column="larghezza" jdbcType="REAL" property="larghezza" />
+        <result column="grammage" jdbcType="REAL" property="grammage" />
+        <result column="density" jdbcType="VARCHAR" property="density" />
+        <result column="specification" jdbcType="VARCHAR" property="specification" />
+        <result column="processing_mode" jdbcType="VARCHAR" property="processingMode" />
+        <result column="product_bar_code" jdbcType="VARCHAR" property="productBarCode" />
+        <result column="specimen_bar_code" jdbcType="VARCHAR" property="specimenBarCode" />
+        <result column="cloth_attr" jdbcType="INTEGER" property="clothAttr" />
+        <result column="description" jdbcType="VARCHAR" property="description" />
+        <result column="note" jdbcType="VARCHAR" property="note" />
+        <result column="company_id" jdbcType="INTEGER" property="companyId" />
+        <result column="product_process_id" jdbcType="INTEGER" property="productProcessId" />
+        <result column="product_process_name" jdbcType="VARCHAR" property="productProcessName" />
+    </resultMap>
+
   <select id="findList" parameterType="com.deer.wms.produce.manage.model.MachiningProductParams" resultMap="BaseResultMap">
     SELECT mappb.*,mamp.*,COUNT(mapb.process_step) process_step
     FROM mt_alone_machining_product mamp
@@ -62,10 +90,10 @@
       </where>
   </select>
 
-    <select id="findProductHaveBomList" parameterType="com.deer.wms.produce.manage.model.MachiningProductParams" resultMap="BaseResultMap">
-        SELECT product.*
+    <select id="findProductHaveBomList" parameterType="com.deer.wms.produce.manage.model.MachiningProductParams" resultMap="ProductHaveBomResultMap">
+        SELECT product.*, probom.id product_process_id, probom.product_process_name
         FROM  mt_alone_machining_product product
-        RIGHT JOIN mt_alone_product_process_bom probom ON product.id = probom.product_id
+        INNER JOIN mt_alone_product_process_bom probom ON product.id = probom.product_id
         <where>
             <if test="companyId != null">
                 AND product.company_id = #{companyId}

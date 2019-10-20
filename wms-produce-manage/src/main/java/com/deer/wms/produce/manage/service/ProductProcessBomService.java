@@ -14,6 +14,8 @@ public interface ProductProcessBomService extends Service<ProductProcessBom, Int
 
     List<ProductProcessBomDto> findListByTerm(ProductProcessBomParams params);
 
+    List<ProductProcessBom> findListByProductId(ProductProcessBomParams params);
+
     //static Integer getProductBomIdByProductId() {
     //}
 }

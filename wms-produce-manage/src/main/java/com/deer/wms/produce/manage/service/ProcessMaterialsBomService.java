@@ -14,6 +14,8 @@ public interface ProcessMaterialsBomService extends Service<ProcessMaterialsBom,
 
     List<ProcessMaterialsBomVo> findProcMatBomVoListByProId(ProcessMaterialsBomParams params);
 
+    List<ProcessMaterialsBom> findListByProcessBomId(ProcessMaterialsBomParams params);
+
 
     //List<ProcessMaterialsBom> findList(ProcessMaterialsBomParams params) ;
 

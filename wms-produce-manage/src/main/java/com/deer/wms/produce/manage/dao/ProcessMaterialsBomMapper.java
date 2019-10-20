@@ -11,4 +11,6 @@ import java.util.List;
 public interface ProcessMaterialsBomMapper extends Mapper<ProcessMaterialsBom> {
 
     List<ProcessMaterialsBomVo> findProcMatBomVoListByProId(ProcessMaterialsBomParams params);
+
+    List<ProcessMaterialsBom> findListByProcessBomId(ProcessMaterialsBomParams params);
 }

@@ -44,10 +44,16 @@ public class ProcessMaterials {
     private Integer processId;
 
     /**
-     * 物料id，关联物料表：mt_alone_materials_info
+     * 物料bom的id，关联物料表：mt_alone_process_materials_bom
      */
-    @Column(name = "materials_id")
-    private Integer materialsId;
+    @Column(name = "materials_bom_id")
+    private Integer materialsBomId;
+
+    /**
+     * 物料名称
+     */
+    @Column(name = "materials_name")
+    private String materialsName;
 
     /**
      * 物料编码
@@ -69,6 +75,12 @@ public class ProcessMaterials {
      */
     @Column(name = "unit_id")
     private Integer unitId;
+
+    /**
+     * 单位名称
+     */
+    @Column(name = "unit_name")
+    private String unitName;
 
     /**
      * 备注
@@ -201,21 +213,39 @@ public class ProcessMaterials {
     }
 
     /**
-     * 获取物料id，关联物料表：mt_alone_materials_info
+     * 获取物料bom的id，关联物料表：mt_alone_process_materials_bom
      *
-     * @return materials_id - 物料id，关联物料表：mt_alone_materials_info
+     * @return materials_bom_id - 物料bom的id，关联物料表：mt_alone_process_materials_bom
      */
-    public Integer getMaterialsId() {
-        return materialsId;
+    public Integer getMaterialsBomId() {
+        return materialsBomId;
     }
 
     /**
-     * 设置物料id，关联物料表：mt_alone_materials_info
+     * 设置物料bom的id，关联物料表：mt_alone_process_materials_bom
      *
-     * @param materialsId 物料id，关联物料表：mt_alone_materials_info
+     * @param materialsBomId 物料bom的id，关联物料表：mt_alone_process_materials_bom
      */
-    public void setMaterialsId(Integer materialsId) {
-        this.materialsId = materialsId;
+    public void setMaterialsBomId(Integer materialsBomId) {
+        this.materialsBomId = materialsBomId;
+    }
+
+    /**
+     * 获取物料名称
+     *
+     * @return materials_name - 物料名称
+     */
+    public String getMaterialsName() {
+        return materialsName;
+    }
+
+    /**
+     * 设置物料名称
+     *
+     * @param materialsName 物料名称
+     */
+    public void setMaterialsName(String materialsName) {
+        this.materialsName = materialsName;
     }
 
     /**
@@ -288,6 +318,24 @@ public class ProcessMaterials {
      */
     public void setUnitId(Integer unitId) {
         this.unitId = unitId;
+    }
+
+    /**
+     * 获取单位名称
+     *
+     * @return unit_name - 单位名称
+     */
+    public String getUnitName() {
+        return unitName;
+    }
+
+    /**
+     * 设置单位名称
+     *
+     * @param unitName 单位名称
+     */
+    public void setUnitName(String unitName) {
+        this.unitName = unitName;
     }
 
     /**

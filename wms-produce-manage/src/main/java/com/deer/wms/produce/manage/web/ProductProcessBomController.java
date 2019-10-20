@@ -101,5 +101,18 @@ public class ProductProcessBomController {
         return ResultGenerator.genSuccessResult(pageInfo);
     }
 
+    /**根据产品id获取产品bom**/
+    @GetMapping("/listByProductId")
+    public Result listByProductId(ProductProcessBomParams params, @ApiIgnore @User CurrentUser currentUser) {
+        if(currentUser==null){
+            return ResultGenerator.genFailResult(CommonCode.SERVICE_ERROR,"未登录错误",null );
+        }
+
+        params.setCompanyId(currentUser.getCompanyId());
+        PageHelper.startPage(params.getPageNum(), params.getPageSize());
+        List<ProductProcessBom> list = productProcessBomService.findListByProductId(params);
+        PageInfo pageInfo = new PageInfo(list);
+        return ResultGenerator.genSuccessResult(pageInfo);
+    }
 
 }

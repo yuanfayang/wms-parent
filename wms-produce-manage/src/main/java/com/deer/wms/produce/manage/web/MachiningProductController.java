@@ -1,5 +1,6 @@
 package com.deer.wms.produce.manage.web;
 
+import com.deer.wms.produce.manage.model.MachiningProductHaveBom;
 import com.deer.wms.project.seed.annotation.OperateLog;
 import com.deer.wms.project.seed.constant.SystemManageConstant;
 import com.deer.wms.project.seed.core.result.CommonCode;
@@ -103,16 +104,16 @@ public class MachiningProductController {
         return ResultGenerator.genSuccessResult(pageInfo);
     }
 
-    //获取已生成bom的所有产品
+    //获取已生成对应bom的所有产品
     @GetMapping("/productHaveBomList")
     public Result productHaveBomList(MachiningProductParams params, @ApiIgnore @User CurrentUser currentUser) {
-        if(currentUser==null){
-            return ResultGenerator.genFailResult(CommonCode.SERVICE_ERROR,"未登录错误",null );
-        }
+        //if(currentUser==null){
+        //    return ResultGenerator.genFailResult(CommonCode.SERVICE_ERROR,"未登录错误",null );
+        //}
 
-        params.setCompanyId(currentUser.getUserId());
+        params.setCompanyId(1);
         PageHelper.startPage(params.getPageNum(), params.getPageSize());
-        List<MachiningProduct> list = machiningProductService.findProductHaveBomList(params);
+        List<MachiningProductHaveBom> list = machiningProductService.findProductHaveBomList(params);
         PageInfo pageInfo = new PageInfo(list);
         return ResultGenerator.genSuccessResult(pageInfo);
     }

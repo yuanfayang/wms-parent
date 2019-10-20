@@ -88,5 +88,17 @@
         GROUP BY mapb.product_process_id
     </select>
 
+    <select id="findListByProductId" parameterType="com.deer.wms.produce.manage.model.ProductProcessBomParams" resultMap="BaseResultMap">
+        SELECT probom.*
+        FROM mt_alone_product_process_bom probom
+        <where>
+            <if test="productId != null and productId != ''">
+                AND probom.product_id = #{productId}
+            </if>
+            <if test="companyId != null">
+                AND probom.company_id = #{companyId}
+            </if>
+        </where>
+    </select>
 
 </mapper>

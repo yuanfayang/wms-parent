@@ -12,11 +12,13 @@
     <result column="version" jdbcType="INTEGER" property="version" />
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="process_id" jdbcType="INTEGER" property="processId" />
-    <result column="materials_id" jdbcType="INTEGER" property="materialsId" />
+    <result column="materials_bom_id" jdbcType="INTEGER" property="materialsBomId" />
+    <result column="materials_name" jdbcType="VARCHAR" property="materialsName" />
     <result column="code" jdbcType="VARCHAR" property="code" />
     <result column="specification" jdbcType="VARCHAR" property="specification" />
     <result column="dosage" jdbcType="REAL" property="dosage" />
     <result column="unit_id" jdbcType="INTEGER" property="unitId" />
+    <result column="unit_name" jdbcType="VARCHAR" property="unitName" />
     <result column="memo" jdbcType="VARCHAR" property="memo" />
     <result column="company_id" jdbcType="INTEGER" property="companyId" />
   </resultMap>

@@ -49,9 +49,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 public class ApiApplication {
     public static void main(String[] args) {
-        System.out.println("start");
         SpringApplication.run(ApiApplication.class, args);
-        System.out.println("end");
     }
 
 }

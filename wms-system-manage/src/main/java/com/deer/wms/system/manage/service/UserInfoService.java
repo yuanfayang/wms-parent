@@ -146,4 +146,6 @@ public interface UserInfoService extends Service<UserInfo, Integer> {
      * @return
      */
     List<UserInfo> getPurchaserList(UserInfoParams params);
+
+    List<UserInfo> rolePurchaserList(UserInfoParams params);
 }

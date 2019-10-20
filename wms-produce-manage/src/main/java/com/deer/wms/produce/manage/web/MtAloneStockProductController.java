@@ -6,15 +6,13 @@ import com.deer.wms.base.system.model.MtAloneColorParams;
 import com.deer.wms.base.system.model.SupplierManage;
 import com.deer.wms.base.system.service.ItemTypeService;
 import com.deer.wms.base.system.service.SupplierManageService;
-import com.deer.wms.produce.manage.model.MtAloneStockProductVo;
+import com.deer.wms.produce.manage.model.*;
+import com.deer.wms.produce.manage.service.*;
 import com.deer.wms.project.seed.annotation.OperateLog;
 import com.deer.wms.project.seed.constant.SystemManageConstant;
 import com.deer.wms.project.seed.core.result.CommonCode;
 import com.deer.wms.project.seed.core.result.Result;
 import com.deer.wms.project.seed.core.result.ResultGenerator;
-import com.deer.wms.produce.manage.model.MtAloneStockProduct;
-import com.deer.wms.produce.manage.model.MtAloneStockProductParams;
-import com.deer.wms.produce.manage.service.MtAloneStockProductService;
 import com.deer.wms.intercept.annotation.User;
 import com.deer.wms.intercept.common.data.CurrentUser;
 import com.deer.wms.project.seed.util.RandomUtil;
@@ -30,6 +28,7 @@ import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRichTextString;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.streaming.SXSSFRow;
 import org.apache.poi.xssf.streaming.SXSSFSheet;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
@@ -74,6 +73,21 @@ public class MtAloneStockProductController {
     @Autowired
     private ItemTypeService itemTypeService;
 
+    @Autowired
+    private MtNumberConfService mtNumberConfService;
+
+    @Autowired
+    private MtAloneSerialNumberService mtAloneSerialNumberService;
+
+    @Autowired
+    private MtStockProvendorService mtStockProvendorService;
+
+    @Autowired
+    private MtAloneProductNameService mtAloneProductNameService;
+
+    @Autowired
+    private MtAloneProcessMethodsService mtAloneProcessMethodsService;
+
 
     @OperateLog(description = "添加xxx", type = "增加")
     @ApiOperation(value = "添加xxx", notes = "添加xxx")
@@ -82,9 +96,35 @@ public class MtAloneStockProductController {
         if(currentUser==null){
             return ResultGenerator.genFailResult( CommonCode.SERVICE_ERROR,"未登录错误",null );
         }
+        MtNumberConfParams mtNumberConfParams = new MtNumberConfParams();
+        List<MtNumberConf> mtNumberConfList = mtNumberConfService.findList(mtNumberConfParams);
+        MtNumberConf mtNumberConf = mtNumberConfList.get(0);
+
+        MtAloneSerialNumberParams mtAloneSerialNumberParams = new MtAloneSerialNumberParams();
+        List<MtAloneSerialNumber> mtAloneSerialNumberList = mtAloneSerialNumberService.findList(mtAloneSerialNumberParams);
+        MtAloneSerialNumber mtAloneSerialNumber = mtAloneSerialNumberList.get(0);
+        int serialNum = mtAloneSerialNumber.getPinCounter()+1;
+
         mtAloneStockProduct.setCreateTime(new Date());
         mtAloneStockProduct.setCompanyId(currentUser.getCompanyId());
+
+        StringBuilder pcsb = new StringBuilder(mtAloneStockProduct.getProductCode());
+        int index = pcsb.indexOf("-");
+        int num = mtNumberConf.getPinSerial()+1;
+        pcsb.insert(index+1 , num);
+        mtAloneStockProduct.setProductCode(pcsb.toString());
+
+        String s = String.format("%05d",serialNum);
+        StringBuilder icsb = new StringBuilder(mtAloneStockProduct.getItemCode());
+        int index1 = icsb.indexOf("-");
+        icsb.insert(index , s);
+        mtAloneStockProduct.setItemCode(icsb.toString());
+
         mtAloneStockProductService.save(mtAloneStockProduct);
+        mtNumberConf.setPinSerial(num);
+        mtNumberConfService.updatePinSerial(mtNumberConf);
+        mtAloneSerialNumber.setPinCounter(serialNum);
+        mtAloneSerialNumberService.updatePinCounter(mtAloneSerialNumber);
         return ResultGenerator.genSuccessResult();
     }
     
@@ -181,12 +221,19 @@ public class MtAloneStockProductController {
         //获取sheet页
         Sheet sheet = workbook.getSheetAt(0);
 
-        int firstRowNum = 1;
+        int firstRowNum = 2;
 
         int lastRowNum = sheet.getLastRowNum();
 
 //        List<MtAloneStockProductVo> stockProductVoList = new ArrayList<>();
+        List<MtStockProvendor> mtStockProvendorList = mtStockProvendorService.findAll();
         List<MtAloneStockProduct> mtAloneStockProductList = new ArrayList<>();
+        List<MtAloneProductName> mtAloneProductNameList = mtAloneProductNameService.findAll();
+        List<MtAloneProcessMethods> mtAloneProcessMethodsList = mtAloneProcessMethodsService.findAll();
+        List<MtNumberConf> mtNumberConfList = mtNumberConfService.findAll();
+        MtNumberConf mtNumberConf =mtNumberConfList.get(0);
+        int pinSerial = mtNumberConf.getPinSerial();
+        List<MtAloneSerialNumber> mtAloneSerialNumberList = mtAloneSerialNumberService.findAll();
         for (int i=firstRowNum ; i<lastRowNum +1; i++) {
             Row row = sheet.getRow(i);
             //获取当前最后单元格列号
@@ -198,64 +245,137 @@ public class MtAloneStockProductController {
             MtAloneStockProduct mtAloneStockProduct = new MtAloneStockProduct();
             mtAloneStockProduct.setCompanyId(currentUser.getCompanyId());
             mtAloneStockProduct.setCreateTime(new Date());
+            String productNameCode = "";
+            String itemCode = "";
+            int serialNum = 0;
+            String firstLargeClass = "";
+            String productName = "";
+            String sort = "";
+            String processMethodsCode = "";
             for (int j=0 ; j<lastCellNum; j++) {
                 Cell cell = row.getCell(j);
                 if(cell == null){
 
                 }else if (j == 0 && getCellValue(cell) != null && !getCellValue(cell).equals("")) {
                     mtAloneStockProduct.setFirstLargeClass(getCellValue(cell));
+                    firstLargeClass = getCellValue(cell);
+                    if (getCellValue(cell).equals("化纤面料")) {
+                        itemCode = "A";
+                    }else if (getCellValue(cell).equals("棉类面料")){
+                        itemCode = "B";
+                    }else if (getCellValue(cell).equals("混纺面料")){
+                        itemCode = "C";
+                    }else if (getCellValue(cell).equals("色织面料")){
+                        itemCode = "D";
+                    }else if (getCellValue(cell).equals("针织面料")){
+                        itemCode = "E";
+                    }else if (getCellValue(cell).equals("印花面料")){
+                        itemCode = "F";
+                    }
                 }else if (j == 1 && getCellValue(cell) != null && !getCellValue(cell).equals("")) {
-                    mtAloneStockProduct.setItemCode(getCellValue(cell));
+                    mtAloneStockProduct.setProductName(getCellValue(cell));
+                    productName = getCellValue(cell);
+                    for (MtAloneProductName mtAloneProductName:mtAloneProductNameList) {
+                        if(mtAloneProductName.getProductName().equals(getCellValue(cell))) {
+                            productNameCode = mtAloneProductName.getProductNameCode();
+                            itemCode = itemCode + mtAloneProductName.getProductNameCode();
+                        }
+                    }
                 }else if (j == 2 && getCellValue(cell) != null && !getCellValue(cell).equals("")) {
-                    mtAloneStockProduct.setProductCode(getCellValue(cell));
-                }else if (j == 3 && getCellValue(cell) != null && !getCellValue(cell).equals("")) {
                     mtAloneStockProduct.setStockProduct(getCellValue(cell));
-                }else if (j == 4 && getCellValue(cell) != null && !getCellValue(cell).equals("")) {
+                }else if (j == 3 && getCellValue(cell) != null && !getCellValue(cell).equals("")) {
                     mtAloneStockProduct.setProductChaName(getCellValue(cell));
-                }else if (j == 5 && getCellValue(cell) != null && !getCellValue(cell).equals("")) {
+                }else if (j == 4 && getCellValue(cell) != null && !getCellValue(cell).equals("")) {
                     mtAloneStockProduct.setSort(getCellValue(cell));
-                }else if (j == 6 && getCellValue(cell) != null && !getCellValue(cell).equals("")) {
+                    sort = getCellValue(cell);
+                    if (getCellValue(cell).equals("胚布")) {
+                        itemCode = itemCode + "2";
+                    }else if (getCellValue(cell).equals("成品")) {
+                        itemCode = itemCode + "1";
+                    }else if (getCellValue(cell).equals("库存尾单")) {
+                        itemCode = itemCode + "3";
+                    }else if (getCellValue(cell).equals("成品现货")) {
+                        itemCode = itemCode + "4";
+                    }
+                }else if (j == 5 && getCellValue(cell) != null && !getCellValue(cell).equals("")) {
                     mtAloneStockProduct.setWareNum(getCellValue(cell));
-                }else if (j == 7 && getCellValue(cell) != null && !getCellValue(cell).equals("")) {
+                }else if (j == 6 && getCellValue(cell) != null && !getCellValue(cell).equals("")) {
                     mtAloneStockProduct.setFactureInventory(getCellValue(cell));
-                }else if (j == 8 && getCellValue(cell) != null && !getCellValue(cell).equals("")) {
+                }else if (j == 7 && getCellValue(cell) != null && !getCellValue(cell).equals("")) {
                     mtAloneStockProduct.setLarghezza(getCellValue(cell));
-                }else if (j == 9 && getCellValue(cell) != null && !getCellValue(cell).equals("")) {
+                }else if (j == 8 && getCellValue(cell) != null && !getCellValue(cell).equals("")) {
                     mtAloneStockProduct.setCostPrice(getCellValue(cell));
-                }else if (j == 10 && getCellValue(cell) != null && !getCellValue(cell).equals("")) {
+                }else if (j == 9 && getCellValue(cell) != null && !getCellValue(cell).equals("")) {
                     mtAloneStockProduct.setMarketPrice(getCellValue(cell));
-                }else if (j == 11 && getCellValue(cell) != null && !getCellValue(cell).equals("")) {
+                }else if (j == 10 && getCellValue(cell) != null && !getCellValue(cell).equals("")) {
                     mtAloneStockProduct.setDominant(getCellValue(cell));
-                }else if (j == 12 && getCellValue(cell) != null && !getCellValue(cell).equals("")) {
+                }else if (j == 11 && getCellValue(cell) != null && !getCellValue(cell).equals("")) {
                     mtAloneStockProduct.setDensity(getCellValue(cell));
-                }else if (j == 13 && getCellValue(cell) != null && !getCellValue(cell).equals("")) {
+                }else if (j == 12 && getCellValue(cell) != null && !getCellValue(cell).equals("")) {
                     mtAloneStockProduct.setSpecification(getCellValue(cell));
-                }else if (j == 14 && getCellValue(cell) != null && !getCellValue(cell).equals("")) {
+                }else if (j == 13 && getCellValue(cell) != null && !getCellValue(cell).equals("")) {
                     mtAloneStockProduct.setTissue(getCellValue(cell));
-                }else if (j == 15 && getCellValue(cell) != null && !getCellValue(cell).equals("")) {
+                }else if (j == 14 && getCellValue(cell) != null && !getCellValue(cell).equals("")) {
                     mtAloneStockProduct.setProcessingMode(getCellValue(cell));
-                }else if (j == 16 && getCellValue(cell) != null && !getCellValue(cell).equals("")) {
+                    for (MtAloneProcessMethods mtAloneProcessMethods:mtAloneProcessMethodsList) {
+                        if (getCellValue(cell).equals(mtAloneProcessMethods.getProcessMethodsName())) {
+                            processMethodsCode = mtAloneProcessMethods.getProcessMethodsCode();
+                        }
+                    }
+                }else if (j == 15 && getCellValue(cell) != null && !getCellValue(cell).equals("")) {
                     mtAloneStockProduct.setColorCode(getCellValue(cell));
-                }else if (j == 17 && getCellValue(cell) != null && !getCellValue(cell).equals("")) {
+                }else if (j == 16 && getCellValue(cell) != null && !getCellValue(cell).equals("")) {
                     mtAloneStockProduct.setSupplierCodename(getCellValue(cell));
-                }else if (j == 18 && getCellValue(cell) != null && !getCellValue(cell).equals("")) {
-                    mtAloneStockProduct.setSupplierName(getCellValue(cell));
-                }else if (j == 19 && getCellValue(cell) != null && !getCellValue(cell).equals("")) {
-                    mtAloneStockProduct.setSupplierContacts(getCellValue(cell));
-                }else if (j == 20 && getCellValue(cell) != null && !getCellValue(cell).equals("")) {
-                    mtAloneStockProduct.setSupplierPhone(getCellValue(cell));
-                }else if (j == 21 && getCellValue(cell) != null && !getCellValue(cell).equals("")) {
-                    mtAloneStockProduct.setDeveloper(getCellValue(cell));
-                }else if (j == 22 && getCellValue(cell) != null && !getCellValue(cell).equals("")) {
+                    for (MtStockProvendor mtStockProvendor:mtStockProvendorList) {
+                        if(mtAloneStockProduct.getSupplierCodename().equals(getCellValue(cell))){
+                            mtAloneStockProduct.setSupplierName(mtStockProvendor.getProvendorName());
+                            mtAloneStockProduct.setSupplierPhone(mtStockProvendor.getTel());
+                            mtAloneStockProduct.setSupplierContacts(mtStockProvendor.getContactName());
+                        }
+                    }
+                }else if (j == 17 && getCellValue(cell) != null && !getCellValue(cell).equals("")) {
                     mtAloneStockProduct.setQuality(getCellValue(cell));
-                }else if (j == 23 && getCellValue(cell) != null && !getCellValue(cell).equals("")) {
-                    mtAloneStockProduct.setRemark(getCellValue(cell));
-                }else{
+                }else if (j == 18 && getCellValue(cell) != null && !getCellValue(cell).equals("")) {
+                    mtAloneStockProduct.setQualityGrade(getCellValue(cell));
+                }else if (j == 19 && getCellValue(cell) != null && !getCellValue(cell).equals("")) {
+                    mtAloneStockProduct.setDeveloper(getCellValue(cell));
+                }else if (j == 20 && getCellValue(cell) != null && !getCellValue(cell).equals("")) {
+                    mtAloneStockProduct.setIsBilling(Integer.valueOf(getCellValue(cell)));
+                }else if (j == 21 && getCellValue(cell) != null && !getCellValue(cell).equals("")) {
+                    mtAloneStockProduct.setIsSpot(Integer.valueOf(getCellValue(cell)));
+                    if (getCellValue(cell).equals("1")) {
+                        pinSerial = pinSerial+1;
+                        mtNumberConf.setPinSerial(pinSerial);
+                        productNameCode = productNameCode+"-"+pinSerial+"Y";
+                        mtAloneStockProduct.setProductCode(productNameCode);
+                    }else {
+                        pinSerial = pinSerial+1;
+                        mtNumberConf.setPinSerial(pinSerial);
+                        productNameCode = productNameCode+"-"+pinSerial;
+                        mtAloneStockProduct.setProductCode(productNameCode);
+                    }
+                }else {
 
+                }
+
+            }
+            if (!firstLargeClass.equals("") && !productName.equals("") && !sort.equals("") && !processMethodsCode.equals("")) {
+                for (MtAloneSerialNumber mtAloneSerialNumber:mtAloneSerialNumberList) {
+                    if (firstLargeClass.equals(mtAloneSerialNumber.getFirstLargeClass()) && productName.equals(mtAloneSerialNumber.getProductName()) && sort.equals(mtAloneSerialNumber.getSortName())) {
+                        serialNum = mtAloneSerialNumber.getPinCounter()+1;
+                        itemCode = itemCode + String.format("%05d",serialNum) + processMethodsCode;
+                        mtAloneStockProduct.setItemCode(itemCode);
+                        mtAloneSerialNumber.setPinCounter(serialNum);
+                        System.out.println(mtAloneSerialNumber.toString());
+                        mtAloneSerialNumberService.updatePinCounter(mtAloneSerialNumber);
+                    }
                 }
             }
             mtAloneStockProductList.add(mtAloneStockProduct);
         }
+        System.out.println(mtNumberConf.toString());
+        mtNumberConfService.updatePinSerial(mtNumberConf);
+
         /*List<SupplierManage> supplierManageList = supplierManageService.findAll();
         for (MtAloneStockProductVo mtAloneStockProductVo:stockProductVoList) {
             boolean b = false;
@@ -443,8 +563,10 @@ public class MtAloneStockProductController {
                     stringList.add(mtAloneStockProduct.getSupplierPhone());
                 }else if (params.getHeadersName().get(i).equals("开发人") && mtAloneStockProduct.getDeveloper() != null) {
                     stringList.add(mtAloneStockProduct.getDeveloper());
-                }else if (params.getHeadersName().get(i).equals("品质") && mtAloneStockProduct.getQuality() != null) {
+                }else if (params.getHeadersName().get(i).equals("品质类型") && mtAloneStockProduct.getQuality() != null) {
                     stringList.add(mtAloneStockProduct.getQuality());
+                }else if (params.getHeadersName().get(i).equals("品质等级") && mtAloneStockProduct.getQualityGrade() != null) {
+                    stringList.add(mtAloneStockProduct.getQualityGrade());
                 }else if (params.getHeadersName().get(i).equals("备注") && mtAloneStockProduct.getRemark() != null) {
                     stringList.add(mtAloneStockProduct.getRemark());
                 }else {
@@ -519,8 +641,7 @@ public class MtAloneStockProductController {
 
         List<String> titles = new ArrayList<>();
         titles.add("一阶大类");
-        titles.add("料号");
-        titles.add("品号");
+        titles.add("品名");
         titles.add("原料");
         titles.add("中文品名");
         titles.add("分类");
@@ -536,11 +657,11 @@ public class MtAloneStockProductController {
         titles.add("加工方式");
         titles.add("颜色");
         titles.add("厂商编码");
-        titles.add("厂商");
-        titles.add("联系人");
-        titles.add("联系电话");
-        titles.add("品质");
+        titles.add("品质类型");
+        titles.add("品质等级");
         titles.add("开发人");
+        titles.add("是否开票");
+        titles.add("是否现货");
 
         //创建poi导出数据对象
         SXSSFWorkbook sxssfWorkbook = new SXSSFWorkbook();
@@ -548,8 +669,26 @@ public class MtAloneStockProductController {
         //创建sheet页
         SXSSFSheet sheet = sxssfWorkbook.createSheet("sheet1");
 
+        //定义字体
+        CellStyle cellStyle = sxssfWorkbook.createCellStyle();
+
+        XSSFFont font = (XSSFFont)sxssfWorkbook.createFont();
+        font.setColor(Font.COLOR_RED);
+
+        cellStyle.setFont(font);
+
+        //创建提醒信息
+        SXSSFRow waringRow = sheet.createRow(0);
+        Cell waringCell = waringRow.createCell(0);
+        waringCell.setCellValue("1.库存数量为纯数字 2.市场报价为纯数字 3.是否开票，1不开票，0开票 4.品质等级一等品，二等品，三等品 5.是否现货，1表示为现货，0表示没有现货");
+        waringCell.setCellStyle(cellStyle);
+
+        //0 第一行  0最后一行   0第一列
+        sheet.addMergedRegion(new CellRangeAddress(0,0,0,23));
+
+
         //创建表头
-        SXSSFRow headRow = sheet.createRow(0);
+        SXSSFRow headRow = sheet.createRow(1);
 
         for (int i=0;i<titles.size();i++){
             Cell cell = headRow.createCell(i);

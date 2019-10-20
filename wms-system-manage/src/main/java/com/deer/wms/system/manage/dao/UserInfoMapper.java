@@ -55,4 +55,6 @@ public interface UserInfoMapper extends Mapper<UserInfo> {
      * @param params
      */
     List<UserInfo> getPurchaserList(UserInfoParams params);
+
+    List<UserInfo> rolePurchaserList(UserInfoParams params);
 }

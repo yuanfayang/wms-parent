@@ -229,4 +229,14 @@
     </select>
 
 
+    <select id="rolePurchaserList" resultMap="BaseResultMap">
+        SELECT ui.* FROM
+        user_role ur
+        LEFT JOIN role r ON r.role_id = ur.role_id
+        LEFT JOIN user_info ui ON ur.user_id = ui.user_id
+        WHERE r.role_name = '采购员'
+        AND r.company_id = #{companyId}
+    </select>
+
+
 </mapper>

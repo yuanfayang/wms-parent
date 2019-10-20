@@ -24,9 +24,8 @@ public class CodeGenerator {
         configurer.setModuleName("/wms-produce-manage");
 
         //璁剧疆闇€瑕佺敓鎴愮殑琛
-        configurer.getTables().add(new Table("mt_alone_process_batch_relat", null, "id", "Integer"));
-        configurer.getTables().add(new Table("mt_alone_product_batch_detect", null, "id", "Integer"));
-        configurer.getTables().add(new Table("mt_alone_product_batch_detect_det", null, "id", "Integer"));
+        configurer.getTables().add(new Table("mt_stock_provendor", null, "id", "Integer"));
+//        configurer.getTables().add(new Table("mt_alone_process_methods", null, "id", "Integer"));
 
         //鐢熸垚浠ｇ爜
         Generator.genCode(configurer);

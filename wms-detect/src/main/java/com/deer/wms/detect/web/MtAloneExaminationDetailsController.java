@@ -288,7 +288,7 @@ public class MtAloneExaminationDetailsController {
         mtAloneProductDet.setProductLevel(mtAloneDetectDetDto.getProductLevel());
         mtAloneProductDet.setDetectionTime(date);
         mtAloneProductDet.setCellCode(mtAloneProduct.getCellCode());
-        mtAloneProductDet.setDetectionManName(mtAloneDetectDetDto.getDetectMachineName());
+        mtAloneProductDet.setDetectionMachineName(mtAloneDetectDetDto.getDetectMachineName());
         mtAloneProductDet.setDetectionManName(currentUser.getUserName());
         mtAloneProductDet.setDetectionManId(currentUser.getUserId());
         mtAloneProductDetService.update(mtAloneProductDet);

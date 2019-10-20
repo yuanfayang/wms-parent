@@ -814,6 +814,7 @@
             and det.company_id =#{companyId}
         </if>
             and det.is_complete_out=0
+            and det.is_detection=1
     </sql>
     <sql id="keywords_common_where_if">
         <if test="keywords != null and keywords != ''">

@@ -6,6 +6,7 @@
  import com.deer.wms.bill.manage.service.MtAloneDetectDetService;
  import com.deer.wms.bill.manage.service.MtAloneProductDetService;
  import com.deer.wms.project.seed.core.service.AbstractService;
+ import freemarker.core.ReturnInstruction;
  import org.apache.ibatis.annotations.Param;
  import org.springframework.beans.factory.annotation.Autowired;
  import org.springframework.stereotype.Service;
@@ -184,15 +185,20 @@ public class MtAloneProductDetServiceImpl extends AbstractService<MtAloneProduct
      }
 
      @Override
-     public void deleteDetectDet(Integer mtAloneProductDetId) {
+     public Integer deleteDetectDet(Integer mtAloneProductDetId) {
         MtAloneProductDet mtAloneProductDet = findById(mtAloneProductDetId);
 		// 如果该明细未出过库，可以删除
 		if (mtAloneProductDet.getDeliveryState() == 0) {
 			deleteById(mtAloneProductDetId);
 			MtAloneDetectDet mtAloneDetectDet = mtAloneDetectDetService.findBy("productDetBarcode",
 					mtAloneProductDet.getProductDetBarcode());
-			mtAloneDetectDetService.deleteById(mtAloneDetectDet.getDetectId());
-		}
+			if(mtAloneDetectDet!=null){
+                mtAloneDetectDetService.deleteById(mtAloneDetectDet.getDetectId());
+            }
+            return(0);
+		}else{
+            return(1);
+        }
      }
 
 

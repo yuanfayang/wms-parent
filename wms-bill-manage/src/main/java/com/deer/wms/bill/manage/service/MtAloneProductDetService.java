@@ -83,5 +83,5 @@ public interface MtAloneProductDetService extends Service<MtAloneProductDet, Int
     void rollFinish(MtAloneProductDetCriteria params);
 
 
-	void deleteDetectDet(Integer mtAloneProductDetId);
+	Integer deleteDetectDet(Integer mtAloneProductDetId);
 }

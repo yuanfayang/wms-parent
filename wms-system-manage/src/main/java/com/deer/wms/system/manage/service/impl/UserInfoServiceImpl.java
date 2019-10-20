@@ -400,4 +400,9 @@ public class UserInfoServiceImpl extends AbstractService<UserInfo, Integer> impl
 		return list;
 	}
 
+	@Override
+	public List<UserInfo> rolePurchaserList(UserInfoParams params) {
+		return userInfoMapper.rolePurchaserList(params);
+	}
+
 }

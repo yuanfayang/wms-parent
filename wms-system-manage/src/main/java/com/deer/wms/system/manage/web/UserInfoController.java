@@ -387,4 +387,21 @@ public class UserInfoController {
         List<UserInfo> list = userInfoService.getPurchaserList(params);
         return ResultGenerator.genSuccessResult(new PageInfo<>(list));
     }
+
+    @ApiOperation(value = "查找采购员", notes = "查找采购员")
+    @ApiImplicitParams( { @ApiImplicitParam( name = "access-token", value = "token", paramType = "header", dataType = "String", required = true ) } )
+    @GetMapping("/role/purchaser/list")
+    public Result rolePurchaserList(UserInfoParams params, @ApiIgnore @User CurrentUser currentUser){
+        if(currentUser==null){
+            return ResultGenerator.genFailResult( CommonCode.SERVICE_ERROR,"未登录错误",null );
+        }
+        StringUtil.trimObjectStringProperties(params);
+        if (currentUser.getCompanyType() != SystemManageConstant.COMPANY_TYPE_OPERATE){
+            params.setCompanyId(currentUser.getCompanyId());
+        }
+        PageHelper.startPage(params.getPageNum(), params.getPageSize());
+        List<UserInfo> list = userInfoService.rolePurchaserList(params);
+
+        return ResultGenerator.genSuccessResult(new PageInfo<>(list));
+    }
 }

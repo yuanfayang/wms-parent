@@ -272,6 +272,48 @@ public class MtAloneStockProduct {
      */
     private String quality;
 
+    /**
+     * 品质等级
+     * @return
+     */
+    private String qualityGrade;
+
+    /**
+     * 是否现货
+     * @return
+     */
+    private Integer isSpot;
+
+    /**
+     * 是否开票
+     * @return
+     */
+    private Integer isBilling;
+
+    public String getQualityGrade() {
+        return qualityGrade;
+    }
+
+    public void setQualityGrade(String qualityGrade) {
+        this.qualityGrade = qualityGrade;
+    }
+
+    public Integer getIsSpot() {
+        return isSpot;
+    }
+
+    public void setIsSpot(Integer isSpot) {
+        this.isSpot = isSpot;
+    }
+
+    public Integer getIsBilling() {
+        return isBilling;
+    }
+
+    public void setIsBilling(Integer isBilling) {
+        this.isBilling = isBilling;
+    }
+
     public String getQuality() {
         return quality;
     }

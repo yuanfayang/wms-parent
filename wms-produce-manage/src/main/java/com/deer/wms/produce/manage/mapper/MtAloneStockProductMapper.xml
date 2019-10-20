@@ -8,6 +8,7 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="operator_id" jdbcType="INTEGER" property="operatorId" />
     <result column="quality" jdbcType="VARCHAR" property="quality"/>
+    <result column="quality_grade" jdbcType="VARCHAR" property="qualityGrade"/>
     <result column="first_large_class" jdbcType="VARCHAR" property="firstLargeClass" />
     <result column="stock_product" jdbcType="VARCHAR" property="stockProduct" />
     <result column="sort" jdbcType="VARCHAR" property="sort" />
@@ -53,6 +54,8 @@
     <result column="seller_name" jdbcType="VARCHAR" property="sellerName" />
     <result column="description" jdbcType="VARCHAR" property="description" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="is_spot" jdbcType="INTEGER" property="isSpot" />
+    <result column="is_billing" jdbcType="INTEGER" property="isBilling" />
   </resultMap>
   <select id="findList" parameterType="com.deer.wms.produce.manage.model.MtAloneStockProductParams" resultMap="BaseResultMap">
     SELECT *
@@ -60,18 +63,20 @@
     LEFT JOIN item_type it ON masp.product_type_id = it.item_type_id
     <where>
       <if test="keywords != null and keywords != ''">
-        AND masp.product_code LIKE CONCAT('%', #{keywords}, '%')
-        OR masp.product_name LIKE CONCAT('%', #{keywords}, '%')
-        OR masp.supplier_name LIKE CONCAT('%', #{keywords}, '%')
+        (
+          masp.product_code LIKE CONCAT('%', #{keywords}, '%')
+          OR masp.product_name LIKE CONCAT('%', #{keywords}, '%')
+          OR masp.supplier_name LIKE CONCAT('%', #{keywords}, '%')
+        )
+      </if>
+      <if test="productCode != null and productCode != ''">
+          AND masp.product_code = #{productCode}
+      </if>
+      <if test="productName != null and productName != ''">
+          AND masp.product_name = #{productName}
       </if>
       <if test="sort != null and sort !=''">
         AND masp.sort= #{sort}
-      </if>
-      <if test="productCode != null and productCode != ''">
-        AND masp.product_code = #{productCode}
-      </if>
-      <if test="productName != null and productName != ''">
-        AND masp.product_name = #{productName}
       </if>
       <if test="firstLargeClass != null and firstLargeClass != ''">
         AND masp.first_large_class = #{firstLargeClass}
@@ -108,33 +113,35 @@
     LEFT JOIN item_type it ON masp.product_type_id = it.item_type_id
     <where>
       <if test="keywords != null and keywords != ''">
-        AND masp.product_code LIKE CONCAT('%', #{keywords}, '%')
-        OR masp.product_name LIKE CONCAT('%', #{keywords}, '%')
-        OR masp.supplier_name LIKE CONCAT('%', #{keywords}, '%')
+        (
+          masp.product_code LIKE CONCAT('%', #{keywords}, '%')
+          OR masp.product_name LIKE CONCAT('%', #{keywords}, '%')
+          OR masp.supplier_name LIKE CONCAT('%', #{keywords}, '%')
+        )
       </if>
       <if test="sort != null and sort !=''">
-        AND masp.sort= #{sort}
+          AND masp.sort= #{sort}
       </if>
       <if test="productCode != null and productCode != ''">
-        AND masp.product_code = #{productCode}
+          AND masp.product_code = #{productCode}
       </if>
       <if test="productName != null and productName != ''">
-        AND masp.product_name = #{productName}
+          AND masp.product_name = #{productName}
       </if>
       <if test="firstLargeClass != null and firstLargeClass != ''">
-        AND masp.first_large_class = #{firstLargeClass}
+          AND masp.first_large_class = #{firstLargeClass}
       </if>
       <if test="specification != null and specification != ''">
-        AND masp.specification = #{specification}
+          AND masp.specification = #{specification}
       </if>
       <if test="density != null and density != ''">
-        AND masp.density = #{density}
+          AND masp.density = #{density}
       </if>
       <if test="grammage != null and grammage != ''">
-        AND masp.grammage = #{grammage}
+          AND masp.grammage = #{grammage}
       </if>
       <if test="salesPrice != null and salesPrice != ''">
-        AND masp.sales_price LIKE CONCAT('%', #{salesPrice}, '%')
+          AND masp.sales_price LIKE CONCAT('%', #{salesPrice}, '%')
       </if>
       <if test="begDate!=null and begDate!=''">
         <![CDATA[  AND DATE_FORMAT(masp.create_time, '%Y-%m-%d')>=  DATE_FORMAT(#{begDate}, '%Y-%m-%d')   ]]>

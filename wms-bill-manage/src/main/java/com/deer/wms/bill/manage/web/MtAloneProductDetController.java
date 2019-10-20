@@ -313,14 +313,16 @@ public class MtAloneProductDetController {
 	@ApiOperation(value = "删除商品明细信息", notes = "删除商品明细信息")
 	@DeleteMapping("/delete/{mtAloneProductDetId}")
 	public Result delete(@PathVariable Integer mtAloneProductDetId) {
-		MtAloneProductDet mtAloneProductDet = mtAloneProductDetService.findById(mtAloneProductDetId);
-		// 如果该明细未出过库，可以删除
-		if (mtAloneProductDet.getDeliveryState() == 0) {
-			mtAloneProductDetService.deleteById(mtAloneProductDetId);
-			MtAloneDetectDet mtAloneDetectDet = mtAloneDetectDetService.findBy("productDetBarcode",
-					mtAloneProductDet.getProductDetBarcode());
-			mtAloneDetectDetService.deleteById(mtAloneDetectDet.getDetectId());
-		}
+//		MtAloneProductDet mtAloneProductDet = mtAloneProductDetService.findById(mtAloneProductDetId);
+//		// 如果该明细未出过库，可以删除
+//		if (mtAloneProductDet.getDeliveryState() == 0) {
+//			mtAloneProductDetService.deleteById(mtAloneProductDetId);
+//			MtAloneDetectDet mtAloneDetectDet = mtAloneDetectDetService.findBy("productDetBarcode",
+//					mtAloneProductDet.getProductDetBarcode());
+//			mtAloneDetectDetService.deleteById(mtAloneDetectDet.getDetectId());
+//		}
+
+		mtAloneProductDetService.deleteDetectDet(mtAloneProductDetId);
 		return ResultGenerator.genSuccessResult();
 	}
 

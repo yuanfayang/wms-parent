@@ -81,4 +81,7 @@ public interface MtAloneProductDetService extends Service<MtAloneProductDet, Int
     Long findDetsWithoutFabsCount(QueryParamsDet detParams);
 
     void rollFinish(MtAloneProductDetCriteria params);
+
+
+	void deleteDetectDet(Integer mtAloneProductDetId);
 }

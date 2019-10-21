@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deer.wms.produce.manage.dao.MtAloneMaterialsInfoMapper">
+  <resultMap id="BaseResultMap" type="com.deer.wms.produce.manage.model.MtAloneMaterialsInfo">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="operator_id" jdbcType="INTEGER" property="operatorId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="version" jdbcType="INTEGER" property="version" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="materials_name" jdbcType="VARCHAR" property="materialsName" />
+    <result column="parent_id" jdbcType="INTEGER" property="parentId" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="unit_id" jdbcType="INTEGER" property="unitId" />
+    <result column="specification" jdbcType="VARCHAR" property="specification" />
+    <result column="memo" jdbcType="VARCHAR" property="memo" />
+    <result column="company_id" jdbcType="INTEGER" property="companyId" />
+  </resultMap>
+
+  <resultMap extends="BaseResultMap" id="mtAloneProcessMaterialsBomVO" type="com.deer.wms.produce.manage.model.MtAloneProcessMaterialsBomVO">
+    <result column="process_bom_id" jdbcType="INTEGER" property="processBomId" />
+    <result column="dosage" jdbcType="REAL" property="dosage" />
+  </resultMap>
+
+  <select id="findMaterialByNameOrNum" parameterType="com.deer.wms.produce.manage.model.MtAloneMaterialsInfoParams" resultMap="mtAloneProcessMaterialsBomVO">
+    SELECT * from mt_alone_materials_info materialsInfo inner JOIN mt_alone_process_materials_bom pmb on materialsInfo.id = pmb.materials_id
+    WHERE 1=1
+    <if test="materialName!=null and materialName!=''">
+      <![CDATA[ AND materialsInfo.materials_name = #{materialName} ]]>
+    </if>
+
+    <if test="materialCode!=null and materialCode!=''">
+      <![CDATA[ And materialsInfo.code= #{materialCode}   ]]>
+    </if>
+
+  </select>
+</mapper>

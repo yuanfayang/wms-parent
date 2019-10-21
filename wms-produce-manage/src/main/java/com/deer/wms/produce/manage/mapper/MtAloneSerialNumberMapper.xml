@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deer.wms.produce.manage.dao.MtAloneSerialNumberMapper">
+  <resultMap id="BaseResultMap" type="com.deer.wms.produce.manage.model.MtAloneSerialNumber">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <result column="id" jdbcType="BIGINT" property="id" />
+    <result column="operator_id" jdbcType="INTEGER" property="operatorId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="creator_id" jdbcType="BIGINT" property="creatorId" />
+    <result column="updater_id" jdbcType="BIGINT" property="updaterId" />
+    <result column="version" jdbcType="VARCHAR" property="version" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="company_id" jdbcType="BIGINT" property="companyId" />
+    <result column="first_large_class" jdbcType="VARCHAR" property="firstLargeClass" />
+    <result column="product_name" jdbcType="VARCHAR" property="productName" />
+    <result column="sort_name" jdbcType="VARCHAR" property="sortName" />
+    <result column="pin_counter" jdbcType="INTEGER" property="pinCounter" />
+    <result column="note" jdbcType="VARCHAR" property="note" />
+  </resultMap>
+  <select id="findList" resultMap="BaseResultMap">
+    SELECT * FROM mt_alone_serial_number
+    WHERE first_large_class = #{firstLargeClass}
+    AND product_name = #{productName}
+    AND sort_name = #{sortName}
+  </select>
+
+  <update id="updatePinCounter" parameterType="com.deer.wms.produce.manage.model.MtAloneSerialNumber">
+    UPDATE mt_alone_serial_number SET pin_counter = #{pinCounter}
+    WHERE id = #{id}
+  </update>
+</mapper>

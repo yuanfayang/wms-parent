@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deer.wms.produce.manage.dao.MtStockProvendorMapper">
+  <resultMap id="BaseResultMap" type="com.deer.wms.produce.manage.model.MtStockProvendor">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <result column="id" jdbcType="BIGINT" property="id" />
+    <result column="operator_id" jdbcType="INTEGER" property="operatorId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="creator_id" jdbcType="BIGINT" property="creatorId" />
+    <result column="updater_id" jdbcType="BIGINT" property="updaterId" />
+    <result column="version" jdbcType="VARCHAR" property="version" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="company_id" jdbcType="BIGINT" property="companyId" />
+    <result column="provendor_type" jdbcType="INTEGER" property="provendorType" />
+    <result column="customer_code" jdbcType="VARCHAR" property="customerCode" />
+    <result column="provendor_name" jdbcType="VARCHAR" property="provendorName" />
+    <result column="first_large_class" jdbcType="VARCHAR" property="firstLargeClass" />
+    <result column="fax" jdbcType="VARCHAR" property="fax" />
+    <result column="contact_name" jdbcType="VARCHAR" property="contactName" />
+    <result column="tel" jdbcType="VARCHAR" property="tel" />
+    <result column="position" jdbcType="VARCHAR" property="position" />
+    <result column="gender" jdbcType="VARCHAR" property="gender" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+
+  <select id="findList" resultMap="BaseResultMap">
+    SELECT *
+    FROM mt_stock_provendor
+  </select>
+</mapper>

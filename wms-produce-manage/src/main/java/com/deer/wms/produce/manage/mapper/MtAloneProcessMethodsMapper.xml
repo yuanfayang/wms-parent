@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deer.wms.produce.manage.dao.MtAloneProcessMethodsMapper">
+  <resultMap id="BaseResultMap" type="com.deer.wms.produce.manage.model.MtAloneProcessMethods">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <result column="id" jdbcType="BIGINT" property="id" />
+    <result column="operator_id" jdbcType="INTEGER" property="operatorId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="creator_id" jdbcType="BIGINT" property="creatorId" />
+    <result column="updater_id" jdbcType="BIGINT" property="updaterId" />
+    <result column="version" jdbcType="VARCHAR" property="version" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="company_id" jdbcType="BIGINT" property="companyId" />
+    <result column="process_methods_code" jdbcType="VARCHAR" property="processMethodsCode" />
+    <result column="process_methods_name" jdbcType="VARCHAR" property="processMethodsName" />
+    <result column="note" jdbcType="VARCHAR" property="note" />
+  </resultMap>
+  <select id="findList" resultMap="BaseResultMap">
+    SELECT *
+    FROM mt_alone_process_methods
+  </select>
+</mapper>

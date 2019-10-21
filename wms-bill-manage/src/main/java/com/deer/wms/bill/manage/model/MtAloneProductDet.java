@@ -140,10 +140,16 @@ public class MtAloneProductDet {
     private Integer detectionManId;
 
     /**
-     * 检测机器
+     * 检测员姓名
      */
-    @Column(name = "detection_machine_id")
-    private Integer detectionMachineId;
+    @Column(name = "detection_man_name")
+    private String detectionManName;
+
+    /**
+     * 检测机器名字
+     */
+    @Column(name = "detection_machine_name")
+    private String detectionMachineName;
 
     /**
      * 入库时间
@@ -626,21 +632,39 @@ public class MtAloneProductDet {
     }
 
     /**
-     * 获取检测机器
+     * 获取检测员姓名
      *
-     * @return detection_machine_id - 检测机器
+     * @return detection_man_name - 检测员姓名
      */
-    public Integer getDetectionMachineId() {
-        return detectionMachineId;
+    public String getDetectionManName() {
+        return detectionManName;
     }
 
     /**
-     * 设置检测机器
+     * 设置检测员姓名
      *
-     * @param detectionMachineId 检测机器
+     * @param detectionManName 检测员姓名
      */
-    public void setDetectionMachineId(Integer detectionMachineId) {
-        this.detectionMachineId = detectionMachineId;
+    public void setDetectionManName(String detectionManName) {
+        this.detectionManName = detectionManName;
+    }
+
+    /**
+     * 获取检测机器名字
+     *
+     * @return detection_machine_name - 检测机器名字
+     */
+    public String getDetectionMachineName() {
+        return detectionMachineName;
+    }
+
+    /**
+     * 设置检测机器名字
+     *
+     * @param detectionMachineName 检测机器名字
+     */
+    public void setDetectionMachineName(String detectionMachineName) {
+        this.detectionMachineName = detectionMachineName;
     }
 
     /**

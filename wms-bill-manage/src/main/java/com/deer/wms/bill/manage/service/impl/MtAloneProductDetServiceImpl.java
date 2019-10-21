@@ -3,8 +3,10 @@
  import com.deer.wms.base.system.model.SupplierManageCriteria;
  import com.deer.wms.bill.manage.dao.MtAloneProductDetMapper;
  import com.deer.wms.bill.manage.model.*;
+ import com.deer.wms.bill.manage.service.MtAloneDetectDetService;
  import com.deer.wms.bill.manage.service.MtAloneProductDetService;
  import com.deer.wms.project.seed.core.service.AbstractService;
+ import freemarker.core.ReturnInstruction;
  import org.apache.ibatis.annotations.Param;
  import org.springframework.beans.factory.annotation.Autowired;
  import org.springframework.stereotype.Service;
@@ -22,6 +24,9 @@ public class MtAloneProductDetServiceImpl extends AbstractService<MtAloneProduct
 
     @Autowired
     private MtAloneProductDetMapper mtAloneProductDetMapper;
+
+     @Autowired
+     private MtAloneDetectDetService mtAloneDetectDetService;
 
 
     @Override
@@ -177,6 +182,23 @@ public class MtAloneProductDetServiceImpl extends AbstractService<MtAloneProduct
      @Override
      public void rollFinish(MtAloneProductDetCriteria params) {
          mtAloneProductDetMapper.rollFinish(params);
+     }
+
+     @Override
+     public Integer deleteDetectDet(Integer mtAloneProductDetId) {
+        MtAloneProductDet mtAloneProductDet = findById(mtAloneProductDetId);
+		// 如果该明细未出过库，可以删除
+		if (mtAloneProductDet.getDeliveryState() == 0) {
+			deleteById(mtAloneProductDetId);
+			MtAloneDetectDet mtAloneDetectDet = mtAloneDetectDetService.findBy("productDetBarcode",
+					mtAloneProductDet.getProductDetBarcode());
+			if(mtAloneDetectDet!=null){
+                mtAloneDetectDetService.deleteById(mtAloneDetectDet.getDetectId());
+            }
+            return(0);
+		}else{
+            return(1);
+        }
      }
 
 

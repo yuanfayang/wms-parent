@@ -4,9 +4,10 @@ import com.deer.wms.base.system.model.SupplierManageCriteria;
 import com.deer.wms.bill.manage.model.*;
 import com.deer.wms.project.seed.core.mapper.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
-
+@Component
 public interface MtAloneProductDetMapper extends Mapper<MtAloneProductDet> {
 	List<MtAloneProductDet> findList(MtAloneProductDetCriteria  criteria);
 
